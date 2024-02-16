@@ -1,0 +1,45 @@
+:root {
+	--c-text: #fefae0ff;
+	--c-content: #3e3e3e;
+	--c-background: #1e1e1e;
+	--c-1st: #dda15e;
+	--c-2nd: #9F5B1E;
+}
+
+.header {
+	display: flex;
+	justify-content: space-between;
+	gap: 3rem;
+	padding: .5rem 1.5rem;
+	height: 60px;
+	background-color: var(--c-2nd);
+}
+
+.header-logo img{
+	width: 80px;
+	border-radius: 14px;
+}
+
+.header-nav ul{
+	display: flex;
+	gap: 3rem;
+	font-size: 1.3rem;
+}
+
+.header-buttons {
+	display: flex;
+	gap: 1rem;
+	margin: 1.3rem 0;
+	margin-left: auto;
+}
+
+.header-buttons li button {
+	background-color: transparent;
+	border: none;
+	color: var(--c-text);
+	cursor: pointer;
+}
+
+.header-buttons .marterial-symbols-rounded {
+	font-size: 1rem;
+}

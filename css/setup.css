@@ -5,14 +5,19 @@
 	--c-content: #688545;
 	--c-background: #1e1e1e;
 	--c-1st: #dda15e;
-	--c-2nd: #bc6c25;
+	--c-2nd: #9F5B1E;
 }
 
 body {
-	width: 90vw;
-	margin: 0 auto;
+	/* width: 90vw; */
+	margin: 0;
 	background-color: var(--c-background);
 	font-family: 'Inter', 'Noto Color Emoji', sans-serif;
+}
+
+.wrapper {
+	width: 90vw;
+	margin: 0 auto;
 }
 
 .material-symbols-rounded {
@@ -26,7 +31,6 @@ body {
 
 p,a,h1,h2,h3,h4,h5,h6,ul,ol,li {
 	color: var(--c-text);
-
 }
 
 a {
