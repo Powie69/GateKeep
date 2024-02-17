@@ -1,6 +1,6 @@
 :root {
 	--c-text: #fefae0ff;
-	--c-content: #3e3e3e;
+	--c-content: #2e2e2e;
 	--c-background: #1e1e1e;
 	--c-1st: #dda15e;
 	--c-2nd: #9F5B1E;
@@ -36,7 +36,6 @@
 .header-buttons li button {
 	background-color: transparent;
 	border: none;
-	color: var(--c-text);
 	cursor: pointer;
 }
 

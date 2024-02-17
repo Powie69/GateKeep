@@ -1,0 +1,24 @@
+:root {
+	--c-text: #fefae0ff;
+	--c-content: #2e2e2e;
+	--c-background: #1e1e1e;
+	--c-1st: #dda15e;
+	--c-2nd: #9F5B1E;
+}
+
+.main {
+	display: grid;
+	grid-template-columns: repeat(auto-fit,minmax(400px,1fr));
+	place-items: center;
+	/* min-height: 90vh; */
+}
+
+.signup {
+	background-color: var(--c-content);
+	border-radius: 14px;
+	width: 90%;
+	margin: 3rem;
+	/* bruh i dunno how
+	to do grids that
+	look good */
+}
