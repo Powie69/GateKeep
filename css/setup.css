@@ -2,9 +2,10 @@
 
 :root {
 	--c-text: #fefae0ff;
-	--c-content: #688545;
+	--c-highlight: #7C88D4;
+	--c-content: #2e2e2e;
 	--c-background: #1e1e1e;
-	--c-1st: #dda15e;
+	--c-1st: #5C55EF;
 	--c-2nd: #9F5B1E;
 }
 
@@ -29,7 +30,7 @@ body {
         'opsz' 24
 }
 
-p,a,h1,h2,h3,h4,h5,h6,ul,ol,li,label,button {
+p,a,h1,h2,h3,h4,h5,h6,ul,ol,li,label,button,span {
 	color: var(--c-text);
 }
 

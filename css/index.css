@@ -1,8 +1,9 @@
 :root {
 	--c-text: #fefae0ff;
+	--c-highlight: #7C88D4;
 	--c-content: #2e2e2e;
 	--c-background: #1e1e1e;
-	--c-1st: #dda15e;
+	--c-1st: #5C55EF;
 	--c-2nd: #9F5B1E;
 }
 
@@ -14,11 +15,67 @@
 }
 
 .signup {
-	background-color: var(--c-content);
+	display: flex;
+	flex-direction: column;
+	/* grid-template-rows: repeat(8, 40px); */
+	gap: 1rem;
+	place-items: center;
+
+	width: 65%;
+	margin: 1.5rem;
+	padding: 1rem;
 	border-radius: 14px;
-	width: 90%;
-	margin: 3rem;
+	background-color: var(--c-content);
 	/* bruh i dunno how
 	to do grids that
 	look good */
+}
+
+.signup h2 {
+	margin: 1rem 0;
+	font-size: 1.5rem;
+}
+
+.signup label {
+	width: 80%;
+}
+
+.signup input{
+	display: block;
+	height: 30px;
+	width: 100%;
+	margin-top: 4px;
+	border: none;
+	padding: 0 10px;
+	border-radius: 4px;
+	box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+}
+
+/* firefox sucks */
+input[type=number] {
+	appearance: textfield;
+}
+
+.submit {
+	width: 70%;
+	height: 30px;
+	border: none;
+	border-radius: 4px;
+	background-color: var(--c-1st);
+}
+
+.submit:hover {
+	text-decoration: underline;
+}
+
+.submit:focus {
+	outline: 3px var(--c-highlight) solid;
+}
+
+.login-redirect a {
+	color: var(--c-highlight);
+}
+
+.login-redirect a:hover {
+	text-decoration: underline;
 }
