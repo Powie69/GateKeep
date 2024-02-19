@@ -14,33 +14,30 @@
 	/* min-height: 90vh; */
 }
 
-.signup {
+.form {
 	display: flex;
 	flex-direction: column;
-	/* grid-template-rows: repeat(8, 40px); */
 	gap: 1rem;
 	place-items: center;
-
 	width: 65%;
 	margin: 1.5rem;
 	padding: 1rem;
 	border-radius: 14px;
 	background-color: var(--c-content);
-	/* bruh i dunno how
-	to do grids that
-	look good */
 }
 
-.signup h2 {
+.form h2 {
 	margin: 1rem 0;
+	text-align: center;
 	font-size: 1.5rem;
 }
 
-.signup label {
+.form label {
+	display: block;
 	width: 80%;
 }
 
-.signup input{
+.form input{
 	display: block;
 	height: 30px;
 	width: 100%;
@@ -52,7 +49,7 @@
 }
 
 /* firefox sucks */
-input[type=number] {
+.form input[type=number] {
 	appearance: textfield;
 }
 
@@ -72,10 +69,14 @@ input[type=number] {
 	outline: 3px var(--c-highlight) solid;
 }
 
-.login-redirect a {
+.form-redirect a {
 	color: var(--c-highlight);
 }
 
-.login-redirect a:hover {
+.form-redirect a:hover {
 	text-decoration: underline;
+}
+
+.disabled {
+	display: none;
 }
