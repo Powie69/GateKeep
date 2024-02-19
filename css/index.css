@@ -80,3 +80,16 @@
 .disabled {
 	display: none;
 }
+
+.info {
+	padding: 1.5rem;
+}
+
+.info h1 {
+	margin: .5rem 0;
+}
+
+.info p {
+	margin: 0;
+	line-height: 25px;
+}
