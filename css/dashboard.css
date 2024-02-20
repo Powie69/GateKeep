@@ -1,0 +1,74 @@
+:root {
+	--c-text: #fefae0ff;
+	--c-highlight: #7C88D4;
+	--c-content: #2e2e2e;
+	--c-background: #1e1e1e;
+	--c-1st: #5C55EF;
+	--c-2nd: #9F5B1E;
+}
+
+._time {
+	padding: 4px 8px;
+	border-radius: 18px;
+	background-color: #26262680;
+	color: var(--c-2nd);
+	font-weight: 500;
+	font-style: italic;
+}
+
+.main {
+	display: grid;
+	gap: 2rem;
+	grid-template-columns: repeat(2, 1fr);
+	grid-template-rows: 1.3fr 0.7fr;
+	grid-template-areas: 
+    "logs info"
+    "logs qr"; 
+	height: 80vh;
+	padding: 2rem;
+}
+
+.logs { 
+	grid-area: logs;
+	padding: 1.5rem;
+	border-radius: 14px;
+	background-color: var(--c-content);
+}
+
+.logs h1 {
+	margin: .5rem 0;
+	text-align: center;
+	font-weight: 600;
+}
+
+.logs-container {
+	display: flex;
+	flex-direction: column;
+	place-items: center;
+	gap: 1.5rem;
+}
+
+.logs-item {
+	width: 90%;
+	padding: 1rem;
+	border-radius: 14px;
+	background-color: #3e3e3e;
+}
+
+.logs-item-title {
+	margin: 0.5rem 0;
+	font-size: 1.5rem;
+	font-weight: 500;
+}
+
+.logs-item-desc {
+	margin: 0.5rem 0;
+	font-size: .9rem;
+}
+
+.info { 
+	grid-area: info;
+}
+.qr { 
+	grid-area: qr; 
+}
