@@ -28,7 +28,7 @@
 	padding: 2rem;
 }
 
-.logs { 
+.logs {
 	grid-area: logs;
 	padding: 1.5rem;
 	border-radius: 14px;
@@ -43,15 +43,20 @@
 
 .logs-container {
 	display: flex;
-	flex-direction: column;
+	flex-direction: column-reverse;
 	place-items: center;
-	gap: 1.5rem;
+	gap: 1rem;
+	height: 90%;
+	overflow-y: auto;
+	scroll-snap-type: y mandatory;
+	scrollbar-width: thin;
 }
 
 .logs-item {
 	width: 90%;
 	padding: 1rem;
 	border-radius: 14px;
+	scroll-snap-align: start;
 	background-color: #3e3e3e;
 }
 
