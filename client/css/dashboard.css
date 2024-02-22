@@ -71,8 +71,11 @@
 	font-size: .9rem;
 }
 
+/* *info */
+
 .info { 
 	grid-area: info;
+	
 }
 .qr { 
 	grid-area: qr; 
