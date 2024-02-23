@@ -1,18 +1,25 @@
+const bodyParser = require('body-parser');
 const express = require('express');
 const cors = require('cors');
 const app = express();
-const port = 3000; //
+const port = 3000;
 
-app.use(cors());
+// fuck cors
+app.use(cors({ origin: '*' }));
 
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
-// Define a route
-app.post('', (req, res) => {
+app.post('/ds', (req, res) => {
 	console.log(req.body)
-
+	res.json({ message: "yo we good" });
 });
 
-
+// sanity check
+app.get('/ping', (req, res) => {
+	console.log("pong")
+	res.send("yo")
+});
 
 // Start the server
 app.listen(port, () => {

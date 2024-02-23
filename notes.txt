@@ -15,4 +15,4 @@
 }
 
 https://fonts.googleapis.com/css2?family=Flow+Circular&family=Inter:wght@100..900&family=Noto+Color+Emoji&family=Roboto+Mono:wght@100..700&family=Shadows+Into+Light&family=Wavefont:wght@4..1000&display=swap
-nodemon . --watch index.js
+nodemon . --watch index.js --config nodemon.json
