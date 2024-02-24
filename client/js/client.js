@@ -2,19 +2,22 @@ async function signupSubmit() {
 	event.preventDefault()
 	try {
 		const formData = new FormData(document.getElementById("form-signup"));
+		const data = Object.fromEntries(formData.entries());
 		
-		const jsonObject = Object.fromEntries(formData.entries());
-		console.log(jsonObject)
+		// client side check
+		if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email) && /^09\d{9}$/.test(data.phoneNumber) && data.fullName && /^[1-6]\d{11}$/.test(data.lrn)) {
+			console.log("valid signup");
+		} else {
+			console.log("valid'nt signup");
+			return
+		}
 
 		const response = await fetch('http://localhost:3000/ds', {
 			method: 'POST',
-			// headers: {
-			// 'Content-Type': 'application/json', // Set content type to JSON
-			// },
 			headers: {
 				'Content-Type': 'application/x-www-form-urlencoded',
 			},
-			body: new URLSearchParams(formData),
+			body: new URLSearchParams(data),
 		});
 
 		if (!response.ok) {
