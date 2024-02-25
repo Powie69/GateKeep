@@ -18,14 +18,14 @@
 
 .main {
 	display: grid;
-	gap: 2rem;
+	gap: 1rem;
 	grid-template-columns: repeat(2, 1fr);
 	/* grid-template-rows: 1.4fr 0.6fr; */
 	grid-template-rows: repeat(2, 1fr);
 	grid-template-areas: 
     "logs info"
     "logs qr"; 
-	height: 85vh;
+	height: 80vh;
 	padding: 2rem;
 }
 
@@ -78,26 +78,27 @@
 
 .info { 
 	grid-area: info;
-	padding: 1.5rem;
+	padding: .5rem 1.5rem;
 	border-radius: 14px;
 	background-color: var(--c-content);
 }
 
 .info h2 {
-	margin: .5rem 0;
+	font-size: 1.5rem;
+	margin: .3rem 0;
+	font-weight: 600;
 	text-align: center;
 }
 
 .info-contain {
 	display: grid;
 	grid-template-columns: repeat(2, 1fr);
-	grid-template-rows: repeat(4, 1fr);
+	grid-template-rows: repeat(3, 1fr);
 	gap: .3rem;
 	grid-template-areas: 
     "lastName lrn"
-    "firstName birthdate"
-    "middleName age"
-    "suffixName sex"
+    "firstName age"
+    "middleName sex"
 }
 
 .lastName { grid-area: lastName; }
@@ -110,7 +111,7 @@
 .sex { grid-area: sex; }
 
 .info-contain label {
-	
+	font-size: 1rem;
 }
 
 .info-contain label p {
@@ -131,15 +132,59 @@
 }
 
 .info-buttons ul li {
+	padding: 8px 4px;
 	background-color: var(--c-1st);
 	border-radius: 14px;
-	padding: 8px 4px;
+}
+
+.info-buttons ul li i {
+	font-size: 1.3rem;
 }
 
 .info-buttons a:hover {
 	text-decoration: underline;
 }
 
+/* *qr */
+
 .qr { 
-	grid-area: qr; 
+	
+	grid-area: qr;
+	padding: .5rem 1.5rem;
+	border-radius: 14px;
+	background-color: var(--c-content);
+}
+
+.qr h3 {
+	font-size: 2rem;
+	margin: .5rem 0;
+	text-align: center;
+}
+
+.qr-contain {
+	display: flex;
+	gap: 1rem;
+}
+
+.qr-img {
+	width: 25%;
+	border-radius: 14px;
+	aspect-ratio: 1 / 1;
+}
+
+.qr-buttons {
+	display: flex;
+	flex-direction: column;
+	gap: .5rem;
+}
+
+.qr-buttons button {
+	border: none;
+	padding: 4px 8px;
+	border-radius: 4px;
+	background-color: #3e3e3e;
+}
+
+.qr-buttons button:hover {
+	text-decoration: underline;
 }
