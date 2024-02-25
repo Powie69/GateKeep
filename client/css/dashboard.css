@@ -20,13 +20,16 @@
 	display: grid;
 	gap: 2rem;
 	grid-template-columns: repeat(2, 1fr);
-	grid-template-rows: 1.3fr 0.7fr;
+	/* grid-template-rows: 1.4fr 0.6fr; */
+	grid-template-rows: repeat(2, 1fr);
 	grid-template-areas: 
     "logs info"
     "logs qr"; 
-	height: 80vh;
+	height: 85vh;
 	padding: 2rem;
 }
+
+/* *logs */
 
 .logs {
 	grid-area: logs;
@@ -75,8 +78,68 @@
 
 .info { 
 	grid-area: info;
+	padding: 1.5rem;
+	border-radius: 14px;
+	background-color: var(--c-content);
+}
+
+.info h2 {
+	margin: .5rem 0;
+	text-align: center;
+}
+
+.info-contain {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	grid-template-rows: repeat(4, 1fr);
+	gap: .3rem;
+	grid-template-areas: 
+    "lastName lrn"
+    "firstName birthdate"
+    "middleName age"
+    "suffixName sex"
+}
+
+.lastName { grid-area: lastName; }
+.firstName { grid-area: firstName; }
+.middleName { grid-area: middleName; }
+.suffixName { grid-area: suffixName; }
+.lrn { grid-area: lrn; }
+.birthdate { grid-area: birthdate; }
+.age { grid-area: age; }
+.sex { grid-area: sex; }
+
+.info-contain label {
 	
 }
+
+.info-contain label p {
+	display: block;
+	margin: 5px 0;
+	padding: 4px 2px;
+	border-radius: 4px;
+	color: #000;
+	background-color: #fff;
+}
+
+.info-buttons ul {
+	display: flex;
+	justify-content: center;
+	gap: 1rem;
+	margin: 5px 0;
+	color: var(--c-text);
+}
+
+.info-buttons ul li {
+	background-color: var(--c-1st);
+	border-radius: 14px;
+	padding: 8px 4px;
+}
+
+.info-buttons a:hover {
+	text-decoration: underline;
+}
+
 .qr { 
 	grid-area: qr; 
 }
