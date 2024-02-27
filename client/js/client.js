@@ -1,3 +1,13 @@
+document.querySelector(".main").style.setProperty('background-image', `url(images/circles/${Math.floor(Math.random() * 10) + 1}.svg)`)
+
+if (new URL(window.location.href).searchParams.get("login") === "") {
+	document.getElementById("form-signup").classList.add("disabled")
+	document.getElementById("form-login").classList.remove("disabled")
+} else if (new URL(window.location.href).searchParams.get("signup") === "") {
+	document.getElementById("form-signup").classList.remove("disabled")
+	document.getElementById("form-login").classList.add("disabled")
+}
+
 async function signupSubmit() {
 	event.preventDefault()
 	try {

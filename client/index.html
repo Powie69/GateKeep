@@ -17,9 +17,9 @@
 		<a class="header-logo" href=""><img src="images/logo.png" alt=""></a>
 		<nav class="header-nav">
 			<ul>
-				<li><a href="">Home</a></li>
-				<li><a href="">About</a></li>
-				<li><a href="">Help</a></li>
+				<li><a href="#">Home</a></li>
+				<li><a href="#About">About</a></li>
+				<li><a href="#">Help</a></li>
 			</ul>
 		</nav>
 		<ul class="header-buttons">
@@ -31,26 +31,32 @@
 	<main class="main">
 		<form action="http://localhost:3000/" method="post" class="form " id="form-signup">
 			<h2>Create an Account</h2>
-			<label>Email<sup>*</sup> <input type="email" name="email" id="email"></label>
+			<label>Email <input type="email" name="email" id="email"></label>
 			<label>Phone Number <input type="number" name="phoneNumber" id="phoneNumber"></label>
-			<label>Full name<sup>*</sup> <input type="text" name="fullName" id="fullName"></label>
-			<label>LRN<sup>*</sup> <input type="number" name="lrn" id="lrn"></label>
-			<label>Password<sup>*</sup> <input type="password" name="password" id="password"></label>
+			<label>Full name <input type="text" name="fullName" id="fullName"></label>
+			<label>LRN <input type="number" name="lrn" id="lrn"></label>
+			<label>Password <input type="password" name="password" id="password"></label>
 			<button class="submit" tabindex="0" onclick="return signupSubmit()">Create Account</button>
-			<span class="form-redirect">already have an Account? <a href="">Log in</a></span>
+			<span class="form-redirect">already have an Account? <a href="?login">Log in</a></span>
 		</form>
-		<form action="" method="" class="form disabled">
+		<form action="http://localhost:3000" method="post" class="form disabled" id="form-login">
 			<h2>Login</h2>
-			<label>Email or Phone number<sup>*</sup><br> <input type="email" name="" id="email"></label>
-			<label>LRN<sup>*</sup><br> <input type="number" name="" id="lrn"></label>
-			<label>Password<sup>*</sup><br> <input type="password" name="" id="password"></label>
+			<label>Email or Phone number<br> <input type="email" name="" id="email"></label>
+			<label>LRN<br> <input type="number" name="" id="lrn"></label>
+			<label>Password<br> <input type="password" name="" id="password"></label>
 			<button class="submit" tabindex="0">Login</button>
-			<span class="form-redirect">Don't have an account? <a href="">Signup</a></span>
+			<span class="form-redirect">Don't have an account? <a href="?signup">Signup</a></span>
 		</form>
-		<div>
-			<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste commodi dignissimos dolor facere, nihil dolore soluta voluptatibus numquam dolorem aut deleniti! Cumque, harum. Cupiditate tempore cum harum quisquam natus! Obcaecati!</p>
+		<div class="main-info">
+			<h1>Bro write something here pls uwu</h1>
+			<p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Vel beatae voluptas necessitatibus, odit sint, porro magni veritatis rem, optio excepturi sequi soluta. Aliquid aspernatur non quibusdam ipsam illum dicta laudantium?</p>
 		</div>
 	</main>
+	<section class="about" id="About">
+		<h2>Gatekeep</h2>
+		<p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Dolores tempore in consectetur molestias temporibus! Iste, natus deleniti, beatae aperiam dolor hic eaque ullam nulla quo quaerat ea non cum vitae.</p>
+		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aspernatur dolor sint quam voluptatum voluptatem veritatis ex in natus ipsum ea perspiciatis adipisci, officiis hic rerum laboriosam. Sit id sequi assumenda.</p>
+	</section>
 	<script src="js/client.js"></script>
 </body>
 </html>

@@ -9,6 +9,8 @@
 	--c-2nd: #9F5B1E;
 }
 
+html { scroll-behavior: smooth; }
+
 body {
 	/* width: 90vw; */
 	margin: 0;
