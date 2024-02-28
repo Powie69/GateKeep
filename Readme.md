@@ -6,9 +6,11 @@ gaslight, **gatekeep**, girlboss
 
 ## Todo
 
-- [ ] server side
+- [X] server side
+- [X] Database
 - [ ] account auth 💀
-- [ ] Database (.csv💀💀💀💀)
+- [ ] session tokens 💀💀
+
 
 ## refs
 
