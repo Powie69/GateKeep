@@ -90,6 +90,13 @@
 	line-height: 25px;
 }
 
+.exist-m {
+	color: red;
+	font-size: .8rem;
+	margin: 3px 0;
+}
+
+
 .disabled {
 	display: none;
 }
