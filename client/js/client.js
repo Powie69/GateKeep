@@ -15,14 +15,13 @@ async function signupSubmit() {
 		const data = Object.fromEntries(formData.entries());
 		
 		// client side check, server side will still check
-		if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email) && /^09\d{9}$/.test(data.phoneNumber) && data.fullName && /^[1-6]\d{11}$/.test(data.lrn)) {
-			console.log("valid signup (client)");
-		} else {
+		if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email) || !/^09\d{9}$/.test(data.phoneNumber) || !data.fullName || !/^[1-6]\d{11}$/.test(data.lrn)) {
 			console.log("valid'nt signup");
 			return
-		}
+		} 
+		console.log("valid signup (client)");
 
-		const response = await fetch('http://localhost:3000/ds', {
+		const response = await fetch('http://localhost:3000/signup', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/x-www-form-urlencoded',
@@ -30,7 +29,6 @@ async function signupSubmit() {
 			body: new URLSearchParams(data),
 		});
 
-		
 		const respond = await response.json();
 		
 		if (!response.ok) {
@@ -51,10 +49,45 @@ async function signupSubmit() {
                 throw new Error(`HTTP error! Status: ${response.status}`);
             }
         }
-		
-
 		console.log(respond)
 	} catch (error) {
 		console.error(':', error);
 	}
+}
+
+async function loginSubmit() {
+    event.preventDefault();
+    try {
+        const formData = new FormData(document.getElementById("form-login"));
+        const data = Object.fromEntries(formData.entries());
+
+        // client-side check, server-side will still check
+        if (!(/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.username) || /^09\d{9}$/.test(data.username)) || !/^[1-6]\d{11}$/.test(data.lrn) || !data.password) {
+            console.log("Invalid login data (client)");
+            return;
+        }
+        console.log("Valid login data (client)");
+
+        const response = await fetch('http://localhost:3000/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: new URLSearchParams(data),
+        });
+
+        const respond = await response.json();
+		// console.log(respond);
+
+        if (!response.ok) {
+            if (response.status === 401) {
+                console.log("Invalid email/phone, LRN, or password");
+                // Handle the case where login credentials are invalid
+            }
+        }
+        // Handle successful login, e.g., redirect to a new page
+        console.log(respond);
+    } catch (error) {
+        console.error(':', error);
+    }
 }

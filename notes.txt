@@ -31,9 +31,9 @@ CREATE TABLE users(
 	lrn char(12) NOT NULL UNIQUE,
 	password varchar(255)
 );
-
 -- @block
 SELECT * FROM users
-
+-- @block
+DELETE FROM users;
 -- @block
 DROP TABLE users;

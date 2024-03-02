@@ -23,16 +23,17 @@ db.connect((err) => {
 });
 
 
-app.post('/ds', async (req, res) => {
+app.post('/signup', (req, res) => {
 	console.log(req.body)
 	const data = req.body;
-	
-	if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email) && /^09\d{9}$/.test(data.phoneNumber) && data.fullName && /^[1-6]\d{11}$/.test(data.lrn)) {
-		console.log("all valid");
-	} else {
+
+	if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email) || !/^09\d{9}$/.test(data.phoneNumber) || !data.fullName || !/^[1-6]\d{11}$/.test(data.lrn)) {
+		console.log("valid'nt signup (server)");
 		res.status(400).json({ message: "Invalid input data" });
-	}
-	
+		return
+	} 
+	console.log("valid signup data (server)");
+
 	db.query(q.CHECK, [data.phoneNumber, data.lrn], (err, result) => {
 		if (err) {
             console.error('check SQL:', err);
@@ -51,21 +52,37 @@ app.post('/ds', async (req, res) => {
 			}
         }
 		
-		db.query(q.INSERT, [data.email, data.phoneNumber, data.fullName, data.lrn, data.password], (err,result) => {
+		db.query(q.SIGNUP, [data.email, data.phoneNumber, data.fullName, data.lrn, data.password], (err,result) => {
 			if (err) {
 				console.error('insert SQL:', err);
 				res.status(500).send('Internal Server Error');
 				return;
 			}
-			console.log(' insert suc:', result);
+			console.log('insert suc:', result);
 		});
-	
 	});
+});
 
-	
+app.post('/login', (req, res) => {
+	console.log(req.body)
+	const data = req.body;
 
+	if (!(/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.username) || /^09\d{9}$/.test(data.username)) || !/^[1-6]\d{11}$/.test(data.lrn) || !data.password) {
+        return res.status(400).json({ message: "Email or Phone number, LRN, and password are required" });
+    }
 
-	// res.json({ message: "yo we good" });
+	db.query(q.LOGIN, [data.username, data.username, data.lrn, data.password], (err, result) => {
+        if (err) {console.error('login SQL:', err); return res.status(500).send('Internal Server Error');}
+		console.log(result)
+
+        if (result.length === 0) {
+            return res.status(401).json({ message: "Invalid email/phone, LRN, or password" });
+        }
+
+        const user = result[0];
+
+        res.json({ message: "Login successful", user });
+    });
 });
 
 // sanity check

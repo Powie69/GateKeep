@@ -41,10 +41,10 @@
 		</form>
 		<form action="http://localhost:3000" method="post" class="form disabled" id="form-login">
 			<h2>Login</h2>
-			<label>Email or Phone number<br> <input type="email" name="" id="l-email"></label>
-			<label>LRN<br> <input type="number" name="" id="l-lrn"></label>
-			<label>Password<br> <input type="password" name="" id="l-password"></label>
-			<button class="submit" tabindex="0">Login</button>
+			<label>Email or Phone number<br> <input type="email" name="username" id="l-email"></label>
+			<label>LRN<br> <input type="number" name="lrn" id="l-lrn"></label>
+			<label>Password<br> <input type="password" name="password" id="l-password"></label>
+			<button class="submit" tabindex="0" onclick="return loginSubmit()">Login</button>
 			<span class="form-redirect">Don't have an account? <a href="?signup">Signup</a></span>
 		</form>
 		<div class="main-info">

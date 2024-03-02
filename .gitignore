@@ -1,5 +1,7 @@
 .vscode
 
+*.txt.bak
+
 server/node_modules
 server/nodemon.json
 
