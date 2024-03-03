@@ -90,7 +90,7 @@
 	line-height: 25px;
 }
 
-.exist-m {
+.exist-m, #l-invalid {
 	color: red;
 	font-size: .8rem;
 	margin: 3px 0;

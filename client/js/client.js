@@ -64,6 +64,7 @@ async function loginSubmit() {
         // client-side check, server-side will still check
         if (!(/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.username) || /^09\d{9}$/.test(data.username)) || !/^[1-6]\d{11}$/.test(data.lrn) || !data.password) {
             console.log("Invalid login data (client)");
+			document.getElementById("l-invalid").classList.remove("disabled");
             return;
         }
         console.log("Valid login data (client)");
@@ -77,14 +78,17 @@ async function loginSubmit() {
         });
 
         const respond = await response.json();
-		// console.log(respond);
 
         if (!response.ok) {
             if (response.status === 401) {
-                console.log("Invalid email/phone, LRN, or password");
+                console.log("Invalid email/phone, LRN, or password (server)");
                 // Handle the case where login credentials are invalid
+				document.getElementById("l-invalid").classList.remove("disabled")
             }
-        }
+        } else {
+			document.getElementById("l-invalid").classList.add("disabled")
+		}
+
         // Handle successful login, e.g., redirect to a new page
         console.log(respond);
     } catch (error) {
