@@ -1,15 +1,23 @@
 const bodyParser = require('body-parser');
 const express = require('express');
-const q = require('./commands')
-const mysql = require('mysql2')
+const session = require('express-session');
+const q = require('./commands');
+const mysql = require('mysql2');
 const cors = require('cors');
 const app = express();
-const port = 3000;
 
-// fuck cors
+// *middleware stuff
 app.use(cors({ origin: '*' }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use(session({
+    secret: 'uwu',
+	resave: false,
+    cookie: { maxAge: 3600000 }, // Session expiration time in milliseconds (1 hour in this example)
+    saveUninitialized: false,
+}));
+
 const db = mysql.createConnection({
     host: 'localhost',
     user: 'root',
@@ -22,7 +30,7 @@ db.connect((err) => {
     console.log('Connected to MySQL');
 });
 
-
+// *routes
 app.post('/signup', (req, res) => {
 	console.log(req.body)
 	const data = req.body;
@@ -30,8 +38,8 @@ app.post('/signup', (req, res) => {
 	if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email) || !/^09\d{9}$/.test(data.phoneNumber) || !data.fullName || !/^[1-6]\d{11}$/.test(data.lrn)) {
 		console.log("valid'nt signup (server)");
 		res.status(400).json({ message: "Invalid input data" });
-		return
-	} 
+		return;
+	}
 	console.log("valid signup data (server)");
 
 	db.query(q.CHECK, [data.phoneNumber, data.lrn], (err, result) => {
@@ -80,18 +88,32 @@ app.post('/login', (req, res) => {
         }
 
         const user = result[0];
+		// req.session.authenticated = true;
+		// req.session.user = data;
+		req.session.views = 1;
 
-        res.json({ message: "Login successful", user });
+		if (req.session.views) {
+			console.log(req.session.views);
+		} else {
+			req.session.views
+		}
+		
+		
+		// res.cookie(req.session)
+		res.json(req.session.user);
+        // res.json({ message: "Login successful", user });
     });
 });
 
 // sanity check
-app.get('/ping', (req, res) => {
+app.post('/ping', (req, res) => {
 	console.log("pong")
-	res.send("yo")
+	req.session.views++	
+	console.log(req.session.views);
+	// res.send("yo")
 });
 
 // Start the server
-app.listen(port, () => {
-    console.log(`Server is running on http://localhost:${port}`);
+app.listen(3000, () => {
+    console.log(`Server is running on http://localhost:3000`);
 });
