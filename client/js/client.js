@@ -75,6 +75,7 @@ async function loginSubmit() {
                 'Content-Type': 'application/x-www-form-urlencoded',
             },
             body: new URLSearchParams(data),
+			credentials: 'include', // Include cookies in cross-origin requests
         });
 
         const respond = await response.json();

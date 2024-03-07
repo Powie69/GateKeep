@@ -7,7 +7,7 @@ const cors = require('cors');
 const app = express();
 
 // *middleware stuff
-app.use(cors({ origin: '*' }));
+app.use(cors({ origin: 'http://127.0.0.1:5500', credentials: true }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -16,7 +16,11 @@ app.use(session({
 	resave: false,
     cookie: { maxAge: 3600000 }, // Session expiration time in milliseconds (1 hour in this example)
     saveUninitialized: false,
+	secure: false, // Set to true if using HTTPS
+	sameSite: 'None', // Adjust based on your requirements
 }));
+
+
 
 const db = mysql.createConnection({
     host: 'localhost',
@@ -88,22 +92,44 @@ app.post('/login', (req, res) => {
         }
 
         const user = result[0];
-		// req.session.authenticated = true;
-		// req.session.user = data;
-		req.session.views = 1;
+		
+		req.session.authenticated = true;
+        req.session.user = data;
 
-		if (req.session.views) {
-			console.log(req.session.views);
-		} else {
-			req.session.views
-		}
+		console.log(req.session.authenticated);
 		
-		
-		// res.cookie(req.session)
-		res.json(req.session.user);
-        // res.json({ message: "Login successful", user });
+        res.json({ message: "Login successful", user });
+		// res.json(req.session.user);
     });
 });
+
+const isAuthenticated = (req, res, next) => {
+    if (req.session.authenticated) {
+        // User is authenticated, continue with the request
+        next();
+    } else {
+        // User is not authenticated, return an unauthorized response
+        res.status(401).json({ message: "Unauthorized access" });
+    }
+};
+
+// Example route that requires authentication
+app.get('/authenticated-route', isAuthenticated, (req, res) => {
+    // This code will only execute if the user is authenticated
+    res.json({ message: "You are authenticated", user: req.session.user });
+});
+
+// app.get('/profile', (req, res) => {
+// 	console.log(req.session.authenticated);
+//     if (req.session && req.session.authenticated) {
+//         // User is authenticated, you can proceed with accessing protected resources
+//         const user = req.session.user;
+//         res.json({ message: "User is authenticated", user });
+//     } else {
+//         // User is not authenticated, return an error response
+//         res.status(401).json({ message: "Unauthorized access" });
+//     }
+// });
 
 // sanity check
 app.post('/ping', (req, res) => {
