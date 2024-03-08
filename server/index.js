@@ -14,13 +14,21 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(session({
     secret: 'uwu',
 	resave: false,
-    cookie: { maxAge: 3600000 }, // Session expiration time in milliseconds (1 hour in this example)
-    saveUninitialized: false,
-	secure: false, // Set to true if using HTTPS
-	sameSite: 'None', // Adjust based on your requirements
+    cookie: { 
+		maxAge: 3600000 ,
+		sameSite: 'None',
+		// secure: true
+		Partitioned: true,
+	},
+	saveUninitialized: false,
 }));
 
-
+app.use((req, res, next) => {
+    if (!req.session.authenticated) {
+        req.session.authenticated = false;
+    }
+    next();
+});
 
 const db = mysql.createConnection({
     host: 'localhost',
@@ -94,28 +102,38 @@ app.post('/login', (req, res) => {
         const user = result[0];
 		
 		req.session.authenticated = true;
-        req.session.user = data;
+        req.session.user = user;
 
-		console.log(req.session.authenticated);
+		// console.log(req.session.authenticated);
 		
-        res.json({ message: "Login successful", user });
+        res.json({ message: "Login successful", user});
 		// res.json(req.session.user);
     });
 });
 
 const isAuthenticated = (req, res, next) => {
-    if (req.session.authenticated) {
-        // User is authenticated, continue with the request
-        next();
-    } else {
-        // User is not authenticated, return an unauthorized response
-        res.status(401).json({ message: "Unauthorized access" });
-    }
+    if (req.session.user) {
+		next();
+	} else {
+		console.log(`profile: ${req.sessionID}`)
+        res.status(418).json({ message: "Unauthorized access" });
+
+	}
+
+	// if (req.session.authenticated) {
+    //     next();
+    // } else {
+	// 	console.log(`profile: ${req.sessionID}`)
+    //     res.status(418).json({ message: "Unauthorized access" });
+    // }
 };
 
 // Example route that requires authentication
-app.get('/authenticated-route', isAuthenticated, (req, res) => {
+app.get('/profile', isAuthenticated, (req, res) => {
     // This code will only execute if the user is authenticated
+	
+	console.log(`profile: ${req.session.user}`)
+	console.log(`profile: ${req.sessionID}`)
     res.json({ message: "You are authenticated", user: req.session.user });
 });
 
