@@ -9,7 +9,8 @@ gaslight, **gatekeep**, girlboss
 - [X] server side
 - [X] Database
 - [ ] account auth 💀
-- [ ] session tokens 💀💀
+- [X] session tokens 💀💀
+- [ ] SSL certificate
 
 
 ## refs
