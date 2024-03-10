@@ -7,7 +7,7 @@ const cors = require('cors');
 const app = express();
 
 // *middleware stuff
-app.use(cors({ origin: 'http://127.0.0.1:5500', credentials: true }));
+app.use(cors({ origin: 'https://127.0.0.1:5500', credentials: true }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -15,9 +15,9 @@ app.use(session({
     secret: 'uwu',
 	resave: false,
     cookie: { 
-		maxAge: 3600000 ,
-		sameSite: 'None',
-		// secure: true
+		maxAge: 3600000,
+		secure: true,
+		sameSite: 'none',
 		Partitioned: true,
 	},
 	saveUninitialized: false,
@@ -145,7 +145,7 @@ app.get('/profile', isAuthenticated, (req, res) => {
 //         res.json({ message: "User is authenticated", user });
 //     } else {
 //         // User is not authenticated, return an error response
-//         res.status(401).json({ message: "Unauthorized access" });
+//         res.status(418).json({ message: "Unauthorized access" });
 //     }
 // });
 
