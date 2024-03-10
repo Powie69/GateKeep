@@ -37,3 +37,10 @@ SELECT * FROM users
 DELETE FROM users;
 -- @block
 DROP TABLE users;
+
+===
+
+app.use((req, res, next) => {
+    console.log('Session ID:', req.sessionID);
+    next();
+});

@@ -16,8 +16,8 @@ app.use(session({
 	resave: false,
     cookie: { 
 		maxAge: 3600000,
-		// secure: true,
-		// sameSite: 'strict',
+		 secure: true,
+		 sameSite: 'strict',
 		partitioned: true, // Corrected property name
 	},
 	saveUninitialized: false,
