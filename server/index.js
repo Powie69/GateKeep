@@ -1,7 +1,7 @@
 const bodyParser = require('body-parser');
 const express = require('express');
 const session = require('express-session');
-const q = require('./commands');
+const q = require('./commands.js');
 const mysql = require('mysql2');
 const cors = require('cors');
 const app = express();
@@ -17,13 +17,11 @@ app.use(session({
     cookie: { 
 		maxAge: 3600000,
 		// secure: true,
-		// sameSite: 'strict',
-		partitioned: true, // Corrected property name
+		// sameSite: 'nonw',
+		partitioned: true,
 	},
 	saveUninitialized: false,
 }));
-
-
 
 const db = mysql.createConnection({
     host: 'localhost',
@@ -88,7 +86,6 @@ app.post('/login', (req, res) => {
 
 	db.query(q.LOGIN, [data.username, data.username, data.lrn, data.password], (err, result) => {
         if (err) {console.error('login SQL:', err); return res.status(500).send('Internal Server Error');}
-		// console.log(result)
 
         if (result.length === 0) {
             return res.status(401).json({ message: "Invalid email/phone, LRN, or password" });
@@ -99,8 +96,6 @@ app.post('/login', (req, res) => {
 		req.session.authenticated = true;
         req.session.user = user;
 
-		// console.log(req.session.authenticated);
-		
         res.json({ message: "Login successful", user});
 		console.log(req.sessionID);
     });
@@ -115,32 +110,14 @@ const isAuthenticated = (req, res, next) => {
 	}
 };
 
-// Example route that requires authentication
 app.get('/profile', isAuthenticated, (req, res) => {
-    // This code will only execute if the user is authenticated
-	
-	// console.log(`profile: ${req.session.user}`)
 	console.log(`profile: ${req.sessionID}`)
     res.json({ message: "You are authenticated", user: req.session.user });
 });
 
-// app.get('/profile', (req, res) => {
-// 	console.log(req.session.authenticated);
-//     if (req.session && req.session.authenticated) {
-//         // User is authenticated, you can proceed with accessing protected resources
-//         const user = req.session.user;
-//         res.json({ message: "User is authenticated", user });
-//     } else {
-//         // User is not authenticated, return an error response
-//         res.status(418).json({ message: "Unauthorized access" });
-//     }
-// });
-
 // sanity check
 app.post('/ping', (req, res) => {
 	console.log("pong")
-	req.session.views++	
-	console.log(req.session.views);
 	// res.send("yo")
 });
 

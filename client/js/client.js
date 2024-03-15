@@ -16,8 +16,7 @@ async function signupSubmit() {
 		
 		// client side check, server side will still check
 		if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email) || !/^09\d{9}$/.test(data.phoneNumber) || !data.fullName || !/^[1-6]\d{11}$/.test(data.lrn)) {
-			console.log("valid'nt signup");
-			return
+			console.log("valid'nt signup"); return;
 		} 
 		console.log("valid signup (client)");
 
@@ -28,20 +27,18 @@ async function signupSubmit() {
 			},
 			body: new URLSearchParams(data),
 		});
-
+		
 		const respond = await response.json();
 		
 		if (!response.ok) {
             if (response.status === 409) {
 				if (respond.field === "phoneNumber") {
                     console.log("Phone number already exists");
-                    // Handle the case where phone number already exists
 					console.log(document.querySelector(".exist-m + #s-phoneNumber"));
 					document.querySelector(".exist-n").classList.remove("disabled")
 					document.querySelector(".exist-l").classList.add("disabled")
                 } else if (respond.field === "lrn") {
 					console.log("LRN already exists");
-                    // Handle the case where LRN already exists
 					document.querySelector(".exist-l").classList.remove("disabled")
 					document.querySelector(".exist-n").classList.add("disabled")
                 }
@@ -51,7 +48,7 @@ async function signupSubmit() {
         }
 		console.log(respond)
 	} catch (error) {
-		console.error(':', error);
+		console.error(error);
 	}
 }
 
@@ -64,8 +61,7 @@ async function loginSubmit() {
         // client-side check, server-side will still check
         if (!(/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.username) || /^09\d{9}$/.test(data.username)) || !/^[1-6]\d{11}$/.test(data.lrn) || !data.password) {
             console.log("Invalid login data (client)");
-			document.getElementById("l-invalid").classList.remove("disabled");
-            return;
+			document.getElementById("l-invalid").classList.remove("disabled"); return;
         }
         console.log("Valid login data (client)");
 
@@ -75,7 +71,7 @@ async function loginSubmit() {
                 'Content-Type': 'application/x-www-form-urlencoded',
             },
             body: new URLSearchParams(data),
-			credentials: 'include', // Include cookies in cross-origin requests
+			credentials: 'include',
         });
 
         const respond = await response.json();
@@ -83,7 +79,6 @@ async function loginSubmit() {
         if (!response.ok) {
             if (response.status === 401) {
                 console.log("Invalid email/phone, LRN, or password (server)");
-                // Handle the case where login credentials are invalid
 				document.getElementById("l-invalid").classList.remove("disabled")
             }
         } else {
@@ -93,6 +88,6 @@ async function loginSubmit() {
         // Handle successful login, e.g., redirect to a new page
         console.log(respond);
     } catch (error) {
-        console.error(':', error);
+        console.error(error);
     }
 }
