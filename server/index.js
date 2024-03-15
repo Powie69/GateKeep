@@ -31,11 +31,21 @@ const db = mysql.createConnection({
 });
 
 db.connect((err) => {
-    if (err) { console.error(':', err); return; }
+    if (err) { console.error(err); return; }
     console.log('Connected to MySQL');
 });
 
-// *routes
+const isAuthenticated = (req, res, next) => {
+	if (req.session.authenticated) {
+		next();
+	} else {
+		console.log(`profile: ${req.sessionID}`)
+		res.status(418).json({ message: "Unauthorized access" });
+	}
+};
+
+// **routes //
+
 app.post('/signup', (req, res) => {
 	console.log(req.body)
 	const data = req.body;
@@ -101,15 +111,6 @@ app.post('/login', (req, res) => {
     });
 });
 
-const isAuthenticated = (req, res, next) => {
-    if (req.session.authenticated) {
-		next();
-	} else {
-		console.log(`profile: ${req.sessionID}`)
-        res.status(418).json({ message: "Unauthorized access" });
-	}
-};
-
 app.get('/profile', isAuthenticated, (req, res) => {
 	console.log(`profile: ${req.sessionID}`)
     res.json({ message: "You are authenticated", user: req.session.user });
@@ -118,10 +119,12 @@ app.get('/profile', isAuthenticated, (req, res) => {
 // sanity check
 app.post('/ping', (req, res) => {
 	console.log("pong")
-	// res.send("yo")
 });
 
-// Start the server
+
+
+// **end of routes** //
+
 app.listen(3000, () => {
     console.log(`Server is running on http://localhost:3000`);
 });
