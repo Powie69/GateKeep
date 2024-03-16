@@ -91,11 +91,11 @@
 }
 
 .exist-m, #l-invalid {
-	color: red;
-	font-size: .8rem;
 	margin: 3px 0;
+	color: red;
+	text-align: center;
+	font-size: .8rem;
 }
-
 
 .disabled {
 	display: none;
@@ -106,5 +106,4 @@
 .about {
 	margin: 2rem 0;
 	padding: 0 8rem;
-
 }

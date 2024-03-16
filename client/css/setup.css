@@ -23,6 +23,10 @@ body {
 	margin: 0 auto;
 }
 
+.disabled {
+	display: none;
+}
+
 .material-symbols-rounded {
     vertical-align: bottom;
     font-variation-settings:
