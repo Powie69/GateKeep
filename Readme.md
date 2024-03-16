@@ -10,7 +10,8 @@ gaslight, **gatekeep**, girlboss
 - [X] Database
 - [ ] account auth 💀
 - [X] session tokens 💀💀
-- [ ] SSL certificate
+- [X] SSL certificate
+- [ ] qr scanner
 
 
 ## refs
