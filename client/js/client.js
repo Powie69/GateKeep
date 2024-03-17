@@ -1,3 +1,21 @@
+const dasbaord = '/html/DashBoard.html';
+
+fetch('http://localhost:3000/profile', {
+	method: 'post',
+	credentials: 'include'
+})
+	.then(response => {
+		if (response.status >= 400) {
+			console.log("not auth (client)");
+			return;
+		} else {
+			window.location.href = dasbaord;
+		}
+	})
+  	.catch(error => {
+    	console.error(error);
+});
+
 document.querySelector(".main").style.setProperty('background-image', `url(images/circles/${Math.floor(Math.random() * 10) + 1}.svg)`)
 
 if (new URL(window.location.href).searchParams.get("login") === "") {
@@ -34,23 +52,23 @@ async function signupSubmit() {
 		if (!response.ok) {
             if (response.status === 409) {
 				if (respond.field === "phoneNumber") {
-                    console.log("Phone number already exists");
+                    console.warn("Phone number already exists");
 					console.log(document.querySelector(".exist-m + #s-phoneNumber"));
 					document.querySelector(".exist-n").classList.remove("disabled")
 					document.querySelector(".exist-l").classList.add("disabled")
                 } else if (respond.field === "lrn") {
-					console.log("LRN already exists");
+					console.warn("LRN already exists");
 					document.querySelector(".exist-l").classList.remove("disabled")
 					document.querySelector(".exist-n").classList.add("disabled")
                 }
 				return;
             } else {
-                throw new Error(`HTTP error! Status: ${response.status}`);
+				throw new Error(response.status);
             }
         }
 		
 		console.log(respond)
-		window.location.href = '/html/dashBoard.html';
+		window.location.href = dasbaord;
 	} catch (error) {
 		console.error(error);
 	}
@@ -91,7 +109,7 @@ async function loginSubmit() {
 		}
 
         console.log(respond);
-		window.location.href = '/html/DashBoard.html';
+		window.location.href = dasbaord;
     } catch (error) {
         console.error(error);
     }

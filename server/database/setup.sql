@@ -11,10 +11,10 @@ CREATE TABLE users(
 -- @block
 SELECT * FROM users
 -- @block
+INSERT INTO users (email, phoneNumber, fullName, lrn, password) 
+VALUES ('godwin@gmail.com', '09118881234', 'godwin', '123456789011', '123');
+-- @block
 -- DELETE FROM users;
 -- @block
 -- DROP TABLE users;
 
-
--- @block
-DELETE FROM users WHERE id = 7;

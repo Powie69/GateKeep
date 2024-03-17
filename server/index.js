@@ -7,14 +7,16 @@ const cors = require('cors');
 const app = express();
 
 // *middleware stuff
-app.use(cors({ origin: 'https://127.0.0.1:5500', credentials: true }));
+require('dotenv').config()
+
+app.use(cors({ origin: process.env.corsOrigin.split(','), credentials: true }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(session({
     secret: 'uwu',
 	resave: false,
-    cookie: { 
+	cookie: {
 		maxAge: 3600000,
 		// secure: true,
 		// sameSite: 'nonw',
@@ -105,13 +107,13 @@ app.post('/login', (req, res) => {
         if (err) {console.error('login SQL:', err); return res.status(500).send('Internal Server Error');}
 
         if (result.length === 0) {
-            return res.status(401).json({ message: "Invalid email/phone, LRN, or password" });
+			return res.status(401).json({ message: "Invalid email/phone, LRN, or password" });
         }
 
         const user = result[0];
 		
 		req.session.authenticated = true;
-        req.session.user = user;
+		req.session.user = user;
 
         res.json({ message: "Login successful", user});
 		console.log(req.sessionID);
@@ -132,6 +134,6 @@ app.post('/ping', (req, res) => {
 
 // **end of routes** //
 
-app.listen(3000, () => {
-    console.log(`Server is running on http://localhost:3000`);
+app.listen(process.env.serverPort, () => {
+    console.log(`Server is running on http://localhost:${process.env.serverPort}`);
 });
