@@ -11,11 +11,10 @@ CREATE TABLE users(
 -- @block
 SELECT * FROM users
 -- @block
-DELETE FROM users;
+-- DELETE FROM users;
 -- @block
-DROP TABLE users;
+-- DROP TABLE users;
+
 
 -- @block
-
--- @block
-SELECT * FROM users WHERE (email = 'godwin@gmail.com' OR phoneNumber = 'godwin@gmail.com') AND lrn = 123456789011 AND password = 123;
+DELETE FROM users WHERE id = 7;

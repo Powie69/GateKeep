@@ -81,7 +81,14 @@ app.post('/signup', (req, res) => {
 				res.status(500).send('Internal Server Error');
 				return;
 			}
-			console.log('insert suc:', result);
+
+			console.log(result)
+
+			req.session.authenticated = true;
+        	req.session.user = result;
+
+        	res.json({ message: "signup successful", result});
+			console.log(req.sessionID);
 		});
 	});
 });
@@ -111,7 +118,7 @@ app.post('/login', (req, res) => {
     });
 });
 
-app.get('/profile', isAuthenticated, (req, res) => {
+app.post('/profile', isAuthenticated, (req, res) => {
 	console.log(`profile: ${req.sessionID}`)
     res.json({ message: "You are authenticated", user: req.session.user });
 });

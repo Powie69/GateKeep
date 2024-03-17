@@ -26,6 +26,7 @@ async function signupSubmit() {
 				'Content-Type': 'application/x-www-form-urlencoded',
 			},
 			body: new URLSearchParams(data),
+			credentials: 'include',
 		});
 		
 		const respond = await response.json();
@@ -42,11 +43,14 @@ async function signupSubmit() {
 					document.querySelector(".exist-l").classList.remove("disabled")
 					document.querySelector(".exist-n").classList.add("disabled")
                 }
+				return;
             } else {
                 throw new Error(`HTTP error! Status: ${response.status}`);
             }
         }
+		
 		console.log(respond)
+		window.location.href = '/html/dashBoard.html';
 	} catch (error) {
 		console.error(error);
 	}
@@ -81,12 +85,13 @@ async function loginSubmit() {
                 console.log("Invalid email/phone, LRN, or password (server)");
 				document.getElementById("l-invalid").classList.remove("disabled")
             }
+			return;
         } else {
 			document.getElementById("l-invalid").classList.add("disabled")
 		}
 
-        // Handle successful login, e.g., redirect to a new page
         console.log(respond);
+		window.location.href = '/html/DashBoard.html';
     } catch (error) {
         console.error(error);
     }
