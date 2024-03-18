@@ -4,15 +4,7 @@ gaslight, **gatekeep**, girlboss
 
 💅💅💅
 
-## Todo
-
-- [X] server side
-- [X] Database
-- [ ] account auth 💀
-- [X] session tokens 💀💀
-- [X] SSL certificate
-- [ ] qr scanner
-
+#### [TODO list](./TODO.md)
 
 ## refs
 
