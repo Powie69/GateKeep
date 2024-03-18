@@ -14,22 +14,22 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(session({
-    secret: 'uwu',
+    secret: process.env.cookieSecret,
 	resave: false,
 	cookie: {
 		maxAge: 3600000,
 		// secure: true,
-		// sameSite: 'nonw',
+		// sameSite: 'none',
 		partitioned: true,
 	},
 	saveUninitialized: false,
 }));
 
 const db = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: 'bananas',
-    database: 'gatekeep'
+    host: process.env.dbHost,
+    user: process.env.dbUser,
+    password: process.env.dbPassword,
+    database: process.env.dbName
 });
 
 db.connect((err) => {
@@ -135,5 +135,5 @@ app.post('/ping', (req, res) => {
 // **end of routes** //
 
 app.listen(process.env.serverPort, () => {
-    console.log(`Server is running on http://localhost:${process.env.serverPort}`);
+	console.log(`Server is running on http://localhost:${process.env.serverPort}`);
 });

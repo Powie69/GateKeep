@@ -8,13 +8,24 @@ CREATE TABLE users(
 	lrn char(12) NOT NULL UNIQUE,
 	password varchar(255)
 );
--- @block
-SELECT * FROM users
--- @block
-INSERT INTO users (email, phoneNumber, fullName, lrn, password) 
-VALUES ('godwin@gmail.com', '09118881234', 'godwin', '123456789011', '123');
--- @block
--- DELETE FROM users;
--- @block
--- DROP TABLE users;
 
+-- @block
+CREATE TABLE userLogs (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    userId INT,
+	isIn BOOLEAN,
+	time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (userId) REFERENCES users(id)
+);
+
+-- @block
+CREATE TABLE userInfo (
+    id INT PRIMARY KEY,
+    userId INT UNIQUE,
+	firstName varchar(255),
+	middleName varchar(255),
+	lastName varchar(255),
+	age INT,
+	sex BOOLEAN,
+    FOREIGN KEY (userId) REFERENCES users(id)
+);

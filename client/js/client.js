@@ -52,7 +52,7 @@ async function signupSubmit() {
 		if (!response.ok) {
             if (response.status === 409) {
 				if (respond.field === "phoneNumber") {
-                    console.warn("Phone number already exists");
+                	console.warn("Phone number already exists");
 					console.log(document.querySelector(".exist-m + #s-phoneNumber"));
 					document.querySelector(".exist-n").classList.remove("disabled")
 					document.querySelector(".exist-l").classList.add("disabled")
