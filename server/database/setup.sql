@@ -20,7 +20,7 @@ CREATE TABLE userLogs (
 
 -- @block
 CREATE TABLE userInfo (
-    id INT PRIMARY KEY,
+    id INT PRIMARY KEY AUTO_INCREMENT,
     userId INT UNIQUE,
 	firstName varchar(255),
 	middleName varchar(255),

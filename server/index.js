@@ -59,7 +59,7 @@ app.post('/signup', (req, res) => {
 	}
 	console.log("valid signup data (server)");
 
-	db.query(q.CHECK, [data.phoneNumber, data.lrn], (err, result) => {
+	db.query(q.SIGNUP_CHECK, [data.phoneNumber, data.lrn], (err, result) => {
 		if (err) {
             console.error('check SQL:', err);
             res.status(500).send('Internal Server Error');
@@ -84,10 +84,13 @@ app.post('/signup', (req, res) => {
 				return;
 			}
 
-			console.log(result)
-
 			req.session.authenticated = true;
-        	req.session.user = result;
+        	req.session.user = result.insertId;
+
+			db.query(q.INIT_INFO, [result.insertId], (err, result) => {
+				if (err) {console.error('insert SQL:', err); res.status(500).send('Internal Server Error'); return;}
+				console.log(`INIT_INFO: ${result.insertId}`)
+			});
 
         	res.json({ message: "signup successful", result});
 			console.log(req.sessionID);
@@ -121,17 +124,21 @@ app.post('/login', (req, res) => {
 });
 
 app.post('/profile', isAuthenticated, (req, res) => {
-	console.log(`profile: ${req.sessionID}`)
+	console.log(req.session.user)
     res.json({ message: "You are authenticated", user: req.session.user });
+});
+
+app.post('/profile/getData', isAuthenticated, (req,res) => {
+	db.query(q.GET_INFO, [req.session.user], (err, result) => {
+        if (err) {console.error('login SQL:', err); return res.status(500).send('Internal Server Error');}
+		make resut json
+	})
 });
 
 // sanity check
 app.post('/ping', (req, res) => {
 	console.log("pong")
 });
-
-
-
 // **end of routes** //
 
 app.listen(process.env.serverPort, () => {
