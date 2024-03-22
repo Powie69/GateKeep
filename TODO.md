@@ -11,4 +11,5 @@
 
 - [ ] env everything
 - [ ] about,help section
+- [ ] info form html/js stuff
 - [ ] dwindle the skepticism of the code being synthesize from chatGPT (make the code more consistent).
