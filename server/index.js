@@ -87,7 +87,7 @@ app.post('/signup', (req, res) => {
 			req.session.authenticated = true;
         	req.session.user = result.insertId;
 
-			db.query(q.INIT_INFO, [result.insertId], (err, result) => {
+			db.query(q.INIT_INFO, [result.insertId, data.lrn], (err, result) => {
 				if (err) {console.error('insert SQL:', err); res.status(500).send('Internal Server Error'); return;}
 				console.log(`INIT_INFO: ${result.insertId}`)
 			});
@@ -109,9 +109,7 @@ app.post('/login', (req, res) => {
 	db.query(q.LOGIN, [data.username, data.username, data.lrn, data.password], (err, result) => {
         if (err) {console.error('login SQL:', err); return res.status(500).send('Internal Server Error');}
 
-        if (result.length === 0) {
-			return res.status(401).json({ message: "Invalid email/phone, LRN, or password" });
-        }
+        if (result.length === 0) { return res.status(401).json({ message: "Invalid email/phone, LRN, or password" }); }
 
         const user = result[0];
 		
@@ -131,7 +129,9 @@ app.post('/profile', isAuthenticated, (req, res) => {
 app.post('/profile/getData', isAuthenticated, (req,res) => {
 	db.query(q.GET_INFO, [req.session.user], (err, result) => {
         if (err) {console.error('login SQL:', err); return res.status(500).send('Internal Server Error');}
-		make resut json
+		// make result json
+		console.log(result[0]);
+		res.json(result[0]);
 	})
 });
 

@@ -3,13 +3,15 @@ const dasbaord = '/html/DashBoard.html';
 fetch('http://localhost:3000/profile', {
 	method: 'post',
 	credentials: 'include'
-})
+}) // TODO: make this more solid
+   // window location will still change even if its a 205, 204, etc.
 	.then(response => {
 		if (response.status >= 400) {
 			console.log("not auth (client)");
 			return;
 		} else {
 			window.location.href = dasbaord;
+			
 		}
 	})
   	.catch(error => {

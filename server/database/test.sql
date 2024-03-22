@@ -1,3 +1,4 @@
+
 -- @block
 SELECT * FROM users
 -- @block
@@ -18,19 +19,6 @@ DELETE FROM userlogs;
 INSERT INTO userlogs (userId, isIn, time)
 VALUES ('2', true, CURRENT_TIMESTAMP);
 
--- *userinfo
--- @block
-SELECT * FROM userInfo;
-
--- @block
-SELECT * FROM userInfo WHERE userId = 1;
--- @block
-INSERT INTO userInfo (userId)
-VALUES (2);
-
--- @block
--- DROP TABLE userInfo
-
 -- 
 -- @block
 INSERT INTO users (email, phoneNumber, fullName, lrn, password) 
@@ -38,4 +26,4 @@ VALUES ('godwin@gmail.com', '09118881234', 'godwin', '123456789011', '123');
 -- @block
 -- DELETE FROM users;
 -- @block
--- DROP TABLE users;
+DROP TABLE users;
