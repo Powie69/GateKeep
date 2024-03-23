@@ -129,8 +129,6 @@ app.post('/profile', isAuthenticated, (req, res) => {
 app.post('/profile/getData', isAuthenticated, (req,res) => {
 	db.query(q.GET_INFO, [req.session.user], (err, result) => {
         if (err) {console.error('login SQL:', err); return res.status(500).send('Internal Server Error');}
-		// make result json
-		console.log(result[0]);
 		res.json(result[0]);
 	})
 });

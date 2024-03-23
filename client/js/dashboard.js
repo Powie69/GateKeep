@@ -1,11 +1,15 @@
 function updateInfo(data) {
-	// this looks wrong
+	// This doesn't seem very efficient.
 	if (data.lastName) {document.querySelector(".lastName p").innerText = data.lastName;}
 	if (data.firstName) {document.querySelector(".firstName p").innerText = data.firstName;}
 	if (data.middleName) {document.querySelector(".middleName p").innerText = data.middleName;}
 	if (data.lrn) {document.querySelector(".lrn p").innerText = data.lrn;}
 	if (data.age) {document.querySelector(".age p").innerText = data.age;}
-	if (data.sex) {document.querySelector(".sex p").innerText = data.sex;}	
+	if (data.sex) {
+		if (data.sex == 1) {
+			document.querySelector(".sex p").innerText = "Male";
+		} else {document.querySelector(".sex p").innerText = "Female";}
+	}
 }
 
 fetch('http://localhost:3000/profile/getData', {
@@ -21,7 +25,7 @@ fetch('http://localhost:3000/profile/getData', {
 	})
 	.then(data => {
         if (!data) {return}
-		updateInfo(data)
+		updateInfo(data);
 		console.log(data);
     })
   	.catch(error => {
