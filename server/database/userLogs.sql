@@ -9,14 +9,17 @@ CREATE TABLE userLogs (
 );
 
 -- @block
+INSERT INTO userlogs (userId, isIn, time)
+VALUES ('1', true, CURRENT_TIMESTAMP);
+
+-- @block
 SELECT * FROM userLogs
 
 -- @block
-DROP TABLE userlogs;
+SELECT * FROM userLogs WHERE userId = 1 ORDER BY time DESC LIMIT 5 OFFSET -2;
 
 -- @block
-DELETE FROM userlogs;
+-- DROP TABLE userlogs;
 
 -- @block
-INSERT INTO userlogs (userId, isIn, time)
-VALUES ('2', true, CURRENT_TIMESTAMP);
+-- DELETE FROM userlogs;

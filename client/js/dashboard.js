@@ -1,3 +1,5 @@
+var messageCount = 0;
+
 function updateInfo(data) {
 	// This doesn't seem very efficient.
 	if (data.lastName) {document.querySelector(".lastName p").innerText = data.lastName;}
@@ -18,7 +20,7 @@ fetch('http://localhost:3000/profile/getData', {
 })
 	.then(response => {
 		if (response.status >= 400) {
-			console.console.warn("not auth (client)"); return;
+			console.warn("not auth (client)"); return;
 		} else {
 			return response.json()
 		}
@@ -31,3 +33,29 @@ fetch('http://localhost:3000/profile/getData', {
   	.catch(error => {
     	console.error(error);
 });
+
+fetch('http://localhost:3000/profile/getMessage', {
+	method: 'post',
+	credentials: 'include',
+	headers: {
+		'Content-Type': 'application/json'
+	  },
+	body: '{"limit": 2}'
+})
+	.then(response => {
+		if (response.status >= 400) {
+			console.log(response);
+			// console.warn("not auth (client)"); return;
+		} else {
+			return response.json()
+		}
+	})
+	.then(data => {
+		console.log(data);
+        if (!data) {return}
+		// updateInfo(data);
+    })
+  	.catch(error => {
+    	console.error(error);
+});
+

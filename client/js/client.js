@@ -11,7 +11,6 @@ fetch('http://localhost:3000/profile', {
 			return;
 		} else {
 			window.location.href = dasbaord;
-			
 		}
 	})
   	.catch(error => {
