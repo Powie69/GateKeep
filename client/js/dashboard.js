@@ -4,11 +4,19 @@ const msgElement = document.querySelector(".logs-item")
 
 function updateMessage(data) {
 	for (let i = 0; i < data.length; i++) {
-		const element = msgElement.cloneNode(true);
-		console.log(element)
+		const element = msgElement.cloneNode(true);		
+		// console.log(element)
 		element.style.backgroundColor = "red";
-		element
-
+		if (data[0].isIn == true) {
+			element.querySelector(".logs-item-title span").innerText = "IN"
+			element.querySelector(".logs-item-title i").innerText = "Login"
+			element.querySelector(".logs-item-desc ._isIn").innerText = "arrived"
+		} else {
+			element.querySelector(".logs-item-title span").innerText = "OUT"
+			element.querySelector(".logs-item-title i").innerText = "Logout"
+			element.querySelector(".logs-item-desc ._isIn").innerText = "left"
+			
+		}
 		document.querySelector(".logs-container").appendChild(element)
 	}
 }
@@ -65,7 +73,7 @@ fetch('http://localhost:3000/profile/getMessage', {
 	})
 	.then(data => {
 		if (!data) {return}
-		console.log(data[0].time);
+		console.log(data[0]);
 		updateMessage(data);
     })
   	.catch(error => {
