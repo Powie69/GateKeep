@@ -14,6 +14,9 @@
     <link rel="stylesheet" href="css/index.css">
 </head>
 <body>
+	<dialog class="logout" >
+		<button><i class="material-symbols-rounded">logout</i> <span>Logout</span></button>
+	</dialog>
 	<header class="header">
 		<a class="header-logo" href=""><img src="images/logo.png" alt=""></a>
 		<nav class="header-nav">
@@ -26,9 +29,10 @@
 		<ul class="header-buttons">
 			<li><button><i class="material-symbols-rounded">accessibility_new</i></button></li>
 			<li><button><i class="material-symbols-rounded">Language</i></button></li>
-			<li><button><i class="material-symbols-rounded">Account_Circle</i></button></li>
+			<li><button class="_logout"><i class="material-symbols-rounded">Account_Circle</i></button></li>
 		</ul>
 	</header>
+	
 	<main class="main">
 		<form action="http://localhost:3000/" method="post" class="form " id="form-signup">
 			<h2>Create an Account</h2>

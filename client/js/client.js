@@ -17,7 +17,6 @@ fetch('http://localhost:3000/profile', {
     	console.error(error);
 });
 
-document.querySelector(".main").style.setProperty('background-image', `url(images/circles/${Math.floor(Math.random() * 10) + 1}.svg)`)
 
 if (new URL(window.location.href).searchParams.get("login") === "") {
 	document.getElementById("form-signup").classList.add("disabled")
@@ -26,6 +25,11 @@ if (new URL(window.location.href).searchParams.get("login") === "") {
 	document.getElementById("form-signup").classList.remove("disabled")
 	document.getElementById("form-login").classList.add("disabled")
 }
+
+document.querySelector(".main").style.setProperty('background-image', `url(images/circles/${Math.floor(Math.random() * 10) + 1}.svg)`)
+document.querySelector("._logout").addEventListener("click", () => {
+	document.querySelector(".logout").show();
+})
 
 async function signupSubmit() {
 	event.preventDefault()

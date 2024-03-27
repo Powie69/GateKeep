@@ -47,3 +47,24 @@
 .header-buttons .marterial-symbols-rounded {
 	font-size: 1rem;
 }
+
+/* logout dialog */
+
+.logout {
+	border: none;
+	padding: 0;
+	background-color: transparent;
+}
+
+.logout button {
+	width: 100%;
+	height: 100%;
+	background-color: var(--c-content);
+	border: none;
+	padding: 4px 8px;
+	border-radius: 8px;
+}
+
+.logout button i {
+	font-size: 1.3rem;
+}
