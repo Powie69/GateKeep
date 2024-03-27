@@ -1,4 +1,17 @@
 var messageCount = 0;
+const msgElement = document.querySelector(".logs-item")
+
+
+function updateMessage(data) {
+	for (let i = 0; i < data.length; i++) {
+		const element = msgElement.cloneNode(true);
+		console.log(element)
+		element.style.backgroundColor = "red";
+		element
+
+		document.querySelector(".logs-container").appendChild(element)
+	}
+}
 
 function updateInfo(data) {
 	// This doesn't seem very efficient.
@@ -40,7 +53,7 @@ fetch('http://localhost:3000/profile/getMessage', {
 	headers: {
 		'Content-Type': 'application/json'
 	  },
-	body: '{"limit": 2}'
+	body: '{"limit": 5, "offset": 0}'
 })
 	.then(response => {
 		if (response.status >= 400) {
@@ -51,9 +64,9 @@ fetch('http://localhost:3000/profile/getMessage', {
 		}
 	})
 	.then(data => {
-		console.log(data);
-        if (!data) {return}
-		// updateInfo(data);
+		if (!data) {return}
+		console.log(data[0].time);
+		updateMessage(data);
     })
   	.catch(error => {
     	console.error(error);

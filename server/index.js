@@ -99,7 +99,7 @@ app.post('/signup', (req, res) => {
 });
 
 app.post('/login', (req, res) => {
-	console.log(req.body )
+	console.log(req.body)
 	const data = req.body;
 
 	if (!(/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.username) || /^09\d{9}$/.test(data.username)) || !/^[1-6]\d{11}$/.test(data.lrn) || !data.password) {
@@ -114,7 +114,7 @@ app.post('/login', (req, res) => {
         const user = result[0];
 		
 		req.session.authenticated = true;
-		req.session.user = user;
+		req.session.user = user.id;
 
         res.json({ message: "Login successful", user});
 		console.log(req.sessionID);
@@ -137,7 +137,7 @@ app.post('/profile/getMessage', isAuthenticated, (req,res) => {
 	const data = req.body;
 	// console.log(data.limit);
 	if (!data.limit || data.offset === undefined || data.limit >= 25 || data.offset <= -1) {return res.status(400).send("bad data (server)")}
-	db.query(q.GET_MESSAGE, [req.session.user.id, data.limit, data.offset], (err, result) => {
+	db.query(q.GET_MESSAGE, [req.session.user, data.limit, data.offset], (err, result) => {
 		if (err) {console.error('SQL:', err); return res.status(500).send('Internal Server Error');}
 		res.json(result);
 		console.log(result);
