@@ -36,19 +36,19 @@
 	<main class="main">
 		<form action="http://localhost:3000/" method="post" class="form " id="form-signup">
 			<h2>Create an Account</h2>
-			<label>Email <input type="email" name="email" id="s-email"></label>
-			<label>Phone Number<span class="exist-m exist-n disabled"><br>This phone number is already in use.</span> <input type="number" name="phoneNumber" id="s-phoneNumber"></label>
-			<label>Full name <input type="text" name="fullName" id="s-fullName"></label>
-			<label>LRN<span class="exist-m exist-l disabled"><br>This lrn is already in use.</span> <input type="number" name="lrn" id="s-lrn"></label>
-			<label>Password <input type="password" name="password" id="s-password"></label>
+			<label>Email <input type="email" required name="email" id="s-email"></label>
+			<label>Phone Number<span class="exist-m exist-n disabled"><br>This phone number is already in use.</span> <input type="number" required min="0" maxlength="12" name="phoneNumber" id="s-phoneNumber"></label>
+			<label>Full name <input type="text" required name="fullName" id="s-fullName"></label>
+			<label>LRN<span class="exist-m exist-l disabled"><br>This lrn is already in use.</span> <input type="number" required maxlength="12" name="lrn" id="s-lrn"></label>
+			<label>Password <input type="password" required name="password" id="s-password"></label>
 			<button class="submit" tabindex="0" onclick="return signupSubmit()">Create Account</button>
 			<span class="form-redirect">already have an Account? <a href="?login">Log in</a></span>
 		</form>
 		<form action="http://localhost:3000" method="post" class="form disabled" id="form-login">
 			<h2>Login</h2>
-			<label>Email or Phone number<br> <input type="email" name="username" id="l-email"></label>
-			<label>LRN<br> <input type="number" name="lrn" id="l-lrn"></label>
-			<label>Password<br> <input type="password" name="password" id="l-password"></label>
+			<label>Email or Phone number<br> <input type="email" required name="username" id="l-email"></label>
+			<label>LRN<br> <input type="number" required maxlength="12" name="lrn" id="l-lrn"></label>
+			<label>Password<br> <input type="password" required name="password" id="l-password"></label>
 			<span id="l-invalid" class="disabled">invalid Email, Phone number, LRN, or password</span>
 			<button class="submit" tabindex="0" onclick="return loginSubmit()">Login</button>
 			<span class="form-redirect">Don't have an account? <a href="?signup">Signup</a></span>
