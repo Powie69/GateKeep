@@ -28,6 +28,46 @@
 			<li><button><i class="material-symbols-rounded">Account_Circle</i></button></li>
 		</ul>
 	</header>
+	<dialog class="update" open>
+		<form action="" method="post">
+			<header class="update-header">
+				<h4>Update info</h4>
+				<p>ayo subtext</p>
+			</header>
+			<fieldset class="update-general">
+				<legend>General infomation</legend>
+				<div class="update-general-grid">
+					<label>last Name: <input required type="text" id="lastName"></label>
+					<label>first Name: <input required type="text" id="firstName"></label>
+					<label>middle Name: <input required type="text" name="" id="middleName"></label>
+					<label>age: <input required min="0" max="99" type="number" id="age"></label>
+					
+					<label>
+						sex:
+						<select required name="Sex" id="sex">
+							<option selected disabled hidden value="">pick one bitch</option>
+							<option value="1">Male</option>
+							<option value="0">Female</option>
+						</select>
+					</label>
+				</div>
+			</fieldset>
+			<fieldset class="update-address">
+				<legend>Address</legend>
+				<div class="update-address-grid">
+					<label>House No.: <input required min="0" type="number" name="" id="houseNo"></label>
+					<label>Street Name: <input required type="text" name="" id="street"></label>
+					<label>zip code: <input required min="0" type="number" name="" id="zip"></label>
+					<label>Barangay: <input required type="text" name="" id="barangay"></label>
+					<label>Municipality/City: <input required type="text" name="" id="city"></label>
+					<label>Province: <input required type="text" name="" id="province"></label>
+				</div>
+			</fieldset>
+			<ul class="update-buttons">
+				<li><button class="submit" tabindex="0" onclick="return updateSubmit()">Done</button></li>
+			</ul>
+		</form>
+	</dialog>
 	<main class="main">
 		<article class="logs">
 			<h1>Logs</h1>
@@ -66,8 +106,8 @@
 			<div class="qr-contain">
 				<img src="../images/m.jpeg" alt="" class="qr-img">
 				<div class="qr-buttons">
-					<button><i class="material-symbols-rounded">qr_code</i> Update QR code</button>
-					<button><i class="material-symbols-rounded">print</i> Print QR code (but why tho)</button>
+					<button tabindex="0"><i class="material-symbols-rounded">qr_code</i> Update QR code</button>
+					<button tabindex="0"><i class="material-symbols-rounded">print</i> Print QR code (but why tho)</button>
 				</div>
 			</div>
 		</article>

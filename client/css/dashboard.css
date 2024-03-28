@@ -190,6 +190,100 @@
 	text-decoration: underline;
 }
 
+/* update info */
+
+.update {
+	width: 60%;
+	border: none;
+	box-shadow: rgb(2, 9, 15) 0px 30px 40px -10px;
+	border-radius: 14px;
+	background-color: var(--c-content);
+}
+
+.update::backdrop {
+	filter: blur(100%);
+}
+
+.update-header {
+	text-align: center;
+}
+
+.update-header h4 {
+	margin: .5rem 0;
+	font-size: 2rem;
+}
+
+.update-header p {
+	margin: .5rem 0;
+}
+
+.update-general {
+	/* box-shadow: rgb(2, 9, 15) 0px 20px 30px -10px; */
+
+	box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+	border: none;
+	/* border: rgba(50, 50, 93, 0.25) 2px solid; */
+}
+
+.update legend{
+	margin: 0 auto;
+	font-size: 1rem;
+	color: var(--c-text);
+}
+
+.update-general-grid {
+	display: grid;
+	gap: .5rem;
+	grid-template-columns: repeat(6, 1fr);
+	grid-template-rows: repeat(2, 1fr);
+	grid-template-areas: 
+	"lastName lastName firstName firstName middleName middleName"
+	". age age sex sex .";
+}
+
+#lastName {grid-area: lastName;}
+#firstName {grid-area: firstName;}
+#middleName {grid-area: middleName;}
+#age {grid-area: age;}
+#sex: {grid-area: sex;}
+
+.update-address {
+	box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+	border: none;
+}
+
+.update-address-grid {
+	display: grid;
+	gap: .5rem;
+	grid-template-columns: repeat(3, 1fr);
+	grid-template-rows: repeat(2, 1fr);
+}
+
+.update-address-grid input {
+	width: 95%;
+}
+
+.update-buttons {
+	display: flex;
+	justify-content: center;
+	margin: 0;
+}
+
+.update-buttons li{
+	width: 60%;
+}
+
+.submit {
+	width: 100%;
+	height: 30px;
+	margin: .5rem auto;
+	border: none;
+	border-radius: 4px;
+	background-color: var(--c-1st);
+}
+
+/* small screens */
+
 @media only screen and (max-width: 600px) {
 	.main {
 		grid-template-columns: 1fr;
