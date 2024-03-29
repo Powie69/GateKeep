@@ -67,15 +67,13 @@ app.post('/signup', (req, res) => {
         }
 
 		if (result.length > 0) {
-            if (result.length > 0) {
-				const existingData = result[0];
-				if (existingData.phoneNumber === data.phoneNumber) {
-					return res.status(409).json({ message: "Phone number already exists", field: "phoneNumber" });
-				} else if (existingData.lrn === data.lrn) {
-					return res.status(409).json({ message: "LRN already exists", field: "lrn" });
-				}
+			const existingData = result[0];
+			if (existingData.phoneNumber === data.phoneNumber) {
+				return res.status(409).json({ message: "Phone number already exists", field: "phoneNumber" });
+			} else if (existingData.lrn === data.lrn) {
+				return res.status(409).json({ message: "LRN already exists", field: "lrn" });
 			}
-        }
+		}
 		
 		db.query(q.SIGNUP, [data.email, data.phoneNumber, data.fullName, data.lrn, data.password], (err,result) => {
 			if (err) {
@@ -131,6 +129,23 @@ app.post('/profile/getData', isAuthenticated, (req,res) => {
         if (err) {console.error('SQL:', err); return res.status(500).send('Internal Server Error');}
 		res.json(result[0]);
 	})
+});
+
+app.post('/profile/updateData', isAuthenticated, (req,res) => {
+	const data = req.body;
+	console.log(req.body);
+
+	if (!data || data.age === undefined ||(data.age <= -1 || data.age > 99) || data.sex === undefined || !(data.sex == 0 || data.sex== 1))  {
+        return res.status(400).json({ message: "something aint right" });
+	}
+
+	db.query(q.UPDATE_INFO, [data.lastName, data.firstName, data.middleName, data.age, data.sex, data.houseNo, data.street, data.zip, data.barangay, data.city, data.province, req.session.user], (err,result) => {
+        if (err) {console.error('SQL:', err); return res.status(500).send('Internal Server Error');}
+		console.log(result)
+		res.send(result)
+	})
+
+	// res.json(req.body)
 });
 
 app.post('/profile/getMessage', isAuthenticated, (req,res) => {

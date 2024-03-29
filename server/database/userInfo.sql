@@ -3,12 +3,18 @@
 CREATE TABLE userInfo (
     id INT PRIMARY KEY AUTO_INCREMENT,
     userId INT UNIQUE,
-	lastName varchar(255),
-	firstName varchar(255),
-	middleName varchar(255),
+	lastName VARCHAR(255),
+	firstName VARCHAR(255),
+	middleName VARCHAR(255),
 	lrn char(12),
-	age INT,
+	age INT DEFAULT 0,
 	sex BOOLEAN,
+	houseNo INT,
+	street VARCHAR(255),
+	zip INT,
+	barangay VARCHAR(255),
+	city VARCHAR(255),
+	province VARCHAR(255),
     FOREIGN KEY (lrn) REFERENCES users(lrn),
     FOREIGN KEY (userId) REFERENCES users(id)
 );
@@ -21,7 +27,7 @@ SELECT * FROM userInfo WHERE userId = 1;
 
 -- @block
 INSERT INTO userInfo (userId, lrn)
-VALUES (8, 123456789011);
+VALUES (1, 123456789011);
 
 -- @block
 UPDATE userinfo

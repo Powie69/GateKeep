@@ -28,8 +28,8 @@
 			<li><button><i class="material-symbols-rounded">Account_Circle</i></button></li>
 		</ul>
 	</header>
-	<dialog class="update" open>
-		<form action="" method="post">
+	<dialog class="update" >
+		<form action="" method="post" id="form-update">
 			<header class="update-header">
 				<h4>Update info</h4>
 				<p>ayo subtext</p>
@@ -37,10 +37,10 @@
 			<fieldset class="update-general">
 				<legend>General infomation</legend>
 				<div class="update-general-grid">
-					<label id="lastName">last Name: <input required type="text" ></label>
-					<label id="firstName">first Name: <input required type="text" ></label>
-					<label id="middleName">middle Name: <input required type="text" name="" ></label>
-					<label id="age">age: <input required min="0" max="99" type="number" ></label>
+					<label id="lastName">last Name: <input required type="text" name="lastName"></label>
+					<label id="firstName">first Name: <input required type="text" name="firstName"></label>
+					<label id="middleName">middle Name: <input required type="text" name="middleName"></label>
+					<label id="age">age: <input required min="0" max="99" type="number" name="age"></label>
 					
 					<label id="sex">
 						sex:
@@ -55,12 +55,12 @@
 			<fieldset class="update-address">
 				<legend>Address</legend>
 				<div class="update-address-grid">
-					<label>House No.: <input required min="0" type="number" name="" id="houseNo"></label>
-					<label>Street Name: <input required type="text" name="" id="street"></label>
-					<label>zip code: <input required min="0" type="number" name="" id="zip"></label>
-					<label>Barangay: <input required type="text" name="" id="barangay"></label>
-					<label>Municipality/City: <input required type="text" name="" id="city"></label>
-					<label>Province: <input required type="text" name="" id="province"></label>
+					<label>House No.: <input required min="0" type="number" name="houseNo" id="houseNo"></label>
+					<label>Street Name: <input required type="text" name="street" id="street"></label>
+					<label>zip code: <input required min="0" type="number" name="zip" id="zip"></label>
+					<label>Barangay: <input required type="text" name="barangay" id="barangay"></label>
+					<label>Municipality/City: <input required type="text" name="city" id="city"></label>
+					<label>Province: <input required type="text" name="province" id="province"></label>
 				</div>
 			</fieldset>
 			<ul class="update-buttons">
