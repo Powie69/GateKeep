@@ -195,6 +195,7 @@
 .update {
 	width: 60%;
 	border: none;
+	padding: .5rem;
 	box-shadow: rgb(2, 9, 15) 0px 30px 40px -10px;
 	border-radius: 14px;
 	background-color: var(--c-content);
@@ -202,6 +203,10 @@
 
 .update::backdrop {
 	filter: blur(100%);
+}
+
+#form-update {
+	padding: .5rem;
 }
 
 .update-header {
@@ -285,6 +290,14 @@
 	background-color: var(--c-1st);
 }
 
+.submit:hover {
+	text-decoration: underline;
+}
+
+.submit:focus {
+	outline: 3px var(--c-highlight) solid;
+}
+
 /* small screens */
 
 @media only screen and (max-width: 600px) {
@@ -303,5 +316,36 @@
 	.qr-contain {
 		flex-direction: column;
 		padding-bottom: 1rem;
+	}
+
+	/* update dialog */
+
+	.update {
+		height: 80%;
+	}
+	
+	#form-update {
+		height: 95%;
+		overflow-y: scroll;
+		scrollbar-width: thin;
+	}
+
+	.update input{
+		width: 100%;
+	}
+
+	.update-general-grid {
+		grid-template-columns: 1fr;
+		grid-template-areas:
+		"lastName"
+		"firstName"
+		"middleName"
+		"age"
+		"sex"
+		;
+	}
+
+	.update-address-grid {
+		grid-template-columns: 1fr;
 	}
 }
