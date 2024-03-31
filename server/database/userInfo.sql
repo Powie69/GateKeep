@@ -40,5 +40,6 @@ SET
 WHERE id = 1;
 
 -- @block
+-- @block
 -- DROP TABLE userInfo;
 

@@ -135,11 +135,10 @@ app.post('/profile/updateData', isAuthenticated, (req,res) => {
 	const data = req.body;
 	console.log(req.body);
 
-	if (!data || data.age === undefined ||(data.age <= -1 || data.age > 99) || data.sex === undefined || !(data.sex == 0 || data.sex== 1))  {
-        return res.status(400).json({ message: "something aint right" });
-	}
+	if (data.age != undefined && data.age <= -1 || data.age > 99) {return res.status(400).json({ message: "something aint right2" });}	
+	if ( data.sex != undefined && !(data.sex == 0 || data.sex == 1)) {return res.status(400).json({ message: "something aint right3" });}
 
-	db.query(q.UPDATE_INFO, [data.lastName, data.firstName, data.middleName, data.age, data.sex, data.houseNo, data.street, data.zip, data.barangay, data.city, data.province, req.session.user], (err,result) => {
+	db.query(q.UPDATE_INFO, [data.lastName, data.lastName, data.firstName, data.firstName, data.middleName, data.middleName, data.age, data.age, data.sex, data.sex, data.houseNo, data.houseNo, data.street, data.street, data.zip, data.zip, data.barangay, data.barangay, data.city, data.city, data.province, data.province, req.session.user], (err,result) => {
         if (err) {console.error('SQL:', err); return res.status(500).send('Internal Server Error');}
 		console.log(result)
 		res.send(result)
@@ -155,13 +154,14 @@ app.post('/profile/getMessage', isAuthenticated, (req,res) => {
 	db.query(q.GET_MESSAGE, [req.session.user, data.limit, data.offset], (err, result) => {
 		if (err) {console.error('SQL:', err); return res.status(500).send('Internal Server Error');}
 		res.json(result);
-		console.log(result);
+		// console.log(result);
 	})
 });
 
 // sanity check
 app.post('/ping', (req, res) => {
 	console.log("pong")
+	res.send("pong!")
 });
 // **end of routes** //
 
