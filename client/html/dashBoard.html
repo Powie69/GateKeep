@@ -37,14 +37,14 @@
 			<fieldset class="update-general">
 				<legend>General infomation</legend>
 				<div class="update-general-grid">
-					<label id="lastName">last Name: <input required type="text" name="lastName"></label>
-					<label id="firstName">first Name: <input required type="text" name="firstName"></label>
-					<label id="middleName">middle Name: <input required type="text" name="middleName"></label>
-					<label id="age">age: <input required min="0" max="99" type="number" name="age"></label>
+					<label id="lastName">last Name: <input type="text" name="lastName"></label>
+					<label id="firstName">first Name: <input type="text" name="firstName"></label>
+					<label id="middleName">middle Name: <input type="text" name="middleName"></label>
+					<label id="age">age: <input min="0" max="99" type="number" name="age"></label>
 					
 					<label id="sex">
-						sex:
-						<select required name="sex">
+						sex:<br>
+						<select name="sex">
 							<option selected disabled hidden value="">pick one bitch</option>
 							<option value="1">Male</option>
 							<option value="0">Female</option>
@@ -55,12 +55,12 @@
 			<fieldset class="update-address">
 				<legend>Address</legend>
 				<div class="update-address-grid">
-					<label>House No.: <input required min="0" type="number" name="houseNo" id="houseNo"></label>
-					<label>Street Name: <input required type="text" name="street" id="street"></label>
-					<label>zip code: <input required min="0" type="number" name="zip" id="zip"></label>
-					<label>Barangay: <input required type="text" name="barangay" id="barangay"></label>
-					<label>Municipality/City: <input required type="text" name="city" id="city"></label>
-					<label>Province: <input required type="text" name="province" id="province"></label>
+					<label>House No.: <input min="0" type="number" name="houseNo" id="houseNo"></label>
+					<label>Street Name: <input type="text" name="street" id="street"></label>
+					<label>zip code: <input min="0" type="number" name="zip" id="zip"></label>
+					<label>Barangay: <input type="text" name="barangay" id="barangay"></label>
+					<label>Municipality/City: <input type="text" name="city" id="city"></label>
+					<label>Province: <input type="text" name="province" id="province"></label>
 				</div>
 			</fieldset>
 			<ul class="update-buttons">
@@ -96,8 +96,8 @@
 			</div>
 			<div class="info-buttons">
 				<ul>
-					<li><a href=""><i class="material-symbols-rounded">preview</i>view all info</a></li>
-					<li><a href=""><i class="material-symbols-rounded">edit</i>edit info</a></li>
+					<li><button tabindex="0"><i class="material-symbols-rounded">preview</i>view all info</button></li>
+					<li><button tabindex="0" onclick="updateShow()"><i class="material-symbols-rounded">edit</i>edit info</button></li>
 				</ul>
 			</div>
 		</article>

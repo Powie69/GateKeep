@@ -82,6 +82,19 @@ fetch('http://localhost:3000/profile/getMessage', {
 
 // 
 
+document.querySelector(".update").addEventListener("click", e => {
+	const dialogDimensions = document.querySelector(".update").getBoundingClientRect()
+	if (e.clientX < dialogDimensions.left ||e.clientX > dialogDimensions.right ||e.clientY < dialogDimensions.top ||e.clientY > dialogDimensions.bottom) {document.querySelector(".update").close()}
+})
+
+function updateShow() {
+	if (window.innerWidth <= 600) {
+		window.location.href = "./updateInfo.html"
+	} else {
+		document.querySelector(".update").showModal()
+	}
+}
+
 async function updateSubmit() {
     event.preventDefault();
     try {
@@ -107,7 +120,10 @@ async function updateSubmit() {
         } 
 
         console.log(respond);
+
     } catch (error) {
-        console.error(error);
+		document.querySelector(".update").close();
+
     }
+	document.querySelector(".update").close();
 }

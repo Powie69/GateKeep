@@ -1,3 +1,7 @@
+function updateCancel() {
+	window.location.href = "./dashBoard.html"
+}
+
 async function updateSubmit() {
     event.preventDefault();
     try {
@@ -23,9 +27,9 @@ async function updateSubmit() {
         } 
 
         console.log(respond);
-		window.location.href = "./dashBoard.html"
-
+		
     } catch (error) {
         console.error(error);
     }
+	window.location.href = "./dashBoard.html"
 }
