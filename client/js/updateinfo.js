@@ -22,12 +22,10 @@ async function updateSubmit() {
         const respond = await response.json();
 
         if (!response.ok) {
-			
-			// return;
+			console.log(response);
+			return;
         } 
-
         console.log(respond);
-		
     } catch (error) {
         console.error(error);
     }

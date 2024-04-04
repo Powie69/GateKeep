@@ -26,6 +26,9 @@ SELECT * FROM userInfo;
 SELECT * FROM userInfo WHERE userId = 1;
 
 -- @block
+SELECT lastName, firstName, middleName, lrn, age, sex, houseNo, street, zip, barangay, city, province FROM userinfo WHERE userId = 1;
+
+-- @block
 INSERT INTO userInfo (userId, lrn)
 VALUES (1, 123456789011);
 

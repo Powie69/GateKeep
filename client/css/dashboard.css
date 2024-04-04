@@ -30,14 +30,15 @@
 	padding: 2rem;
 }
 
-/* *logs */
-
-.logs {
-	grid-area: logs;
-	padding: 1.5rem;
+.main article {
+	padding: 0.5rem 1.5rem;
 	border-radius: 14px;
 	background-color: var(--c-content);
 }
+
+/* *logs */
+
+.logs { grid-area: logs; }
 
 .logs h1 {
 	margin: .5rem 0;
@@ -78,12 +79,7 @@
 
 /* *info */
 
-.info { 
-	grid-area: info;
-	padding: .5rem 1.5rem;
-	border-radius: 14px;
-	background-color: var(--c-content);
-}
+.info { grid-area: info; }
 
 .info h2 {
 	font-size: 1.5rem;
@@ -156,12 +152,7 @@
 
 /* *qr */
 
-.qr {
-	grid-area: qr;
-	padding: .5rem 1.5rem;
-	border-radius: 14px;
-	background-color: var(--c-content);
-}
+.qr { grid-area: qr; }
 
 .qr h3 {
 	font-size: 2rem;
@@ -324,6 +315,10 @@
 		"qr"
 		"info"
 		"logs";
+	}
+
+	.main article {
+		padding: .5rem;
 	}
 
 	.qr-img {

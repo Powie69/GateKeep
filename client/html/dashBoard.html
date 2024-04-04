@@ -29,7 +29,7 @@
 		</ul>
 	</header>
 	<dialog class="update" >
-		<form action="" method="post" id="form-update">
+		<form action="" method="post" autocomplete="off" id="form-update">
 			<header class="update-header">
 				<h4>Update info</h4>
 				<p>ayo subtext</p>
@@ -67,6 +67,12 @@
 				<li><button class="submit" tabindex="0" onclick="return updateSubmit()">Done</button></li>
 			</ul>
 		</form>
+	</dialog>
+	<dialog class="view">
+		<header><h4>view all info</h4></header>
+		<div>
+
+		</div>
 	</dialog>
 	<main class="main">
 		<article class="logs">
@@ -113,6 +119,6 @@
 		</article>
 	</main>
 
-	<script src="../js/dashboard.js"></script>
+	<script src="../js/dashboard.js" defer></script>
 </body>
 </html>
