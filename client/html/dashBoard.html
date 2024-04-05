@@ -70,8 +70,32 @@
 	</dialog>
 	<dialog class="view">
 		<header><h4>view all info</h4></header>
-		<div>
-
+		<div class="view-contain">
+			<fieldset class="view-general">
+				<legend>General infomation</legend>
+				<div class="view-general-grid">
+					<label class="view-lastName">Last Name: <p>dingle</p></label>
+					<label class="view-lrn">LRN: <p>400069551234</p></label>
+					<label class="view-firstName">first Name: <p>Quandale</p></label>
+					<label class="view-age">age: <p>14</p></label>
+					<label class="view-middleName">middle Name: <p>Kale</p></label>
+					<label class="view-sex">sex: <p>yes</p></label>
+				</div>
+			</fieldset>
+			<fieldset class="view-addres">
+				<legend>Address</legend>
+				<div class="view-address-grid">
+					<label class="view-houseNo">House No. <p></p></label>
+					<label class="view-street">Street Name: <p></p></label>
+					<label class="view-zip">zip code: <p></p></label>
+					<label class="view-barangay">Barangay: <p></p></label>
+					<label class="view-city">Municipality/City: <p></p></label>
+					<label class="view-province">Province: <p></p></label>
+				</div>
+			</fieldset>
+		</div>
+		<div class="view-buttons">
+			<button tabindex="0" onclick="document.querySelector('.view').close()">Close</button>
 		</div>
 	</dialog>
 	<main class="main">
@@ -102,7 +126,7 @@
 			</div>
 			<div class="info-buttons">
 				<ul>
-					<li><button tabindex="0"><i class="material-symbols-rounded">preview</i>view all info</button></li>
+					<li><button tabindex="0" onclick="viewShow()"><i class="material-symbols-rounded">preview</i>view all info</button></li>
 					<li><button tabindex="0" onclick="updateShow()"><i class="material-symbols-rounded">edit</i>edit info</button></li>
 				</ul>
 			</div>

@@ -1,6 +1,22 @@
 var messageCount = 0;
 const msgElement = document.querySelector(".logs-item")
 
+function getInfo() {
+	return fetch('http://localhost:3000/profile/getData', {
+		method: 'post',
+		credentials: 'include'
+	})
+	.then(response => {
+		if (response.status >= 400) {
+			console.warn("wong (client)"); return;
+		} else { 
+			return response.json() 
+		}
+	})
+	.then(data => { return data; })
+  	.catch(error => { console.error(error) });
+}
+
 function updateMessage(data) {
 	for (let i = 0; i < data.length; i++) {
 		const element = msgElement.cloneNode(true);		
@@ -21,19 +37,9 @@ function updateMessage(data) {
 }
 
 function updateInfo() {
-	fetch('http://localhost:3000/profile/getData', {
-	method: 'post',
-	credentials: 'include'
-	})
-	.then(response => {
-		if (response.status >= 400) {
-			console.warn("wong (client)"); return;
-		} else {
-			return response.json()
-		}
-	})
+	getInfo()
 	.then(data => {
-        if (!data) {return}
+		if (!data) {return}
 		if (data.lastName) {document.querySelector(".lastName p").innerText = data.lastName;}
 		if (data.firstName) {document.querySelector(".firstName p").innerText = data.firstName;}
 		if (data.middleName) {document.querySelector(".middleName p").innerText = data.middleName;}
@@ -42,21 +48,58 @@ function updateInfo() {
 		if (data.sex) {
 			if (data.sex == 1) {
 				document.querySelector(".sex p").innerText = "Male";
-		} else {document.querySelector(".sex p").innerText = "Female";}
-	}
-    })
-  	.catch(error => {
-    	console.error(error);
-	});
+			} else {document.querySelector(".sex p").innerText = "Female";}
+		}
+	})  
 }
 
-// this one is for the 'update' dialog.
-function getInfo(data) {
+// this one is for the 'update' dialog
+function updateInfoDialog(data) {
 	for (var i in data) {
 		if (i == "lrn" || i == "sex") {continue}
 		if (data[i] != undefined) {document.querySelector(`#form-update label input[name=${i}]`).setAttribute("placeholder", data[i])}
 	}
 }
+
+// for the 'view' dialog
+function updateViewDialog(data) {
+	for (var i in data) {
+		if (data[i] != undefined && i == "sex") {
+			if (data[i] == 1) {
+				document.querySelector('.view-sex p').innerText = "Male"
+			} else { document.querySelector('.view-sex p').innertext = "Female" }
+			continue;
+		}
+		if (data[i] != undefined) {document.querySelector(`.view-${i} p`).innerText = data[i]}
+	}
+}
+
+document.querySelector(".update").addEventListener("click", e => {
+	const dialogDimensions = document.querySelector(".update").getBoundingClientRect()
+	if (e.clientX < dialogDimensions.left ||e.clientX > dialogDimensions.right ||e.clientY < dialogDimensions.top ||e.clientY > dialogDimensions.bottom) {document.querySelector(".update").close()}
+})
+
+function updateShow() {
+	if (window.innerWidth <= 600) {
+		window.location.href = "./updateInfo.html"
+	} else {
+		document.querySelector(".update").showModal()
+		getInfo()
+		.then(data => { updateInfoDialog(data) })	
+	}
+}
+
+function viewShow() {
+	if (window.innerWidth <= 600) {
+		// 
+	} else {
+		document.querySelector(".view").showModal()
+		getInfo()
+		.then(data => { updateViewDialog(data) })
+	}
+}
+
+updateInfo()
 
 fetch('http://localhost:3000/profile/getMessage', {
 	method: 'post',
@@ -78,43 +121,10 @@ fetch('http://localhost:3000/profile/getMessage', {
 		if (!data) {return}
 		console.log(data[0]);
 		updateMessage(data);
-    })
-  	.catch(error => {
-    	console.error(error);
+	})
+	  .catch(error => {
+		console.error(error);
 });
-
-// 
-
-document.querySelector(".update").addEventListener("click", e => {
-	const dialogDimensions = document.querySelector(".update").getBoundingClientRect()
-	if (e.clientX < dialogDimensions.left ||e.clientX > dialogDimensions.right ||e.clientY < dialogDimensions.top ||e.clientY > dialogDimensions.bottom) {document.querySelector(".update").close()}
-})
-
-// this nesting hurts my head
-function updateShow() {
-	if (window.innerWidth <= 600) {
-		window.location.href = "./updateInfo.html"
-	} else {
-		document.querySelector(".update").showModal()
-		
-		fetch('http://localhost:3000/profile/getData', {
-			method: 'post',
-			credentials: 'include'
-		})
-		.then(response => {
-			if (response.status >= 400) { console.warn("not auth (client)"); return; } else { return response.json() }
-		})
-		.then(data => {
-        	if (!data) {return}
-			getInfo(data)
-   		 })
-  		.catch(error => {
-    		console.error(error);
-		});
-	}
-}
-
-updateInfo()
 
 async function updateSubmit() {
     event.preventDefault();
