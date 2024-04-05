@@ -91,7 +91,7 @@ function updateShow() {
 
 function viewShow() {
 	if (window.innerWidth <= 600) {
-		// 
+		window.location.href = "./viewInfo.html"
 	} else {
 		document.querySelector(".view").showModal()
 		getInfo()

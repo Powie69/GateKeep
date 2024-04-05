@@ -393,14 +393,19 @@
 		"qr"
 		"info"
 		"logs";
+		padding: .8rem;
 	}
 
 	.main article {
 		padding: .5rem;
 	}
 
+	.logs {
+		height: 500px;
+	}
+
 	.qr-img {
-		width: 65%;
+		width: 75%;
 		align-self: center;
 	}
 	.qr-contain {

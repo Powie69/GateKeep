@@ -18,8 +18,6 @@ function getInfo() {
   	.catch(error => { console.error(error) });
 }
 
-
-
 getInfo()
 .then(data => {
 	for (var i in data) {
