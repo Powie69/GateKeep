@@ -48,7 +48,8 @@
 
 .logs-container {
 	display: flex;
-	flex-direction: column-reverse;
+	flex-direction: column;
+	/* flex-direction: column-reverse; */
 	place-items: center;
 	gap: 1rem;
 	height: 90%;

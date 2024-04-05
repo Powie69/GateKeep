@@ -17,11 +17,33 @@ function fetchInfo() {
   	.catch(error => { console.error(error) });
 }
 
+function fetchMessages(limit, offset) {
+	if (!limit || offset == undefined || limit >= 25 || offset <= -1) { console.log("bad data (client)"); return;}
+	return fetch('http://localhost:3000/profile/getMessage', {
+	method: 'post',
+	credentials: 'include',
+	headers: {
+		'Content-Type': 'application/json'
+	  },
+	body: `{"limit": ${limit}, "offset": ${offset}}`
+	})
+	.then(response => {
+		if (response.status >= 400) {
+			console.warn("wong (client)"); return;
+		} else {
+			return response.json()
+		}
+	})
+	.then(data => { return data })
+	.catch(error => { console.error(error); });
+}
+
 function updateMessage(data) {
 	for (let i = 0; i < data.length; i++) {
 		const element = msgElement.cloneNode(true);		
 		// console.log(element)
 		element.style.backgroundColor = "red";
+		element.querySelector(".logs-item-desc ._time").innerText = data[i].time
 		if (data[i].isIn == true) {
 			element.querySelector(".logs-item-title span").innerText = "IN"
 			element.querySelector(".logs-item-title i").innerText = "Login"
@@ -32,7 +54,8 @@ function updateMessage(data) {
 			element.querySelector(".logs-item-desc ._isIn").innerText = "left"
 			
 		}
-		document.querySelector(".logs-container").appendChild(element)
+		document.querySelector(".logs-container").appendChild(element);
+		messageCount++;
 	}
 }
 
@@ -101,30 +124,18 @@ function viewShow() {
 
 updateInfo()
 
-fetch('http://localhost:3000/profile/getMessage', {
-	method: 'post',
-	credentials: 'include',
-	headers: {
-		'Content-Type': 'application/json'
-	  },
-	body: '{"limit": 5, "offset": 0}'
+fetchMessages(5, messageCount)
+.then(data => {updateMessage(data)})
+
+document.querySelector(".logs-container").addEventListener('scroll', function(scroll){
+	console.log((this.clientHeight + this.scrollTop) >= (this.scrollHieght - 30));
+	if ((this.clientHeight + this.scrollTop) >= (this.scrollHieght - 30)) {
+		// When scrolled to the bottom of the container
+		console.log("owwww");
+		fetchMessages(5, messageCount)
+		.then(data => {updateMessage(data)})
+	}
 })
-	.then(response => {
-		if (response.status >= 400) {
-			console.log(response);
-			// console.warn("not auth (client)"); return;
-		} else {
-			return response.json()
-		}
-	})
-	.then(data => {
-		if (!data) {return}
-		console.log(data[0]);
-		updateMessage(data);
-	})
-	  .catch(error => {
-		console.error(error);
-});
 
 async function updateSubmit() {
     event.preventDefault();
