@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="../css/updateInfo.css">
 </head>
 <body>
-	<form action="" method="post" id="form-update">
+	<form action="" method="post" autocomplete="off" id="form-update">
 		<header class="update-header">
 			<h4>Update info</h4>
 			<p>ayo subtext</p>
@@ -28,7 +28,7 @@
 				
 				<label id="sex">
 					sex:<br>
-					<select  name="sex">
+					<select name="sex">
 						<option selected disabled hidden value="">pick one bitch</option>
 						<option value="1">Male</option>
 						<option value="0">Female</option>
@@ -48,7 +48,7 @@
 			</div>
 		</fieldset>
 		<ul class="update-buttons">
-			<li><button class="submit" tabindex="0" onclick="return updateSubmit()">Done <i class="material-symbols-rounded submit_wait">loading</i></button></li>
+			<li><button class="submit" tabindex="0" onclick="return updateSubmit()">Done</button></li>
 			<li><button class="submit" tabindex="0" onclick="return updateCancel()">Cancel</button></li>
 		</ul>
 	</form>

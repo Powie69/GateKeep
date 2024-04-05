@@ -2,6 +2,32 @@ function updateCancel() {
 	window.location.href = "./dashBoard.html"
 }
 
+function getInfo() {
+	return fetch('http://localhost:3000/profile/getData', {
+		method: 'post',
+		credentials: 'include'
+	})
+	.then(response => {
+		if (response.status >= 400) {
+			console.warn("wong (client)"); return;
+		} else { 
+			return response.json() 
+		}
+	})
+	.then(data => { return data; })
+  	.catch(error => { console.error(error) });
+}
+
+
+
+getInfo()
+.then(data => {
+	for (var i in data) {
+		if (i == "lrn" || i == "sex") {continue}
+		if (data[i] != undefined) {document.querySelector(`#form-update label input[name=${i}]`).setAttribute("placeholder", data[i])}
+	}
+})
+
 async function updateSubmit() {
     event.preventDefault();
     try {
