@@ -1,7 +1,7 @@
 var messageCount = 0;
 const msgElement = document.querySelector(".logs-item")
 
-function getInfo() {
+function fetchInfo() {
 	return fetch('http://localhost:3000/profile/getData', {
 		method: 'post',
 		credentials: 'include'
@@ -37,7 +37,7 @@ function updateMessage(data) {
 }
 
 function updateInfo() {
-	getInfo()
+	fetchInfo()
 	.then(data => {
 		if (!data) {return}
 		if (data.lastName) {document.querySelector(".lastName p").innerText = data.lastName;}
@@ -84,7 +84,7 @@ function updateShow() {
 		window.location.href = "./updateInfo.html"
 	} else {
 		document.querySelector(".update").showModal()
-		getInfo()
+		fetchInfo()
 		.then(data => { updateInfoDialog(data) })	
 	}
 }
@@ -94,7 +94,7 @@ function viewShow() {
 		window.location.href = "./viewInfo.html"
 	} else {
 		document.querySelector(".view").showModal()
-		getInfo()
+		fetchInfo()
 		.then(data => { updateViewDialog(data) })
 	}
 }

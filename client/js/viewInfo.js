@@ -2,7 +2,7 @@ function done() {
 	window.location.href = "./dashBoard.html"
 }
 
-function getInfo() {
+function fetchInfo() {
 	return fetch('http://localhost:3000/profile/getData', {
 		method: 'post',
 		credentials: 'include'
@@ -23,7 +23,7 @@ function viewShow() {
 		window.location.href = "./viewInfo.html"
 	} else {
 		document.querySelector(".view").showModal()
-		getInfo()
+		fetchInfo()
 		.then(data => { updateViewDialog(data) })
 	}
 }
@@ -40,7 +40,7 @@ function updateViewDialog(data) {
 	}
 }
 
-getInfo()
+fetchInfo()
 .then(data => {
 	updateViewDialog(data)
 })

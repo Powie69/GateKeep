@@ -2,7 +2,7 @@ function updateCancel() {
 	window.location.href = "./dashBoard.html"
 }
 
-function getInfo() {
+function fetchInfo() {
 	return fetch('http://localhost:3000/profile/getData', {
 		method: 'post',
 		credentials: 'include'
@@ -18,7 +18,7 @@ function getInfo() {
   	.catch(error => { console.error(error) });
 }
 
-getInfo()
+fetchInfo()
 .then(data => {
 	for (var i in data) {
 		if (i == "lrn" || i == "sex") {continue}
