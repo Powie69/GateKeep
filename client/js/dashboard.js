@@ -20,66 +20,43 @@ function updateMessage(data) {
 	}
 }
 
-function updateInfo(data) {
-	// This doesn't seem very efficient.
-	if (data.lastName) {document.querySelector(".lastName p").innerText = data.lastName;}
-	if (data.firstName) {document.querySelector(".firstName p").innerText = data.firstName;}
-	if (data.middleName) {document.querySelector(".middleName p").innerText = data.middleName;}
-	if (data.lrn) {document.querySelector(".lrn p").innerText = data.lrn;}
-	if (data.age) {document.querySelector(".age p").innerText = data.age;}
-	if (data.sex) {
-		if (data.sex == 1) {
-			document.querySelector(".sex p").innerText = "Male";
-		} else {document.querySelector(".sex p").innerText = "Female";}
-	}
-}
-
-// this one is for the 'update' dialog
-// function getInfo(data) {
-// 	console.log("ayo");
-// 	console.log(data.street);
-// 	if (data.lastName) {document.querySelector("#lastName input").setAttribute("placeholder", `${data.lastName}`)}
-// 	if (data.firstName) {document.querySelector("#firstName input").setAttribute("placeholder", `${data.firstName}`)}
-// 	if (data.middleName) {document.querySelector("#middleName input").setAttribute("placeholder", `${data.middleName}`)}
-// 	if (data.age) {document.querySelector("#age input").setAttribute("placeholder", `${data.age}`)}
-// 	if (data.houseNo) {document.querySelector("#houseNo").setAttribute("placeholder", `${data.houseNo}`)}
-// 	if (data.street) {document.querySelector("#street").setAttribute("placeholder", `${data.street}`)}
-// 	if (data.zip) {document.querySelector("#zip").setAttribute("placeholder", `${data.zip}`)}
-// 	if (data.barangay) {document.querySelector("#barangay").setAttribute("placeholder", `${data.barangay}`)}
-// 	if (data.city) {document.querySelector("#city").setAttribute("placeholder", `${data.city}`)}
-// 	if (data.province) {document.querySelector("#province").setAttribute("placeholder", `${data.province}`)}
-// }
-
-function getInfo(data) {
-	console.log("ayo");
-	for (var i in data) {
-		console.log(i);
-		if (data[i] == "lrn" || data[i] == "sex") {continue}
-
-		if (data[i]) {document.querySelector(`#${i} input`).setAttribute("placeholder", data[i])}
-
-	}
-}
-
-fetch('http://localhost:3000/profile/getData', {
+function updateInfo() {
+	fetch('http://localhost:3000/profile/getData', {
 	method: 'post',
 	credentials: 'include'
-})
+	})
 	.then(response => {
 		if (response.status >= 400) {
-			console.warn("not auth (client)"); return;
+			console.warn("wong (client)"); return;
 		} else {
 			return response.json()
 		}
 	})
 	.then(data => {
         if (!data) {return}
-		updateInfo(data);
-		console.log(data);
+		if (data.lastName) {document.querySelector(".lastName p").innerText = data.lastName;}
+		if (data.firstName) {document.querySelector(".firstName p").innerText = data.firstName;}
+		if (data.middleName) {document.querySelector(".middleName p").innerText = data.middleName;}
+		if (data.lrn) {document.querySelector(".lrn p").innerText = data.lrn;}
+		if (data.age) {document.querySelector(".age p").innerText = data.age;}
+		if (data.sex) {
+			if (data.sex == 1) {
+				document.querySelector(".sex p").innerText = "Male";
+		} else {document.querySelector(".sex p").innerText = "Female";}
+	}
     })
   	.catch(error => {
     	console.error(error);
-});
+	});
+}
+
+// this one is for the 'update' dialog.
+function getInfo(data) {
+	for (var i in data) {
+		if (i == "lrn" || i == "sex") {continue}
+		if (data[i] != undefined) {document.querySelector(`#form-update label input[name=${i}]`).setAttribute("placeholder", data[i])}
+	}
+}
 
 fetch('http://localhost:3000/profile/getMessage', {
 	method: 'post',
@@ -137,6 +114,8 @@ function updateShow() {
 	}
 }
 
+updateInfo()
+
 async function updateSubmit() {
     event.preventDefault();
     try {
@@ -160,11 +139,11 @@ async function updateSubmit() {
 			console.log(`server: ${response}`);
 			document.querySelector(".update").close();
 			return;
-        } 
+        }
 
         console.log(respond);
-		// TODO: updateInfo(), dont refresh
-		location.reload()
+		// location.reload()
+		updateInfo()
     } catch (error) {
 		document.querySelector(".update").close();
     }
