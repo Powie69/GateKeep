@@ -1,5 +1,6 @@
 var messageCount = 0;
-const msgElement = document.querySelector(".logs-item")
+let getMessageDebounce = true;
+const msgElement = document.querySelector(".logs-item_template");
 
 function fetchInfo() {
 	return fetch('http://localhost:3000/profile/getData', {
@@ -39,12 +40,13 @@ function fetchMessages(limit, offset) {
 }
 
 function updateMessage(data) {
+	if (!data) {return;}
 	for (let i = 0; i < data.length; i++) {
-		const element = msgElement.cloneNode(true);		
-		// console.log(element)
-		element.style.backgroundColor = "red";
+		const element = document.importNode(msgElement.content, true).querySelector(".logs-item")
+		// console.log(element);
+		// element.style.backgroundColor = "red";
 		element.querySelector(".logs-item-desc ._time").innerText = data[i].time
-		if (data[i].isIn == true) {
+		if (data[i].isIn == 1) {
 			element.querySelector(".logs-item-title span").innerText = "IN"
 			element.querySelector(".logs-item-title i").innerText = "Login"
 			element.querySelector(".logs-item-desc ._isIn").innerText = "arrived"
@@ -127,13 +129,15 @@ updateInfo()
 fetchMessages(5, messageCount)
 .then(data => {updateMessage(data)})
 
-document.querySelector(".logs-container").addEventListener('scroll', function(scroll){
-	console.log((this.clientHeight + this.scrollTop) >= (this.scrollHieght - 30));
-	if ((this.clientHeight + this.scrollTop) >= (this.scrollHieght - 30)) {
+document.querySelector(".logs-container").addEventListener('scrollend', function(scroll){
+	if (getMessageDebounce && (this.clientHeight + this.scrollTop >= this.scrollHeight - 10)) {
 		// When scrolled to the bottom of the container
-		console.log("owwww");
 		fetchMessages(5, messageCount)
 		.then(data => {updateMessage(data)})
+		getMessageDebounce = false;
+		setTimeout(function() {
+            getMessageDebounce = true;
+        }, 1000);
 	}
 })
 

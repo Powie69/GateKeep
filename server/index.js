@@ -153,7 +153,11 @@ app.post('/profile/getMessage', isAuthenticated, (req,res) => {
 	if (!data.limit || data.offset == undefined || data.limit >= 25 || data.offset <= -1) {return res.status(400).send("bad data (server)")}
 	db.query(q.GET_MESSAGE, [req.session.user, data.limit, data.offset], (err, result) => {
 		if (err) {console.error('SQL:', err); return res.status(500).send('Internal Server Error');}
-		res.json(result);
+		if (result.length == 0) {
+			res.status(204).json({message: "No more messages found"})
+		} else {
+			res.json(result);
+		}
 		// console.log(result);
 	})
 });
