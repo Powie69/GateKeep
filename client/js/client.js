@@ -30,6 +30,23 @@ document.querySelector("._logout").addEventListener("click", () => {
 	document.querySelector(".logout").show();
 })
 
+// !remove this later
+function lazyLogin() {
+	fetch('http://localhost:3000/login', {
+	method: 'post',
+	credentials: 'include',
+	headers: {
+		'Content-Type': 'application/json'
+	  },
+	body: '{ "username": "godwin@gmail.com", "lrn": "123456789011", "password": "123" }'
+	})
+	.then(response => {
+		if (response.status >= 400) {console.warn("wong (client)"); return;} else { return response.json() }
+	})
+	.then(data => { window.location.href = dasbaord;})
+	.catch(error => { console.error(error); });
+}
+
 async function signupSubmit() {
 	event.preventDefault()
 	try {
