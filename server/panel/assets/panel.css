@@ -1,0 +1,41 @@
+:root {
+	--c-text: #fefae0ff;
+	--c-highlight: #7C88D4;
+	--c-content: #2e2e2e;
+	--c-background: #1e1e1e;
+	--c-1st: #5C55EF;
+	--c-2nd: #9F5B1E;
+}
+
+.main {
+	height: calc(100vh - 2rem);
+	padding: 1rem 2rem;
+	display: grid;
+	gap: 1rem;
+	grid-template-columns: 0.8fr 1.2fr;
+	grid-template-rows: 1.2fr 0.8fr;
+	grid-template-areas: 
+	"scanner info"
+	"scanner settings";
+}
+
+.main .section {
+	padding: 1rem;
+	border-radius: 14px;
+	box-shadow: rgb(2, 9, 15) 0px 30px 40px -10px;;
+}
+
+.scanner {
+	grid-area: scanner;
+	box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px !important;
+}
+
+.info {
+	grid-area: info;
+	background-color: var(--c-content);
+}
+
+.settings {
+	grid-area: settings;
+	background-color: var(--c-content);
+}
