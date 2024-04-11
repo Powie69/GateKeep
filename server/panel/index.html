@@ -20,8 +20,25 @@
 			<h1>info</h1>
 		</div>
 		<div class="settings section">
-			<h1>settings</h1>
-		</div>
+			<form action="" method="post">
+				<fieldset class="settings-scanner">
+					<legend>Camera Settings</legend>
+					<label>start <input type="checkbox" name="cameraStart" autocomplete="off" onchange="scannerStart(this)"></label>
+					<label>Scans per second <input name="fpps" type="number" min="1" max="30" onchange="fps(this)"></label>
+					<label>Torch <input type="checkbox" name="torch" autocomplete="off" onchange="flash(this)"></label>
+					<label>Cameras
+						<select name="" autocomplete="off" class="cameraList">
+							<option hidden disabled selected>waiting for camera to start</option>
+							<option hidden class="cameraList_original"></option>
+						</select>
+					</label>
+				</fieldset>
+				<fieldset>
+					<legend>qr settings</legend>
+					
+				</fieldset>
+			</form>
+		</div
 	</main>
 
 	<script src="../node_modules/qr-scanner/qr-scanner.umd.min.js" defer></script>

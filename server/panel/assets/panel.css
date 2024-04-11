@@ -34,7 +34,8 @@
 .scanner-container {
 	position: relative;
 	top: 50%;
-	transform: translateY(-50%) scaleX(-1) !important;
+	/* transform: translateY(-50%) scaleX(-1) !important; */
+	transform: translateY(-50%);
 }
 
 #scanner-video {
@@ -47,12 +48,28 @@
 
 /* 	box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px !important; */
 
+/* *info */
+
 .info {
 	grid-area: info;
 	background-color: var(--c-content);
 }
 
+/* *settings */
+
 .settings {
 	grid-area: settings;
 	background-color: var(--c-content);
+}
+
+.settings form {
+	display: flex;
+	height: 100%;
+}
+
+.settings fieldset{
+	display: flex;
+	flex-direction: column;
+	border: #3e3e3e 2px dashed;
+	border-radius: 14px;
 }
