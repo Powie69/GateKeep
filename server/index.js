@@ -46,6 +46,15 @@ const isAuthenticated = (req, res, next) => {
 	}
 };
 
+const isAdmin = (req, res, next) => {
+	if (req.session.isAdmin) {
+		next();
+	} else {
+		console.log(`profile: ${req.sessionID}`)
+		res.status(418).json({ message: "Unauthorized access" });
+	}
+};
+
 // **routes //
 
 app.post('/signup', (req, res) => {
@@ -119,7 +128,9 @@ app.post('/login', (req, res) => {
     });
 });
 
-app.post('/profile', isAuthenticated, (req, res) => {
+// user
+
+app.post('/profile', isAuthenticated, (req,res) => {
 	console.log(req.session.user)
     res.json({ message: "You are authenticated", user: req.session.user });
 });
@@ -161,6 +172,21 @@ app.post('/profile/getMessage', isAuthenticated, (req,res) => {
 		// console.log(result);
 	})
 });
+
+// admin
+
+app.post('/admin/login', (req,res) => {
+	const data = req.body;
+
+	if (data.login != process.env.adminPassword) { res.send("big fail"); return; }
+	
+	req.session.isAdmin = true
+	res.send("big success")
+})
+
+app.post('/admin/check', isAdmin, (req,res) => {
+	res.send("nice")
+})
 
 // sanity check
 app.post('/ping', (req, res) => {

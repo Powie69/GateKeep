@@ -11,8 +11,10 @@
 </head>
 <body>
 	<main class="main">
-		<div class="scanner section">
-			<h1>scanner</h1>
+		<div class="scanner section" id="scanner">
+			<div class="scanner-container">
+				<video id="scanner-video" muted></video>
+			</div>
 		</div>
 		<div class="info section">
 			<h1>info</h1>
@@ -21,5 +23,8 @@
 			<h1>settings</h1>
 		</div>
 	</main>
+
+	<script src="../node_modules/qr-scanner/qr-scanner.umd.min.js" defer></script>
+	<script src="panel.js" defer></script>
 </body>
 </html>
