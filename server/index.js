@@ -1,6 +1,7 @@
 const bodyParser = require('body-parser');
 const express = require('express');
 const session = require('express-session');
+const crypto = require('crypto');
 const q = require('./commands.js');
 const mysql = require('mysql2');
 const cors = require('cors');
@@ -69,11 +70,7 @@ app.post('/signup', (req, res) => {
 	console.log("valid signup data (server)");
 
 	db.query(q.SIGNUP_CHECK, [data.phoneNumber, data.lrn], (err, result) => {
-		if (err) {
-            console.error('check SQL:', err);
-            res.status(500).send('Internal Server Error');
-            return;
-        }
+		if (err) { console.error('SQL:', err); res.status(500).send('Internal Server Error'); return; }
 
 		if (result.length > 0) {
 			const existingData = result[0];
@@ -84,24 +81,30 @@ app.post('/signup', (req, res) => {
 			}
 		}
 		
-		db.query(q.SIGNUP, [data.email, data.phoneNumber, data.fullName, data.lrn, data.password], (err,result) => {
-			if (err) {
-				console.error('insert SQL:', err);
-				res.status(500).send('Internal Server Error');
-				return;
-			}
-
-			req.session.authenticated = true;
-        	req.session.user = result.insertId;
-
-			db.query(q.INIT_INFO, [result.insertId, data.lrn], (err, result) => {
-				if (err) {console.error('insert SQL:', err); res.status(500).send('Internal Server Error'); return;}
-				console.log(`INIT_INFO: ${result.insertId}`)
-			});
-
-        	res.json({ message: "signup successful", result});
-			console.log(req.sessionID);
-		});
+		try {
+			db.query(q.SIGNUP, [data.email, data.phoneNumber, data.fullName, data.lrn, data.password,], (err,result) => {
+				if (err) { console.error('SQL:', err); res.status(500).send('Internal Server Error'); return; }
+				
+				const hash = crypto.createHash('sha256').update(result.insertId.toString() + process.env.qrIdSecret.toString).digest('hex').substring(0,80)
+	
+				db.query(q.ADD_QR, [hash, result.insertId], (err, result) => {
+					if (err) { console.error('SQL:', err); return res.status(500).send('Internal Server Error');}
+					console.log(result);
+					console.log(`ADD_QR: ${hash}`);
+				});
+	
+				db.query(q.INIT_INFO, [result.insertId, data.lrn], (err, result) => {
+					if (err) {console.error('SQL:', err); return res.status(500).send('Internal Server Error');}
+					console.log(`INIT_INFO: ${result.insertId}`)
+				});
+	
+				req.session.authenticated = true;
+				req.session.user = result.insertId;
+	
+				res.json({ message: "signup successful", result});
+				console.log(req.sessionID);
+			}); 
+		} catch (error) {res.status(500).send('Internal Server Error'); console.error('Error:', error);}
 	});
 });
 
@@ -191,7 +194,9 @@ app.post('/admin/check', isAdmin, (req,res) => {
 // sanity check
 app.post('/ping', (req, res) => {
 	console.log("pong")
-	res.send("pong!")
+	console.log(crypto.createHash('sha256').update('1'.toString()).digest());
+	res.send(crypto.createHash('sha256').update('1'.toString()).digest())
+	
 });
 // **end of routes** //
 

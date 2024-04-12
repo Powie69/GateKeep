@@ -6,7 +6,8 @@ CREATE TABLE users(
 	phoneNumber CHAR(11) NOT NULL UNIQUE,
 	fullName VARCHAR(255),
 	lrn CHAR(12) NOT NULL UNIQUE,
-	password VARCHAR(255)
+	password VARCHAR(255),
+	qrId VARCHAR(255) UNIQUE
 );
 
 -- @block
@@ -17,7 +18,11 @@ SELECT id FROM users WHERE (email = 'godwin@gmail.com' OR phoneNumber = 'godwin@
 -- @block
 INSERT INTO users (email, phoneNumber, fullName, lrn, password) 
 VALUES ('godwin@gmail.com', '09118881234', 'godwin', '123456789011', '123');
+
+-- @block
+UPDATE users SET qrId = NULL WHERE id = 1
+
 -- @block
 -- DELETE FROM users;
 -- @block
--- DROP TABLE users;
+DROP TABLE users;
