@@ -2,6 +2,8 @@ const scanner = QrScanner; // for the sake of intellisense
 let fpss = 3;
 let camerasFetched = false;
 
+let cameraList = []
+
 let scannerconfig = {
 	highlightScanRegion: true,
 	highlightCodeOutline: true,
@@ -46,6 +48,7 @@ function flash(value) {
 function getCameras(data) {
 	console.log(data);
 	for (let i = 0; i < data.length; i++) {
+		cameraList.push(data[i].id)
 		let element = document.querySelector(".cameraList .cameraList_original").cloneNode()
 		element.innerText = data[i].label;
 		element.setAttribute("value", i)
@@ -53,4 +56,8 @@ function getCameras(data) {
 		document.querySelector(".cameraList").appendChild(element)
 	}
 	document.querySelector(".cameraList_original").remove()
+}
+
+function changeCamera(value) {
+	qrScanner.setCamera(cameraList[value.value]);
 }
