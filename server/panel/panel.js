@@ -14,9 +14,8 @@ console.log(scanner);
 
 const qrScanner = new scanner(document.querySelector("#scanner-video"), result => { 
 	console.log(result);
-
-}, scannerconfig
-);
+	
+}, scannerconfig);
 
 async function scannerStart(value) {
 	if (!value.checked) { qrScanner.stop(); return }

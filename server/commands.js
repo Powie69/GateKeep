@@ -2,6 +2,7 @@ module.exports = {
     SIGNUP: 'INSERT INTO users (email, phoneNumber, fullName, lrn, password) VALUES (?, ?, ?, ?, ?)',
 	SIGNUP_CHECK: 'SELECT phoneNumber, lrn FROM users WHERE phoneNumber = ? OR lrn = ?',
 	ADD_QR: 'UPDATE users SET qrId = ? WHERE id = ?',
+	GET_QR: 'SELECT qrId FROM users WHERE id = ?',
 	LOGIN: 'SELECT id FROM users WHERE (email = ? OR phoneNumber = ?) AND lrn = ? AND password = ?;',
 	INIT_INFO: 'INSERT INTO userInfo (userId, lrn) VALUES (?, ?);',
 	GET_INFO: 'SELECT lastName, firstName, middleName, lrn, age, sex, houseNo, street, zip, barangay, city, province FROM userinfo WHERE userId = ?;',

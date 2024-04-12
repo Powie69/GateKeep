@@ -2,6 +2,7 @@ const bodyParser = require('body-parser');
 const express = require('express');
 const session = require('express-session');
 const crypto = require('crypto');
+const fetch = require('node-fetch');
 const q = require('./commands.js');
 const mysql = require('mysql2');
 const cors = require('cors');
@@ -173,6 +174,22 @@ app.post('/profile/getMessage', isAuthenticated, (req,res) => {
 			res.json(result);
 		}
 		// console.log(result);
+	})
+});
+
+app.post('/profile/getQrcode', isAuthenticated, (req,res) => {
+	db.query(q.GET_QR, [req.session.user], async (err,result) => {
+		if (err) {console.error('SQL:', err); return res.status(500).send('Internal Server Error');}
+		console.log(result[0]);
+		try {
+			const response = await fetch(`https://api.qrserver.com/v1/create-qr-code/?size=250x250&margin=15&data=${JSON.stringify(result[0])}`)
+			
+			if (!response.ok) {console.log(error); return res.status(500).send('Internal Server Error');}
+
+			console.log(response);
+			res.set('Content-Type', 'image/png')
+			res.send(await response.buffer())
+		} catch (error) {console.log(error); return res.status(500).send('Internal Server Error');}
 	})
 });
 

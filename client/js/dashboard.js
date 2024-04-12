@@ -39,6 +39,26 @@ function fetchMessages(limit, offset) {
 	.catch(error => { console.error(error); });
 }
 
+ function fetchQrcode() {
+	fetch('http://localhost:3000/profile/getQrcode', {
+		method: 'post',
+		credentials: 'include',
+	})
+	.then(response => {
+		if (response.status >= 400) {
+			console.warn("wong (client)"); return;
+		} else {
+			return response.blob()
+		}
+	})
+	.then( data => {
+		document.querySelector(".qr-img").src = URL.createObjectURL(data);
+	})
+	.catch(error => { console.error(error); });
+}
+
+fetchQrcode()
+
 function updateMessage(data) {
 	if (!data) {return;}
 	for (let i = 0; i < data.length; i++) {
@@ -126,8 +146,8 @@ function viewShow() {
 
 updateInfo()
 
-fetchMessages(5, messageCount)
-.then(data => {updateMessage(data)})
+// fetchMessages(5, messageCount)
+// .then(data => {updateMessage(data)})
 
 document.querySelector(".logs-container").addEventListener('scrollend', function(scroll){
 	if (getMessageDebounce && (this.clientHeight + this.scrollTop >= this.scrollHeight - 10)) {
