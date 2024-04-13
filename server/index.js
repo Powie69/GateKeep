@@ -209,8 +209,23 @@ app.post('/admin/check', isAdmin, (req,res) => {
 
 app.post('/admin/send', isAdmin, (req,res) => {
 	const data = req.body;
-	
-	
+	if (!data || !data.qrId || data.isIn === undefined || !(data.isIn >= 0 && data.isIn <= 1)) {return res.status(400).send("bad data");}
+
+	db.query(q.FIND_QR, [data.qrId], (err,result) => {
+		if (err) { console.error('SQL:', err); return res.status(500).send('Internal Server Error');}
+		if (result.length == 0) {return res.status(404).send("no Qr data found")}
+		
+		try {
+			db.query(q.ADD_LOG, [result[0].id, data.isIn, new Date().toISOString().slice(0, 19).replace('T', ' ')], (err,result) => {
+				if (err) { console.error('SQL:', err); return res.status(500).send('Internal Server Error');}
+				console.log(result);
+			})
+			db.query(q.GET_INFO, [result[0].id], (err,result) => {
+				if (err) { console.error('SQL:', err); return res.status(500).send('Internal Server Error');}
+				res.json(result[0])
+			})
+		} catch (error) { console.log(error); return res.status(500).send('Internal Server Error'); }
+	})
 })
 
 // sanity check

@@ -1,15 +1,19 @@
-const crypto = require('crypto');
 
-const rawData = '2'
-const salt = 'ilyKurt<3'
-const id = rawData + salt;
-const hashOfId = crypto.createHash('sha256').update(id).digest('hex').substring(0, 80);
 
-const targetHash = '5898b2b79a08a4ae79454c2655a22e5595803fa9395dede112b2f452767baec4';
-console.log(hashOfId);
+// Format the date and time to match MySQL timestamp format
+let mysqlTimestamp = new Date().toISOString().slice(0, 19).replace('T', ' ');
+// const mysqlTimestamp = '2012-04-13 12:30:00'; // Example timestamp
+console.log(mysqlTimestamp);
 
-if (hashOfId == targetHash) {
-    console.log("Hash matches '1'");
-} else {
-    console.log("not match");
-}
+// Convert MySQL timestamp to JavaScript Date object
+const jsDate = new Date(mysqlTimestamp);
+
+// Get the time and day
+const timeAndDay = {
+  time: jsDate.toLocaleTimeString(), // Returns time in local time zone
+//   day: jsDate.toLocaleDateString('en-US') // Returns full name of the day
+day: jsDate.toLocaleDateString('en-US', { month: 'long', day: 'numeric' }) // Returns month name and day
+};
+
+console.log('Time:', timeAndDay.time);
+console.log('Day:', timeAndDay.day);

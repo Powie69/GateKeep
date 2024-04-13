@@ -23,6 +23,9 @@ VALUES ('godwin@gmail.com', '09118881234', 'godwin', '123456789011', '123');
 UPDATE users SET qrId = '0af9c89b3e537deae71fd5c685a907793b6287602c50257947d4a63ddbf06840' WHERE id = 1;
 
 -- @block
+SELECT id FROM users WHERE qrId = '0af9c89b3e537deae71fd5c685a907793b6287602c50257947d4a63ddbf06840'
+
+-- @block
 -- DELETE FROM users;
 -- @block
 DROP TABLE users;
