@@ -20,7 +20,7 @@ INSERT INTO users (email, phoneNumber, fullName, lrn, password)
 VALUES ('godwin@gmail.com', '09118881234', 'godwin', '123456789011', '123');
 
 -- @block
-UPDATE users SET qrId = '218bd8d24fb58dd20e1bdcba2e2033e76899195bbfe1fce878031d5417915906' WHERE id = 1;
+UPDATE users SET qrId = '0af9c89b3e537deae71fd5c685a907793b6287602c50257947d4a63ddbf06840' WHERE id = 1;
 
 -- @block
 -- DELETE FROM users;

@@ -86,7 +86,7 @@ app.post('/signup', (req, res) => {
 			db.query(q.SIGNUP, [data.email, data.phoneNumber, data.fullName, data.lrn, data.password,], (err,result) => {
 				if (err) { console.error('SQL:', err); res.status(500).send('Internal Server Error'); return; }
 				
-				const hash = crypto.createHash('sha256').update(result.insertId.toString() + process.env.qrIdSecret.toString).digest('hex').substring(0,80)
+				const hash = crypto.createHash('sha256').update(result.insertId.toString() + process.env.qrIdSecret.toString()).digest('hex').substring(0,80)
 	
 				db.query(q.ADD_QR, [hash, result.insertId], (err, result) => {
 					if (err) { console.error('SQL:', err); return res.status(500).send('Internal Server Error');}
@@ -185,8 +185,7 @@ app.post('/profile/getQrcode', isAuthenticated, (req,res) => {
 			const response = await fetch(`https://api.qrserver.com/v1/create-qr-code/?size=250x250&margin=15&data=${JSON.stringify(result[0])}`)
 			
 			if (!response.ok) {console.log(error); return res.status(500).send('Internal Server Error');}
-
-			console.log(response);
+			console.log(response.status);
 			res.set('Content-Type', 'image/png')
 			res.send(await response.buffer())
 		} catch (error) {console.log(error); return res.status(500).send('Internal Server Error');}
@@ -206,6 +205,12 @@ app.post('/admin/login', (req,res) => {
 
 app.post('/admin/check', isAdmin, (req,res) => {
 	res.send("nice")
+})
+
+app.post('/admin/send', isAdmin, (req,res) => {
+	const data = req.body;
+	
+	
 })
 
 // sanity check
