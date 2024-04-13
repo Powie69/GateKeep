@@ -70,6 +70,7 @@
 .settings fieldset{
 	display: flex;
 	flex-direction: column;
+	width: 50%;
 	border: #3e3e3e 2px dashed;
 	border-radius: 14px;
 }

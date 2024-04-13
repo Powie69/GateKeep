@@ -23,10 +23,10 @@
 			<form action="" method="post">
 				<fieldset class="settings-scanner">
 					<legend>Camera Settings</legend>
-					<label>start <input type="checkbox" name="cameraStart" autocomplete="off" onchange="scannerStart(this)"></label>
-					<label>Scans per second <input name="fpps" type="number" min="1" max="30" onchange="fps(this)"></label>
-					<label>Torch <input type="checkbox" name="torch" autocomplete="off" onchange="flash(this)"></label>
-					<label>Cameras
+					<label>start: <input type="checkbox" name="cameraStart" autocomplete="off" onchange="scannerStart(this)"></label>
+					<label>Scans per second: <input name="fpps" type="number" min="1" max="30" onchange="fps(this)"></label>
+					<label>Torch: <input type="checkbox" name="torch" autocomplete="off" onchange="flash(this)"></label>
+					<label>Cameras:
 						<select name="" autocomplete="off" onchange="changeCamera(this)" class="cameraList">
 							<option hidden disabled selected>waiting for camera to start</option>
 							<option hidden class="cameraList_original"></option>
@@ -35,7 +35,7 @@
 				</fieldset>
 				<fieldset>
 					<legend>Qr settings</legend>
-					
+					<label>dap <input type="checkbox" autocomplete="off" checked onchange="changeIsIn(this)"></label>
 				</fieldset>
 			</form>
 		</div

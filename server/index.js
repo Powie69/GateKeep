@@ -195,12 +195,10 @@ app.post('/profile/getQrcode', isAuthenticated, (req,res) => {
 // admin
 
 app.post('/admin/login', (req,res) => {
-	const data = req.body;
-
-	if (data.login != process.env.adminPassword) { res.send("big fail"); return; }
-	
+	if (req.body.login != process.env.adminPassword) { res.send("big fail"); return; }
+	console.log("big success");
 	req.session.isAdmin = true
-	res.send("big success")
+	res.json("big success")
 })
 
 app.post('/admin/check', isAdmin, (req,res) => {
