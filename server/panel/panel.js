@@ -1,6 +1,8 @@
 const scanner = QrScanner; // for the sake of intellisense
 let fpss = 3;
 let scanDebounce = false;
+let lastScannedDebounce = false;
+let lastScanned = undefined;
 let camerasFetched = false;
 let isInMode = true;
 let cameraList = []
@@ -12,28 +14,42 @@ let scannerconfig = {
 
 console.log(scanner);
 
-const qrScanner = new scanner(document.querySelector("#scanner-video"), result => { 
-	if (scanDebounce) {return;}
+const qrScanner = new scanner(document.querySelector("#scanner-video"), async result => { 
+	const qrId = JSON.parse(result.data).qrId;
+	if (lastScanned == qrId || lastScannedDebounce) {setMessage("Already scanned"); return;}
+	if (scanDebounce) {setMessage("wait bro"); return;}
 	console.log(result);
-	fetch('http://localhost:3000/login', {
+
+	scanDebounce = true;
+	lastScannedDebounce = true;
+	lastScanned = qrId;
+	setTimeout(() => {
+		scanDebounce = false;
+	}, 1000);
+	setTimeout(() => {
+		lastScannedDebounce = false;
+		lastScanned = null;
+	}, 9000);
+	// 
+	await fetch('http://localhost:3000/admin/send', {
 	method: 'post',
 	credentials: 'include',
 	headers: {
 		'Content-Type': 'application/json'
 	  },
-	body: `{}`
+	body: `{"qrId": "${qrId}", "isIn": "1"}`
 	})
-	.then(response => {if (response.status >= 400) {console.warn("wong (client)"); return;} else { return response.json() }})
-	.then(data => {
-
+	.then(response => {if (response.status >= 400) {console.warn("wong"); return;} else { return response.json() }})
+	.then(data => { 
+		console.log(data);
 	})
 	.catch(error => { console.error(error); });
-	scanDebounce = true;
-	console.log(scanDebounce);
-	setTimeout(function() {
-        scanDebounce = false;
-    }, 9000);
 }, scannerconfig);
+
+function setMessage(msg,isGood) {
+	console.log(msg);
+	// no html yet
+}
 
 async function scannerStart(value) {
 	if (!value.checked) { qrScanner.stop(); return }

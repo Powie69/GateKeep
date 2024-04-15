@@ -146,8 +146,8 @@ function viewShow() {
 
 updateInfo()
 
-// fetchMessages(5, messageCount)
-// .then(data => {updateMessage(data)})
+fetchMessages(5, messageCount)
+.then(data => {updateMessage(data)})
 
 document.querySelector(".logs-container").addEventListener('scrollend', function(scroll){
 	if (getMessageDebounce && (this.clientHeight + this.scrollTop >= this.scrollHeight - 10)) {
