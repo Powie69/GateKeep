@@ -62,13 +62,20 @@
 
 .info-header h1 {
 	font-size: 1.8rem;
-	margin: 1rem auto;
+	margin: .3rem auto;
 	font-weight: 600;
 	text-align: center;
 }
 
 .info-header-text {
-	
+	text-align: center;
+	margin: .3rem auto;
+	height: 18.4px;
+	visibility: hidden;
+}
+
+.info-header_error {
+	color: red;
 }
 
 .info fieldset {
@@ -106,6 +113,7 @@
 	display: block;
 	margin: 1px 0;
 	padding: 4px 2px;
+	height: 18.4px;
 	border-radius: 4px;
 	background-color: #fff;
 	color: #000;

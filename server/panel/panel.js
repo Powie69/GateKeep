@@ -1,7 +1,7 @@
 const scanner = QrScanner; // for the sake of intellisense
-let fpss = 3;
+const statusText = document.querySelector(".info-header-text")
+let fpss = 1;
 let scanDebounce = false;
-let lastScannedDebounce = false;
 let lastScanned = undefined;
 let camerasFetched = false;
 let isInMode = true;
@@ -16,10 +16,8 @@ console.log(scanner);
 
 const qrScanner = new scanner(document.querySelector("#scanner-video"), async result => { 
 	const qrId = JSON.parse(result.data).qrId;
-	if (lastScanned == qrId || lastScannedDebounce) {setMessage("Already scanned"); return;}
-	if (scanDebounce) {setMessage("wait bro"); return;}
-	console.log(result);
-
+	if (lastScanned == qrId) { setMessage("Already scanned", "error"); return;}
+	if (scanDebounce) {setMessage("wait bro", "error"); return;}
 	scanDebounce = true;
 	lastScannedDebounce = true;
 	lastScanned = qrId;
@@ -29,8 +27,10 @@ const qrScanner = new scanner(document.querySelector("#scanner-video"), async re
 	setTimeout(() => {
 		lastScannedDebounce = false;
 		lastScanned = null;
+		clearInfo()
+		setMessage("","clear")
 	}, 9000);
-	// 
+	setMessage("processing...", "good")
 	await fetch('http://localhost:3000/admin/send', {
 	method: 'post',
 	credentials: 'include',
@@ -39,16 +39,54 @@ const qrScanner = new scanner(document.querySelector("#scanner-video"), async re
 	  },
 	body: `{"qrId": "${qrId}", "isIn": "1"}`
 	})
-	.then(response => {if (response.status >= 400) {console.warn("wong"); return;} else { return response.json() }})
+	.then(response => {if (response.status >= 400) {
+		if (response.status == 404) {setMessage("Qr code not found", "error");} else {setMessage("Something went wrong", "error")}
+		clearInfo();
+		throw new Error("Internal Server Error On Scan");
+	} else {return response.json()}})
 	.then(data => { 
 		console.log(data);
+		for (var i in data) {
+			if (data[i] != undefined && i == "sex") {
+				if (data[i] == 1) {
+					document.querySelector('.info-sex p').innerText = "Male"
+				} else { document.querySelector('.info-sex p').innertext = "Female" }
+				continue;
+			}
+			if (data[i] != undefined) {document.querySelector(`.info-${i} p`).innerText = data[i]}
+		}
+		setMessage("scanned success", "good")
 	})
 	.catch(error => { console.error(error); });
 }, scannerconfig);
 
-function setMessage(msg,isGood) {
+// TODO: fix this mess
+function setMessage(msg,status) {
 	console.log(msg);
-	// no html yet
+	if (status === "clear") {
+		statusText.innerText = null;
+		statusText.classList.remove("info-header_error")
+		statusText.style.visibility = "hidden";
+	} else if (status === "error") {
+		statusText.innerText = msg;
+		statusText.classList.add("info-header_error")
+		statusText.style.visibility = "visible";
+		setTimeout(() => {
+			statusText.innerText = null;
+			statusText.style.visibility = "hidden";
+		}, 3000);
+	} else {
+		statusText.innerText = msg;
+		statusText.style.visibility = "visible";
+		statusText.classList.remove("info-header_error")
+	}
+}
+
+function clearInfo() {
+	const infoField = document.querySelectorAll(".info-contain fieldset label p");
+	for (let i = 0; i < infoField.length; i++) {
+		infoField[i].innerText = null;
+	}
 }
 
 async function scannerStart(value) {
