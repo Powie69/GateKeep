@@ -8,8 +8,8 @@
 }
 
 ._time {
-	padding: 4px 8px;
-	border-radius: 18px;
+	padding: 3px 4px;
+	border-radius: 8px;
 	background-color: #26262680;
 	color: var(--c-2nd);
 	font-weight: 500;
@@ -38,7 +38,10 @@
 
 /* *logs */
 
-.logs { grid-area: logs; }
+.logs { 
+	grid-area: logs; 
+	padding: .5rem !important;
+}
 
 .logs h1 {
 	margin: .5rem 0;

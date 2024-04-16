@@ -177,6 +177,7 @@ app.post('/profile/getMessage', isAuthenticated, (req,res) => {
 	})
 });
 
+// TODO: cache qr code
 app.post('/profile/getQrcode', isAuthenticated, (req,res) => {
 	db.query(q.GET_QR, [req.session.user], async (err,result) => {
 		if (err) {console.error('SQL:', err); return res.status(500).send('Internal Server Error');}
@@ -206,7 +207,7 @@ app.post('/admin/check', isAdmin, (req,res) => {
 
 app.post('/admin/send', isAdmin, (req,res) => {
 	const data = req.body;
-	if (!data || data.qrId === undefined|| data.isIn === undefined || !(data.isIn >= 0 && data.isIn <= 1)) {return res.status(400).send("bad data");}
+	if (!data || data.qrId == undefined|| data.isIn == undefined || data.qrId == ""|| data.isIn == "" ||!(data.isIn >= 0 && data.isIn <= 1)) {return res.status(400).send("bad data");}
 
 	db.query(q.FIND_QR, [data.qrId], (err,result) => {
 		if (err) { console.error('SQL:', err); return res.status(500).send('Internal Server Error');}
@@ -214,14 +215,13 @@ app.post('/admin/send', isAdmin, (req,res) => {
 		
 		try {
 			db.query(q.ADD_LOG, [result[0].id, data.isIn, new Date().toISOString().slice(0, 19).replace('T', ' ')], (err,result) => {
-				if (err) { console.error('SQL:', err); return res.status(500).send('Internal Server Error');}
+				if (err) {console.error('SQL:', err); return res.status(500).send('Internal Server Error');}
 				console.log(result);
 			})
 			db.query(q.GET_INFO, [result[0].id], (err,result) => {
 				if (err) { console.error('SQL:', err); return res.status(500).send('Internal Server Error');}
 				// if success do something here
 				res.json(result[0])
-				
 			})
 		} catch (error) { console.log(error); return res.status(500).send('Internal Server Error'); }
 	})

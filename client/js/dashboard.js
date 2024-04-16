@@ -35,11 +35,11 @@ function fetchMessages(limit, offset) {
 			return response.json()
 		}
 	})
-	.then(data => { return data })
+	.then(data => {return data;})
 	.catch(error => { console.error(error); });
 }
 
- function fetchQrcode() {
+function fetchQrcode() {
 	fetch('http://localhost:3000/profile/getQrcode', {
 		method: 'post',
 		credentials: 'include',
@@ -57,15 +57,14 @@ function fetchMessages(limit, offset) {
 	.catch(error => { console.error(error); });
 }
 
-fetchQrcode()
+// fetchQrcode()
 
 function updateMessage(data) {
 	if (!data) {return;}
 	for (let i = 0; i < data.length; i++) {
 		const element = document.importNode(msgElement.content, true).querySelector(".logs-item")
-		// console.log(element);
-		// element.style.backgroundColor = "red";
-		element.querySelector(".logs-item-desc ._time").innerText = data[i].time
+		element.querySelector(".logs-item-desc ._time").innerText = new Date(data[i].time).toLocaleTimeString('en-US', {timeZone: "Asia/Manila", hour12: true})
+		element.querySelector(".logs-item-desc ._date").innerText = new Date(data[i].time).toLocaleDateString('en-US', { month: 'long', day: 'numeric'})
 		if (data[i].isIn == 1) {
 			element.querySelector(".logs-item-title span").innerText = "IN"
 			element.querySelector(".logs-item-title i").innerText = "Login"
@@ -86,7 +85,7 @@ function updateInfo() {
 	.then(data => {
 		if (!data) {return}
 		if (data.lastName) {document.querySelector(".lastName p").innerText = data.lastName;}
-		if (data.firstName) {document.querySelector(".firstName p").innerText = data.firstName;}
+		if (data.firstName) {document.querySelector(".firstName p").innerText = data.firstName; msgElement.content.querySelector("._name").innerText = data.firstName}
 		if (data.middleName) {document.querySelector(".middleName p").innerText = data.middleName;}
 		if (data.lrn) {document.querySelector(".lrn p").innerText = data.lrn;}
 		if (data.age) {document.querySelector(".age p").innerText = data.age;}
@@ -147,7 +146,7 @@ function viewShow() {
 updateInfo()
 
 fetchMessages(5, messageCount)
-.then(data => {updateMessage(data)})
+.then(data => { updateMessage(data)})
 
 document.querySelector(".logs-container").addEventListener('scrollend', function(scroll){
 	if (getMessageDebounce && (this.clientHeight + this.scrollTop >= this.scrollHeight - 10)) {
