@@ -133,6 +133,14 @@ function changeCamera(value) {
 	qrScanner.setCamera(cameraList[value.value]);
 }
 
+function mirror(value) {
+	if (value.checked) {
+		document.querySelector("#scanner-video").classList.remove("_notMirror")
+	} else {
+		document.querySelector("#scanner-video").classList.add("_notMirror")
+	}
+}
+
 function changeIsIn(value) {
 	isInMode = value.checked;
 }

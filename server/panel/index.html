@@ -53,6 +53,7 @@
 					<label>start: <input type="checkbox" name="cameraStart" autocomplete="off" onchange="scannerStart(this)"></label>
 					<label>Scans per second: <input name="fpps" type="number" min="1" max="30" onchange="fps(this)"></label>
 					<label>Torch: <input type="checkbox" name="torch" autocomplete="off" onchange="flash(this)"></label>
+					<label>Mirrored: <input type="checkbox" name="torch" autocomplete="off" checked onchange="mirror(this)"></label>
 					<label>Cameras:
 						<select name="" autocomplete="off" onchange="changeCamera(this)" class="cameraList">
 							<option hidden disabled selected>waiting for camera to start</option>
