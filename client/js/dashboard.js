@@ -166,8 +166,6 @@ async function updateSubmit() {
         const formData = new FormData(document.getElementById("form-update"));
         const data = Object.fromEntries(formData.entries());
 
-        // client-side check, server-side will still check
-
         const response = await fetch('http://localhost:3000/profile/updateData', {
             method: 'POST',
             headers: {
@@ -178,15 +176,12 @@ async function updateSubmit() {
         });
 
         const respond = await response.json();
-
         if (!response.ok) {
 			console.log(`server: ${response}`);
 			document.querySelector(".update").close();
 			return;
         }
 
-        console.log(respond);
-		// location.reload()
 		updateInfo()
     } catch (error) {
 		document.querySelector(".update").close();

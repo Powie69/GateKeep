@@ -43,7 +43,7 @@ const isAuthenticated = (req, res, next) => {
 	if (req.session.authenticated) {
 		next();
 	} else {
-		console.log(`profile: ${req.sessionID}`)
+		console.log("not auth");
 		res.status(401).json({ message: "Unauthorized access" });
 	}
 };
@@ -93,7 +93,6 @@ app.post('/signup', (req, res) => {
 					console.log(result);
 					console.log(`ADD_QR: ${hash}`);
 				});
-	
 				db.query(q.INIT_INFO, [result.insertId, data.lrn], (err, result) => {
 					if (err) {console.error('SQL:', err); return res.status(500).send('Internal Server Error');}
 					console.log(`INIT_INFO: ${result.insertId}`)
@@ -102,9 +101,8 @@ app.post('/signup', (req, res) => {
 				req.session.authenticated = true;
 				req.session.user = result.insertId;
 	
-				res.json({ message: "signup successful", result});
-				console.log(req.sessionID);
-			}); 
+				res.json({ message: "signup successful"});
+			});
 		} catch (error) {res.status(500).send('Internal Server Error'); console.error('Error:', error);}
 	});
 });
@@ -119,16 +117,13 @@ app.post('/login', (req, res) => {
 
 	db.query(q.LOGIN, [data.username, data.username, data.lrn, data.password], (err, result) => {
         if (err) {console.error('login SQL:', err); return res.status(500).send('Internal Server Error');}
-
         if (result.length === 0) { return res.status(401).json({ message: "Invalid email/phone, LRN, or password" }); }
 
-        const user = result[0];
-		
 		req.session.authenticated = true;
-		req.session.user = user.id;
+		req.session.user = result[0].id;
 
-        res.json({ message: "Login successful", user});
-		console.log(req.sessionID);
+        res.json({ message: "Login successful"});
+		console.log(result[0]);
     });
 });
 
@@ -136,7 +131,7 @@ app.post('/login', (req, res) => {
 
 app.post('/profile', isAuthenticated, (req,res) => {
 	console.log(req.session.user)
-    res.json({ message: "You are authenticated", user: req.session.user });
+    res.json({ message: "You are authenticated"});
 });
 
 app.post('/profile/getData', isAuthenticated, (req,res) => {
@@ -156,24 +151,20 @@ app.post('/profile/updateData', isAuthenticated, (req,res) => {
 	db.query(q.UPDATE_INFO, [data.lastName, data.lastName, data.firstName, data.firstName, data.middleName, data.middleName, data.age, data.age, data.sex, data.sex, data.houseNo, data.houseNo, data.street, data.street, data.zip, data.zip, data.barangay, data.barangay, data.city, data.city, data.province, data.province, req.session.user], (err,result) => {
         if (err) {console.error('SQL:', err); return res.status(500).send('Internal Server Error');}
 		console.log(result)
-		res.send(result)
 	})
-
-	// res.json(req.body)
+	res.status(200).send();
 });
 
 app.post('/profile/getMessage', isAuthenticated, (req,res) => {
 	const data = req.body;
-	// console.log(data.limit);
 	if (!data.limit || data.offset == undefined || data.limit >= 25 || data.offset <= -1) {return res.status(400).send("bad data (server)")}
 	db.query(q.GET_MESSAGE, [req.session.user, data.limit, data.offset], (err, result) => {
 		if (err) {console.error('SQL:', err); return res.status(500).send('Internal Server Error');}
 		if (result.length == 0) {
-			res.status(204).json({message: "No more messages found"})
+			res.status(404).json({message: "No more messages found"})
 		} else {
 			res.json(result);
 		}
-		// console.log(result);
 	})
 });
 
