@@ -1,8 +1,10 @@
 module.exports = {
     SIGNUP: 'INSERT INTO users (email, phoneNumber, fullName, lrn, password) VALUES (?, ?, ?, ?, ?)',
 	SIGNUP_CHECK: 'SELECT phoneNumber, lrn FROM users WHERE phoneNumber = ? OR lrn = ?',
-	ADD_QR: 'UPDATE users SET qrId = ? WHERE id = ?',
-	GET_QR: 'SELECT qrId FROM users WHERE id = ?',
+	ADD_QRID: 'UPDATE users SET qrId = ? WHERE id = ?',
+	ADD_QRCACHE: 'UPDATE users SET qrCache = ? WHERE id = ?',
+	GET_QRID: 'SELECT qrId FROM users WHERE id = ?',
+	GET_QRCACHE: 'SELECT qrCache FROM users WHERE id = ?',
 	FIND_QR: 'SELECT id FROM users WHERE qrId = ?',
 	LOGIN: 'SELECT id FROM users WHERE (email = ? OR phoneNumber = ?) AND lrn = ? AND password = ?;',
 	INIT_INFO: 'INSERT INTO userInfo (userId, lrn) VALUES (?, ?);',

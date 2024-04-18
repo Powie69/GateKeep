@@ -51,13 +51,13 @@ function fetchQrcode() {
 			return response.blob()
 		}
 	})
-	.then( data => {
+	.then(data => {
 		document.querySelector(".qr-img").src = URL.createObjectURL(data);
 	})
 	.catch(error => { console.error(error); });
 }
 
-// fetchQrcode()
+fetchQrcode()
 
 function updateMessage(data) {
 	if (!data) {return;}

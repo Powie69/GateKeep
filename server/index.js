@@ -44,7 +44,7 @@ const isAuthenticated = (req, res, next) => {
 		next();
 	} else {
 		console.log(`profile: ${req.sessionID}`)
-		res.status(418).json({ message: "Unauthorized access" });
+		res.status(401).json({ message: "Unauthorized access" });
 	}
 };
 
@@ -88,7 +88,7 @@ app.post('/signup', (req, res) => {
 				
 				const hash = crypto.createHash('sha256').update(result.insertId.toString() + process.env.qrIdSecret.toString()).digest('hex').substring(0,80)
 	
-				db.query(q.ADD_QR, [hash, result.insertId], (err, result) => {
+				db.query(q.ADD_QRID, [hash, result.insertId], (err, result) => {
 					if (err) { console.error('SQL:', err); return res.status(500).send('Internal Server Error');}
 					console.log(result);
 					console.log(`ADD_QR: ${hash}`);
@@ -177,19 +177,32 @@ app.post('/profile/getMessage', isAuthenticated, (req,res) => {
 	})
 });
 
-// TODO: cache qr code
 app.post('/profile/getQrcode', isAuthenticated, (req,res) => {
-	db.query(q.GET_QR, [req.session.user], async (err,result) => {
+	db.query(q.GET_QRCACHE, [req.session.user], async (err,result) => {
 		if (err) {console.error('SQL:', err); return res.status(500).send('Internal Server Error');}
-		console.log(result[0]);
-		try {
-			const response = await fetch(`https://api.qrserver.com/v1/create-qr-code/?size=250x250&margin=15&data=${JSON.stringify(result[0])}`)
-			
-			if (!response.ok) {console.log(error); return res.status(500).send('Internal Server Error');}
+		if (!result || result.length == 0) {return res.status(418).send('something is very wrong...');}
+		if (result[0].qrCache != null) {
+			console.log("found qr cache: ", req.session.user);
 			res.set('Content-Type', 'image/png')
-			res.send(await response.buffer())
-		} catch (error) {console.log(error); return res.status(500).send('Internal Server Error');}
-	})
+			res.send(result[0].qrCache)
+		} else {
+			db.query(q.GET_QRID, [req.session.user], async (err,result) => {
+				if (err) {console.error('SQL:', err); return res.status(500).send('Internal Server Error');}
+				try {
+					const response = await fetch(`https://api.qrserver.com/v1/create-qr-code/?size=250x250&margin=15&data=${JSON.stringify(result[0])}`)
+					if (!response.ok) {console.log(error); return res.status(500).send('Internal Server Error');}
+					
+					const qrImage = await response.buffer()
+					db.query(q.ADD_QRCACHE, [qrImage, req.session.user], (err,result) => {
+						if (err) {console.error('SQL:', err); return res.status(500).send('Internal Server Error');}
+						console.log("qr add to cache: ", req.session.user);
+					})
+					res.set('Content-Type', 'image/png')
+					res.send(qrImage)
+				} catch (err) {console.log(err); return res.status(500).send('Internal Server Error');}
+			})
+		}
+	})	
 });
 
 // admin
