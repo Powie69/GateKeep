@@ -5,11 +5,12 @@
 - [X] account auth 💀 (firefox config only)
 - [X] session tokens 💀💀
 - [X] SSL certificate
-- [ ] qr scanner
+- [X] qr scanner
+- [ ] account managment dasbaord
 
 ##
 
-- [ ] env everything
+- [X] env everything
 - [ ] about,help section
-- [ ] info form html/js stuff
+- [X] info form html/js stuff
 - [ ] dwindle the skepticism of the code being synthesize from chatGPT (make the code more consistent).
