@@ -16,7 +16,6 @@ fetch('http://localhost:3000/profile', {
     	console.error(error);
 });
 
-
 if (new URL(window.location.href).searchParams.get("login") === "") {
 	document.getElementById("form-signup").classList.add("disabled")
 	document.getElementById("form-login").classList.remove("disabled")

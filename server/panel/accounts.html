@@ -12,13 +12,13 @@
 <body>
 	<header class="header"><h1 class="header-title">Account Management</h1></header>
 	<!-- TODO: prevent stupid post shit -->
-	<form action="" method="" autocomplete="off" class="search">
+	<form action="" method="post" autocomplete="off" class="search">
 		<input type="search" name="query" aria-label="" class="search-query">
-		<select name="" aria-label="search in section" class="search-section">
+		<select name="search-section" aria-label="search in section" onchange="submitQuery()" class="search-section">
 			<option value="" selected hidden disabled>search via section</option>
-			<option value="">lorem</option>
-			<option value="">lorem</option>
-			<option value="">lorem</option>
+			<option value="wat">lorem</option>
+			<option value="da">lorem</option>
+			<option value="fuk">lorem</option>
 		</select>
 	</form>
 	<script src="assets/accounts.js" defer></script>

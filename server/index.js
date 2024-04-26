@@ -233,10 +233,8 @@ app.post('/admin/send', isAdmin, (req,res) => {
 
 // sanity check
 app.post('/ping', (req, res) => {
-	console.log("pong")
-	console.log(crypto.createHash('sha256').update('1'.toString()).digest());
-	res.send(crypto.createHash('sha256').update('1'.toString()).digest())
-	
+	console.log(req.body);
+	res.send("pong")
 });
 // **end of routes** //
 
