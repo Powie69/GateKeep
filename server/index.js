@@ -9,7 +9,7 @@ const cors = require('cors');
 const app = express();
 
 // *middleware stuff
-require('dotenv').config()
+require('dotenv').config();
 
 app.use(cors({ origin: process.env.corsOrigin.split(','), credentials: true }));
 app.use(bodyParser.json());
@@ -20,9 +20,9 @@ app.use(session({
 	resave: false,
 	cookie: {
 		maxAge: 3600000,
-		// secure: true,
-		// sameSite: 'none',
-		partitioned: true,
+		// secure: process.env.cookieSecure,
+		// sameSite: process.env.cookieSameSite,
+		partitioned: process.env.cookiePartitioned,
 	},
 	saveUninitialized: false,
 }));
@@ -40,21 +40,19 @@ db.connect((err) => {
 });
 
 const isAuthenticated = (req, res, next) => {
-	if (req.session.authenticated) {
-		next();
-	} else {
+	if (!req.session.authenticated) {
 		console.log("not auth");
-		res.status(401).json({ message: "Unauthorized access" });
+		return res.status(401).json({ message: "Unauthorized access" });
 	}
+	next();
 };
 
 const isAdmin = (req, res, next) => {
-	if (req.session.isAdmin) {
-		next();
-	} else {
+	if (!req.session.isAdmin) {
 		console.log(`profile: ${req.sessionID}`)
-		res.status(418).json({ message: "Unauthorized access" });
+		return res.status(418).json({ message: "Unauthorized access" });
 	}
+	next();
 };
 
 // **routes //
@@ -118,7 +116,7 @@ app.post('/login', (req, res) => {
 	db.query(q.LOGIN, [data.username, data.username, data.lrn, data.password], (err, result) => {
         if (err) {console.error('login SQL:', err); return res.status(500).send('Internal Server Error');}
         if (result.length === 0) { return res.status(401).json({ message: "Invalid email/phone, LRN, or password" }); }
-
+		
 		req.session.authenticated = true;
 		req.session.user = result[0].id;
 

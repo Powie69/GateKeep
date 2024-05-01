@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+	"s": "nodemon --watch . --config nodemon.json"
   },
   "keywords": [],
   "author": "",
@@ -17,7 +18,7 @@
     "express-session": "^1.18.0",
     "mysql2": "^3.9.2",
     "node-fetch": "^2.7.0",
-    "nodemon": "^3.0.3",
+    "nodemon": "^3.1.0",
     "qr-scanner": "^1.4.2"
   }
 }
