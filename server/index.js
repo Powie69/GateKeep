@@ -26,7 +26,7 @@ app.use(session({
 	},
 	saveUninitialized: false,
 }));
-
+ 
 const db = mysql.createConnection({
     host: process.env.dbHost,
     user: process.env.dbUser,
