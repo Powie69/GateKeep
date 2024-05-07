@@ -169,6 +169,7 @@ app.post('/profile/getMessage', isAuthenticated, (req,res) => {
 		if (result.length == 0) {
 			res.status(404).json({message: "No more messages found"})
 		} else {
+			console.log(result);
 			res.json(result);
 		}
 	})
