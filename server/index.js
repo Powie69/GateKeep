@@ -216,7 +216,7 @@ app.post('/admin/send', isAdmin, (req,res) => {
 		if (result.length == 0) {return res.status(404).send("no Qr data found")}
 		
 		try {
-			db.query(q.ADD_LOG, [result[0].id, data.isIn, new Date().toISOString().slice(0, 19).replace('T', ' ')], (err,result) => {
+			db.query(q.ADD_LOG, [result[0].id, data.isIn, new Date().toISOString().slice(0, 19)], (err,result) => {
 				if (err) {console.error('SQL:', err); return res.status(500).send('Internal Server Error');}
 				console.log(result);
 			})

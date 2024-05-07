@@ -16,7 +16,10 @@ VALUES ('1', true, CURRENT_TIMESTAMP);
 SELECT * FROM userLogs
 
 -- @block
-SELECT isIn, time FROM userLogs WHERE userId = 1 ORDER BY time DESC LIMIT 5 OFFSET 0;
+SELECT * FROM userLogs WHERE id = "187"
+
+-- @block
+SELECT id, isIn, time FROM userLogs WHERE userId = 1 ORDER BY time DESC LIMIT 5 OFFSET 0;
 
 -- @block
 -- DROP TABLE userlogs;
