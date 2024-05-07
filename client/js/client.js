@@ -1,4 +1,4 @@
-const dasbaord = '/html/DashBoard.html';
+const dashbaord = '/html/DashBoard.html';
 
 fetch('http://localhost:3000/profile', {
 	method: 'post',
@@ -9,12 +9,10 @@ fetch('http://localhost:3000/profile', {
 			console.log("not auth (client)");
 			return;
 		} else {
-			window.location.href = dasbaord;
+			window.location.href = dashbaord;
 		}
 	})
-  	.catch(error => {
-    	console.error(error);
-});
+  	.catch(error => {console.error(error);});
 
 if (new URL(window.location.href).searchParams.get("login") === "") {
 	document.getElementById("form-signup").classList.add("disabled")
@@ -26,7 +24,17 @@ if (new URL(window.location.href).searchParams.get("login") === "") {
 
 document.querySelector(".main").style.setProperty('background-image', `url(images/circles/${Math.floor(Math.random() * 10) + 1}.svg)`)
 document.querySelector("._logout").addEventListener("click", () => {
-	document.querySelector(".logout").show();
+	fetch('http://localhost:3000/logout', {
+	method: 'post',
+	credentials: 'include'
+})
+	.then(response => {
+		if (response.status >= 400) {
+			return;
+		}
+		return;
+	})
+  	.catch(error => {console.error(error);});
 })
 
 // !remove this later
@@ -42,7 +50,7 @@ function lazyLogin() {
 	.then(response => {
 		if (response.status >= 400) {console.warn("wong (client)"); return;} else { return response.json() }
 	})
-	.then(data => { window.location.href = dasbaord;})
+	.then(data => { window.location.href = dashbaord;})
 	.catch(error => { console.error(error); });
 }
 
@@ -88,7 +96,7 @@ async function signupSubmit() {
         }
 		
 		console.log(respond)
-		window.location.href = dasbaord;
+		window.location.href = dashbaord;
 	} catch (error) {
 		console.error(error);
 	}
@@ -129,7 +137,7 @@ async function loginSubmit() {
 		}
 
         console.log(respond);
-		window.location.href = dasbaord;
+		window.location.href = dashbaord;
     } catch (error) {
         console.error(error);
     }

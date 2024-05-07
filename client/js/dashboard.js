@@ -160,6 +160,20 @@ document.querySelector(".logs-container").addEventListener('scrollend', function
 	}
 })
 
+document.querySelector("._logout").addEventListener("click", () => {
+	fetch('http://localhost:3000/logout', {
+	method: 'post',
+	credentials: 'include'
+})
+	.then(response => {
+		if (response.status >= 400) {
+			return;
+		}
+		window.location.href = "../"
+	})
+  	.catch(error => {console.error(error);});
+})
+
 async function updateSubmit() {
     event.preventDefault();
     try {

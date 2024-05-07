@@ -125,6 +125,14 @@ app.post('/login', (req, res) => {
     });
 });
 
+app.post('/logout', isAuthenticated, (req,res) => { 
+	console.log("user logout: " + req.session.user);
+	req.session.destroy((err) => {
+		if (err) {return res.status(500).json({ message: "Internal Server Error"})}
+	})
+	res.json({ message: "logout successful"});
+})
+
 // user
 
 app.post('/profile', isAuthenticated, (req,res) => {
