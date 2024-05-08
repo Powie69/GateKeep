@@ -151,11 +151,11 @@ app.post('/profile/updateData', isAuthenticated, (req,res) => {
 	const data = req.body;
 	console.log(req.body);
 
-	if (data.age != undefined && data.age <= -1 || data.age > 99) {return res.status(400).json({ message: "something aint right2" });}	
-	if ( data.sex != undefined && !(data.sex == 0 || data.sex == 1)) {return res.status(400).json({ message: "something aint right3" });}
+	if (data.age != undefined && data.age <= -1 || data.age > 99) {return res.status(400).json({ message: "bad data"});}
+	if (data.sex != undefined && !(data.sex == 0 || data.sex == 1)) {return res.status(400).json({ message: "bad data"});}
 
 	db.query(q.UPDATE_INFO, [data.lastName, data.lastName, data.firstName, data.firstName, data.middleName, data.middleName, data.age, data.age, data.sex, data.sex, data.houseNo, data.houseNo, data.street, data.street, data.zip, data.zip, data.barangay, data.barangay, data.city, data.city, data.province, data.province, req.session.user], (err,result) => {
-        if (err) {console.error('SQL:', err); return res.status(500).send('Internal Server Error');}
+        if (err) {console.error('SQL:', err); return res.status(500).json({message: "Internal Server Error"});}
 		console.log(result)
 	})
 	res.status(200).send();

@@ -26,7 +26,8 @@
 
 #form-update fieldset {
 	box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
-	border: none;
+	border: #3e3e3e 3px dashed;
+	border-radius: 14px;
 }
 
 #form-update legend{
@@ -36,19 +37,26 @@
 	color: var(--c-text);
 }
 
-#form-update input {
+#form-update label {
+	margin-top: 0px;
 	width: 100%;
+}
+
+#form-update input {
+	width: 95%;
 	height: 25px;
 	margin-top: 4px;
 	border: none;
+	padding: 0 5px;
 	border-radius: 4px;
 }
 
 #sex select {
-	width: 100%;
+	width: 98%;
 	height: 25px;
 	margin-top: 4px;
 	border: none;
+	padding: 0 5px;
 	border-radius: 4px;
 }
 
@@ -56,7 +64,7 @@
 	vertical-align: middle;
 	display: grid;
 	/* place-items: center; */
-	gap: .5rem;
+	gap: 0 .5rem;
 	grid-template-columns: 1fr;
 	grid-template-rows: repeat(2, 1fr);
 	grid-template-areas: 
@@ -75,7 +83,7 @@
 
 .update-address-grid {
 	display: grid;
-	gap: .5rem;
+	gap: 0 .5rem;
 	grid-template-columns: 1fr;
 	grid-template-rows: repeat(2, 1fr);
 }

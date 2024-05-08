@@ -1,5 +1,5 @@
 function updateCancel() {
-	window.location.href = "./dashBoard.html"
+	window.location.href = "../html/dashBoard.html"
 }
 
 function fetchInfo() {
@@ -29,10 +29,10 @@ fetchInfo()
 async function updateSubmit() {
     event.preventDefault();
     try {
-        const formData = new FormData(document.getElementById("form-update"));
-        const data = Object.fromEntries(formData.entries());
+        const data = Object.fromEntries(new FormData(document.getElementById("form-update")).entries());
 
-        // client-side check, server-side will still check
+		if (data.age != undefined && data.age <= -1 || data.age > 99) {document.querySelector(".update .update-header p").innerText = "bad data"; return console.log("bad data (cleint)");}
+		if (data.sex != undefined && !(data.sex == 0 || data.sex == 1)) {return console.log("bad data (client)");}
 
         const response = await fetch('http://localhost:3000/profile/updateData', {
             method: 'POST',
@@ -43,15 +43,12 @@ async function updateSubmit() {
 			credentials: 'include',
         });
 
+        if (!response.ok) { console.log(response); return;}
+		
         const respond = await response.json();
-
-        if (!response.ok) {
-			console.log(response);
-			return;
-        } 
         console.log(respond);
     } catch (error) {
         console.error(error);
     }
-	window.location.href = "./dashBoard.html"
+	window.location.href = "../html/dashBoard.html"
 }

@@ -1,6 +1,7 @@
 var messageCount = 0;
 let getMessageDebounce = true;
 const msgElement = document.querySelector(".logs-item_template");
+const dialogElements = document.querySelectorAll(".update, .view")
 
 function fetchInfo() {
 	return fetch('http://localhost:3000/profile/getData', {
@@ -62,9 +63,6 @@ fetchQrcode()
 function updateMessage(data) {
 	if (!data) {return;}
 	for (let i = 0; i < data.length; i++) {
-		console.log(data[i].time);
-		console.log(new Date(data[i].time));
-		console.log(new Date(data[i].time).toLocaleTimeString('en-US', {timeZone: "Asia/Manila", hour12: true}));
 		const element = document.importNode(msgElement.content, true).querySelector(".logs-item")
 		element.querySelector(".logs-item-desc ._time").innerText = new Date(data[i].time).toLocaleTimeString('en-US', {timeZone: "Asia/Manila", hour12: true})
 		element.querySelector(".logs-item-desc ._date").innerText = new Date(data[i].time).toLocaleDateString('en-US', { month: 'long', day: 'numeric'})
@@ -121,11 +119,6 @@ function updateViewDialog(data) {
 	}
 }
 
-document.querySelector(".update").addEventListener("click", e => {
-	const dialogDimensions = document.querySelector(".update").getBoundingClientRect()
-	if (e.clientX < dialogDimensions.left ||e.clientX > dialogDimensions.right ||e.clientY < dialogDimensions.top ||e.clientY > dialogDimensions.bottom) {document.querySelector(".update").close()}
-})
-
 function updateShow() {
 	if (window.innerWidth <= 600) {
 		window.location.href = "./updateInfo.html"
@@ -148,10 +141,18 @@ function viewShow() {
 
 updateInfo()
 
-fetchMessages(5, messageCount)
+fetchMessages(10, messageCount)
 .then(data => { updateMessage(data)})
 
-document.querySelector(".logs-container").addEventListener('scrollend', function(scroll){
+dialogElements.forEach(element => {
+	element.addEventListener("click", e => {
+		const dialogDimensions = element.getBoundingClientRect()
+		if (e.clientX < dialogDimensions.left ||e.clientX > dialogDimensions.right ||e.clientY < dialogDimensions.top ||e.clientY > dialogDimensions.bottom) {element.close()}
+	})
+});
+
+// get messages when scrolling
+document.querySelector(".logs-container").addEventListener('scrollend', function(){
 	if (getMessageDebounce && (this.clientHeight + this.scrollTop >= this.scrollHeight - 10)) {
 		// When scrolled to the bottom of the container
 		fetchMessages(5, messageCount)
@@ -180,8 +181,10 @@ document.querySelector("._logout").addEventListener("click", () => {
 async function updateSubmit() {
     event.preventDefault();
     try {
-        const formData = new FormData(document.getElementById("form-update"));
-        const data = Object.fromEntries(formData.entries());
+        const data = Object.fromEntries(new FormData(document.getElementById("form-update")).entries());
+
+		if (data.age != undefined && data.age <= -1 || data.age > 99) {document.querySelector(".update .update-header p").innerText = "bad data"; return console.log("bad data (cleint)");}
+		if (data.sex != undefined && !(data.sex == 0 || data.sex == 1)) {return console.log("bad data (client)");}
 
         const response = await fetch('http://localhost:3000/profile/updateData', {
             method: 'POST',
@@ -192,13 +195,13 @@ async function updateSubmit() {
 			credentials: 'include',
         });
 
-        const respond = await response.json();
         if (!response.ok) {
 			console.log(`server: ${response}`);
 			document.querySelector(".update").close();
 			return;
         }
-
+		// const respond = await response.json();
+		
 		updateInfo()
     } catch (error) {
 		document.querySelector(".update").close();

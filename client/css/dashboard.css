@@ -19,16 +19,14 @@
 .main {
 	display: grid;
 	gap: 1rem;
-	/* grid-template-columns: repeat(2, 1fr); */
 	grid-template-columns: 0.8fr 1.2fr;
-	/* grid-template-rows: 1.4fr 0.6fr; */
 	grid-template-rows: repeat(2, 1fr);
 	grid-template-areas: 
     "logs info"
     "logs qr"; 
 	height: 80vh;
 	/* height: calc(100% - 6rem); */
-	padding: 2rem;
+	padding: 1rem 2rem;
 }
 
 .main article {
@@ -60,6 +58,11 @@
 	overflow-y: auto;
 	scroll-snap-type: y mandatory;
 	scrollbar-width: thin;
+}
+
+/* doesn't work on my client */
+.logs-container::-webkit-scrollbar-thumb {
+	border-radius: 12px;
 }
 
 .logs-item {
@@ -166,8 +169,6 @@
 }
 
 .qr-contain {
-	
-	/* display: flex; */
 	gap: 1rem;
 }
 
@@ -231,7 +232,8 @@
 
 .update fieldset {
 	box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
-	border: none;
+	border: #3e3e3e 3px dashed;
+	border-radius: 14px;
 }
 
 .update legend{
@@ -241,11 +243,17 @@
 	color: var(--c-text);
 }
 
+.update label {
+	margin-top: 4px;
+	width: 95%;
+}
+
 .update input {
 	width: 95%;
 	height: 25px;
 	margin-top: 4px;
 	border: none;
+	padding: 0 5px;
 	border-radius: 4px;
 }
 
@@ -334,7 +342,8 @@
 
 .view fieldset {
 	box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
-	border: none;
+	border: #3e3e3e 3px dashed;
+	border-radius: 14px;
 }
 
 .view fieldset legend{
@@ -364,6 +373,7 @@
 }
 
 .view-contain label p {
+	height: 18.4px;
 	display: block;
 	margin: 5px 0;
 	padding: 4px 2px;
