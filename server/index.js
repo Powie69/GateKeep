@@ -186,7 +186,7 @@ app.post('/profile/getQrcode', isAuthenticated, (req,res) => {
 			db.query(q.GET_QRID, [req.session.user], async (err,result) => {
 				if (err) {console.error('SQL:', err); return res.status(500).send('Internal Server Error');}
 				try {
-					const response = await fetch(`https://api.qrserver.com/v1/create-qr-code/?size=250x250&margin=15&data=${JSON.stringify(result[0])}`)
+					const response = await fetch(`https://api.qrserver.com/v1/create-qr-code/?size=160x160&margin=10&data=${JSON.stringify(result[0])}`)
 					if (!response.ok) {console.log(error); return res.status(500).send('Internal Server Error');}
 
 					const qrImage = await response.buffer()
