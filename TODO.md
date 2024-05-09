@@ -16,5 +16,6 @@
 - [ ] fix stupid form shit
 - [ ] box shadow
 - [ ] typography
-- [ ] logout function
+- [X] logout function
+- [ ] actual logout function
 - [ ] dwindle the skepticism of the code being synthesize from chatGPT (make the code more consistent).

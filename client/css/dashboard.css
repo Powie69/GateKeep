@@ -21,9 +21,9 @@
 	gap: 1rem;
 	grid-template-columns: 0.8fr 1.2fr;
 	grid-template-rows: repeat(2, 1fr);
-	grid-template-areas: 
+	grid-template-areas:
     "logs info"
-    "logs qr"; 
+    "logs qr";
 	height: 80vh;
 	/* height: calc(100% - 6rem); */
 	padding: 1rem 2rem;
@@ -37,8 +37,8 @@
 
 /* *logs */
 
-.logs { 
-	grid-area: logs; 
+.logs {
+	grid-area: logs;
 	padding: .5rem !important;
 }
 
@@ -101,7 +101,7 @@
 	grid-template-columns: repeat(2, 1fr);
 	grid-template-rows: repeat(3, 1fr);
 	gap: .3rem;
-	grid-template-areas: 
+	grid-template-areas:
     "lastName lrn"
     "firstName age"
     "middleName sex"
@@ -273,7 +273,7 @@
 	gap: .5rem;
 	grid-template-columns: repeat(6, 1fr);
 	grid-template-rows: repeat(2, 1fr);
-	grid-template-areas: 
+	grid-template-areas:
 	"lastName lastName firstName firstName middleName middleName"
 	". age age sex sex .";
 }
@@ -408,7 +408,7 @@
 @media only screen and (max-width: 600px) {
 	.main {
 		grid-template-columns: 1fr;
-		grid-template-areas: 
+		grid-template-areas:
 		"qr"
 		"info"
 		"logs";
@@ -437,7 +437,7 @@
 	.update {
 		height: 80%;
 	}
-	
+
 	#form-update {
 		height: 95%;
 		overflow-y: scroll;

@@ -10,8 +10,8 @@ function fetchInfo() {
 	.then(response => {
 		if (response.status >= 400) {
 			console.warn("wong (client)"); return;
-		} else { 
-			return response.json() 
+		} else {
+			return response.json()
 		}
 	})
 	.then(data => { return data; })

@@ -11,8 +11,8 @@ function fetchInfo() {
 	.then(response => {
 		if (response.status >= 400) {
 			console.warn("wong (client)"); return;
-		} else { 
-			return response.json() 
+		} else {
+			return response.json()
 		}
 	})
 	.then(data => { return data; })
@@ -33,7 +33,7 @@ function fetchMessages(limit, offset) {
 		if (response.status >= 400) {
 			console.warn("wong (client)"); return;
 		} else {
-			return response.json()
+			return response.json();
 		}
 	})
 	.then(data => {return data;})
@@ -49,7 +49,7 @@ function fetchQrcode() {
 		if (response.status >= 400) {
 			console.warn("wong (client)"); return;
 		} else {
-			return response.blob()
+			return response.blob();
 		}
 	})
 	.then(data => {
@@ -74,7 +74,6 @@ function updateMessage(data) {
 			element.querySelector(".logs-item-title span").innerText = "OUT"
 			element.querySelector(".logs-item-title i").innerText = "Logout"
 			element.querySelector(".logs-item-desc ._isIn").innerText = "left"
-			
 		}
 		document.querySelector(".logs-container").appendChild(element);
 		messageCount++;
@@ -95,7 +94,7 @@ function updateInfo() {
 				document.querySelector(".sex p").innerText = "Male";
 			} else {document.querySelector(".sex p").innerText = "Female";}
 		}
-	})  
+	})
 }
 
 // this one is for the 'update' dialog
@@ -125,7 +124,7 @@ function updateShow() {
 	} else {
 		document.querySelector(".update").showModal()
 		fetchInfo()
-		.then(data => { updateInfoDialog(data) })	
+		.then(data => {updateInfoDialog(data)})
 	}
 }
 
@@ -201,7 +200,7 @@ async function updateSubmit() {
 			return;
         }
 		// const respond = await response.json();
-		
+
 		updateInfo()
     } catch (error) {
 		document.querySelector(".update").close();

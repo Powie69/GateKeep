@@ -14,7 +14,7 @@ let scannerconfig = {
 
 console.log(scanner);
 
-const qrScanner = new scanner(document.querySelector("#scanner-video"), async result => { 
+const qrScanner = new scanner(document.querySelector("#scanner-video"), async result => {
 	const qrId = JSON.parse(result.data).qrId;
 	if (lastScanned == qrId) { setMessage("Already scanned", "error"); return;}
 	if (scanDebounce) {setMessage("wait bro", "error"); return;}
@@ -44,7 +44,7 @@ const qrScanner = new scanner(document.querySelector("#scanner-video"), async re
 		clearInfo();
 		throw new Error("Internal Server Error On Scan");
 	} else {return response.json()}})
-	.then(data => { 
+	.then(data => {
 		console.log(data);
 		for (var i in data) {
 			if (data[i] != undefined && i == "sex") {

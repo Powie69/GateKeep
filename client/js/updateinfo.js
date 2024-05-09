@@ -10,8 +10,8 @@ function fetchInfo() {
 	.then(response => {
 		if (response.status >= 400) {
 			console.warn("wong (client)"); return;
-		} else { 
-			return response.json() 
+		} else {
+			return response.json()
 		}
 	})
 	.then(data => { return data; })
@@ -44,7 +44,7 @@ async function updateSubmit() {
         });
 
         if (!response.ok) { console.log(response); return;}
-		
+
         const respond = await response.json();
         console.log(respond);
     } catch (error) {

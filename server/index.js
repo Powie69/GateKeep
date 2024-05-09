@@ -26,7 +26,7 @@ app.use(session({
 	},
 	saveUninitialized: false,
 }));
- 
+
 const db = mysql.createConnection({
     host: process.env.dbHost,
     user: process.env.dbUser,
@@ -79,13 +79,13 @@ app.post('/signup', (req, res) => {
 				return res.status(409).json({ message: "LRN already exists", field: "lrn" });
 			}
 		}
-		
+
 		try {
 			db.query(q.SIGNUP, [data.email, data.phoneNumber, data.fullName, data.lrn, data.password,], (err,result) => {
 				if (err) { console.error('SQL:', err); res.status(500).send('Internal Server Error'); return; }
-				
+
 				const hash = crypto.createHash('sha256').update(result.insertId.toString() + process.env.qrIdSecret.toString()).digest('hex').substring(0,80)
-	
+
 				db.query(q.ADD_QRID, [hash, result.insertId], (err, result) => {
 					if (err) { console.error('SQL:', err); return res.status(500).send('Internal Server Error');}
 					console.log(result);
@@ -95,10 +95,10 @@ app.post('/signup', (req, res) => {
 					if (err) {console.error('SQL:', err); return res.status(500).send('Internal Server Error');}
 					console.log(`INIT_INFO: ${result.insertId}`)
 				});
-	
+
 				req.session.authenticated = true;
 				req.session.user = result.insertId;
-	
+
 				res.json({ message: "signup successful"});
 			});
 		} catch (error) {res.status(500).send('Internal Server Error'); console.error('Error:', error);}
@@ -116,7 +116,7 @@ app.post('/login', (req, res) => {
 	db.query(q.LOGIN, [data.username, data.username, data.lrn, data.password], (err, result) => {
         if (err) {console.error('login SQL:', err); return res.status(500).send('Internal Server Error');}
         if (result.length === 0) { return res.status(401).json({ message: "Invalid email/phone, LRN, or password" }); }
-		
+
 		req.session.authenticated = true;
 		req.session.user = result[0].id;
 
@@ -125,7 +125,7 @@ app.post('/login', (req, res) => {
     });
 });
 
-app.post('/logout', isAuthenticated, (req,res) => { 
+app.post('/logout', isAuthenticated, (req,res) => {
 	console.log("user logout: " + req.session.user);
 	req.session.destroy((err) => {
 		if (err) {return res.status(500).json({ message: "Internal Server Error"})}
@@ -169,7 +169,6 @@ app.post('/profile/getMessage', isAuthenticated, (req,res) => {
 		if (result.length == 0) {
 			res.status(404).json({message: "No more messages found"})
 		} else {
-			console.log(result);
 			res.json(result);
 		}
 	})
@@ -189,7 +188,7 @@ app.post('/profile/getQrcode', isAuthenticated, (req,res) => {
 				try {
 					const response = await fetch(`https://api.qrserver.com/v1/create-qr-code/?size=250x250&margin=15&data=${JSON.stringify(result[0])}`)
 					if (!response.ok) {console.log(error); return res.status(500).send('Internal Server Error');}
-					
+
 					const qrImage = await response.buffer()
 					db.query(q.ADD_QRCACHE, [qrImage, req.session.user], (err,result) => {
 						if (err) {console.error('SQL:', err); return res.status(500).send('Internal Server Error');}
@@ -200,7 +199,7 @@ app.post('/profile/getQrcode', isAuthenticated, (req,res) => {
 				} catch (err) {console.log(err); return res.status(500).send('Internal Server Error');}
 			})
 		}
-	})	
+	})
 });
 
 // admin
@@ -223,7 +222,7 @@ app.post('/admin/send', isAdmin, (req,res) => {
 	db.query(q.FIND_QR, [data.qrId], (err,result) => {
 		if (err) { console.error('SQL:', err); return res.status(500).send('Internal Server Error');}
 		if (result.length == 0) {return res.status(404).send("no Qr data found")}
-		
+
 		try {
 			db.query(q.ADD_LOG, [result[0].id, data.isIn, new Date().toISOString().slice(0, 19)], (err,result) => {
 				if (err) {console.error('SQL:', err); return res.status(500).send('Internal Server Error');}

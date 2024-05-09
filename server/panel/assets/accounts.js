@@ -10,7 +10,7 @@ async function submitQuery(type) {
 			body: new URLSearchParams(Object.fromEntries(new FormData(document.querySelector(".search")).entries())),
 			credentials: 'include',
 		});
-		
+
 		console.log(response);
 	} catch (error) {console.error(console.error());}
 }
