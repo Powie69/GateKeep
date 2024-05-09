@@ -4,7 +4,7 @@ let fpss = 1;
 let scanDebounce = false;
 let lastScanned = undefined;
 let camerasFetched = false;
-let isInMode = true;
+let isInMode = 1;
 let cameraList = []
 let scannerconfig = {
 	highlightScanRegion: true,
@@ -31,13 +31,14 @@ const qrScanner = new scanner(document.querySelector("#scanner-video"), async re
 		setMessage("","clear")
 	}, 9000);
 	setMessage("processing...", "good")
+	
 	await fetch('http://localhost:3000/admin/send', {
 	method: 'post',
 	credentials: 'include',
 	headers: {
 		'Content-Type': 'application/json'
 	  },
-	body: `{"qrId": "${qrId}", "isIn": "1"}`
+	body: `{"qrId": "${qrId}", "isIn": "${isInMode}"}`
 	})
 	.then(response => {if (response.status >= 400) {
 		if (response.status == 404) {setMessage("Qr code not found", "error");} else {setMessage("Something went wrong", "error")}
@@ -142,7 +143,12 @@ function mirror(value) {
 }
 
 function changeIsIn(value) {
-	isInMode = value.checked;
+	if (value.checked) {
+		isInMode = 1;
+	} else if (!value.checked) {
+		isInMode = 0;
+	}
+	console.log(isInMode);
 }
 
 function adminLogin() {

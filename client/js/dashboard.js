@@ -64,7 +64,7 @@ function updateMessage(data) {
 	if (!data) {return;}
 	for (let i = 0; i < data.length; i++) {
 		const element = document.importNode(msgElement.content, true).querySelector(".logs-item")
-		element.querySelector(".logs-item-desc ._time").innerText = new Date(data[i].time).toLocaleTimeString('en-US', {timeZone: "Asia/Manila", hour12: true})
+		element.querySelector(".logs-item-desc ._time").innerText = new Date(data[i].time).toLocaleTimeString('en-US', {timeZone: "Asia/Manila", hour12: true, hour: "numeric", minute: "2-digit"})
 		element.querySelector(".logs-item-desc ._date").innerText = new Date(data[i].time).toLocaleDateString('en-US', { month: 'long', day: 'numeric'})
 		if (data[i].isIn == 1) {
 			element.querySelector(".logs-item-title span").innerText = "IN"
