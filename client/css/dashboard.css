@@ -122,9 +122,11 @@
 
 .info-contain label p {
 	display: block;
-	min-height: 1rem;
+	height: calc(1rem + 2px);
+	overflow: hidden;
 	margin: 5px 0;
-	padding: 4px 2px;
+	padding: 4px;
+	text-overflow: ellipsis;
 	border-radius: 4px;
 	background-color: #fff;
 	color: #000;

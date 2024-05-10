@@ -89,7 +89,7 @@ function updateInfo() {
 		if (data.middleName) {document.querySelector(".middleName p").innerText = data.middleName;}
 		if (data.lrn) {document.querySelector(".lrn p").innerText = data.lrn;}
 		if (data.age) {document.querySelector(".age p").innerText = data.age;}
-		if (data.sex) {
+		if (data.sex != undefined) {
 			if (data.sex == 1) {
 				document.querySelector(".sex p").innerText = "Male";
 			} else {document.querySelector(".sex p").innerText = "Female";}
@@ -97,7 +97,7 @@ function updateInfo() {
 	})
 }
 
-// this one is for the 'update' dialog
+// gets placeholder for 'update' dialog
 function updateInfoDialog(data) {
 	for (var i in data) {
 		if (i == "lrn" || i == "sex") {continue}
@@ -105,7 +105,7 @@ function updateInfoDialog(data) {
 	}
 }
 
-// for the 'view' dialog
+// gets data for 'view' dialog
 function updateViewDialog(data) {
 	for (var i in data) {
 		if (data[i] != undefined && i == "sex") {
@@ -118,6 +118,7 @@ function updateViewDialog(data) {
 	}
 }
 
+// update-info dialog
 function updateShow() {
 	if (window.innerWidth <= 600) {
 		window.location.href = "./updateInfo.html"
@@ -128,6 +129,7 @@ function updateShow() {
 	}
 }
 
+// view-info dialog
 function viewShow() {
 	if (window.innerWidth <= 600) {
 		window.location.href = "./viewInfo.html"
@@ -184,6 +186,7 @@ async function updateSubmit() {
 
 		if (data.age != undefined && data.age <= -1 || data.age > 99) {document.querySelector(".update .update-header p").innerText = "bad data"; return console.log("bad data (cleint)");}
 		if (data.sex != undefined && !(data.sex == 0 || data.sex == 1)) {return console.log("bad data (client)");}
+		for (const i in data) {if (data[i] != undefined && data[i].length > 60) {return console.log("bad data (client)");}}
 
         const response = await fetch('http://localhost:3000/profile/updateData', {
             method: 'POST',
@@ -199,11 +202,11 @@ async function updateSubmit() {
 			document.querySelector(".update").close();
 			return;
         }
-		// const respond = await response.json();
-
-		updateInfo()
+		const respond = await response.json();
+		
     } catch (error) {
 		document.querySelector(".update").close();
     }
 	document.querySelector(".update").close();
+	updateInfo()
 }
