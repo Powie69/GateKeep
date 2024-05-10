@@ -1,7 +1,7 @@
 var messageCount = 0;
 let getMessageDebounce = true;
 const msgElement = document.querySelector(".logs-item_template");
-const dialogElements = document.querySelectorAll(".update, .view")
+const dialogElements = document.querySelectorAll(".update, .view");
 
 function fetchInfo() {
 	return fetch('http://localhost:3000/profile/getData', {
