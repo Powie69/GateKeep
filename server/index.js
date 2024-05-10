@@ -15,6 +15,8 @@ app.use(cors({ origin: process.env.corsOrigin.split(','), credentials: true }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+app.use(express.static('public'))
+
 app.use(session({
     secret: process.env.cookieSecret,
 	resave: false,
