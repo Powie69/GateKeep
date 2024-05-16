@@ -27,8 +27,8 @@ app.use(session({
 }));
 
 // **routes //
-app.use('/', require('./routes/profile.js'))
-app.use('', require('./routes/admin.js') )
+app.use('/profile', require('./routes/profile.js'))
+app.use('/admin', require('./routes/admin.js'))
 
 app.post('/ping', (req, res) => {
 	console.log(req.body);

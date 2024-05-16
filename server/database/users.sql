@@ -24,6 +24,7 @@ VALUES ('godwin@gmail.com', '09118881234', 'godwin', '123456789011', '123');
 -- @block
 UPDATE users SET qrCache = null WHERE id = 1;
 -- @block
+UPDATE users SET qrCache = NULL;
 -- @block
 SELECT qrCache FROM users WHERE id = 1;
 -- @block

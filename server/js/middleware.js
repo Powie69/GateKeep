@@ -1,7 +1,6 @@
 const mysql = require('mysql2');
 require('dotenv').config();
 
-
 const db = mysql.createConnection({
     host: process.env.dbHost,
     user: process.env.dbUser,
@@ -30,7 +29,5 @@ const isAdmin = (req, res, next) => {
 	}
 	next();
 };
-
-
 
 module.exports = { isAuthenticated, isAdmin, db }

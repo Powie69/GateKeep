@@ -3,7 +3,7 @@ const { isAdmin, db } = require('../js/middleware.js');
 const q = require('../js/commands.js')
 const app = express.Router();
 
-app.post('/admin/login', (req,res) => {
+app.post('/login', (req,res) => {
 	if (req.body.login != process.env.adminPassword) { res.send("big fail"); return; }
 	console.log("big success");
 	req.session.isAdmin = true

@@ -24,7 +24,7 @@ if (new URL(window.location.href).searchParams.get("login") === "") {
 
 document.querySelector(".main").style.setProperty('background-image', `url(images/circles/${Math.floor(Math.random() * 10) + 1}.svg)`)
 document.querySelector("._logout").addEventListener("click", () => {
-	fetch('http://localhost:3000/logout', {
+	fetch('http://localhost:3000/profile/logout', {
 	method: 'post',
 	credentials: 'include'
 })
@@ -39,7 +39,7 @@ document.querySelector("._logout").addEventListener("click", () => {
 
 // !remove this later
 function lazyLogin() {
-	fetch('http://localhost:3000/login', {
+	fetch('http://localhost:3000/profile/login', {
 	method: 'post',
 	credentials: 'include',
 	headers: {
@@ -65,7 +65,7 @@ async function signupSubmit() {
 		}
 		console.log("valid signup (client)");
 
-		const response = await fetch('http://localhost:3000/signup', {
+		const response = await fetch('http://localhost:3000/profile/signup', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/x-www-form-urlencoded',
@@ -73,7 +73,8 @@ async function signupSubmit() {
 			body: new URLSearchParams(data),
 			credentials: 'include',
 		});
-
+		
+		const respond = await response.json();
 		if (!response.ok) {
 			if (response.status === 409) {
 				if (respond.field === "phoneNumber") {
@@ -92,7 +93,6 @@ async function signupSubmit() {
             }
         }
 
-		const respond = await response.json();
 		console.log(respond)
 		window.location.href = dashbaord;
 	} catch (error) {console.error(error);}
@@ -110,7 +110,7 @@ async function loginSubmit() {
         }
         console.log("Valid login data (client)");
 
-        const response = await fetch('http://localhost:3000/login', {
+        const response = await fetch('http://localhost:3000/profile/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
