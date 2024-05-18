@@ -36,6 +36,19 @@ document.querySelector("._logout").addEventListener("click", () => {
 	})
   	.catch(error => {console.error(error);});
 })
+document.querySelectorAll('.help-item-button').forEach(element => {
+	element.addEventListener("click", e => {
+		console.log(e.currentTarget.querySelector('.material-symbols-rounded'));
+		const dropElement = e.currentTarget.nextElementSibling
+		if (dropElement.style.display == 'block') {
+			dropElement.style.setProperty('display', 'none')
+			e.currentTarget.querySelector('.material-symbols-rounded').innerText = 'arrow_drop_down'
+		} else {
+			dropElement.style.setProperty('display', 'block')
+			e.currentTarget.querySelector('.material-symbols-rounded').innerText = 'arrow_drop_up'
+		}
+	})
+});
 
 // !remove this later
 function lazyLogin() {

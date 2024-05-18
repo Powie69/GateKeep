@@ -1,6 +1,6 @@
 :root {
 	--c-text: #fefae0ff;
-	--c-highlight: #7C88D4;
+	--c-highlight: #8A98EB;
 	--c-content: #2e2e2e;
 	--c-background: #1e1e1e;
 	--c-1st: #5C55EF;
@@ -71,21 +71,23 @@
 
 .form-redirect a {
 	color: var(--c-highlight);
+	text-decoration: underline;
 }
 
 .form-redirect a:hover {
-	text-decoration: underline;
+	text-decoration: none;
 }
 
 .main-info {
 	padding: 1.5rem;
 }
 
-.main h1 {
+.main-info h1 {
+	font-size: 2.5rem;
 	margin: .5rem 0;
 }
 
-.main p {
+.main-info p {
 	margin: 0;
 	line-height: 25px;
 }
@@ -106,4 +108,51 @@
 .about {
 	margin: 2rem 0;
 	padding: 0 8rem;
+}
+
+/* *help */
+
+.help {
+	margin: 2rem 0;
+	padding: 0 8rem;
+}
+
+.help-header h3{
+	margin: 1.3rem 0;
+	font-size: 2rem;
+	text-align: center;
+}
+
+.help-container {
+	position: absolute;
+	left: 50%;
+	transform: translateX(-50%);
+	width: 55%;
+}
+
+.help-container hr {
+	border: #fefae0 dashed 2px;
+	border-radius: 35%;
+	margin: 0;
+}
+
+/* .help-item {
+
+} */
+
+.help-item-button {
+	width: 100%;
+	height: 35px;
+	padding: 5px 0;
+	background-color: var(--c-background);
+	border: none;
+	font-size: 1.3rem;
+}
+
+.help-item-dropdown {
+	display: none;
+}
+
+.help-item-dropdown p {
+	margin: .5rem 0;
 }

@@ -75,7 +75,7 @@ app.post('/signup', (req, res) => {
 
 // requires 'isAuthenticated'
 
-app.post('/profile', isAuthenticated, (req,res) => {
+app.post('/', isAuthenticated, (req,res) => {
 	console.log(req.session.user)
 	res.json({ message: "You are authenticated"});
 });
@@ -124,7 +124,7 @@ app.post('/getMessage', isAuthenticated, (req,res) => {
 });
 
 app.post('/getQrcode', isAuthenticated, (req,res) => {
-	db.query(q.GET_QRCACHE, [req.session.user], async (err,result) => {
+	db.query(q.GET_QRCACHE, [req.session.user], (err,result) => {
 		if (err) {console.error('SQL:', err); return res.status(500).send('Internal Server Error');}
 		if (!result || result.length == 0) {return res.status(418).send('something is very wrong...');}
 		if (result[0].qrCache != null) {

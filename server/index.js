@@ -25,7 +25,7 @@ app.use(session({
 	},
 	saveUninitialized: false,
 }));
-
+	
 // **routes //
 app.use('/profile', require('./routes/profile.js'))
 app.use('/admin', require('./routes/admin.js'))

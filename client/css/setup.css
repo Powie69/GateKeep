@@ -1,4 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Flow+Circular&family=Inter:wght@100..900&family=Noto+Color+Emoji&family=Roboto+Mono:wght@100..700&family=Shadows+Into+Light&family=Wavefont:wght@4..1000&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Flow+Circular&family=Inter:wght@100..900&family=Noto+Color+Emoji&family=Roboto+Mono:wght@100..700&family=Shadows+Into+Light&family=Wavefont:wght@4..1000&display=swap'); */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Noto+Color+Emoji&display=swap');
 
 :root {
 	--c-text: #fefae0ff;

@@ -24,8 +24,9 @@
 	grid-template-areas:
     "logs info"
     "logs qr";
-	height: 80vh;
-	/* height: calc(100% - 6rem); */
+	/* height: 80vh; */
+	width: calc(100% - 4rem);
+	height: calc(100vh - 6.75rem);
 	padding: 1rem 2rem;
 }
 
