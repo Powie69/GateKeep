@@ -38,7 +38,6 @@ document.querySelector("._logout").addEventListener("click", () => {
 })
 document.querySelectorAll('.help-item-button').forEach(element => {
 	element.addEventListener("click", e => {
-		console.log(e.currentTarget.querySelector('.material-symbols-rounded'));
 		const dropElement = e.currentTarget.nextElementSibling
 		if (dropElement.style.display == 'block') {
 			dropElement.style.setProperty('display', 'none')

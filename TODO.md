@@ -10,6 +10,8 @@
 
 ##
 
+
+- [ ] panel login stuff
 - [X] env everything
 - [ ] about,help section
 - [X] info form html/js stuff

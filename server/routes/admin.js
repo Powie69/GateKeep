@@ -1,20 +1,25 @@
 const express = require('express');
+const path = require('path')
 const { isAdmin, db } = require('../js/middleware.js');
 const q = require('../js/commands.js')
 const app = express.Router();
 
+// 
+// app.use('/panel' ,express.static(path.join(__dirname, '../public', 'login.html')))
+
 app.post('/login', (req,res) => {
-	if (req.body.login != process.env.adminPassword) { res.send("big fail"); return; }
+	console.log(req.body);
+	if (req.body.password != process.env.adminPassword) {res.status(401).json({message: "big fail"}); return; }
 	console.log("big success");
-	req.session.isAdmin = true
-	res.json("big success")
+	req.session.isAdmin = true;
+	res.sendFile(path.join(__dirname, '../views/panel/index.html'))
 })
 
-app.post('/admin/check', isAdmin, (req,res) => {
+app.post('/check', isAdmin, (req,res) => {
 	res.send("nice")
 })
 
-app.post('/admin/send', isAdmin, (req,res) => {
+app.post('/send', isAdmin, (req,res) => {
 	const data = req.body;
 	if (!data || data.qrId == undefined|| data.isIn == undefined || data.qrId == ""|| data.isIn == "" ||!(data.isIn >= 0 && data.isIn <= 1)) {return res.status(400).send("bad data");}
 
