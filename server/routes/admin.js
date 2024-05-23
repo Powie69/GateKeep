@@ -10,11 +10,11 @@ app.post('/login', (req,res) => {
 	res.json("big success")
 })
 
-app.post('/admin/check', isAdmin, (req,res) => {
+app.post('/check', isAdmin, (req,res) => {
 	res.send("nice")
 })
 
-app.post('/admin/send', isAdmin, (req,res) => {
+app.post('/send', isAdmin, (req,res) => {
 	const data = req.body;
 	if (!data || data.qrId == undefined|| data.isIn == undefined || data.qrId == ""|| data.isIn == "" ||!(data.isIn >= 0 && data.isIn <= 1)) {return res.status(400).send("bad data");}
 
