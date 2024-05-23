@@ -5,7 +5,7 @@ const q = require('../js/commands.js')
 const app = express.Router();
 
 // 
-// app.use('/panel' ,express.static(path.join(__dirname, '../public', 'login.html')))
+app.use('/login/assets' ,express.static(path.join(__dirname, '../views/panel/assets')))
 
 app.post('/login', (req,res) => {
 	console.log(req.body);
@@ -13,6 +13,7 @@ app.post('/login', (req,res) => {
 	console.log("big success");
 	req.session.isAdmin = true;
 	res.sendFile(path.join(__dirname, '../views/panel/index.html'))
+	// res.sendFile(path.join(__dirname, '../views/panel/assets/'))
 })
 
 app.post('/check', isAdmin, (req,res) => {
