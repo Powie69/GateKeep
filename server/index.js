@@ -16,14 +16,15 @@ app.use(express.static('public'))
 
 app.use(session({
     secret: process.env.cookieSecret,
+	saveUninitialized: false,
 	resave: false,
 	cookie: {
 		maxAge: 3600000,
-		// secure: process.env.cookieSecure,
-		// sameSite: process.env.cookieSameSite,
-		partitioned: process.env.cookiePartitioned,
+		httpOnly: false,
+		// secure: true,
+		// sameSite: 'none',
+		// partitioned: process.env.cookiePartitioned,
 	},
-	saveUninitialized: false,
 }));
 	
 // **routes //
