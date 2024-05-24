@@ -158,7 +158,7 @@ function adminLogin() {
 	headers: {
 		'Content-Type': 'application/json'
 	  },
-	body: '{"login": "123" }'
+	body: '{"password": "123" }'
 	})
 	.then(response => {
 		if (response.status >= 400) {console.warn("wong (client)"); return;} else { return response.json() }
