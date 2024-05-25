@@ -103,11 +103,61 @@
 	display: none;
 }
 
-/* *info */
+/* *transtion */
 
-.about {
+.transition-wave {
+	position: absolute;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+	
+}
+
+.transition-wave svg {
+	position: relative;
+	display: block;
+	transform: rotateY(180deg);
+}
+
+.transition-wave svg path {
+	fill: var(--c-background);
+}
+
+.transition-top {
+	top: 0;
+}
+
+.transition-top svg {
+	width: calc(210% + 1.3px);
+	height: 70px;
+}
+
+.transition-bottom {
+	bottom: -1px;
+}
+
+.transition-bottom svg {
+	width: calc(160% + 1.3px);
+	height: 50px;
+}
+
+
+.transition {
+	position: relative;
 	margin: 2rem 0;
-	padding: 0 8rem;
+	padding: 6rem 8rem;
+	background-image: url('../images/stacked-waves-haikei(5).svg');
+	background-repeat: no-repeat;
+	background-size: cover;
+}
+
+.transition h2 {
+	margin: 0;
+	text-align: center;
+	font-size: 5rem;
+	font-family: 'permanent marker', sans-serif;
+
 }
 
 /* *help */

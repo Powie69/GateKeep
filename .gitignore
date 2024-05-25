@@ -5,4 +5,4 @@
 server/node_modules
 server/nodemon.json
 
-server/temp.js
+server/js/temp.js
