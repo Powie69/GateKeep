@@ -22,7 +22,7 @@ if (new URL(window.location.href).searchParams.get("login") === "") {
 	document.getElementById("form-login").classList.add("disabled")
 }
 
-document.querySelector(".main").style.setProperty('background-image', `url(images/circles/${Math.floor(Math.random() * 10) + 1}.svg)`)
+document.querySelector(".main").style.setProperty('background', `url(images/circles/${Math.floor(Math.random() * 10) + 1}.svg) no-repeat top left / cover`)
 document.querySelector("._logout").addEventListener("click", () => {
 	fetch('http://localhost:3000/profile/logout', {
 	method: 'post',
