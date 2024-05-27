@@ -18,14 +18,33 @@ body {
 	font-family: 'Inter', 'Noto Color Emoji', sans-serif;
 }
 
+/* utility classes */
 .wrapper {
 	width: 85vw;
 	margin: 0 auto;
 }
 
+._mobileOnly {
+	display: none;
+	/* visibility: collapse; */
+}
+
+@media only screen and (max-width: 600px) {
+	._desktopOnly {
+		display: none;
+	}	
+
+	._mobileOnly {
+		display: initial;
+	}
+}
+
+
 .disabled {
 	display: none;
 }
+
+/* end of utility classes */
 
 .material-symbols-rounded {
     vertical-align: bottom;

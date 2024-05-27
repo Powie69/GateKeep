@@ -34,7 +34,6 @@
 
 .header-buttons {
 	display: flex;
-	gap: 1rem;
 	margin: 1.3rem 0;
 	margin-left: auto;
 }
@@ -45,8 +44,8 @@
 	cursor: pointer;
 }
 
-.header-buttons .marterial-symbols-rounded {
-	font-size: 1rem;
+.header-buttons .material-symbols-rounded {
+	margin: 0 .5rem;
 }
 
 /* logout dialog */
