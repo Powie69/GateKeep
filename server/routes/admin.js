@@ -1,14 +1,15 @@
 const express = require('express');
 const path = require('path')
 const { isAdmin, db } = require('../js/middleware.js');
-const q = require('../js/commands.js')
+const q = require('../js/commands.js');
 const app = express.Router();
-
+require('dotenv').config();
 
 app.post('/login', (req,res) => {
 	if (req.body.password != process.env.adminPassword) {res.status(401).json({message: "big fail"}); return; }
 	console.log("big success");
 	req.session.isAdmin = true;
+	console.log(req.session.isAdmin);
 })
 
 app.post('/check', isAdmin, (req,res) => {

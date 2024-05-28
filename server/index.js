@@ -20,10 +20,10 @@ app.use(session({
 	resave: false,
 	cookie: {
 		maxAge: 3600000,
-		httpOnly: false,
+		// httpOnly: false,
 		// secure: true,
-		// sameSite: 'none',
-		// partitioned: process.env.cookiePartitioned,
+		sameSite: 'none',
+		partitioned: process.env.cookiePartitioned,
 	},
 }));
 	
