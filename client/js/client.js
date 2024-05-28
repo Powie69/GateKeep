@@ -14,6 +14,16 @@ fetch('http://localhost:3000/profile', {
 })
 .catch(error => {console.error(error);});
 
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('js/service-worker.js').then((registration) => {
+      console.log('ServiceWorker registration successful with scope: ', registration.scope);
+    }, (error) => {
+      console.log('ServiceWorker registration failed: ', error);
+    });
+  });
+}
+
 if (new URL(window.location.href).searchParams.get("login") === "") {
 	document.getElementById("form-signup").classList.add("disabled")
 	document.getElementById("form-login").classList.remove("disabled")

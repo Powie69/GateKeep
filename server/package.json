@@ -6,6 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "s": "nodemon --watch . --config nodemon.json",
+    "start": "node .",
     "panel": "http-server ./ -p 5300"
   },
   "keywords": [],
