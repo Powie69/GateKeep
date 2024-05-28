@@ -1,4 +1,5 @@
 const mysql = require('mysql2');
+const rateLimit = require('express-rate-limit')
 require('dotenv').config();
 
 const db = mysql.createConnection({
@@ -12,6 +13,23 @@ db.connect((err) => {
     if (err) { console.error(err); return; }
     console.log('Connected to MySQL');
 });
+
+const rateLimitHandler = (errMessage = "rate limit timeout") => {
+	return (req,res) => {
+		console.log("rate limit reached: ", req.sessionID);
+		return res.status(429).json({message: errMessage});
+	}
+} 
+
+const limiter = (maxReq,windowMinute,errMessage) => {
+	return rateLimit({
+		windowMs: windowMinute * 60 * 1000, // 10 minutes
+    	max: maxReq, // Limit each IP to maxRequests per windowMs
+		handler: rateLimitHandler(errMessage),
+		standardHeaders: true,
+    	legacyHeaders: false,
+	})
+}
 
 
 const isAuthenticated = (req, res, next) => {
@@ -30,4 +48,4 @@ const isAdmin = (req, res, next) => {
 	next();
 };
 
-module.exports = { isAuthenticated, isAdmin, db }
+module.exports = {limiter,isAuthenticated, isAdmin, db }

@@ -1,11 +1,11 @@
 const express = require('express');
 const fetch = require('node-fetch');
 const crypto = require('crypto');
-const { isAuthenticated, db } = require('../js/middleware.js');
+const {limiter ,isAuthenticated, db} = require('../js/middleware.js');
 const q = require('../js/commands.js')
 const app = express.Router();
 
-app.post('/login', (req, res) => {
+app.post('/login', limiter(30, 5),(req, res) => {
 	console.log(req.body)
 	const data = req.body;
 
@@ -95,7 +95,7 @@ app.post('/getData', isAuthenticated, (req,res) => {
 	})
 });
 
-app.post('/updateData', isAuthenticated, (req,res) => {
+app.post('/updateData', isAuthenticated, limiter(5,10),(req,res) => {
 	const data = req.body;
 	console.log(req.body);
 
@@ -110,7 +110,7 @@ app.post('/updateData', isAuthenticated, (req,res) => {
 	res.status(200).send();
 });
 
-app.post('/getMessage', isAuthenticated, (req,res) => {
+app.post('/getMessage', isAuthenticated, limiter(200,10), (req,res) => {
 	const data = req.body;
 	if (!data.limit || data.offset == undefined || data.limit >= 25 || data.offset <= -1) {return res.status(400).send("bad data (server)")}
 	db.query(q.GET_MESSAGE, [req.session.user, data.limit, data.offset], (err, result) => {

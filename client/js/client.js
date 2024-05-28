@@ -136,7 +136,10 @@ async function loginSubmit() {
 			if (response.status === 401) {
 				console.log("Invalid email/phone, LRN, or password (server)");
 				document.getElementById("l-invalid").classList.remove("disabled")
-            }
+            } else if (response.status === 429) {
+				document.getElementById("l-invalid").innerHTML = 'Too many request, Try agian later'
+				document.getElementById("l-invalid").classList.remove("disabled")
+			}
 			return;
         } else {
 			document.getElementById("l-invalid").classList.add("disabled")

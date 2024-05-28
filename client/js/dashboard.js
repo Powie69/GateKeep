@@ -154,14 +154,14 @@ dialogElements.forEach(element => {
 
 // get messages when scrolling
 document.querySelector(".logs-container").addEventListener('scrollend', function(){
-	if (getMessageDebounce && (this.clientHeight + this.scrollTop >= this.scrollHeight - 10)) {
+	if (getMessageDebounce && (this.clientHeight + this.scrollTop >= this.scrollHeight - 60)) {
 		// When scrolled to the bottom of the container
 		fetchMessages(5, messageCount)
 		.then(data => {updateMessage(data)})
 		getMessageDebounce = false;
 		setTimeout(function() {
             getMessageDebounce = true;
-        }, 1000);
+        }, 500);
 	}
 })
 
