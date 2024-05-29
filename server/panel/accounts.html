@@ -5,6 +5,8 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Account Management | Gatekeep</title>
 	<!--  -->
+	<link rel="preconnect" href="https://fonts.googleapis.com" defer>
+	<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded" rel="stylesheet" defer/>
 	<link rel="icon" type="image/x-icon" href="assets/ico.ico" defer>
 	<link rel="stylesheet" href="assets/basic.css">
 	<link rel="stylesheet" href="assets/accounts.css">
@@ -12,14 +14,22 @@
 <body>
 	<header class="header"><h1 class="header-title">Account Management</h1></header>
 	<!-- TODO: prevent stupid post shit -->
-	<form action="" method="post" autocomplete="off" class="search">
-		<input type="search" name="query" aria-label="" class="search-query">
-		<select name="search-section" aria-label="search in section" onchange="submitQuery()" class="search-section">
-			<option value="" selected hidden disabled>search via section</option>
-			<option value="wat">lorem</option>
-			<option value="da">lorem</option>
-			<option value="fuk">lorem</option>
+	<form action="" method="post" onsubmit="submitQuery()" autocomplete="off" class="search">
+		<input type="text" name="query" placeholder="search" class="search-query">
+		<select name="search-level" aria-label="search in grade-level" class="search-level">
+			<option value="" selected hidden disabled>Grade level</option>
+			<option value="">7</option>
+			<option value="">8</option>
+			<option value="">9</option>
+			<option value="">10</option>
+			<option value="">11</option>
+			<option value="">12</option>
 		</select>
+		<select name="search-section" aria-label="search in section" onchange="submitQuery()" class="search-section">
+			<option value="" selected hidden disabled>Section</option>
+			<option value="" disabled>Select Grade-Level first.</option>
+		</select>
+		<button tabindex="0" type="submit"><i class="material-symbols-rounded">search</i></button>
 	</form>
 	<script src="assets/accounts.js" defer></script>
 </body>

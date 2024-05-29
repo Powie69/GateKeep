@@ -37,4 +37,9 @@ app.post('/send', isAdmin, (req,res) => {
 	})
 })
 
+app.post('/query', isAdmin, (req,res) => {
+	console.log(req.body);
+	res.json({message: "massive succces", res: req.body})
+})
+
 module.exports = app

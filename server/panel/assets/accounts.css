@@ -24,12 +24,17 @@
 	transform: translateX(-50%);
 }
 
-.search-query {
+.search select {
 	flex: 75;
 	padding: 4px 8px;
 	border: none;
 	border-radius: 12px;
 	box-shadow: rgba(63, 63, 121, 0.281) 0px 50px 100px -20px, rgba(15, 13, 13, 0.37) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+}
+
+.search .search-section option {
+	max-width: 1px;
+	/* white-space: wrap; */
 }
 
 .search-section {

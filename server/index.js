@@ -33,7 +33,7 @@ app.use('/admin', require('./routes/admin.js'))
 
 app.post('/ping', (req, res) => {
 	console.log(req.body);
-	res.send("pong")
+	res.json({message: "pong"})
 });
 // **end of routes** //
 
