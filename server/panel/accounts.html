@@ -17,7 +17,7 @@
 	<form action="" method="post" onsubmit="submitQuery()" autocomplete="off" class="search">
 		<input type="text" name="query" placeholder="search" class="search-query">
 		<select name="search-level" aria-label="search in grade-level" class="search-level">
-			<option value="" selected hidden disabled>Grade level</option>
+			<option value="" selected hidden disabled>Grade Level</option>
 			<option value="">7</option>
 			<option value="">8</option>
 			<option value="">9</option>
@@ -27,10 +27,11 @@
 		</select>
 		<select name="search-section" aria-label="search in section" onchange="submitQuery()" class="search-section">
 			<option value="" selected hidden disabled>Section</option>
-			<option value="" disabled>Select Grade-Level first.</option>
+			<option value="" disabled></option>
 		</select>
-		<button tabindex="0" type="submit"><i class="material-symbols-rounded">search</i></button>
+		<button tabindex="0" type="submit" class="search-submit"><i class="material-symbols-rounded">search</i></button>
 	</form>
 	<script src="assets/accounts.js" defer></script>
+	
 </body>
 </html>
