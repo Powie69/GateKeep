@@ -1,3 +1,11 @@
+const sections = {
+	"7": ["love", "kindness", "hope", "faith"],
+	"8": ["matthew", "jeremiah", "psalm", "john"],
+	"9": ["thomas", "joseph", "james", "paul"],
+	"10": ["zeus", "aphrodite", "athena", "poseidon"],
+	"11": ["",""],
+	"12": ["",""],
+}
 
 async function submitQuery(type) {
 	event.preventDefault()
@@ -13,6 +21,24 @@ async function submitQuery(type) {
 
 		console.log(response);
 	} catch (error) {console.error(console.error());}
+}
+
+function getSection(value) {
+	document.querySelectorAll('.search-section-item').forEach((element, i) => {
+		if (!value) {
+			element.setAttribute("hidden","");
+			element.innerHTML = "";
+			document.querySelector('.search-section-text').selected = true;
+			document.querySelector('.search-section-none').removeAttribute("hidden");
+			return;
+		}
+		if (!sections[value][i]) {element.setAttribute("hidden",""); return;}
+		element.innerHTML = sections[value][i];
+		element.value = sections[value][i];
+		document.querySelector('.search-section-none').setAttribute("hidden","");
+		document.querySelector('.search-section-text').selected = true;
+		element.removeAttribute("hidden")
+	})
 }
 
 function adminLogin() {

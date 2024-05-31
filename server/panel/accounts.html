@@ -13,25 +13,29 @@
 </head>
 <body>
 	<header class="header"><h1 class="header-title">Account Management</h1></header>
-	<!-- TODO: prevent stupid post shit -->
 	<form action="" method="post" onsubmit="submitQuery()" autocomplete="off" class="search">
 		<input type="text" name="query" placeholder="search" class="search-query">
-		<select name="search-level" aria-label="search in grade-level" class="search-level">
+		<select class="search-level" onchange="getSection(this.value)" name="search-level" aria-label="search in grade-level">
 			<option value="" selected hidden disabled>Grade Level</option>
-			<option value="">7</option>
-			<option value="">8</option>
-			<option value="">9</option>
-			<option value="">10</option>
-			<option value="">11</option>
-			<option value="">12</option>
+			<option value="">any</option>
+			<option value="7">7</option>
+			<option value="8">8</option>
+			<option value="9">9</option>
+			<option value="10">10</option>
+			<option value="11">11</option>
+			<option value="12">12</option>
 		</select>
-		<select name="search-section" aria-label="search in section" onchange="submitQuery()" class="search-section">
-			<option value="" selected hidden disabled>Section</option>
-			<option value="" disabled></option>
+		<select class="search-section" onchange="submitQuery()" name="search-section"  aria-label="search in section">
+			<option value="" selected hidden class="search-section-text" disabled>Section</option>
+			<option value="" disabled class="search-section-none">select grade-level first</option>
+			<option value="" hidden class="search-section-item"></option>
+			<option value="" hidden class="search-section-item"></option>
+			<option value="" hidden class="search-section-item"></option>
+			<option value="" hidden class="search-section-item"></option>
 		</select>
 		<button tabindex="0" type="submit" class="search-submit"><i class="material-symbols-rounded">search</i></button>
 	</form>
+
 	<script src="assets/accounts.js" defer></script>
-	
 </body>
 </html>
