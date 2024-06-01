@@ -8,9 +8,9 @@
 }
 
 .header h1 {
-	padding: 1rem 0;
+	margin: 1rem 0;
 	text-align: center;
-	font-size: 1.3rem;
+	font-size: 1.5rem;
 }
 
 /* search */
@@ -19,7 +19,7 @@
 	gap: .5rem;
 	width: 40%;
 	height: 2.5rem;
-	position: absolute;
+	position: relative;
 	left: 50%;
 	transform: translateX(-50%);
 }
@@ -46,7 +46,8 @@
 }
 
 .search-section {
-	width: 160px;
+	width: 90px;
+	text-transform: capitalize;
 }
 
 .search-section option {
@@ -72,4 +73,37 @@
 
 .search-submit i {
 	font-size: 2.5rem;
+}
+
+/* main */
+
+.main {
+	font-size: calc(1rem - 3%);
+}
+
+.main-title {
+	text-align: center;
+}
+
+.main-table-heading {
+	display: flex;
+	gap: 3.5rem;
+	/* justify-content: space-between; */
+}
+
+.main-table-heading-group {
+	display: flex;
+	gap: 1.5rem;
+	justify-content: space-between;
+}
+
+.main-table-contain {
+	display: flex;
+	flex-direction: column;
+}
+
+.main-table-contain-item {
+	display: flex;
+	gap: 3rem;
+	justify-content: space-between;
 }
