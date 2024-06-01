@@ -13,9 +13,9 @@
 
 - [ ] panel login stuff
 - [X] env everything
-- [ ] about,help section
+- [X] about,help section
 - [X] info form html/js stuff
-- [ ] fix stupid form shit
+- [X] fix stupid form shit (not implemented for everything yet)
 - [ ] box shadow
 - [ ] typography
 - [X] logout function
