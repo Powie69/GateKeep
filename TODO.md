@@ -11,6 +11,7 @@
 ##
 
 
+- [ ] separate mysql commands
 - [ ] panel login stuff
 - [X] env everything
 - [X] about,help section

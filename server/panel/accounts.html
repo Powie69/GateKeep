@@ -15,9 +15,9 @@
 	<header class="header"><h1 class="header-title">Account Management</h1></header>
 	<form action="" method="post" onsubmit="submitQuery()" autocomplete="off" class="search">
 		<input type="text" name="query" placeholder="search" class="search-query">
-		<select class="search-level" onchange="getSection(this.value)" name="search-level" aria-label="search in grade-level">
+		<select class="search-level" onchange="getSection(this.value)" name="searchLevel" aria-label="search in grade-level">
 			<option value="" selected hidden disabled>Grade Level</option>
-			<option value="">any</option>
+			<option value="">Any</option>
 			<option value="7">7</option>
 			<option value="8">8</option>
 			<option value="9">9</option>
@@ -25,9 +25,10 @@
 			<option value="11">11</option>
 			<option value="12">12</option>
 		</select>
-		<select class="search-section" onchange="submitQuery()" name="search-section"  aria-label="search in section">
+		<select class="search-section" onchange="submitQuery()" name="searchSection"  aria-label="search in section">
 			<option value="" selected hidden class="search-section-text" disabled>Section</option>
 			<option value="" disabled class="search-section-none">select grade-level first</option>
+			<option value="" hidden class="search-section-any">Any</option>
 			<option value="" hidden class="search-section-item"></option>
 			<option value="" hidden class="search-section-item"></option>
 			<option value="" hidden class="search-section-item"></option>
@@ -64,35 +65,36 @@
 			</div>
 			<hr class="main-table-separator">
 			<div class="main-table-contain">
-				<div class="main-table-contain-item">
-					<div class="main-table-contain-item-group">
-						<span id="item-lastName">dingle</span>
-						<span id="item-firstName">quandale</span>
-						<span id="item-middleName">kale</span>
+				<template class="main-table-contain_template">
+					<div class="main-table-contain-item">
+						<div class="main-table-contain-item-group">
+							<span class="_nullItems" id="item-lastName">null</span>
+							<span class="_nullItems" id="item-firstName">null</span>
+							<span class="_nullItems" id="item-middleName">null</span>
+						</div>
+						<div class="main-table-contain-item-group">
+							<span class="_nullItems" id="item-lrn">null</span>
+							<span class="_nullItems" id="item-gradeLevel">null</span>
+							<span class="_nullItems"  id="item-section">null</span>
+						</div>
+						<div class="main-table-contain-item-group">
+							<span class="_nullItems" id="item-age">null</span>
+							<span class="_nullItems" id="item-sex">null</span>
+						</div>
+						<div class="main-table-contain-item-group">
+							<span class="_nullItems" id="item-barangay">null</span>
+							<span class="_nullItems" id="item-city">null</span>
+							<span class="_nullItems" id="item-street">null</span>
+							<span class="_nullItems" id="item-houseNo">null</span>
+						</div>
+						<span class="_nullItems" id="item-userId" >null</span>
+						<div class="main-table-contain-item-buttons">
+							<button class="main-table-contain-item-button"><i class="material-symbols-rounded">receipt</i></button>
+							<button class="main-table-contain-item-button"><i class="material-symbols-rounded">id_card</i></button>
+							<button class="main-table-contain-item-button"><i class="material-symbols-rounded">edit</i></button>
+						</div>
 					</div>
-					<div class="main-table-contain-item-group">
-						<span id="item-lrn">123456789000</span>
-						<span id="item-gradeLevel">7</span>
-						<span id="item-section">Hope</span>
-					</div>
-					<div class="main-table-contain-item-group">
-						<span id="item-age">13</span>
-						<span id="item-sex">Male</span>
-					</div>
-					<div class="main-table-contain-item-group">
-						<span id="item-barangay">gaytown</span>
-						<span id="item-city">QC</span>
-						<span id="item-street">japan</span>
-						<span id="item-houseNo">3021</span>
-					</div>
-					<span id="item-userId">35</span>
-					<div class="main-table-contain-item-buttons">
-						<button class="main-table-contain-item-button"><i class="material-symbols-rounded">receipt</i></button>
-						<button class="main-table-contain-item-button"><i class="material-symbols-rounded">id_card</i></button>
-						<button class="main-table-contain-item-button"><i class="material-symbols-rounded">edit</i></button>
-					</div>
-				</div>
-				<hr class="main-table-contain-separator">			
+				</template>
 			</div>
 		</div>
 	</main>

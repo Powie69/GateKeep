@@ -19,8 +19,30 @@ async function submitQuery(type) {
 			credentials: 'include',
 		});
 
-		console.log(response);
-	} catch (error) {console.error(console.error());}
+		if (!response.ok) { return console.log("sumting wong"); }
+
+		const respond = await response.json();
+        console.log(respond);
+		displayData(respond)
+
+	} catch (error) {console.error(console.error(error));}
+}
+
+function displayData(data) {
+	document.querySelectorAll(".main-table-contain > div").forEach(element => {
+		if (element.tagName == 'template') {return;} 
+		document.querySelector(".main-table-contain").removeChild(element);
+	});
+	for (let i = 0; i < data.length ; i++) {
+		const element = document.importNode(document.querySelector(".main-table-contain_template").content, true).querySelector(".main-table-contain-item")
+		for (let i1 in data[i]) {
+			if (!data) {return}
+			const elementItem = element.querySelector(`#item-${i1}`);
+			if (elementItem == null) {continue;}
+			if (data[i][i1]) {elementItem.innerText = data[i][i1]; elementItem.classList.remove('_nullItems')};
+		}
+		document.querySelector(".main-table-contain").appendChild(element);
+	}
 }
 
 function getSection(value) {
@@ -30,12 +52,14 @@ function getSection(value) {
 			element.innerHTML = "";
 			document.querySelector('.search-section-text').selected = true;
 			document.querySelector('.search-section-none').removeAttribute("hidden");
+			document.querySelector('.search-section-any').setAttribute("hidden","");
 			return;
 		}
 		if (!sections[value][i]) {element.setAttribute("hidden",""); return;}
 		element.innerHTML = sections[value][i];
 		element.value = sections[value][i];
 		document.querySelector('.search-section-none').setAttribute("hidden","");
+		document.querySelector('.search-section-any').removeAttribute("hidden");
 		document.querySelector('.search-section-text').selected = true;
 		element.removeAttribute("hidden")
 	})

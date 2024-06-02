@@ -7,6 +7,8 @@ CREATE TABLE userInfo (
 	firstName VARCHAR(255),
 	middleName VARCHAR(255),
 	lrn char(12),
+	gradeLevel VARCHAR(2),
+	section VARCHAR(255),
 	age INT DEFAULT 0,
 	sex BOOLEAN,
 	houseNo INT,
@@ -29,8 +31,41 @@ SELECT * FROM userInfo WHERE userId = 1;
 SELECT lastName, firstName, middleName, lrn, age, sex, houseNo, street, zip, barangay, city, province FROM userinfo WHERE userId = 1;
 
 -- @block
-INSERT INTO userInfo (userId, lrn)
-VALUES (1, 123456789011);
+SELECT * FROM userInfo WHERE lastName LIKE '%%' OR WHERE firstName LIKE '%%' OR WHERE middleName LIKE '%%' OR WHERE lrn LIKE 'lrn' OR WHERE barangay LIKE '%%';
+
+-- @block
+SELECT * 
+FROM userInfo 
+WHERE 
+    (
+		('' = '' OR lastName LIKE CONCAT('%', '', '%')) OR 
+    	('' = '' OR firstName LIKE CONCAT('%', '', '%')) OR 
+    	('' = '' OR middleName LIKE CONCAT('%', '', '%')) OR 
+    	('' = '' OR lrn LIKE CONCAT('%', '', '%')) OR 
+    	('' = '' OR barangay LIKE CONCAT('%', '', '%'))
+	) 
+	AND 
+	(
+		('' IS NULL OR '' = '' OR gradeLevel = '') AND
+		('' is NULL OR '' = '' OR section = '')
+	);
+
+-- @block
+SELECT * 
+FROM userInfo 
+WHERE 
+    (
+		(? = '' OR lastName LIKE CONCAT('%', ?, '%')) OR 
+    	(? = '' OR firstName LIKE CONCAT('%', ?, '%')) OR 
+    	(? = '' OR middleName LIKE CONCAT('%', ?, '%')) OR 
+    	(? = '' OR lrn LIKE CONCAT('%', ?, '%')) OR 
+    	(? = '' OR barangay LIKE CONCAT('%', ?, '%'))
+	) 
+	AND 
+	(
+		(? IS NULL OR ? = '' OR gradeLevel = ?) AND
+		(? is NULL OR ? = '' OR section = ?)
+	);
 
 -- @block
 UPDATE userinfo
@@ -39,8 +74,11 @@ SET
 	firstName = "godwin",
 	middleName = "p",
 	age = 16,
-	sex = true
+	sex = true,
+	gradeLevel = 10,
+	section = "zeus"
 WHERE id = 1;
+
 
 -- @block
 -- @block
