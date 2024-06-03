@@ -13,6 +13,17 @@
 </head>
 <body>
 	<header class="header"><h1 class="header-title">Account Management</h1></header>
+	<dialog class="logsDialog" userId="" >
+		<header><p>Logs</p></header>
+		<div class="logsDialog-container">
+			<template class="logsDialog-container-item_template">
+				<div class="logsDialog-container-item">
+					<p class="logsDialog-container-item-title"><i class="material-symbols-rounded">Login</i> <span>IN</span></p>
+					<p class="logsDialog-container-item-desc"><span class="logsDialog-container-item-desc_name"></span> <span class="logsDialog-container-item-desc_isIn">arrived</span> at <span class="logsDialog-container-item-desc_time">0:00am</span> • <span class="logsDialog-container-item-desc_date">jan 0</span></p>
+				</div>
+			</template>
+		</div>
+	</dialog>
 	<form action="" method="post" onsubmit="submitQuery()" autocomplete="off" class="search">
 		<input type="text" name="query" placeholder="search" class="search-query">
 		<select class="search-level" onchange="getSection(this.value)" name="searchLevel" aria-label="search in grade-level">
@@ -87,9 +98,9 @@
 							<span class="_nullItems" id="item-street">null</span>
 							<span class="_nullItems" id="item-houseNo">null</span>
 						</div>
-						<span class="_nullItems" id="item-userId" >null</span>
-						<div class="main-table-contain-item-buttons">
-							<button class="main-table-contain-item-button"><i class="material-symbols-rounded">receipt</i></button>
+						<span class="_nullItems" id="item-userId">null</span>
+						<div class="main-table-contain-item-buttons" userId="">
+							<button class="main-table-contain-item-button" onclick="openLogsDialog(this)"><i class="material-symbols-rounded">receipt</i></button>
 							<button class="main-table-contain-item-button"><i class="material-symbols-rounded">id_card</i></button>
 							<button class="main-table-contain-item-button"><i class="material-symbols-rounded">edit</i></button>
 						</div>

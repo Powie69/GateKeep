@@ -6,6 +6,9 @@ const sections = {
 	"11": ["",""],
 	"12": ["",""],
 }
+const dialogElements = document.querySelectorAll(".logsDialog");
+let getMessageDebounce = true;
+let messageCount = 0;
 
 async function submitQuery(type) {
 	event.preventDefault()
@@ -33,8 +36,7 @@ async function submitQuery(type) {
 }
 
 function displayData(data) {
-	document.querySelectorAll(".main-table-contain > div").forEach(element => {
-		if (element.tagName == 'template') {return;} 
+	document.querySelectorAll(".main-table-contain > div.main-table-contain-item").forEach(element => {
 		document.querySelector(".main-table-contain").removeChild(element);
 	});
 	for (let i = 0; i < data.length; i++) {
@@ -45,6 +47,7 @@ function displayData(data) {
 			if (elementItem == null) {continue;}
 			if (data[i][i1]) {elementItem.innerText = data[i][i1]; elementItem.classList.remove('_nullItems');}
 		}
+		element.querySelector('.main-table-contain-item-buttons').setAttribute("userId", data[i].userId);
 		document.querySelector(".main-table-contain").appendChild(element);
 	}
 }
@@ -68,6 +71,84 @@ function getSection(value) {
 		element.removeAttribute("hidden");
 	})
 }
+
+async function fetchMessages(limit,offset,userId) {
+	if (!limit || offset == undefined || limit >= 25 || offset <= -1) { console.log("bad data (client)"); return;}
+	return await fetch('http://localhost:3000/admin/getMessage', {
+	method: 'post',
+	credentials: 'include',
+	headers: {
+		'Content-Type': 'application/json'
+	  },
+	body: `{"limit": ${limit}, "offset": ${offset}, "userId": ${userId}}`
+	})
+	.then(response => {
+		if (response.status >= 400) {
+			console.warn("wong (client)"); return;
+		} else {
+			return response.json();
+		}
+	})
+	.then(data => {return data;})
+	.catch(error => { console.error(error); });
+}
+
+async function openLogsDialog(value) {
+	document.querySelector('.logsDialog').showModal();
+	document.querySelector('.logsDialog').setAttribute("userId",value.parentElement.getAttribute('userId'));
+	document.querySelector('.logsDialog').setAttribute("userName",value.parentElement.parentElement.querySelector('#item-firstName').innerText);
+	const data = await fetchMessages(15,messageCount,value.parentElement.getAttribute('userId'));
+	console.log(data);
+	updateMessage(data);
+}
+
+function updateMessage(data) {
+	if (!data) {return;}
+	for (let i = 0; i < data.length; i++) {
+		const element = document.importNode(document.querySelector(".logsDialog-container-item_template").content, true).querySelector(".logsDialog-container-item")
+		element.querySelector(".logsDialog-container-item-desc_name").innerText = document.querySelector('.logsDialog').getAttribute('userName')
+		element.querySelector(".logsDialog-container-item-desc_time").innerText = new Date(data[i].time).toLocaleTimeString('en-US', {timeZone: "Asia/Manila", hour12: true, hour: "numeric", minute: "2-digit"})
+		element.querySelector(".logsDialog-container-item-desc_date").innerText = new Date(data[i].time).toLocaleDateString('en-US', { month: 'long', day: 'numeric'})
+		if (data[i].isIn == 1) {
+			element.querySelector(".logsDialog-container-item-title span").innerText = "IN";
+			element.querySelector(".logsDialog-container-item-title i").innerText = "Login";
+			element.querySelector(".logsDialog-container-item-desc_isIn").innerText = "arrived";
+		} else {
+			element.querySelector(".logsDialog-container-item-title span").innerText = "OUT";
+			element.querySelector(".logsDialog-container-item-title i").innerText = "Logout";
+			element.querySelector(".logsDialog-container-item-desc_isIn").innerText = "left";
+		}
+		document.querySelector(".logsDialog-container").appendChild(element);
+		messageCount++;
+	}
+};
+
+document.querySelector(".logsDialog-container").addEventListener('scrollend',  function(){
+	if (getMessageDebounce && (this.clientHeight + this.scrollTop >= this.scrollHeight - 60)) {
+		// When scrolled to the bottom of the container
+		fetchMessages(5, messageCount, document.querySelector('.logsDialog').getAttribute('userId'))
+		.then(data => {updateMessage(data)})
+		getMessageDebounce = false;
+		setTimeout(function() {
+            getMessageDebounce = true;
+        }, 500);
+	}
+})
+
+dialogElements.forEach(element => {
+	element.addEventListener("click", e => {
+		const dialogDimensions = element.getBoundingClientRect()
+		if (e.clientX < dialogDimensions.left ||e.clientX > dialogDimensions.right ||e.clientY < dialogDimensions.top ||e.clientY > dialogDimensions.bottom) {element.close()}
+	})
+});
+
+document.querySelector(".logsDialog").addEventListener('close', () => {
+	messageCount = 0;
+	document.querySelector('.logsDialog').setAttribute('userId','');
+	document.querySelectorAll(".logsDialog-container > div.logsDialog-container-item").forEach(element => {
+		document.querySelector(".logsDialog-container").removeChild(element);
+	});
+})
 
 function adminLogin() {
 	fetch('http://localhost:3000/admin/login', {

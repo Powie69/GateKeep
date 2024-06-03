@@ -31,7 +31,6 @@ const limiter = (maxReq,windowMinute,errMessage) => {
 	})
 }
 
-
 const isAuthenticated = (req, res, next) => {
 	if (!req.session.authenticated) {
 		console.log("not auth");

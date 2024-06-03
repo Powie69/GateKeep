@@ -1,7 +1,6 @@
 const bodyParser = require('body-parser');
 const express = require('express');
 const session = require('express-session');
-const q = require('./js/commands.js');
 const cors = require('cors');
 const app = express();
 

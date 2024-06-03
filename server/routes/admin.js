@@ -38,14 +38,27 @@ app.post('/send', isAdmin, (req,res) => {
 })
 
 app.post('/query', /*isAdmin,*/ (req,res) => {
-	console.log(req.body);
+	// console.log(req.body);
 	const data = req.body;
 	if (data.query.length == 0 && data.searchLevel == undefined && data.searchSection == undefined) {return res.status(400).send('Bad data')}
-	db.query(q.QUERY_CHECK, [...new Array(10).fill(data.query), ...new Array(3).fill(data.searchLevel), ...new Array(3).fill(data.searchSection)], (err,result) => {
+	db.query(q.GET_QUERY, [...new Array(10).fill(data.query), ...new Array(3).fill(data.searchLevel), ...new Array(3).fill(data.searchSection)], (err,result) => {
 		if (err) { console.error('SQL:', err); return res.status(500).send('Internal Server Error');}
 		// console.log(result);
 		res.json(result)
 	})
 })
+
+app.post('/getMessage', /*isAdmin,*/ (req,res) => {
+	const data = req.body;
+	if (!data.limit || data.offset == undefined || data.limit >= 25 || data.offset <= -1) {return res.status(400).send("bad data (server)")}
+	db.query(q.GET_MESSAGE, [data.userId, data.limit, data.offset], (err, result) => {
+		if (err) {console.error('SQL:', err); return res.status(500).send('Internal Server Error');}
+		if (result.length == 0) {
+			res.status(404).json({message: "No more messages found"})
+		} else {
+			res.json(result);
+		}
+	})
+});
 
 module.exports = app
