@@ -1,7 +1,7 @@
 const express = require('express');
 // const path = require('path')
 const { isAdmin, db } = require('../js/middleware.js');
-const q = require('../js/commands.js');
+const q = require('../js/adminQuery.js');
 const app = express.Router();
 require('dotenv').config();
 
@@ -19,7 +19,7 @@ app.post('/send', isAdmin, (req,res) => {
 	const data = req.body;
 	if (!data || data.qrId == undefined|| data.isIn == undefined || data.qrId == ""|| data.isIn == "" ||!(data.isIn >= 0 && data.isIn <= 1)) {return res.status(400).send("bad data");}
 
-	db.query(q.FIND_QR, [data.qrId], (err,result) => {
+	db.query(q.GET_ID_VIA_QRID, [data.qrId], (err,result) => {
 		if (err) { console.error('SQL:', err); return res.status(500).send('Internal Server Error');}
 		if (result.length == 0) {return res.status(404).send("no Qr data found")}
 

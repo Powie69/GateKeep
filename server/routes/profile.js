@@ -2,7 +2,7 @@ const express = require('express');
 const fetch = require('node-fetch');
 const crypto = require('crypto');
 const {limiter ,isAuthenticated, db} = require('../js/middleware.js');
-const q = require('../js/commands.js')
+const q = require('../js/profileQuery.js')
 const app = express.Router();
 
 app.post('/login', limiter(30, 5),(req, res) => {

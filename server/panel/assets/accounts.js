@@ -10,12 +10,16 @@ const sections = {
 async function submitQuery(type) {
 	event.preventDefault()
 	try {
+		const data = Object.fromEntries(new FormData(document.querySelector(".search")).entries())
+
+		if (data.query.length == 0 && data.searchLevel == undefined && data.searchSection == undefined) {return console.log('bad data (client)');}
+
 		const response = await fetch('http://localhost:3000/admin/query', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/x-www-form-urlencoded',
 			},
-			body: new URLSearchParams(Object.fromEntries(new FormData(document.querySelector(".search")).entries())),
+			body: new URLSearchParams(data),
 			credentials: 'include',
 		});
 
@@ -33,13 +37,13 @@ function displayData(data) {
 		if (element.tagName == 'template') {return;} 
 		document.querySelector(".main-table-contain").removeChild(element);
 	});
-	for (let i = 0; i < data.length ; i++) {
+	for (let i = 0; i < data.length; i++) {
 		const element = document.importNode(document.querySelector(".main-table-contain_template").content, true).querySelector(".main-table-contain-item")
+		if (!data) {return}
 		for (let i1 in data[i]) {
-			if (!data) {return}
 			const elementItem = element.querySelector(`#item-${i1}`);
 			if (elementItem == null) {continue;}
-			if (data[i][i1]) {elementItem.innerText = data[i][i1]; elementItem.classList.remove('_nullItems')};
+			if (data[i][i1]) {elementItem.innerText = data[i][i1]; elementItem.classList.remove('_nullItems');}
 		}
 		document.querySelector(".main-table-contain").appendChild(element);
 	}
@@ -61,7 +65,7 @@ function getSection(value) {
 		document.querySelector('.search-section-none').setAttribute("hidden","");
 		document.querySelector('.search-section-any').removeAttribute("hidden");
 		document.querySelector('.search-section-text').selected = true;
-		element.removeAttribute("hidden")
+		element.removeAttribute("hidden");
 	})
 }
 
