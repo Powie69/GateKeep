@@ -1,5 +1,6 @@
 const express = require('express');
 // const path = require('path')
+const fetch = require('node-fetch')
 const { isAdmin, db } = require('../js/middleware.js');
 const q = require('../js/adminQuery.js');
 const app = express.Router();
@@ -30,7 +31,6 @@ app.post('/send', isAdmin, (req,res) => {
 			})
 			db.query(q.GET_INFO, [result[0].id], (err,result) => {
 				if (err) { console.error('SQL:', err); return res.status(500).send('Internal Server Error');}
-				// if success do something here
 				res.json(result[0])
 			})
 		} catch (error) { console.log(error); return res.status(500).send('Internal Server Error'); }
@@ -43,7 +43,7 @@ app.post('/query', /*isAdmin,*/ (req,res) => {
 	if (data.query.length == 0 && data.searchLevel == undefined && data.searchSection == undefined) {return res.status(400).send('Bad data')}
 	db.query(q.GET_QUERY, [...new Array(10).fill(data.query), ...new Array(3).fill(data.searchLevel), ...new Array(3).fill(data.searchSection)], (err,result) => {
 		if (err) { console.error('SQL:', err); return res.status(500).send('Internal Server Error');}
-		// console.log(result);
+		if (result.length == 0) {return res.status(404).json({message: "user not found"});}
 		res.json(result)
 	})
 })
@@ -60,5 +60,42 @@ app.post('/getMessage', /*isAdmin,*/ (req,res) => {
 		}
 	})
 });
+
+app.post('/getInfo', /*isAdmin,*/ (req,res) => {
+	const data = req.body
+	if (!data || data.userId == undefined) {return res.status(400).send("bad data (server)")}
+	db.query(q.GET_INFO_WITH_QRID, [data.userId], (err,result) => {
+		if (err) {console.error('SQL:', err); return res.status(500).send('Internal Server Error');}
+		if (result.length == 0) {return res.status(404).json({message: "user not found"});}
+		res.json(result[0]);
+	})
+})
+
+app.post('/getQrImage', /*isAdmin*/ (req,res) => {
+	const data = req.body
+	if (!data || data.userId == undefined) {return res.status(400).send("bad data (server)")}
+	db.query(q.GET_QRCACHE, [data.userId], (err,result) => {
+		if (err) {console.error('SQL:', err); return res.status(500).send('Internal Server Error');}
+		if (!result || result.length == 0) {return res.status(404).json({message: "user not found"});}
+		if (result[0].qrCache != null) {
+			res.set('Content-Type', 'image/png')
+			return res.send(result[0].qrCache)
+		}
+		db.query(q.GET_QRID, [data.userId], async (err,result) => {
+			if (err) {console.error('SQL:', err); return res.status(500).send('Internal Server Error');}
+			try {
+				const response = await fetch(`https://api.qrserver.com/v1/create-qr-code/?size=160x160&margin=10&data=${JSON.stringify(result[0])}`)
+				if (!response.ok) {console.log(error); return res.status(500).send('Internal Server Error');}
+				console.log('pass2');
+				const qrImage = await response.buffer()
+				db.query(q.ADD_QRCACHE, [qrImage, data.userId], (err,result) => {
+					if (err) {console.error('SQL:', err); return res.status(500).send('Internal Server Error');}
+				})
+				res.set('Content-Type', 'image/png')
+				res.status(201).send(qrImage)
+			} catch (err) {console.log(err); return res.status(500).send('Internal Server Error');}
+		})
+	})
+})
 
 module.exports = app

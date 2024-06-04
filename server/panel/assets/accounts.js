@@ -6,7 +6,7 @@ const sections = {
 	"11": ["",""],
 	"12": ["",""],
 }
-const dialogElements = document.querySelectorAll(".logsDialog");
+const dialogElements = document.querySelectorAll(".logsDialog, .infoDialog");
 let getMessageDebounce = true;
 let messageCount = 0;
 
@@ -93,6 +93,48 @@ async function fetchMessages(limit,offset,userId) {
 	.catch(error => { console.error(error); });
 }
 
+async function fetchInfo(userId) {
+	if (userId == undefined) {console.log("bad data (client)");}
+	return await fetch('http://localhost:3000/admin/getInfo', {
+	method: 'post',
+	credentials: 'include',
+	headers: {
+		'Content-Type': 'application/json'
+	  },
+	body: `{"userId": ${userId}}`
+	})
+	.then(response => {
+		if (response.status >= 400) {
+			console.warn("wong (client)"); return;
+		} else {
+			return response.json();
+		}
+	})
+	.then(data => {return data;})
+	.catch(error => { console.error(error); });
+}
+
+async function fetchQrcache(userId) {
+	if (userId == undefined) {console.log("bad data (client)");}
+	return await fetch('http://localhost:3000/admin/getQrImage', {
+	method: 'post',
+	credentials: 'include',
+	headers: {
+		'Content-Type': 'application/json'
+	  },
+	body: `{"userId": ${userId}}`
+	})
+	.then(response => {
+		if (response.status >= 400) {
+			console.warn("wong (client)"); return;
+		} else {
+			return response.blob();
+		}
+	})
+	.then(data => {return data;})
+	.catch(error => {console.error(error);});
+}
+
 async function openLogsDialog(value) {
 	document.querySelector('.logsDialog').showModal();
 	document.querySelector('.logsDialog').setAttribute("userId",value.parentElement.getAttribute('userId'));
@@ -100,6 +142,15 @@ async function openLogsDialog(value) {
 	const data = await fetchMessages(15,messageCount,value.parentElement.getAttribute('userId'));
 	console.log(data);
 	updateMessage(data);
+}
+
+async function openInfoDialog(value) {
+	document.querySelector('.infoDialog').showModal()
+	const data = await fetchInfo(value.parentElement.getAttribute('userId'))
+	const qrData = await fetchQrcache(value.parentElement.getAttribute('userId'))
+	console.log(data);
+	updateInfo(data)
+	updateInfoQr(qrData)
 }
 
 function updateMessage(data) {
@@ -123,7 +174,26 @@ function updateMessage(data) {
 	}
 };
 
-document.querySelector(".logsDialog-container").addEventListener('scrollend',  function(){
+function updateInfo(data) {
+	if (!data) {return}
+	for (const i in data) {
+		const element = document.querySelector(`#info-${i}`)
+		if (!element) {continue;}
+		if (element.id == "info-qrId") {
+			element.innerText = `{"qrId": "${data[i]}"}`;
+			element.classList.remove('_nullItems');
+			continue;
+		}
+		if (data[i]) {element.innerText = data[i]; element.classList.remove('_nullItems')}
+	}
+}
+
+function updateInfoQr(data) {
+	if (!data) {return}
+	document.querySelector('#info-qrId + img').src = URL.createObjectURL(data);
+}
+
+document.querySelector(".logsDialog-container").addEventListener('scrollend', function(){
 	if (getMessageDebounce && (this.clientHeight + this.scrollTop >= this.scrollHeight - 60)) {
 		// When scrolled to the bottom of the container
 		fetchMessages(5, messageCount, document.querySelector('.logsDialog').getAttribute('userId'))
@@ -145,8 +215,17 @@ dialogElements.forEach(element => {
 document.querySelector(".logsDialog").addEventListener('close', () => {
 	messageCount = 0;
 	document.querySelector('.logsDialog').setAttribute('userId','');
+	document.querySelector('.logsDialog').setAttribute('userName','');
 	document.querySelectorAll(".logsDialog-container > div.logsDialog-container-item").forEach(element => {
 		document.querySelector(".logsDialog-container").removeChild(element);
+	});
+})
+
+document.querySelector(".infoDialog").addEventListener('close', () => {
+	document.querySelector('#info-qrId + img').src = '';
+	document.querySelectorAll('.infoDialog-container > span span').forEach(element => {
+		element.classList.add("_nullItems");
+		element.innerText = '';
 	});
 })
 

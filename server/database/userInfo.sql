@@ -25,8 +25,10 @@ CREATE TABLE userInfo (
 SELECT * FROM userInfo;
 
 -- @block
-SELECT * FROM userInfo WHERE userId = 1;
-
+SELECT userInfo.*, users.qrId
+FROM userInfo
+LEFT JOIN users ON userInfo.userId = users.id
+WHERE userInfo.userId = 9;
 -- @block
 SELECT lastName, firstName, middleName, lrn, age, sex, houseNo, street, zip, barangay, city, province FROM userinfo WHERE userId = 1;
 
@@ -51,21 +53,7 @@ WHERE
 	);
 
 -- @block
-SELECT * 
-FROM userInfo 
-WHERE 
-    (
-		(? = '' OR lastName LIKE CONCAT('%', ?, '%')) OR 
-    	(? = '' OR firstName LIKE CONCAT('%', ?, '%')) OR 
-    	(? = '' OR middleName LIKE CONCAT('%', ?, '%')) OR 
-    	(? = '' OR lrn LIKE CONCAT('%', ?, '%')) OR 
-    	(? = '' OR barangay LIKE CONCAT('%', ?, '%'))
-	) 
-	AND 
-	(
-		(? IS NULL OR ? = '' OR gradeLevel = ?) AND
-		(? is NULL OR ? = '' OR section = ?)
-	);
+SELECT * FROM userInfo JOIN users ON userInfo WHERE id = 1
 
 -- @block
 UPDATE userinfo

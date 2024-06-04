@@ -144,7 +144,7 @@ app.post('/getQrcode', isAuthenticated, (req,res) => {
 						console.log("qr add to cache: ", req.session.user);
 					})
 					res.set('Content-Type', 'image/png')
-					res.send(qrImage)
+					res.status(201).send(qrImage)
 				} catch (err) {console.log(err); return res.status(500).send('Internal Server Error');}
 			})
 		}

@@ -24,6 +24,31 @@
 			</template>
 		</div>
 	</dialog>
+	<dialog class="infoDialog" >
+		<header><p>User Info</p></header>
+		<div class="infoDialog-container">
+				<span>
+					QR CODE:<br>
+					<span class="_nullItems" id="info-qrId">null</span>
+					<img src="" title="woah">
+				</span>
+				<span>Last Name:<br> <span class="_nullItems" id="info-lastName">null</span></span>
+				<span>First Name:</br> <span class="_nullItems" id="info-firstName">null</span></span>
+				<span>Middle Name:</br> <span class="_nullItems" id="info-middleName">null</span></span>
+				<span>LRN:</br> <span class="_nullItems" id="info-lrn">null</span></span>
+				<span>Grade Level:</br> <span class="_nullItems" id="info-gradeLevel">null</span></span>
+				<span>Section:</br> <span class="_nullItems"  id="info-section">null</span></span>
+				<span>Age:</br> <span class="_nullItems" id="info-age">null</span></span>
+				<span>Sex:</br> <span class="_nullItems" id="info-sex">null</span></span>
+				<span>Zip:</br> <span class="_nullItems" id="info-zip">null</span></span>
+				<span>Barangay:</br> <span class="_nullItems" id="info-barangay">null</span></span>
+				<span>City/Municipality:</br> <span class="_nullItems" id="info-city">null</span></span>
+				<span>Province:</br> <span class="_nullItems" id="info-province">null</span></span>
+				<span>Street Name:</br> <span class="_nullItems" id="info-street">null</span></span>
+				<span>House Number:</br> <span class="_nullItems" id="info-houseNo">null</span></span>
+				<span>User Id:</br> <span class="_nullItems" id="info-userId">null</span></span>
+		</div>
+	</dialog>
 	<form action="" method="post" onsubmit="submitQuery()" autocomplete="off" class="search">
 		<input type="text" name="query" placeholder="search" class="search-query">
 		<select class="search-level" onchange="getSection(this.value)" name="searchLevel" aria-label="search in grade-level">
@@ -101,7 +126,7 @@
 						<span class="_nullItems" id="item-userId">null</span>
 						<div class="main-table-contain-item-buttons" userId="">
 							<button class="main-table-contain-item-button" onclick="openLogsDialog(this)"><i class="material-symbols-rounded">receipt</i></button>
-							<button class="main-table-contain-item-button"><i class="material-symbols-rounded">id_card</i></button>
+							<button class="main-table-contain-item-button" onclick="openInfoDialog(this)"><i class="material-symbols-rounded">id_card</i></button>
 							<button class="main-table-contain-item-button"><i class="material-symbols-rounded">edit</i></button>
 						</div>
 					</div>

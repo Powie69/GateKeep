@@ -11,7 +11,7 @@ CREATE TABLE users(
 );
 
 -- @block
-SELECT * FROM users
+SELECT * FROM users;
 -- @block
 SELECT id FROM users WHERE (email = 'godwin@gmail.com' OR phoneNumber = 'godwin@gmail.com') AND lrn = 123456789011 AND password = 123;
 
