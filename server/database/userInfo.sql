@@ -28,12 +28,30 @@ SELECT * FROM userInfo;
 SELECT userInfo.*, users.qrId
 FROM userInfo
 LEFT JOIN users ON userInfo.userId = users.id
-WHERE userInfo.userId = 9;
+WHERE userInfo.userId = 1;
 -- @block
 SELECT lastName, firstName, middleName, lrn, age, sex, houseNo, street, zip, barangay, city, province FROM userinfo WHERE userId = 1;
 
 -- @block
-SELECT * FROM userInfo WHERE lastName LIKE '%%' OR WHERE firstName LIKE '%%' OR WHERE middleName LIKE '%%' OR WHERE lrn LIKE 'lrn' OR WHERE barangay LIKE '%%';
+UPDATE userInfo SET lastName = CASE WHEN ? = '' THEN lastName ELSE IFNULL(?, lastName) END, firstName = CASE WHEN ? = '' THEN firstName ELSE IFNULL(?, firstName) END, middleName = CASE WHEN ? = '' THEN middleName ELSE IFNULL(?, middleName) END, lrn = CASE WHEN ? = '' THEN lrn ELSE IFNULL(?, lrn) END, gradeLevel = CASE WHEN ? = '' THEN gradeLevel ELSE IFNULL(?, gradeLevel) END, section = CASE WHEN ? = '' THEN section ELSE IFNULL(?, section) END, age = CASE WHEN ? = '' THEN age ELSE IFNULL(?, age) END, sex = CASE WHEN ? = '' THEN sex ELSE IFNULL(?, sex) END, houseNo = CASE WHEN ? = '' THEN houseNo ELSE IFNULL(?, houseNo) END, street = CASE WHEN ? = '' THEN street ELSE IFNULL(?, street) END, zip = CASE WHEN ? = '' THEN zip ELSE IFNULL(?, zip) END, barangay = CASE WHEN ? = '' THEN barangay ELSE IFNULL(?, barangay) END, city = CASE WHEN ? = '' THEN city ELSE IFNULL(?, city) END, province = CASE WHEN ? = '' THEN province ELSE IFNULL(?, province) END, WHERE userId = ?;
+
+-- @block
+UPDATE userInfo SET 
+lastName = CASE WHEN '' = '' THEN lastName ELSE IFNULL('', lastName) END,
+firstName = CASE WHEN '' = '' THEN firstName ELSE IFNULL('', firstName) END,
+middleName = CASE WHEN '' = '' THEN middleName ELSE IFNULL('', middleName) END,
+lrn = CASE WHEN '' = '' THEN lrn ELSE IFNULL('', lrn) END,
+gradeLevel = CASE WHEN '' = '' THEN gradeLevel ELSE IFNULL('', gradeLevel) END,
+section = CASE WHEN '' = '' THEN section ELSE IFNULL('', section) END,
+age = CASE WHEN '' = '' THEN age ELSE IFNULL('', age) END,
+sex = CASE WHEN '' = '' THEN sex ELSE IFNULL('', sex) END,
+houseNo = CASE WHEN '' = '' THEN houseNo ELSE IFNULL('', houseNo) END,
+street = CASE WHEN '' = '' THEN street ELSE IFNULL('', street) END,
+zip = CASE WHEN '' = '' THEN zip ELSE IFNULL('', zip) END,
+barangay = CASE WHEN '' = '' THEN barangay ELSE IFNULL('', barangay) END,
+city = CASE WHEN '' = '' THEN city ELSE IFNULL('', city) END,
+province = CASE WHEN '' = '' THEN province ELSE IFNULL('', province) END
+WHERE userId = 1;
 
 -- @block
 SELECT * 
@@ -52,8 +70,6 @@ WHERE
 		('' is NULL OR '' = '' OR section = '')
 	);
 
--- @block
-SELECT * FROM userInfo JOIN users ON userInfo WHERE id = 1
 
 -- @block
 UPDATE userinfo

@@ -35,6 +35,30 @@ async function submitQuery(type) {
 	} catch (error) {console.error(console.error(error));}
 }
 
+async function submitEditInfo() {
+	event.preventDefault()
+	try {
+		const data = Object.fromEntries(new FormData(document.querySelector(".editDialog-form")).entries())
+
+		data.userId = document.querySelector('.editDialog').getAttribute('userId')
+
+		const response = await fetch('http://localhost:3000/admin/updateInfo', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/x-www-form-urlencoded',
+			},
+			body: new URLSearchParams(data),
+			credentials: 'include',
+		});
+
+		if (!response.ok) {return console.log("sumting wong"); }
+
+		const respond = await response.json();
+		console.log(respond);
+	} catch (error) {console.error(console.error(error));}
+	document.querySelector('.editDialog').close()
+}
+
 function displayData(data) {
 	document.querySelectorAll(".main-table-contain > div.main-table-contain-item").forEach(element => {
 		document.querySelector(".main-table-contain").removeChild(element);
@@ -155,8 +179,9 @@ async function openInfoDialog(value) {
 
 async function openEditDialog(value) {
 	document.querySelector('.editDialog').showModal();
-	const data = await fetchInfo(value.parentElement.getAttribute('userId'), false)
-	updatePlaceholderInfo(data)
+	document.querySelector('.editDialog').setAttribute('userId',value.parentElement.getAttribute('userId'));
+	const data = await fetchInfo(value.parentElement.getAttribute('userId'), false);
+	updatePlaceholderInfo(data);
 }
 
 function updateMessage(data) {
@@ -252,6 +277,14 @@ document.querySelector(".infoDialog").addEventListener('close', () => {
 		element.classList.add("_nullItems");
 		element.innerText = '';
 	});
+})
+
+document.querySelector('.editDialog').addEventListener('close', () => {
+	console.log(document.querySelectorAll('.editDialog-form input, .editDialog-form select'));
+	document.querySelectorAll('.editDialog-form input, .editDialog-form select').forEach(element => {
+		element.placeholder = ''
+	})
+	document.querySelector('.editDialog-form').reset()
 })
 
 function adminLogin() {

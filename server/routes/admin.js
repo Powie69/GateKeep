@@ -48,6 +48,21 @@ app.post('/query', /*isAdmin,*/ (req,res) => {
 	})
 })
 
+app.post('/updateInfo', /*isAdmin*/ (req,res) => {
+	const data = req.body;
+	console.log(req.body);
+
+	if (data.age != undefined && data.age <= -1 || data.age > 99) {return res.status(400).json({message: "bad data"});}
+	if (data.sex != undefined && !(data.sex == 0 || data.sex == 1)) {return res.status(400).json({message: "bad data"});}
+	for (const i in data) {if (data[i] != undefined && data[i].length > 60) {return res.status(400).json({message: "bad data"})}}
+
+	db.query(q.UPDATE_INFO, [...new Array(2).fill(data.lastName), ...new Array(2).fill(data.firstName), ...new Array(2).fill(data.middleName), ...new Array(2).fill(data.lrn), ...new Array(2).fill(data.gradeLevel), ...new Array(2).fill(data.section), ...new Array(2).fill(data.age), ...new Array(2).fill(data.sex), ...new Array(2).fill(data.houseNo), ...new Array(2).fill(data.street), ...new Array(2).fill(data.zip), ...new Array(2).fill(data.banragay), ...new Array(2).fill(data.city), ...new Array(2).fill(data.province), data.userId], (err,result) => {
+        if (err) {console.error('SQL:', err); return res.status(500).json({message: "Internal Server Error"});}
+		console.log(result)
+	})
+	res.status(200).json({message: "ok"});
+})
+
 app.post('/getMessage', /*isAdmin,*/ (req,res) => {
 	const data = req.body;
 	if (!data.limit || data.offset == undefined || data.limit >= 25 || data.offset <= -1) {return res.status(400).send("bad data (server)")}

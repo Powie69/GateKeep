@@ -49,9 +49,9 @@
 				<span>User Id:</br> <span class="_nullItems" id="info-userId">null</span></span>
 		</div>
 	</dialog>
-	<dialog class="editDialog" >
+	<dialog class="editDialog" userId="">
 		<header><p>Edit User Info</p></header>
-		<form class="editDialog-form" autocomplete="off" onsubmit="return">
+		<form class="editDialog-form" autocomplete="off" onsubmit="submitEditInfo()">
 			<fieldset class="editDialog-form-name">
 				<label>Last Name:<br> <input class="editDialog-form-lastName" name="lastName" type="text" placeholder=""></label>
 				<label>First Name:<br> <input class="editDialog-form-firstName" name="firstName" type="text" placeholder=""></label>
@@ -102,7 +102,7 @@
 			</fieldset>
 			<fieldset class="editDialog-form-buttons">
 				<button class="editDialog-form-buttons-submit" type="submit">Submit</button>
-				<button class="editDialog-form-buttons-cancel" onclick="">Cancel</button>
+				<button class="editDialog-form-buttons-cancel" onclick="ParentElement.ParentElement.ParentElement.close()">Cancel</button>
 			</fieldset>
 		</form>
 	</dialog>
