@@ -4,3 +4,7 @@
 // since it might be used for redundancy and stuff
 
 // tl;dr: generate qr image function here
+
+
+// parse gender 🤦
+// cuz 'if (0) {}' is stupid

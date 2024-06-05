@@ -49,7 +49,7 @@
 				<span>User Id:</br> <span class="_nullItems" id="info-userId">null</span></span>
 		</div>
 	</dialog>
-	<dialog class="editDialog" open>
+	<dialog class="editDialog" >
 		<header><p>Edit User Info</p></header>
 		<form class="editDialog-form" autocomplete="off" onsubmit="return">
 			<fieldset class="editDialog-form-name">
@@ -184,7 +184,7 @@
 						<div class="main-table-contain-item-buttons" userId="">
 							<button class="main-table-contain-item-button" onclick="openLogsDialog(this)"><i class="material-symbols-rounded">receipt</i></button>
 							<button class="main-table-contain-item-button" onclick="openInfoDialog(this)"><i class="material-symbols-rounded">id_card</i></button>
-							<button class="main-table-contain-item-button"><i class="material-symbols-rounded">edit</i></button>
+							<button class="main-table-contain-item-button" onclick="openEditDialog(this)"><i class="material-symbols-rounded">edit</i></button>
 						</div>
 					</div>
 				</template>

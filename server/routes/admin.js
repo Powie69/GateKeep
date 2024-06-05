@@ -1,6 +1,6 @@
 const express = require('express');
 // const path = require('path')
-const fetch = require('node-fetch')
+const fetch = require('node-fetch');
 const { isAdmin, db } = require('../js/middleware.js');
 const q = require('../js/adminQuery.js');
 const app = express.Router();
@@ -63,11 +63,19 @@ app.post('/getMessage', /*isAdmin,*/ (req,res) => {
 
 app.post('/getInfo', /*isAdmin,*/ (req,res) => {
 	const data = req.body
-	if (!data || data.userId == undefined) {return res.status(400).send("bad data (server)")}
-	db.query(q.GET_INFO_WITH_QRID, [data.userId], (err,result) => {
+	if (!data || data.userId == undefined || data.withQrId == undefined) {return res.status(400).send("bad data (server)")}
+	if (data.withQrId) {
+		db.query(q.GET_INFO_WITH_QRID, [data.userId], (err,result) => {
+			if (err) {console.error('SQL:', err); return res.status(500).send('Internal Server Error');}
+			if (result.length == 0) {return res.status(404).json({message: "user not found"});}
+			res.json(result[0]);
+		})
+		return;
+	}
+	db.query(q.GET_INFO, [data.userId], (err,result) => {
 		if (err) {console.error('SQL:', err); return res.status(500).send('Internal Server Error');}
 		if (result.length == 0) {return res.status(404).json({message: "user not found"});}
-		res.json(result[0]);
+		return res.json(result[0]);
 	})
 })
 

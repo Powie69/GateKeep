@@ -1,5 +1,5 @@
 module.exports = {
-	GET_INFO: 'SELECT lastName, firstName, middleName, lrn, age, sex, houseNo, street, zip, barangay, city, province FROM userinfo WHERE userId = ?;',
+	GET_INFO: 'SELECT * FROM userinfo WHERE userId = ?;',
 	GET_INFO_WITH_QRID: 'SELECT userInfo.*, users.qrId FROM userInfo LEFT JOIN users ON userInfo.userId = users.id WHERE userInfo.userId = ?;',
 	GET_QRCACHE: 'SELECT qrCache FROM users WHERE id = ?;',
 	GET_ID_VIA_QRID: 'SELECT id FROM users WHERE qrId = ?;',

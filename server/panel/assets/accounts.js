@@ -41,11 +41,11 @@ function displayData(data) {
 	});
 	for (let i = 0; i < data.length; i++) {
 		const element = document.importNode(document.querySelector(".main-table-contain_template").content, true).querySelector(".main-table-contain-item")
-		if (!data) {return}
+		if (data == undefined) {return}
 		for (let i1 in data[i]) {
 			const elementItem = element.querySelector(`#item-${i1}`);
 			if (elementItem == null) {continue;}
-			if (data[i][i1]) {elementItem.innerText = data[i][i1]; elementItem.classList.remove('_nullItems');}
+			if (data[i][i1] != undefined) {elementItem.innerText = data[i][i1]; elementItem.classList.remove('_nullItems');}
 		}
 		element.querySelector('.main-table-contain-item-buttons').setAttribute("userId", data[i].userId);
 		document.querySelector(".main-table-contain").appendChild(element);
@@ -93,7 +93,7 @@ async function fetchMessages(limit,offset,userId) {
 	.catch(error => { console.error(error); });
 }
 
-async function fetchInfo(userId) {
+async function fetchInfo(userId, withQrId) {
 	if (userId == undefined) {console.log("bad data (client)");}
 	return await fetch('http://localhost:3000/admin/getInfo', {
 	method: 'post',
@@ -101,7 +101,7 @@ async function fetchInfo(userId) {
 	headers: {
 		'Content-Type': 'application/json'
 	  },
-	body: `{"userId": ${userId}}`
+	body: `{"userId": ${userId}, "withQrId": ${withQrId}}`
 	})
 	.then(response => {
 		if (response.status >= 400) {
@@ -146,15 +146,17 @@ async function openLogsDialog(value) {
 
 async function openInfoDialog(value) {
 	document.querySelector('.infoDialog').showModal()
-	const data = await fetchInfo(value.parentElement.getAttribute('userId'))
+	const data = await fetchInfo(value.parentElement.getAttribute('userId'), true)
 	const qrData = await fetchQrcache(value.parentElement.getAttribute('userId'))
 	console.log(data);
 	updateInfo(data)
 	updateInfoQr(qrData)
 }
 
-function openEditDialog(value) {
+async function openEditDialog(value) {
 	document.querySelector('.editDialog').showModal();
+	const data = await fetchInfo(value.parentElement.getAttribute('userId'), false)
+	updatePlaceholderInfo(data)
 }
 
 function updateMessage(data) {
@@ -183,7 +185,7 @@ function updateInfo(data) {
 	for (const i in data) {
 		const element = document.querySelector(`#info-${i}`)
 		if (!element) {continue;}
-		if (element.id == "info-qrId") {
+		if (element.id == "info-qrId" && data[i]) {
 			element.innerText = `{"qrId": "${data[i]}"}`;
 			element.classList.remove('_nullItems');
 			continue;
@@ -195,6 +197,25 @@ function updateInfo(data) {
 function updateInfoQr(data) {
 	if (!data) {return}
 	document.querySelector('#info-qrId + img').src = URL.createObjectURL(data);
+}
+
+function updatePlaceholderInfo(data) {
+	if (!data) {return}
+	// console.log(data);
+	for (const i in data) {
+		const element = document.querySelector(`.editDialog-form-${i}`)
+		if (!element) {continue;}
+		if (element.tagName == "SELECT" && data[i]) {
+			if (i == "sex") {
+				if (data[i] == 1) {document.querySelector('.editDialog-form-sex_placeholder').innerHTML = 'Male';} else {
+				document.querySelector('.editDialog-form-sex_placeholder').innerHTML = 'Female';}
+				continue
+			}
+			document.querySelector(`.editDialog-form-${[i]}_placeholder`).innerHTML = data[i]
+			continue;
+		}
+		if (data[i]) {element.placeholder = data[i]}
+	}	
 }
 
 document.querySelector(".logsDialog-container").addEventListener('scrollend', function(){
