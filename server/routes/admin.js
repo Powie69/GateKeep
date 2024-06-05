@@ -2,6 +2,7 @@ const express = require('express');
 // const path = require('path')
 const fetch = require('node-fetch');
 const { isAdmin, db } = require('../js/middleware.js');
+const {parseGender} = require('../js/utility.js')
 const q = require('../js/adminQuery.js');
 const app = express.Router();
 require('dotenv').config();
@@ -25,7 +26,7 @@ app.post('/send', isAdmin, (req,res) => {
 		if (result.length == 0) {return res.status(404).send("no Qr data found")}
 
 		try {
-			db.query(q.ADD_LOG, [result[0].id, data.isIn, new Date().toISOString().slice(0, 19)], (err,result) => {
+			db.query(q.ADD_MESSAGE, [result[0].id, data.isIn, new Date().toISOString().slice(0, 19)], (err,result) => {
 				if (err) {console.error('SQL:', err); return res.status(500).send('Internal Server Error');}
 				console.log(result);
 			})
@@ -44,6 +45,11 @@ app.post('/query', /*isAdmin,*/ (req,res) => {
 	db.query(q.GET_QUERY, [...new Array(10).fill(data.query), ...new Array(3).fill(data.searchLevel), ...new Array(3).fill(data.searchSection)], (err,result) => {
 		if (err) { console.error('SQL:', err); return res.status(500).send('Internal Server Error');}
 		if (result.length == 0) {return res.status(404).json({message: "user not found"});}
+		for (let i = 0; i < result.length; i++) {
+			for (const i1 in result[i]) {
+				if (i1 == 'sex') {result[i].sex = parseGender(result[i][i1]);}
+			}
+		}
 		res.json(result)
 	})
 })
@@ -56,7 +62,7 @@ app.post('/updateInfo', /*isAdmin*/ (req,res) => {
 	if (data.sex != undefined && !(data.sex == 0 || data.sex == 1)) {return res.status(400).json({message: "bad data"});}
 	for (const i in data) {if (data[i] != undefined && data[i].length > 60) {return res.status(400).json({message: "bad data"})}}
 
-	db.query(q.UPDATE_INFO, [...new Array(2).fill(data.lastName), ...new Array(2).fill(data.firstName), ...new Array(2).fill(data.middleName), ...new Array(2).fill(data.lrn), ...new Array(2).fill(data.gradeLevel), ...new Array(2).fill(data.section), ...new Array(2).fill(data.age), ...new Array(2).fill(data.sex), ...new Array(2).fill(data.houseNo), ...new Array(2).fill(data.street), ...new Array(2).fill(data.zip), ...new Array(2).fill(data.banragay), ...new Array(2).fill(data.city), ...new Array(2).fill(data.province), data.userId], (err,result) => {
+	db.query(q.UPDATE_INFO, [...new Array(2).fill(data.lastName), ...new Array(2).fill(data.firstName), ...new Array(2).fill(data.middleName), ...new Array(2).fill(data.lrn), ...new Array(2).fill(data.gradeLevel), ...new Array(2).fill(data.section), ...new Array(2).fill(data.age), ...new Array(2).fill(data.sex), ...new Array(2).fill(data.houseNo), ...new Array(2).fill(data.street), ...new Array(2).fill(data.zip), ...new Array(2).fill(data.barangay), ...new Array(2).fill(data.city), ...new Array(2).fill(data.province), data.userId], (err,result) => {
         if (err) {console.error('SQL:', err); return res.status(500).json({message: "Internal Server Error"});}
 		console.log(result)
 	})
@@ -83,6 +89,9 @@ app.post('/getInfo', /*isAdmin,*/ (req,res) => {
 		db.query(q.GET_INFO_WITH_QRID, [data.userId], (err,result) => {
 			if (err) {console.error('SQL:', err); return res.status(500).send('Internal Server Error');}
 			if (result.length == 0) {return res.status(404).json({message: "user not found"});}
+			for (const i in result[0]) {
+				if (i == 'sex') {result[0].sex = parseGender(result[0][i]);}
+			}
 			res.json(result[0]);
 		})
 		return;
@@ -90,6 +99,9 @@ app.post('/getInfo', /*isAdmin,*/ (req,res) => {
 	db.query(q.GET_INFO, [data.userId], (err,result) => {
 		if (err) {console.error('SQL:', err); return res.status(500).send('Internal Server Error');}
 		if (result.length == 0) {return res.status(404).json({message: "user not found"});}
+		for (const i in result[0]) {
+			if (i == 'sex') {result[0].sex = parseGender(result[0][i]);}
+		}
 		return res.json(result[0]);
 	})
 })

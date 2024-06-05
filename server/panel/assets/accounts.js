@@ -6,7 +6,7 @@ const sections = {
 	"11": ["",""],
 	"12": ["",""],
 }
-const dialogElements = document.querySelectorAll(".logsDialog, .infoDialog");
+const dialogElements = document.querySelectorAll(".logsDialog, .infoDialog, .editDialog");
 let getMessageDebounce = true;
 let messageCount = 0;
 
@@ -226,17 +226,11 @@ function updateInfoQr(data) {
 
 function updatePlaceholderInfo(data) {
 	if (!data) {return}
-	// console.log(data);
 	for (const i in data) {
 		const element = document.querySelector(`.editDialog-form-${i}`)
 		if (!element) {continue;}
 		if (element.tagName == "SELECT" && data[i]) {
-			if (i == "sex") {
-				if (data[i] == 1) {document.querySelector('.editDialog-form-sex_placeholder').innerHTML = 'Male';} else {
-				document.querySelector('.editDialog-form-sex_placeholder').innerHTML = 'Female';}
-				continue
-			}
-			document.querySelector(`.editDialog-form-${[i]}_placeholder`).innerHTML = data[i]
+			document.querySelector(`.editDialog-form-${[i]}_placeholder`).innerHTML = data[i];
 			continue;
 		}
 		if (data[i]) {element.placeholder = data[i]}
@@ -257,6 +251,7 @@ document.querySelector(".logsDialog-container").addEventListener('scrollend', fu
 
 dialogElements.forEach(element => {
 	element.addEventListener("click", e => {
+		if (e.target.tagName === 'SELECT' || e.target.closest('select')) {return;}
 		const dialogDimensions = element.getBoundingClientRect()
 		if (e.clientX < dialogDimensions.left ||e.clientX > dialogDimensions.right ||e.clientY < dialogDimensions.top ||e.clientY > dialogDimensions.bottom) {element.close()}
 	})
@@ -280,11 +275,13 @@ document.querySelector(".infoDialog").addEventListener('close', () => {
 })
 
 document.querySelector('.editDialog').addEventListener('close', () => {
-	console.log(document.querySelectorAll('.editDialog-form input, .editDialog-form select'));
-	document.querySelectorAll('.editDialog-form input, .editDialog-form select').forEach(element => {
-		element.placeholder = ''
+	document.querySelectorAll('.editDialog-form input').forEach(element => {
+		element.placeholder = '';
 	})
-	document.querySelector('.editDialog-form').reset()
+	document.querySelectorAll('.editDialog-form select').forEach(element => {
+		element.children[0].innerText = '';
+	})
+	document.querySelector('.editDialog-form').reset();
 })
 
 function adminLogin() {
