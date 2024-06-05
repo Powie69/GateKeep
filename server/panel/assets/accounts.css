@@ -253,7 +253,7 @@
 	border: none;
 	background-color: var(--c-content);
 	box-shadow: rgb(2, 9, 15) 0px 30px 40px -10px;
-	border-radius: 14px;	
+	border-radius: 14px;
 }
 
 .infoDialog::backdrop {
@@ -299,4 +299,99 @@
 	width: 70%;
 	aspect-ratio: 1/1;
 	align-items: center;
+}
+
+/* edit dialog */
+
+.editDialog {
+	top: 5%;
+	z-index: 1;
+	width: 65%;
+	height: 60%;
+	border: none;
+	background-color: var(--c-content);
+	box-shadow: rgb(2, 9, 15) 0px 30px 40px -10px;
+	border-radius: 14px;
+}
+
+.editDialog::backdrop {
+	backdrop-filter: blur(2px);
+}
+
+.editDialog header p{
+	margin: .5rem 0;
+	text-align: center;
+	font-size: 2rem;
+	font-weight: 600;
+}
+
+.editDialog-form {
+	display: grid; 
+	grid-template-columns: repeat(3, 1fr); 
+	grid-template-rows: repeat(5, 1fr); 
+	gap: .5rem;
+	height: 90%;
+	overflow-y: scroll;
+	scroll-snap-type: y mandatory;
+	scrollbar-width: thin;
+	grid-template-areas: 
+    "name name name"
+    "school school school"
+    "address address address"
+    "address address address"
+    "person person buttons"; 
+}
+
+.editDialog-form fieldset {
+	display: flex;
+	justify-content: space-around;
+	gap: .5rem 1rem;
+	/* display: grid; */
+	/* grid-template-columns: repeat(3,1fr); */
+	padding: .5rem 1rem;
+	border: #3e3e3e 2px dashed;
+	border-radius: 14px;
+}
+
+.editDialog-form fieldset label {
+	width: 100%;
+	
+}
+.editDialog-form fieldset input {
+	/* position: relative; */
+	width: calc(100% - .7rem);
+	/* width: 100%; */
+	padding: 2px 4px;
+	margin: 4px 0;
+}
+
+.editDialog-form fieldset select {
+	width: 100%;
+	padding: 2px 4px;
+	margin: 4px 0;
+}
+
+.editDialog-form-name { grid-area: name; }
+.editDialog-form-school { grid-area: school; }
+.editDialog-form-address { 
+	grid-area: address; 
+	display: grid !important;
+	grid-template-columns: repeat(3, 1fr);
+}
+.editDialog-form-person { grid-area: person; }
+
+.editDialog-form-buttons {
+	grid-area: buttons;
+	padding: 1rem .5rem!important;
+}
+
+.editDialog-form-buttons button {
+	width: 80%;
+	border: none;
+	background-color: #5C55EF;
+	border-radius: 4px;
+}
+
+.editDialog-form-buttons button:hover {
+	text-decoration: underline;
 }

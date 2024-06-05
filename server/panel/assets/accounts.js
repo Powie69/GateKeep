@@ -153,6 +153,10 @@ async function openInfoDialog(value) {
 	updateInfoQr(qrData)
 }
 
+function openEditDialog(value) {
+	document.querySelector('.editDialog').showModal();
+}
+
 function updateMessage(data) {
 	if (!data) {return;}
 	for (let i = 0; i < data.length; i++) {
