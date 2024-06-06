@@ -16,10 +16,10 @@
 /* search */
 .search {
 	display: flex;
+	position: relative;
 	gap: .5rem;
 	width: 40%;
 	height: 2.5rem;
-	position: relative;
 	left: 50%;
 	transform: translateX(-50%);
 }
@@ -76,6 +76,35 @@
 	font-size: 2.5rem;
 }
 
+/* actions */
+
+.actions {
+	display: flex;
+	justify-content: center;
+	flex-wrap: wrap;
+	width: 40%;
+	gap: 1.5rem;
+	margin: 1.5rem auto;
+}
+
+.actions-button {
+	width: 20%;
+	aspect-ratio: 4/3;
+	padding: .5rem 1rem;
+	font-size: 90%;
+	border: #2e2e2e solid 3px;
+	background: none;
+	border-radius: 14px;
+}
+
+.actions-button p {
+	margin: 0;
+}
+
+.actions-button i {
+	font-size: 2.5rem;
+}
+
 /* main */
 
 .main {
@@ -83,7 +112,10 @@
 }
 
 .main-title {
+	margin: 1rem 0;
+	color: var(--c-text);
 	text-align: center;
+	font-size: 1.3rem;
 }
 
 .main-table-heading {

@@ -106,6 +106,20 @@
 			</fieldset>
 		</form>
 	</dialog>
+	<section class="actions wrapper">
+		<button class="actions-button">
+			<i class="material-symbols-rounded">person_add</i><br>
+			<p>Add Account</p>
+		</button>
+		<button class="actions-button">
+			<i class="material-symbols-rounded">group_add</i><br>
+			<p>Bulk Add</p>
+		</button>
+		<button class="actions-button">
+			<i class="material-symbols-rounded">person_remove</i><br>
+			<p>Remove Account</p>
+		</button>
+	</section>
 	<form action="" method="post" onsubmit="submitQuery()" autocomplete="off" class="search">
 		<input type="text" name="query" placeholder="search" class="search-query">
 		<select class="search-level" onchange="getSection(this.value)" name="searchLevel" aria-label="search in grade-level">
@@ -129,8 +143,9 @@
 		</select>
 		<button tabindex="0" type="submit" class="search-submit"><i class="material-symbols-rounded">search</i></button>
 	</form>
+	
 	<main class="main wrapper">
-		<span class="main-title"><span class="main-title_number">0</span> results found.</span>
+		<header class="main-title"><span class="main-title_number">0</span> results found.</header>
 		<div class="main-table">
 			<div class="main-table-heading">
 				<div class="main-table-heading-group" id="heading-name">

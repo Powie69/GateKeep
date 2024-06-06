@@ -11,8 +11,10 @@
 ##
 
 
-- [ ] separate mysql commands
+- [X] separate mysql commands
 - [ ] panel login stuff
+- [ ] Create account
+- [ ] Create account with Bulk google forms stuff
 - [X] env everything
 - [X] about,help section
 - [X] info form html/js stuff
