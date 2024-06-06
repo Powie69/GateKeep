@@ -6,7 +6,7 @@ const sections = {
 	"11": ["",""],
 	"12": ["",""],
 }
-const dialogElements = document.querySelectorAll(".logsDialog, .infoDialog, .editDialog");
+const dialogElements = document.querySelectorAll(".logsDialog, .infoDialog, .editDialog, .addDialog");
 let getMessageDebounce = true;
 let messageCount = 0;
 
@@ -74,6 +74,7 @@ function displayData(data) {
 		element.querySelector('.main-table-contain-item-buttons').setAttribute("userId", data[i].userId);
 		document.querySelector(".main-table-contain").appendChild(element);
 	}
+	document.querySelector('.main-title_number').innerText = data.length;
 }
 
 function getSection(value) {
@@ -182,6 +183,10 @@ async function openEditDialog(value) {
 	document.querySelector('.editDialog').setAttribute('userId',value.parentElement.getAttribute('userId'));
 	const data = await fetchInfo(value.parentElement.getAttribute('userId'), false);
 	updatePlaceholderInfo(data);
+}
+
+function openAddDialog() {
+	document.querySelector('.addDialog').showModal()
 }
 
 function updateMessage(data) {

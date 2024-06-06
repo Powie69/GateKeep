@@ -13,7 +13,40 @@
 	font-size: 1.5rem;
 }
 
-/* search */
+/* *actions */
+
+.actions {
+	display: flex;
+	justify-content: center;
+	flex-wrap: wrap;
+	width: 40%;
+	gap: 1.5rem;
+	margin: 1rem auto;
+}
+
+.actions-button {
+	width: 20%;
+	aspect-ratio: 4/3;
+	padding: .5rem;
+	font-size: 90%;
+	border: #2e2e2e solid 3px;
+	background: none;
+	border-radius: 14px;
+}
+
+.actions-button:hover, .actions-button:focus{
+	border: #3e3e3e solid 4px;
+}
+
+.actions-button p {
+	margin: 0;
+}
+
+.actions-button i {
+	font-size: 2rem;
+}
+
+/* *search */
 .search {
 	display: flex;
 	position: relative;
@@ -76,36 +109,7 @@
 	font-size: 2.5rem;
 }
 
-/* actions */
-
-.actions {
-	display: flex;
-	justify-content: center;
-	flex-wrap: wrap;
-	width: 40%;
-	gap: 1.5rem;
-	margin: 1.5rem auto;
-}
-
-.actions-button {
-	width: 20%;
-	aspect-ratio: 4/3;
-	padding: .5rem 1rem;
-	font-size: 90%;
-	border: #2e2e2e solid 3px;
-	background: none;
-	border-radius: 14px;
-}
-
-.actions-button p {
-	margin: 0;
-}
-
-.actions-button i {
-	font-size: 2.5rem;
-}
-
-/* main */
+/* *main */
 
 .main {
 	font-size: calc(1rem - 3%);
@@ -152,7 +156,7 @@
 .main-table-contain {
 	display: flex;
 	flex-direction: column;
-	height: 70vh;
+	height: 55vh;
 	overflow-y: scroll;
 	scroll-snap-type: y mandatory;
 	scrollbar-width: thin;
@@ -210,7 +214,7 @@
 	color: #8D8D8D;
 }
 
-/* logsDialog */
+/* *logsDialog */
 
 .logsDialog {
 	/* position: absolute; */
@@ -275,7 +279,7 @@
 	font-style: italic;
 }
 
-/* info dialog */
+/* *info dialog */
 
 .infoDialog {
 	top: 5%;
@@ -333,7 +337,7 @@
 	align-items: center;
 }
 
-/* edit dialog */
+/* *edit dialog */
 
 .editDialog {
 	top: 5%;
@@ -389,9 +393,7 @@
 	width: 100%;
 }
 .editDialog-form fieldset input {
-	/* position: relative; */
 	width: calc(100% - .7rem);
-	/* width: 100%; */
 	padding: 2px 4px;
 	margin: 4px 0;
 }
@@ -424,5 +426,98 @@
 }
 
 .editDialog-form-buttons button:hover {
+	text-decoration: underline;
+}
+
+/* *add Dialog */
+
+
+.addDialog {
+	top: 5%;
+	z-index: 1;
+	width: 65%;
+	height: 60%;
+	border: none;
+	background-color: var(--c-content);
+	box-shadow: rgb(2, 9, 15) 0px 30px 40px -10px;
+	border-radius: 14px;
+}
+
+.addDialog::backdrop {
+	backdrop-filter: blur(2px);
+}
+
+.addDialog header p{
+	margin: .5rem 0;
+	text-align: center;
+	font-size: 2rem;
+	font-weight: 600;
+}
+
+.addDialog-form {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	grid-template-rows: repeat(5, 1fr);
+	gap: .5rem;
+	height: 90%;
+	overflow-y: scroll;
+	scroll-snap-type: y mandatory;
+	scrollbar-width: thin;
+	grid-template-areas:
+    "name name name"
+    "school school school"
+    "address address address"
+    "address address address"
+    "person person buttons";
+}
+
+.addDialog-form fieldset {
+	display: flex;
+	justify-content: space-around;
+	gap: .5rem 1rem;
+	/* display: grid; */
+	/* grid-template-columns: repeat(3,1fr); */
+	padding: .5rem 1rem;
+	border: #3e3e3e 2px dashed;
+	border-radius: 14px;
+}
+
+.addDialog-form fieldset label {
+	width: 100%;
+}
+.addDialog-form fieldset input {
+	width: calc(100% - .7rem);
+	padding: 2px 4px;
+	margin: 4px 0;
+}
+
+.addDialog-form fieldset select {
+	width: 100%;
+	padding: 2px 4px;
+	margin: 4px 0;
+}
+
+.addDialog-form-name { grid-area: name; }
+.addDialog-form-school { grid-area: school; }
+.addDialog-form-address {
+	grid-area: address;
+	display: grid !important;
+	grid-template-columns: repeat(3, 1fr);
+}
+.addDialog-form-person { grid-area: person; }
+
+.addDialog-form-buttons {
+	grid-area: buttons;
+	padding: 1rem .5rem!important;
+}
+
+.addDialog-form-buttons button {
+	width: 80%;
+	border: none;
+	background-color: #5C55EF;
+	border-radius: 4px;
+}
+
+.addDialog-form-buttons button:hover {
 	text-decoration: underline;
 }

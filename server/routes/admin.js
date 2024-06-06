@@ -54,6 +54,10 @@ app.post('/query', /*isAdmin,*/ (req,res) => {
 	})
 })
 
+app.post('/create', /*isAdmin*/ (req,res) => {
+	const data = req.body;
+})
+
 app.post('/updateInfo', /*isAdmin*/ (req,res) => {
 	const data = req.body;
 	console.log(req.body);
