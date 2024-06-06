@@ -189,7 +189,7 @@
 	border: none;
 	background-color: var(--c-content);
 	box-shadow: rgb(2, 9, 15) 0px 30px 40px -10px;
-	border-radius: 14px;	
+	border-radius: 14px;
 }
 
 .logsDialog::backdrop {
@@ -326,20 +326,20 @@
 }
 
 .editDialog-form {
-	display: grid; 
-	grid-template-columns: repeat(3, 1fr); 
-	grid-template-rows: repeat(5, 1fr); 
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	grid-template-rows: repeat(5, 1fr);
 	gap: .5rem;
 	height: 90%;
 	overflow-y: scroll;
 	scroll-snap-type: y mandatory;
 	scrollbar-width: thin;
-	grid-template-areas: 
+	grid-template-areas:
     "name name name"
     "school school school"
     "address address address"
     "address address address"
-    "person person buttons"; 
+    "person person buttons";
 }
 
 .editDialog-form fieldset {
@@ -355,7 +355,6 @@
 
 .editDialog-form fieldset label {
 	width: 100%;
-	
 }
 .editDialog-form fieldset input {
 	/* position: relative; */
@@ -373,8 +372,8 @@
 
 .editDialog-form-name { grid-area: name; }
 .editDialog-form-school { grid-area: school; }
-.editDialog-form-address { 
-	grid-area: address; 
+.editDialog-form-address {
+	grid-area: address;
 	display: grid !important;
 	grid-template-columns: repeat(3, 1fr);
 }

@@ -14,7 +14,7 @@
 	gap: 1rem;
 	grid-template-columns: 0.8fr 1.2fr;
 	grid-template-rows: 1.2fr 0.8fr;
-	grid-template-areas: 
+	grid-template-areas:
 	"scanner info"
 	"scanner settings";
 }

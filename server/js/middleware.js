@@ -19,7 +19,7 @@ const rateLimitHandler = (errMessage = "rate limit timeout") => {
 		console.log("rate limit reached: ", req.sessionID);
 		return res.status(429).json({message: errMessage});
 	}
-} 
+}
 
 const limiter = (maxReq,windowMinute,errMessage) => {
 	return rateLimit({

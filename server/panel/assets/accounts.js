@@ -114,7 +114,7 @@ async function fetchMessages(limit,offset,userId) {
 		}
 	})
 	.then(data => {return data;})
-	.catch(error => { console.error(error); });
+	.catch(error => {console.error(error);});
 }
 
 async function fetchInfo(userId, withQrId) {
@@ -135,7 +135,7 @@ async function fetchInfo(userId, withQrId) {
 		}
 	})
 	.then(data => {return data;})
-	.catch(error => { console.error(error); });
+	.catch(error => {console.error(error);});
 }
 
 async function fetchQrcache(userId) {
@@ -234,7 +234,7 @@ function updatePlaceholderInfo(data) {
 			continue;
 		}
 		if (data[i]) {element.placeholder = data[i]}
-	}	
+	}
 }
 
 document.querySelector(".logsDialog-container").addEventListener('scrollend', function(){

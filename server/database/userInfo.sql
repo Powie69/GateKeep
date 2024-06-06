@@ -36,7 +36,7 @@ SELECT lastName, firstName, middleName, lrn, age, sex, houseNo, street, zip, bar
 UPDATE userInfo SET lastName = CASE WHEN ? = '' THEN lastName ELSE IFNULL(?, lastName) END, firstName = CASE WHEN ? = '' THEN firstName ELSE IFNULL(?, firstName) END, middleName = CASE WHEN ? = '' THEN middleName ELSE IFNULL(?, middleName) END, lrn = CASE WHEN ? = '' THEN lrn ELSE IFNULL(?, lrn) END, gradeLevel = CASE WHEN ? = '' THEN gradeLevel ELSE IFNULL(?, gradeLevel) END, section = CASE WHEN ? = '' THEN section ELSE IFNULL(?, section) END, age = CASE WHEN ? = '' THEN age ELSE IFNULL(?, age) END, sex = CASE WHEN ? = '' THEN sex ELSE IFNULL(?, sex) END, houseNo = CASE WHEN ? = '' THEN houseNo ELSE IFNULL(?, houseNo) END, street = CASE WHEN ? = '' THEN street ELSE IFNULL(?, street) END, zip = CASE WHEN ? = '' THEN zip ELSE IFNULL(?, zip) END, barangay = CASE WHEN ? = '' THEN barangay ELSE IFNULL(?, barangay) END, city = CASE WHEN ? = '' THEN city ELSE IFNULL(?, city) END, province = CASE WHEN ? = '' THEN province ELSE IFNULL(?, province) END, WHERE userId = ?;
 
 -- @block
-UPDATE userInfo SET 
+UPDATE userInfo SET
 lastName = CASE WHEN '' = '' THEN lastName ELSE IFNULL('', lastName) END,
 firstName = CASE WHEN '' = '' THEN firstName ELSE IFNULL('', firstName) END,
 middleName = CASE WHEN '' = '' THEN middleName ELSE IFNULL('', middleName) END,
@@ -54,17 +54,17 @@ province = CASE WHEN '' = '' THEN province ELSE IFNULL('', province) END
 WHERE userId = 1;
 
 -- @block
-SELECT * 
-FROM userInfo 
-WHERE 
+SELECT *
+FROM userInfo
+WHERE
     (
-		('' = '' OR lastName LIKE CONCAT('%', '', '%')) OR 
-    	('' = '' OR firstName LIKE CONCAT('%', '', '%')) OR 
-    	('' = '' OR middleName LIKE CONCAT('%', '', '%')) OR 
-    	('' = '' OR lrn LIKE CONCAT('%', '', '%')) OR 
+		('' = '' OR lastName LIKE CONCAT('%', '', '%')) OR
+    	('' = '' OR firstName LIKE CONCAT('%', '', '%')) OR
+    	('' = '' OR middleName LIKE CONCAT('%', '', '%')) OR
+    	('' = '' OR lrn LIKE CONCAT('%', '', '%')) OR
     	('' = '' OR barangay LIKE CONCAT('%', '', '%'))
-	) 
-	AND 
+	)
+	AND
 	(
 		('' IS NULL OR '' = '' OR gradeLevel = '') AND
 		('' is NULL OR '' = '' OR section = '')
