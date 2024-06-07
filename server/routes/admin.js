@@ -1,5 +1,4 @@
 const express = require('express');
-// const path = require('path')
 const fetch = require('node-fetch');
 const { isAdmin, db } = require('../js/middleware.js');
 const {parseGender} = require('../js/utility.js')
@@ -56,6 +55,17 @@ app.post('/query', /*isAdmin,*/ (req,res) => {
 
 app.post('/create', /*isAdmin*/ (req,res) => {
 	const data = req.body;
+	console.log(data);
+	if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email) || !/^09\d{9}$/.test(data.phoneNumber) || !data.password ||!/^[1-6]\d{11}$/.test(data.lrn) || !data.lastName || !data.firstName) {return res.status(400).json({message: "bad data"})}
+	console.log('passed');
+
+	console.log(db.format(q.ADD_ACCOUNT, [data.email,data.phoneNumber,data.password,data.lrn,data.lastName,data.firstName,data.middleName,data.lrn,data.gradeLevel,data.section,data.age,data.sex,data.houseNo,data.street,data.zip,data.barangay,data.city,data.province]));
+	db.query(q.ADD_ACCOUNT, [data.email,data.phoneNumber,data.password,data.lrn,data.lastName,data.firstName,data.middleName,data.lrn,data.gradeLevel,data.section,data.age,data.sex,data.houseNo,data.street,data.zip,data.barangay,data.city,data.province], (err,result) => {
+		if (err) { console.error('SQL:', err); return res.status(500).send('Internal Server Error');}
+		console.log(result);
+	})
+
+	res.status(201).json({message: "all goods"})
 })
 
 app.post('/updateInfo', /*isAdmin*/ (req,res) => {

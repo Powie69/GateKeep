@@ -3,7 +3,7 @@
 CREATE TABLE users(
 	id INT PRIMARY KEY AUTO_INCREMENT,
 	email VARCHAR(255) NOT NULL,
-	phoneNumber CHAR(11) NOT NULL UNIQUE,
+	phoneNumber CHAR(11) NOT NULL,
 	fullName VARCHAR(255),
 	lrn CHAR(12) NOT NULL UNIQUE,
 	password VARCHAR(255),
@@ -17,8 +17,19 @@ SELECT id FROM users WHERE (email = 'godwin@gmail.com' OR phoneNumber = 'godwin@
 
 -- @block
 INSERT INTO users (email, phoneNumber, fullName, lrn, password)
-VALUES ('godwin@gmail.com', '09118881234', 'godwin', '123456789011', '123');
+VALUES ('godwin@gmail.com', '', 'godwin', '113456789000', '123');
 
+-- @block
+INSERT INTO users (email,phoneNumber,password,lrn)
+VALUES (?,?,?,?);
+
+SET userId := @LAST_INSERT_ID();
+
+INSERT INTO userInfo (userId,lastname,firstName,middleName,lrn,gradeLevel,section,age,sex,houseNo,street,zip,barangay,city,province)
+VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);
+
+-- @block
+INSERT INTO users (email,phoneNumber,password,lrn) VALUES (?,?,?,?); INSERT INTO userInfo (userId,lastname,firstName,middleName,lrn,gradeLevel,section,age,sex,houseNo,street,zip,barangay,city,province) SELECT @LAST_INSERT_ID ,?,?,?,?,?,?,?,?,?,?,?,?,?,?;
 
 -- qrcode
 -- @block

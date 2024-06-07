@@ -59,6 +59,30 @@ async function submitEditInfo() {
 	document.querySelector('.editDialog').close()
 }
 
+async function submitAddAccount() {
+	event.preventDefault()
+	try {
+		const data = Object.fromEntries(new FormData(document.querySelector(".addDialog-form")).entries())
+
+		if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email) || !/^09\d{9}$/.test(data.phoneNumber) || !data.password ||!/^[1-6]\d{11}$/.test(data.lrn) || !data.lastName || !data.firstName) {return}
+
+		const response = await fetch('http://localhost:3000/admin/create', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/x-www-form-urlencoded',
+			},
+			body: new URLSearchParams(data),
+			credentials: 'include',
+		});
+
+		if (!response.ok) {return console.log("sumting wong"); }
+
+		const respond = await response.json();
+		console.log(respond);
+	} catch (error) {console.error(console.error(error));}
+	document.querySelector('.editDialog').close()
+}
+
 function displayData(data) {
 	document.querySelectorAll(".main-table-contain > div.main-table-contain-item").forEach(element => {
 		document.querySelector(".main-table-contain").removeChild(element);

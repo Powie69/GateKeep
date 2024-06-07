@@ -3,6 +3,7 @@ const rateLimit = require('express-rate-limit')
 require('dotenv').config();
 
 const db = mysql.createConnection({
+	multipleStatements: true,
     host: process.env.dbHost,
     user: process.env.dbUser,
     password: process.env.dbPassword,

@@ -29,6 +29,13 @@ SELECT userInfo.*, users.qrId
 FROM userInfo
 LEFT JOIN users ON userInfo.userId = users.id
 WHERE userInfo.userId = 1;
+
+-- @block 
+INSERT INTO userInfo (userId,lrn)
+VALUES ('8','612345151234');
+
+
+
 -- @block
 SELECT lastName, firstName, middleName, lrn, age, sex, houseNo, street, zip, barangay, city, province FROM userinfo WHERE userId = 1;
 
