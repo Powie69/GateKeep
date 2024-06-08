@@ -113,7 +113,7 @@
 				<label>Last Name*: <span>Invalid Input.</span><br> <input class="addDialog-form-lastName" name="lastName" required  maxlength="255" type="text"></label>
 				<label>First Name*: <span>Invalid Input.</span><br> <input class="addDialog-form-firstName" name="firstName" required maxlength="255" type="text"></label>
 				<label>Middle Name:<br> <input class="addDialog-form-middleName" name="middleName" type="text" maxlength="60"></label>
-				<label>Age: <span>Invalid Input.</span><br> <input class="addDialog-form-age" name="age" type="number" min="1" max="99"></label>
+				<label>Age: <span>Invalid Input.</span><br> <input class="addDialog-form-age" name="age" type="number" min="0" max="99" maxlength="2"></label>
 				<label>Sex: <span>Invalid Input.</span><br>
 					<select class="addDialog-form-sex" name="sex">
 						<option value="" class="addDialog-form-sex_placeholder" selected hidden disabled></option>
@@ -151,7 +151,7 @@
 				<label>Barangay: <span>Invalid Input.</span><br> <input class="addDialog-form-barangay" name="barangay" type="text" maxlength="255"></label>
 				<label>City/Municipality: <span>Invalid Input.</span><br> <input class="addDialog-form-city" name="city" type="text" maxlength="255"></label>
 				<label>Province: <span>Invalid Input.</span><br> <input class="addDialog-form-province" name="province" type="text" maxlength="255"></label>
-				<label>Zip: <span>Invalid Input.</span><br> <input class="addDialog-form-zip" name="zip" type="number" min="1" max="9999"></label>
+				<label>Zip: <span>Invalid Input.</span><br> <input class="addDialog-form-zip" name="zip" type="text" pattern="(0[4-9]|[1-9]\d)\d{2}" minlength="4" maxlength="4"></label>
 				<label>Street Name: <span>Invalid Input.</span><br> <input class="addDialog-form-street" name="street" type="text" maxlength="255"></label>
 				<label>House Number: <span>Invalid Input.</span><br> <input class="addDialog-form-houseNo" name="houseNo" type="number" min="1" max="9999"></label>
 			</fieldset>

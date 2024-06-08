@@ -9,11 +9,11 @@ CREATE TABLE userInfo (
 	lrn char(12),
 	gradeLevel VARCHAR(2),
 	section VARCHAR(255),
-	age INT DEFAULT 0,
+	age INT DEFAULT NULL,
 	sex BOOLEAN,
-	houseNo INT,
+	houseNo INT DEFAULT NULL,
 	street VARCHAR(255),
-	zip INT,
+	zip INT(4),
 	barangay VARCHAR(255),
 	city VARCHAR(255),
 	province VARCHAR(255),
@@ -29,11 +29,6 @@ SELECT userInfo.*, users.qrId
 FROM userInfo
 LEFT JOIN users ON userInfo.userId = users.id
 WHERE userInfo.userId = 1;
-
--- @block 
-INSERT INTO userInfo (userId,lrn)
-VALUES ('8','612345151234');
-
 
 
 -- @block
@@ -76,6 +71,13 @@ WHERE
 		('' IS NULL OR '' = '' OR gradeLevel = '') AND
 		('' is NULL OR '' = '' OR section = '')
 	);
+
+
+-- 
+
+INSERT INTO users (email,phoneNumber,password,lrn) VALUES (?,?,?,?); INSERT INTO userInfo (userId,lastname,firstName,middleName,lrn,gradeLevel,section,age,sex,houseNo,street,zip,barangay,city,province) SELECT LAST_INSERT_ID(),?,?,?,?,?,?,CASE WHEN ? IS NULL OR ? = '' THEN NULL ELSE ? END,?,CASE WHEN ? IS NULL OR ? = '' THEN NULL ELSE ? END,?,CASE WHEN ? IS NULL OR ? = '' THEN NULL ELSE ? END,?,?,?;
+
+
 
 
 -- @block

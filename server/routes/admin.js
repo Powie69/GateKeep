@@ -59,8 +59,8 @@ app.post('/create', /*isAdmin*/ (req,res) => {
 	if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email) || !/^09\d{9}$/.test(data.phoneNumber) || !data.password ||!/^[1-6]\d{11}$/.test(data.lrn) || !data.lastName || !data.firstName) {return res.status(400).json({message: "bad data"})}
 	console.log('passed');
 
-	console.log(db.format(q.ADD_ACCOUNT, [data.email,data.phoneNumber,data.password,data.lrn,data.lastName,data.firstName,data.middleName,data.lrn,data.gradeLevel,data.section,data.age,data.sex,data.houseNo,data.street,data.zip,data.barangay,data.city,data.province]));
-	db.query(q.ADD_ACCOUNT, [data.email,data.phoneNumber,data.password,data.lrn,data.lastName,data.firstName,data.middleName,data.lrn,data.gradeLevel,data.section,data.age,data.sex,data.houseNo,data.street,data.zip,data.barangay,data.city,data.province], (err,result) => {
+	console.log(db.format(q.ADD_ACCOUNT, [data.email,data.phoneNumber,data.password,data.lrn,data.lastName,data.firstName,data.middleName,data.lrn,data.gradeLevel,data.section,data.age,data.age,data.age,data.sex,data.houseNo,data.houseNo,data.houseNo,data.street,data.zip,data.zip,data.zip,data.barangay,data.city,data.province]));
+	db.query(q.ADD_ACCOUNT, [data.email,data.phoneNumber,data.password,data.lrn,data.lastName,data.firstName,data.middleName,data.lrn,data.gradeLevel,data.section,data.age,data.age,data.age,data.sex,data.houseNo,data.houseNo,data.houseNo,data.street,data.zip,data.zip,data.zip,data.barangay,data.city,data.province], (err,result) => {
 		if (err) { console.error('SQL:', err); return res.status(500).send('Internal Server Error');}
 		console.log(result);
 	})
