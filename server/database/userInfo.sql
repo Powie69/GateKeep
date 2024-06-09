@@ -75,10 +75,8 @@ WHERE
 
 -- 
 
-INSERT INTO users (email,phoneNumber,password,lrn) VALUES (?,?,?,?); INSERT INTO userInfo (userId,lastname,firstName,middleName,lrn,gradeLevel,section,age,sex,houseNo,street,zip,barangay,city,province) SELECT LAST_INSERT_ID(),?,?,?,?,?,?,CASE WHEN ? IS NULL OR ? = '' THEN NULL ELSE ? END,?,CASE WHEN ? IS NULL OR ? = '' THEN NULL ELSE ? END,?,CASE WHEN ? IS NULL OR ? = '' THEN NULL ELSE ? END,?,?,?;
-
-
-
+-- @block
+START TRANSACTION; INSERT INTO users (email,phoneNumber,password,lrn) VALUES (?,?,?,?); INSERT INTO userInfo (userId,lastname,firstName,middleName,lrn,gradeLevel,section,age,sex,houseNo,street,zip,barangay,city,province) SELECT LAST_INSERT_ID(),?,?,?,?,?,?,CASE WHEN ? IS NULL OR ? = '' THEN NULL ELSE ? END,?,CASE WHEN ? IS NULL OR ? = '' THEN NULL ELSE ? END,?,CASE WHEN ? IS NULL OR ? = '' THEN NULL ELSE ? END,?,?,?; COMMIT;
 
 -- @block
 UPDATE userinfo
