@@ -1,5 +1,6 @@
 const express = require('express');
 const fetch = require('node-fetch');
+const crypto = require('crypto');
 const { isAdmin, db } = require('../js/middleware.js');
 const {parseGender} = require('../js/utility.js')
 const q = require('../js/adminQuery.js');
@@ -57,12 +58,16 @@ app.post('/create', /*isAdmin*/ (req,res) => {
 	const data = req.body;
 	console.log(data);
 	if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email) || !/^09\d{9}$/.test(data.phoneNumber) || !data.password ||!/^[1-6]\d{11}$/.test(data.lrn) || !data.lastName || !data.firstName) {return res.status(400).json({message: "bad data"})}
-	console.log('passed');
 
-	console.log(db.format(q.ADD_ACCOUNT, [data.email,data.phoneNumber,data.password,data.woah,data.lastName,data.firstName,data.middleName,data.lrn,data.gradeLevel,data.section,data.age,data.age,data.age,data.sex,data.houseNo,data.houseNo,data.houseNo,data.street,data.zip,data.zip,data.zip,data.barangay,data.city,data.province]));
-	db.query(q.ADD_ACCOUNT, [data.email,data.phoneNumber,data.password,data.lrn,data.lastName,data.firstName,data.middleName,data.lrn,data.gradeLevel,data.section,data.age,data.age,data.age,data.sex,data.houseNo,data.houseNo,data.houseNo,data.street,data.zip,data.zip,data.zip,data.barangay,data.city,data.province], (err,result) => {
+	console.log(db.format(q.ADD_ACCOUNT, [data.email,data.phoneNumber,data.password,data.lrn,data.lastName,data.lastName,data.lastName,data.firstName,data.firstName,data.firstName,data.middleName,data.middleName,data.middleName,data.lrn,data.lrn,data.lrn,data.gradeLevel,data.gradeLevel,data.gradeLevel,data.section,data.section,data.section,data.age,data.age,data.age,data.sex,data.sex,data.sex,data.houseNo,data.houseNo,data.houseNo,data.street,data.street,data.street,data.zip,data.zip,data.zip,data.barangay,data.barangay,data.barangay,data.city,data.city,data.city,data.province,data.province,data.province]));
+	db.query(q.ADD_ACCOUNT, [data.email,data.phoneNumber,data.password,data.lrn,data.lastName,data.lastName,data.lastName,data.firstName,data.firstName,data.firstName,data.middleName,data.middleName,data.middleName,data.lrn,data.lrn,data.lrn,data.gradeLevel,data.gradeLevel,data.gradeLevel,data.section,data.section,data.section,data.age,data.age,data.age,data.sex,data.sex,data.sex,data.houseNo,data.houseNo,data.houseNo,data.street,data.street,data.street,data.zip,data.zip,data.zip,data.barangay,data.barangay,data.barangay,data.city,data.city,data.city,data.province,data.province,data.province], (err,result) => {
 		if (err) { console.error('SQL:', err); return res.status(500).send('Internal Server Error');}
-		console.log(result);
+		const hash = crypto.createHash('sha256').update(result[1].insertId.toString() + process.env.qrIdSecret.toString()).digest('hex').substring(0,80)
+		db.query(q.ADD_ACCOUNT_QRID, [hash,result[1].insertId], (err,result) => {
+			if (err) { console.error('SQL:', err); return res.status(500).send('Internal Server Error');}
+			console.log('letssgooo');
+			console.log(result);
+		})
 	})
 	res.status(201).json({message: "all goods"})
 })
@@ -134,7 +139,6 @@ app.post('/getQrImage', /*isAdmin*/ (req,res) => {
 			try {
 				const response = await fetch(`https://api.qrserver.com/v1/create-qr-code/?size=160x160&margin=10&data=${JSON.stringify(result[0])}`)
 				if (!response.ok) {console.log(error); return res.status(500).send('Internal Server Error');}
-				console.log('pass2');
 				const qrImage = await response.buffer()
 				db.query(q.ADD_QRCACHE, [qrImage, data.userId], (err,result) => {
 					if (err) {console.error('SQL:', err); return res.status(500).send('Internal Server Error');}
