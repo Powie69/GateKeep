@@ -54,22 +54,28 @@ app.post('/query', /*isAdmin,*/ (req,res) => {
 	})
 })
 
-app.post('/create', /*isAdmin*/ (req,res) => {
+app.post('/create', /*isAdmin*/ (req,res,next) => {
 	const data = req.body;
-	console.log(data);
-	if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email) || !/^09\d{9}$/.test(data.phoneNumber) || !data.password ||!/^[1-6]\d{11}$/.test(data.lrn) || !data.lastName || !data.firstName) {return res.status(400).json({message: "bad data"})}
 
-	console.log(db.format(q.ADD_ACCOUNT, [data.email,data.phoneNumber,data.password,data.lrn,data.lastName,data.lastName,data.lastName,data.firstName,data.firstName,data.firstName,data.middleName,data.middleName,data.middleName,data.lrn,data.lrn,data.lrn,data.gradeLevel,data.gradeLevel,data.gradeLevel,data.section,data.section,data.section,data.age,data.age,data.age,data.sex,data.sex,data.sex,data.houseNo,data.houseNo,data.houseNo,data.street,data.street,data.street,data.zip,data.zip,data.zip,data.barangay,data.barangay,data.barangay,data.city,data.city,data.city,data.province,data.province,data.province]));
-	db.query(q.ADD_ACCOUNT, [data.email,data.phoneNumber,data.password,data.lrn,data.lastName,data.lastName,data.lastName,data.firstName,data.firstName,data.firstName,data.middleName,data.middleName,data.middleName,data.lrn,data.lrn,data.lrn,data.gradeLevel,data.gradeLevel,data.gradeLevel,data.section,data.section,data.section,data.age,data.age,data.age,data.sex,data.sex,data.sex,data.houseNo,data.houseNo,data.houseNo,data.street,data.street,data.street,data.zip,data.zip,data.zip,data.barangay,data.barangay,data.barangay,data.city,data.city,data.city,data.province,data.province,data.province], (err,result) => {
+	if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email) || !/^09\d{9}$/.test(data.phoneNumber) || !data.password ||!/^[1-6]\d{11}$/.test(data.lrn) || !data.lastName || !data.firstName) {return res.status(400).json({message: "bad data"})}
+	console.log(data);
+
+	db.query(q.CHECK_ACCOUNT, [data.lrn], (err,result) => {
 		if (err) { console.error('SQL:', err); return res.status(500).send('Internal Server Error');}
-		const hash = crypto.createHash('sha256').update(result[1].insertId.toString() + process.env.qrIdSecret.toString()).digest('hex').substring(0,80)
-		db.query(q.ADD_ACCOUNT_QRID, [hash,result[1].insertId], (err,result) => {
+		if (result.length != 0) {return res.status(409).json({message: 'user with LRN already exist.'});}
+
+		// console.log(db.format(q.ADD_ACCOUNT, [data.email,data.phoneNumber,data.password,data.lrn,data.lastName,data.lastName,data.lastName,data.firstName,data.firstName,data.firstName,data.middleName,data.middleName,data.middleName,data.lrn,data.lrn,data.lrn,data.gradeLevel,data.gradeLevel,data.gradeLevel,data.section,data.section,data.section,data.age,data.age,data.age,data.sex,data.sex,data.sex,data.houseNo,data.houseNo,data.houseNo,data.street,data.street,data.street,data.zip,data.zip,data.zip,data.barangay,data.barangay,data.barangay,data.city,data.city,data.city,data.province,data.province,data.province]));
+		db.query(q.ADD_ACCOUNT, [data.email,data.phoneNumber,data.password,data.lrn,data.lastName,data.lastName,data.lastName,data.firstName,data.firstName,data.firstName,data.middleName,data.middleName,data.middleName,data.lrn,data.lrn,data.lrn,data.gradeLevel,data.gradeLevel,data.gradeLevel,data.section,data.section,data.section,data.age,data.age,data.age,data.sex,data.sex,data.sex,data.houseNo,data.houseNo,data.houseNo,data.street,data.street,data.street,data.zip,data.zip,data.zip,data.barangay,data.barangay,data.barangay,data.city,data.city,data.city,data.province,data.province,data.province], (err,result) => {
 			if (err) { console.error('SQL:', err); return res.status(500).send('Internal Server Error');}
-			console.log('letssgooo');
-			console.log(result);
+			const hash = crypto.createHash('sha256').update(result[1].insertId.toString() + process.env.qrIdSecret.toString()).digest('hex').substring(0,80)
+			db.query(q.ADD_ACCOUNT_QRID, [hash,result[1].insertId], (err,result) => {
+				if (err) { console.error('SQL:', err); return res.status(500).send('Internal Server Error');}
+				console.log('letssgooo');
+				console.log(result);
+			})
 		})
+		res.status(201).json({message: "all goods"})
 	})
-	res.status(201).json({message: "all goods"})
 })
 
 app.post('/updateInfo', /*isAdmin*/ (req,res) => {
