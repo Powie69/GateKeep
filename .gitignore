@@ -6,3 +6,4 @@ server/node_modules
 server/nodemon.json
 
 server/js/temp.js
+server/database/guh.sql

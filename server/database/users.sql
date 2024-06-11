@@ -12,7 +12,7 @@ CREATE TABLE users(
 -- @block
 SELECT * FROM users;
 
--- 
+-- @block
 
 
 -- @block

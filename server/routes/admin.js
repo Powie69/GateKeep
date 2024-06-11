@@ -54,27 +54,25 @@ app.post('/query', /*isAdmin,*/ (req,res) => {
 	})
 })
 
-app.post('/create', /*isAdmin*/ (req,res,next) => {
+app.post('/create', /*isAdmin*/ (req,res) => {
 	const data = req.body;
-
-	if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email) || !/^09\d{9}$/.test(data.phoneNumber) || !data.password ||!/^[1-6]\d{11}$/.test(data.lrn) || !data.lastName || !data.firstName) {return res.status(400).json({message: "bad data"})}
+	// if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email) || !/9^0\d{9}$/.test(data.phoneNumber) || !data.password ||!/^[1-6]\d{11}$/.test(data.lrn) || !data.lastName || !data.firstName) {return res.status(400).json({message: "bad data"})}
 	console.log(data);
-
+	
+	// const hash = crypto.createHash('sha256').update(data.lrn + process.env.qrIdSecret).digest('hex').substring(0,25)
+	// console.log(db.format(q.ADD_ACCOUNT, [data.email,data.phoneNumber,data.password,data.lrn,hash,data.lastName,data.lastName,data.lastName,data.firstName,data.firstName,data.firstName,data.middleName,data.middleName,data.middleName,data.lrn,data.lrn,data.lrn,data.gradeLevel,data.gradeLevel,data.gradeLevel,data.section,data.section,data.section,data.age,data.age,data.age,data.sex,data.sex,data.sex,data.houseNo,data.houseNo,data.houseNo,data.street,data.street,data.street,data.zip,data.zip,data.zip,data.barangay,data.barangay,data.barangay,data.city,data.city,data.city,data.province,data.province,data.province]));
 	db.query(q.CHECK_ACCOUNT, [data.lrn], (err,result) => {
 		if (err) { console.error('SQL:', err); return res.status(500).send('Internal Server Error');}
+		console.log(result);
+		console.log(result.length);
 		if (result.length != 0) {return res.status(409).json({message: 'user with LRN already exist.'});}
-
-		// console.log(db.format(q.ADD_ACCOUNT, [data.email,data.phoneNumber,data.password,data.lrn,data.lastName,data.lastName,data.lastName,data.firstName,data.firstName,data.firstName,data.middleName,data.middleName,data.middleName,data.lrn,data.lrn,data.lrn,data.gradeLevel,data.gradeLevel,data.gradeLevel,data.section,data.section,data.section,data.age,data.age,data.age,data.sex,data.sex,data.sex,data.houseNo,data.houseNo,data.houseNo,data.street,data.street,data.street,data.zip,data.zip,data.zip,data.barangay,data.barangay,data.barangay,data.city,data.city,data.city,data.province,data.province,data.province]));
-		db.query(q.ADD_ACCOUNT, [data.email,data.phoneNumber,data.password,data.lrn,data.lastName,data.lastName,data.lastName,data.firstName,data.firstName,data.firstName,data.middleName,data.middleName,data.middleName,data.lrn,data.lrn,data.lrn,data.gradeLevel,data.gradeLevel,data.gradeLevel,data.section,data.section,data.section,data.age,data.age,data.age,data.sex,data.sex,data.sex,data.houseNo,data.houseNo,data.houseNo,data.street,data.street,data.street,data.zip,data.zip,data.zip,data.barangay,data.barangay,data.barangay,data.city,data.city,data.city,data.province,data.province,data.province], (err,result) => {
+		console.log('pain');
+		const hash = crypto.createHash('sha256').update(data.lrn + process.env.qrIdSecret).digest('hex').substring(0,25)
+		db.query(q.ADD_ACCOUNT, [data.email,data.phoneNumber,data.password,data.lrn,hash,data.lastName,data.lastName,data.lastName,data.firstName,data.firstName,data.firstName,data.middleName,data.middleName,data.middleName,data.lrn,data.lrn,data.lrn,data.gradeLevel,data.gradeLevel,data.gradeLevel,data.section,data.section,data.section,data.age,data.age,data.age,data.sex,data.sex,data.sex,data.houseNo,data.houseNo,data.houseNo,data.street,data.street,data.street,data.zip,data.zip,data.zip,data.barangay,data.barangay,data.barangay,data.city,data.city,data.city,data.province,data.province,data.province], (err,result) => {
 			if (err) { console.error('SQL:', err); return res.status(500).send('Internal Server Error');}
-			const hash = crypto.createHash('sha256').update(result[1].insertId.toString() + process.env.qrIdSecret.toString()).digest('hex').substring(0,80)
-			db.query(q.ADD_ACCOUNT_QRID, [hash,result[1].insertId], (err,result) => {
-				if (err) { console.error('SQL:', err); return res.status(500).send('Internal Server Error');}
-				console.log('letssgooo');
-				console.log(result);
-			})
+			console.log(result);
+			res.status(201).json({message: "all goods"})
 		})
-		res.status(201).json({message: "all goods"})
 	})
 })
 
@@ -137,8 +135,8 @@ app.post('/getQrImage', /*isAdmin*/ (req,res) => {
 		if (err) {console.error('SQL:', err); return res.status(500).send('Internal Server Error');}
 		if (!result || result.length == 0) {return res.status(404).json({message: "user not found"});}
 		if (result[0].qrCache != null) {
-			res.set('Content-Type', 'image/png')
-			return res.send(result[0].qrCache)
+			res.set('Content-Type', 'image/png');
+			return res.send(result[0].qrCache);
 		}
 		db.query(q.GET_QRID, [data.userId], async (err,result) => {
 			if (err) {console.error('SQL:', err); return res.status(500).send('Internal Server Error');}
@@ -146,7 +144,7 @@ app.post('/getQrImage', /*isAdmin*/ (req,res) => {
 				const response = await fetch(`https://api.qrserver.com/v1/create-qr-code/?size=160x160&margin=10&data=${JSON.stringify(result[0])}`)
 				if (!response.ok) {console.log(error); return res.status(500).send('Internal Server Error');}
 				const qrImage = await response.buffer()
-				db.query(q.ADD_QRCACHE, [qrImage, data.userId], (err,result) => {
+				db.query(q.ADD_QRCACHE, [qrImage, data.userId], (err) => {
 					if (err) {console.error('SQL:', err); return res.status(500).send('Internal Server Error');}
 				})
 				res.set('Content-Type', 'image/png')
