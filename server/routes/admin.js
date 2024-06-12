@@ -56,7 +56,7 @@ app.post('/query', /*isAdmin,*/ (req,res) => {
 
 app.post('/create', /*isAdmin*/ (req,res) => {
 	const data = req.body;
-	// if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email) || !/9^0\d{9}$/.test(data.phoneNumber) || !data.password ||!/^[1-6]\d{11}$/.test(data.lrn) || !data.lastName || !data.firstName) {return res.status(400).json({message: "bad data"})}
+	if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email) || !/9^0\d{9}$/.test(data.phoneNumber) || !data.password ||!/^[1-6]\d{5}(0\d|1\d|2[0-5])\d{4}$/.test(data.lrn) || !data.lastName || !data.firstName) {return res.status(400).json({message: "bad data"})}
 	console.log(data);
 	
 	// const hash = crypto.createHash('sha256').update(data.lrn + process.env.qrIdSecret).digest('hex').substring(0,25)

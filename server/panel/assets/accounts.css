@@ -178,9 +178,10 @@
 .main-table-contain-item span {
 	width: 80px;
 	overflow: hidden;
-	text-overflow: ellipsis;
 	align-content: center;
 	text-align: center;
+	word-wrap: break-word;
+	text-overflow: ellipsis;
 }
 
 ._nullItems {
@@ -195,6 +196,7 @@
 
 .main-table-contain-item-buttons {
 	visibility: hidden;
+	align-items: center;
 }
 
 .main-table-contain-item:hover .main-table-contain-item-buttons {

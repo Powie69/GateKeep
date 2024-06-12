@@ -63,8 +63,8 @@ async function submitAddAccount() {
 	event.preventDefault()
 	try {
 		const data = Object.fromEntries(new FormData(document.querySelector(".addDialog-form")).entries())
-
-		if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email) || !/^09\d{9}$/.test(data.phoneNumber) || !data.password ||!/^[1-6]\d{11}$/.test(data.lrn) || !data.lastName || !data.firstName) {return}
+		console.log(data);
+		if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email) || !/^09\d{9} $/.test(data.phoneNumber) || !data.password ||!/^[1-6]\d{5}(0\d|1\d|2[0-5])\d{4}$/.test(data.lrn) || !data.lastName || !data.firstName || (typeof data.gradeLevel != undefined && (data.gradeLevel < 7 || data.gradeLevel > 12)) || (typeof data.zip !== undefined && !/^(0[4-9]|[1-9]\d)\d{2}/.test(data.zip))) {return console.log('bad data');}
 
 		const response = await fetch('http://localhost:3000/admin/create', {
 			method: 'POST',
