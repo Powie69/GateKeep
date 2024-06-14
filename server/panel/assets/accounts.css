@@ -432,7 +432,6 @@
 
 /* *add Dialog */
 
-
 .addDialog {
 	z-index: 1;
 	width: 65%;
@@ -447,11 +446,17 @@
 	backdrop-filter: blur(2px);
 }
 
-.addDialog header p{
-	margin: .5rem 0;
+.addDialog header h2{
+	margin: .3rem 0;
 	text-align: center;
 	font-size: 2rem;
 	font-weight: 600;
+}
+
+.addDialog header p{
+	margin: .3rem 0;
+	color: red;
+	text-align: center;
 }
 
 .addDialog-form {

@@ -106,8 +106,11 @@
 			</fieldset>
 		</form>
 	</dialog>
-	<dialog class="addDialog">
-		<header><p>Create An Account</p></header>
+	<dialog class="addDialog" open>
+		<header>
+			<h2>Create An Account</h2>
+			<p style="visibility: hidden;">Error</p>
+		</header>
 		<form class="addDialog-form" onsubmit="submitAddAccount()">
 			<fieldset class="addDialog-form-person">
 				<label>Last Name*: <span>Invalid Input.</span><br> <input class="addDialog-form-lastName" name="lastName" required  maxlength="255" type="text"></label>

@@ -63,8 +63,8 @@ async function submitAddAccount() {
 	event.preventDefault()
 	try {
 		const data = Object.fromEntries(new FormData(document.querySelector(".addDialog-form")).entries())
-		console.log(data);
-		if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email) || !/^09\d{9} $/.test(data.phoneNumber) || !data.password ||!/^[1-6]\d{5}(0\d|1\d|2[0-5])\d{4}$/.test(data.lrn) || !data.lastName || !data.firstName || (typeof data.gradeLevel != undefined && (data.gradeLevel < 7 || data.gradeLevel > 12)) || (typeof data.zip !== undefined && !/^(0[4-9]|[1-9]\d)\d{2}/.test(data.zip))) {return console.log('bad data');}
+		console.log(data);		
+		if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email) || !/^09\d{9}$/.test(data.phoneNumber) || !data.password ||!/^[1-6]\d{5}(0\d|1\d|2[0-5])\d{4}$/.test(data.lrn) || !data.lastName || data.lastName.length === 0 || !data.firstName || data.firstName.length === 0 || (typeof data.gradeLevel != undefined && data.gradeLevel.length != 0 && (data.gradeLevel < 7 || data.gradeLevel > 12)) || (typeof data.zip !== undefined && data.gradeLevel.length != 0 && !/^(0[4-9]|[1-9]\d)\d{2}/.test(data.zip))) {return console.log('bad data');}
 
 		const response = await fetch('http://localhost:3000/admin/create', {
 			method: 'POST',
@@ -75,12 +75,11 @@ async function submitAddAccount() {
 			credentials: 'include',
 		});
 
-		if (!response.ok) {return console.log("sumting wong"); }
-
 		const respond = await response.json();
-		console.log(respond);
+		if (!response.ok) {return addAccountOnErr(respond);}
+		addAccountOnSuccess(respond);
+
 	} catch (error) {console.error(console.error(error));}
-	document.querySelector('.editDialog').close()
 }
 
 function displayData(data) {
@@ -213,6 +212,18 @@ function openAddDialog() {
 	document.querySelector('.addDialog').showModal()
 }
 
+function addAccountOnSuccess(respond) {
+	document.querySelector('.addDialog').close();
+	alert(respond.message);
+}
+
+function addAccountOnErr(respond) {
+	console.log(respond);
+	document.querySelector('.addDialog header p').InnerText = ``
+	document.querySelector('.addDialog header p').style.removeProperty('visibility');
+
+}
+
 function updateMessage(data) {
 	if (!data) {return;}
 	for (let i = 0; i < data.length; i++) {
@@ -232,7 +243,7 @@ function updateMessage(data) {
 		document.querySelector(".logsDialog-container").appendChild(element);
 		messageCount++;
 	}
-};
+}
 
 function updateInfo(data) {
 	if (!data) {return}

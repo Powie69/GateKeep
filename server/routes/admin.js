@@ -2,7 +2,7 @@ const express = require('express');
 const fetch = require('node-fetch');
 const crypto = require('crypto');
 const { isAdmin, db } = require('../js/middleware.js');
-const {parseGender} = require('../js/utility.js')
+const {parseGender} = require('../js/utility.js');
 const q = require('../js/adminQuery.js');
 const app = express.Router();
 require('dotenv').config();
@@ -56,17 +56,14 @@ app.post('/query', /*isAdmin,*/ (req,res) => {
 
 app.post('/create', /*isAdmin*/ (req,res) => {
 	const data = req.body;
-	if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email) || !/9^0\d{9}$/.test(data.phoneNumber) || !data.password ||!/^[1-6]\d{5}(0\d|1\d|2[0-5])\d{4}$/.test(data.lrn) || !data.lastName || !data.firstName) {return res.status(400).json({message: "bad data"})}
+	if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email) || !/^09\d{9}$/.test(data.phoneNumber) || !data.password ||!/^[1-6]\d{5}(0\d|1\d|2[0-5])\d{4}$/.test(data.lrn) || !data.lastName || data.lastName.length === 0 || !data.firstName || data.firstName.length === 0 || (typeof data.gradeLevel != undefined && data.gradeLevel.length != 0 && (data.gradeLevel < 7 || data.gradeLevel > 12)) || (typeof data.zip !== undefined && data.gradeLevel.length != 0 && !/^(0[4-9]|[1-9]\d)\d{2}/.test(data.zip))) {return res.status(401).json({message: "bad data"});}
 	console.log(data);
 	
 	// const hash = crypto.createHash('sha256').update(data.lrn + process.env.qrIdSecret).digest('hex').substring(0,25)
 	// console.log(db.format(q.ADD_ACCOUNT, [data.email,data.phoneNumber,data.password,data.lrn,hash,data.lastName,data.lastName,data.lastName,data.firstName,data.firstName,data.firstName,data.middleName,data.middleName,data.middleName,data.lrn,data.lrn,data.lrn,data.gradeLevel,data.gradeLevel,data.gradeLevel,data.section,data.section,data.section,data.age,data.age,data.age,data.sex,data.sex,data.sex,data.houseNo,data.houseNo,data.houseNo,data.street,data.street,data.street,data.zip,data.zip,data.zip,data.barangay,data.barangay,data.barangay,data.city,data.city,data.city,data.province,data.province,data.province]));
 	db.query(q.CHECK_ACCOUNT, [data.lrn], (err,result) => {
 		if (err) { console.error('SQL:', err); return res.status(500).send('Internal Server Error');}
-		console.log(result);
-		console.log(result.length);
 		if (result.length != 0) {return res.status(409).json({message: 'user with LRN already exist.'});}
-		console.log('pain');
 		const hash = crypto.createHash('sha256').update(data.lrn + process.env.qrIdSecret).digest('hex').substring(0,25)
 		db.query(q.ADD_ACCOUNT, [data.email,data.phoneNumber,data.password,data.lrn,hash,data.lastName,data.lastName,data.lastName,data.firstName,data.firstName,data.firstName,data.middleName,data.middleName,data.middleName,data.lrn,data.lrn,data.lrn,data.gradeLevel,data.gradeLevel,data.gradeLevel,data.section,data.section,data.section,data.age,data.age,data.age,data.sex,data.sex,data.sex,data.houseNo,data.houseNo,data.houseNo,data.street,data.street,data.street,data.zip,data.zip,data.zip,data.barangay,data.barangay,data.barangay,data.city,data.city,data.city,data.province,data.province,data.province], (err,result) => {
 			if (err) { console.error('SQL:', err); return res.status(500).send('Internal Server Error');}
