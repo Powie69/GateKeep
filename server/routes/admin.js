@@ -132,23 +132,26 @@ app.post('/getQrImage', /*isAdmin*/ (req,res) => {
 		if (err) {console.error('SQL:', err); return res.status(500).send('Internal Server Error');}
 		if (!result || result.length == 0) {return res.status(404).json({message: "user not found"});}
 		if (result[0].qrCache != null) {
-			res.set('Content-Type', 'image/png');
+			res.set('Content-Type', 'image/svg+xml');
 			return res.send(result[0].qrCache);
 		}
 		db.query(q.GET_QRID, [data.userId], async (err,result) => {
 			if (err) {console.error('SQL:', err); return res.status(500).send('Internal Server Error');}
+			if (!result || result.length == 0) {return res.status(404).json({message: "qr id not found for user"});}
 			try {
-				const response = await fetch(`https://api.qrserver.com/v1/create-qr-code/?size=160x160&margin=10&data=${JSON.stringify(result[0])}`)
+				const response = await fetch(`https://api.qrserver.com/v1/create-qr-code/?size=40x40&qzone=2&format=svg&data=${JSON.stringify(result[0])}`, {
+					method: 'POST',
+				});
 				if (!response.ok) {console.log(error); return res.status(500).send('Internal Server Error');}
-				const qrImage = await response.buffer()
+				const qrImage = await response.buffer();
 				db.query(q.ADD_QRCACHE, [qrImage, data.userId], (err) => {
 					if (err) {console.error('SQL:', err); return res.status(500).send('Internal Server Error');}
 				})
-				res.set('Content-Type', 'image/png')
+				res.set('Content-Type', 'image/svg+xml');
 				res.status(201).send(qrImage)
 			} catch (err) {console.log(err); return res.status(500).send('Internal Server Error');}
 		})
 	})
 })
 
-module.exports = app
+module.exports = app;

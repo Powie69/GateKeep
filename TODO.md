@@ -17,7 +17,7 @@
 - [X] separate mysql commands
 - [ ] panel login stuff
 - [ ] move client folder to '/public'
-- [ ] Create account
+- [X] Create account
 - [ ] Create account with Bulk google forms stuff
 - [X] env everything
 - [X] about,help section

@@ -298,6 +298,10 @@ dialogElements.forEach(element => {
 	})
 });
 
+document.querySelector('.search-level').addEventListener('keyup', (e) => {
+	console.log(e);
+})
+
 document.querySelector(".logsDialog").addEventListener('close', () => {
 	messageCount = 0;
 	document.querySelector('.logsDialog').setAttribute('userId','');

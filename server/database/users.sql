@@ -13,10 +13,10 @@ CREATE TABLE users(
 SELECT * FROM users;
 
 -- @block
-
+UPDATE users SET qrId = NULL;
 
 -- @block
-SELECT NULL FROM users WHERE lrn = ?;
+UPDATE users SET qrCache = NULL;
 
 -- @block
 INSERT INTO users (email, phoneNumber, fullName, lrn, password)
@@ -24,9 +24,6 @@ VALUES ('godwin@gmail.com', '', 'godwin', '113456789000', '123');
 
 -- @block
 INSERT INTO users (email,phoneNumber,password,lrn) VALUES (?,?,?,?); INSERT INTO userInfo (userId,lastname,firstName,middleName,lrn,gradeLevel,section,age,sex,houseNo,street,zip,barangay,city,province) SELECT @LAST_INSERT_ID ,?,?,?,?,?,?,?,?,?,?,?,?,?,?;
-
-
-
 
 -- ruh row
 -- @block
