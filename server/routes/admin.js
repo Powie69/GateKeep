@@ -140,7 +140,7 @@ app.post('/getQrImage', /*isAdmin*/ (req,res) => {
 			if (!result || result.length == 0) {return res.status(404).json({message: "qr id not found for user"});}
 			try {
 				const response = await fetch(`https://api.qrserver.com/v1/create-qr-code/?size=40x40&qzone=2&format=svg&data=${JSON.stringify(result[0])}`, {
-					method: 'POST',
+					method: 'GET',
 				});
 				if (!response.ok) {console.log(error); return res.status(500).send('Internal Server Error');}
 				const qrImage = await response.buffer();
