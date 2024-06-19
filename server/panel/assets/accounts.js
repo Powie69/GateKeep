@@ -5,7 +5,7 @@ const sections = {
 	"10": ["zeus", "aphrodite", "athena", "poseidon"],
 	"11": ["",""],
 	"12": ["",""],
-}
+};
 const dialogElements = document.querySelectorAll(".logsDialog, .infoDialog, .editDialog, .addDialog");
 let getMessageDebounce = true;
 let messageCount = 0;
@@ -327,6 +327,11 @@ document.querySelector('.editDialog').addEventListener('close', () => {
 		element.children[0].innerText = '';
 	})
 	document.querySelector('.editDialog-form').reset();
+})
+
+document.querySelector('.addDialog').addEventListener('close', () => {
+	document.querySelector('.addDialog-form').reset();
+	
 })
 
 function adminLogin() {
