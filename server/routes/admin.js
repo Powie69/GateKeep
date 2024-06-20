@@ -64,7 +64,7 @@ app.post('/create', /*isAdmin*/ (req,res) => {
 	db.query(q.CHECK_ACCOUNT, [data.lrn], (err,result) => {
 		if (err) { console.error('SQL:', err); return res.status(500).send('Internal Server Error');}
 		if (result.length != 0) {return res.status(409).json({message: 'user with LRN already exist.'});}
-		const hash = crypto.createHash('sha256').update(data.lrn + process.env.qrIdSecret).digest('hex').substring(0,25)
+		const hash = crypto.createHash('sha256').update(data.lrn + process.env.qrIdSecret).digest('hex').substring(0,25);
 		db.query(q.ADD_ACCOUNT, [data.email,data.phoneNumber,data.password,data.lrn,hash,data.lastName,data.lastName,data.lastName,data.firstName,data.firstName,data.firstName,data.middleName,data.middleName,data.middleName,data.lrn,data.lrn,data.lrn,data.gradeLevel,data.gradeLevel,data.gradeLevel,data.section,data.section,data.section,data.age,data.age,data.age,data.sex,data.sex,data.sex,data.houseNo,data.houseNo,data.houseNo,data.street,data.street,data.street,data.zip,data.zip,data.zip,data.barangay,data.barangay,data.barangay,data.city,data.city,data.city,data.province,data.province,data.province], (err,result) => {
 			if (err) { console.error('SQL:', err); return res.status(500).send('Internal Server Error');}
 			console.log(result);
@@ -81,7 +81,7 @@ app.post('/updateInfo', /*isAdmin*/ (req,res) => {
 	if (data.sex != undefined && !(data.sex == 0 || data.sex == 1)) {return res.status(400).json({message: "bad data"});}
 	for (const i in data) {if (data[i] != undefined && data[i].length > 60) {return res.status(400).json({message: "bad data"})}}
 
-	db.query(q.UPDATE_INFO, [...new Array(2).fill(data.lastName), ...new Array(2).fill(data.firstName), ...new Array(2).fill(data.middleName), ...new Array(2).fill(data.lrn), ...new Array(2).fill(data.gradeLevel), ...new Array(2).fill(data.section), ...new Array(2).fill(data.age), ...new Array(2).fill(data.sex), ...new Array(2).fill(data.houseNo), ...new Array(2).fill(data.street), ...new Array(2).fill(data.zip), ...new Array(2).fill(data.barangay), ...new Array(2).fill(data.city), ...new Array(2).fill(data.province), data.userId], (err,result) => {
+	db.query(q.UPDATE_INFO, [data.email, data.email, data.email, data.phoneNumber, data.phoneNumber, data.phoneNumber, data.password, data.password, data.password, data.userId, data.lastName, data.lastName, data.lastName, data.firstName, data.firstName, data.firstName, data.middleName, data.middleName, data.middleName, data.lrn, data.lrn, data.lrn, data.gradeLevel, data.gradeLevel, data.gradeLevel, data.section, data.section, data.section, data.age, data.age, data.age, data.sex, data.sex, data.sex, data.houseNo, data.houseNo, data.houseNo, data.street, data.street, data.street, data.zip, data.zip, data.zip, data.barangay, data.barangay, data.barangay, data.city, data.city, data.city, data.province, data.province, data.province, data.userId], (err,result) => {
         if (err) {console.error('SQL:', err); return res.status(500).json({message: "Internal Server Error"});}
 		console.log(result)
 	})
@@ -102,14 +102,14 @@ app.post('/getMessage', /*isAdmin,*/ (req,res) => {
 });
 
 app.post('/getInfo', /*isAdmin,*/ (req,res) => {
-	const data = req.body
+	const data = req.body;
 	if (!data || data.userId == undefined || data.withQrId == undefined) {return res.status(400).send("bad data (server)")}
 	if (data.withQrId) {
 		db.query(q.GET_INFO_WITH_QRID, [data.userId], (err,result) => {
 			if (err) {console.error('SQL:', err); return res.status(500).send('Internal Server Error');}
 			if (result.length == 0) {return res.status(404).json({message: "user not found"});}
 			for (const i in result[0]) {
-				if (i == 'sex') {result[0].sex = parseGender(result[0][i]);}
+				if (i == 'sex') {result[0].sex = parseGender(result[0].sex);}
 			}
 			res.json(result[0]);
 		})
@@ -118,8 +118,8 @@ app.post('/getInfo', /*isAdmin,*/ (req,res) => {
 	db.query(q.GET_INFO, [data.userId], (err,result) => {
 		if (err) {console.error('SQL:', err); return res.status(500).send('Internal Server Error');}
 		if (result.length == 0) {return res.status(404).json({message: "user not found"});}
-		for (const i in result[0]) {
-			if (i == 'sex') {result[0].sex = parseGender(result[0][i]);}
+		for (let i in result[0]) {
+			if (i == 'sex') {result[0].sex = parseGender(result[0].sex);}
 		}
 		return res.json(result[0]);
 	})

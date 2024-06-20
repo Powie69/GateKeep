@@ -341,10 +341,9 @@
 /* *edit dialog */
 
 .editDialog {
-	top: 5%;
 	z-index: 1;
 	width: 65%;
-	height: 60%;
+	height: 75%;
 	border: none;
 	background-color: var(--c-content);
 	box-shadow: rgb(2, 9, 15) 0px 30px 40px -10px;
@@ -355,36 +354,41 @@
 	backdrop-filter: blur(2px);
 }
 
-.editDialog header p{
-	margin: .5rem 0;
+.editDialog header h2{
+	margin: .3rem 0;
 	text-align: center;
 	font-size: 2rem;
 	font-weight: 600;
 }
 
+.editDialog header p{
+	margin: .3rem 0;
+	color: red;
+	text-align: center;
+}
+
 .editDialog-form {
 	display: grid;
-	grid-template-columns: repeat(3, 1fr);
-	grid-template-rows: repeat(5, 1fr);
+	grid-template-columns: repeat(4, 1fr);
+	grid-template-rows: repeat(6, 1fr);
 	gap: .5rem;
 	height: 90%;
 	overflow-y: scroll;
 	scroll-snap-type: y mandatory;
 	scrollbar-width: thin;
 	grid-template-areas:
-    "name name name"
-    "school school school"
-    "address address address"
-    "address address address"
-    "person person buttons";
+    "person person person person"
+    "school school school school"
+    "address address address address"
+    "address address address address"
+	"account account account account"
+	". buttons buttons .";
 }
 
 .editDialog-form fieldset {
 	display: flex;
 	justify-content: space-around;
 	gap: .5rem 1rem;
-	/* display: grid; */
-	/* grid-template-columns: repeat(3,1fr); */
 	padding: .5rem 1rem;
 	border: #3e3e3e 2px dashed;
 	border-radius: 14px;
@@ -393,27 +397,50 @@
 .editDialog-form fieldset label {
 	width: 100%;
 }
+
+.editDialog-form fieldset label span {
+	color: red;
+	font-style: italic;
+	visibility: hidden;
+}
+
+
 .editDialog-form fieldset input {
 	width: calc(100% - .7rem);
 	padding: 2px 4px;
 	margin: 4px 0;
+	border-radius: 4px;
+}
+
+.editDialog-form fieldset input:user-invalid{
+	border: red solid 2px;
+}
+
+.editDialog-form fieldset label:has(input:user-invalid) > span{
+	visibility: visible;
 }
 
 .editDialog-form fieldset select {
 	width: 100%;
 	padding: 2px 4px;
 	margin: 4px 0;
+	border-radius: 4px;
 }
 
-.editDialog-form-name { grid-area: name; }
+.editDialog-form-person { 
+	grid-area: person;
+	display: grid !important;
+	grid-template-columns: repeat(3, 1fr);
+	grid-template-rows: repeat(2, 1fr);
+}
 .editDialog-form-school { grid-area: school; }
 .editDialog-form-address {
 	grid-area: address;
 	display: grid !important;
 	grid-template-columns: repeat(3, 1fr);
 }
-.editDialog-form-person { grid-area: person; }
-
+/*pattern="^[1-6]\d{5}(0\d|1\d|2[0-5])\d{4}$"*/
+.editDialog-form-account {grid-area: account;}
 .editDialog-form-buttons {
 	grid-area: buttons;
 	padding: 1rem .5rem!important;

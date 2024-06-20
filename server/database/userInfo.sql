@@ -30,6 +30,9 @@ FROM userInfo
 LEFT JOIN users ON userInfo.userId = users.id
 WHERE userInfo.userId = 1;
 
+-- @block
+SELECT userInfo.*, users.email, users.phoneNumber, users.password FROM userInfo LEFT JOIN users ON userInfo.userId = users.id WHERE userInfo.userId = ?;
+
 
 -- @block
 SELECT lastName, firstName, middleName, lrn, age, sex, houseNo, street, zip, barangay, city, province FROM userinfo WHERE userId = 1;

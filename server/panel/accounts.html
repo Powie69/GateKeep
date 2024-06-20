@@ -30,7 +30,7 @@
 				<span>
 					QR CODE:<br>
 					<span class="_nullItems" id="info-qrId">null</span>
-					<img src="" title="">
+					<img src="" title="" alt="qr code">
 				</span>
 				<span>Last Name:<br> <span class="_nullItems" id="info-lastName">null</span></span>
 				<span>First Name:</br> <span class="_nullItems" id="info-firstName">null</span></span>
@@ -50,17 +50,28 @@
 		</div>
 	</dialog>
 	<dialog class="editDialog" userId="">
-		<header><p>Edit User Info</p></header>
+		<header>
+			<h2>Edit User Info</h2>
+			<p style="visibility: hidden;"></p>
+		</header>
 		<form class="editDialog-form" autocomplete="off" onsubmit="submitEditInfo()">
-			<fieldset class="editDialog-form-name">
-				<label>Last Name:<br> <input class="editDialog-form-lastName" name="lastName" type="text" placeholder=""></label>
-				<label>First Name:<br> <input class="editDialog-form-firstName" name="firstName" type="text" placeholder=""></label>
-				<label>Middle Name:<br> <input class="editDialog-form-middleName" name="middleName" type="text" placeholder=""></label>
+			<fieldset class="addDialog-form-person">
+				<label>Last Name*: <span>Invalid Input.</span><br> <input class="editDialog-form-lastName" name="lastName"  maxlength="255" type="text"></label>
+				<label>First Name*: <span>Invalid Input.</span><br> <input class="editDialog-form-firstName" name="firstName" maxlength="255" type="text"></label>
+				<label>Middle Name:<br> <input class="editDialog-form-middleName" name="middleName" type="text" maxlength="255"></label>
+				<label>Age: <span>Invalid Input.</span><br> <input class="editDialog-form-age" name="age" type="number" min="0" max="99"></label>
+				<label>Sex: <span>Invalid Input.</span><br>
+					<select class="editDialog-form-sex" name="sex">
+						<option value="" class="editDialog-form-sex_placeholder" selected hidden disabled></option>
+						<option value="1">Male</option>
+						<option value="0">Female</option>
+					</select>
+				</label>
 			</fieldset>
 			<fieldset class="editDialog-form-school">
-				<label>LRN:<br> <input class="editDialog-form-lrn" name="lrn" type="number" maxlength="12" minlength="12" max="699999999999" min="100000000000" placeholder=""></label>
-				<label>Grade Level:<br> <input class="editDialog-form-gradeLevel" name="gradeLevel" type="number" min="7" max="12" placeholder=""></label>
-				<label>Section:<br>
+				<label>LRN*: <span>Invalid Input.</span><br> <input class="editDialog-form-lrn" disabled name="lrn" pattern="[1-6]\d{5}(0\d|1\d|2[0-5])\d{4}" type="text" maxlength="12" minlength="12" max="699999999999" min="100000000000"></label>
+				<label>Grade Level: <span>Invalid Input.</span><br> <input class="editDialog-form-gradeLevel" name="gradeLevel" type="number" min="7" max="12"></label>
+				<label>Section: <span>Invalid Input.</span><br>
 					<select class="editDialog-form-section" name="section">
 						<option value="" class="editDialog-form-section_placeholder" selected hidden disabled></option>
 						<option value="love">Love</option>
@@ -83,26 +94,21 @@
 				</label>
 			</fieldset>
 			<fieldset class="editDialog-form-address">
-				<label>Barangay:<br> <input class="editDialog-form-barangay" name="barangay" type="text" placeholder=""></label>
-				<label>City/Municipality:<br> <input class="editDialog-form-city" name="city" type="text" placeholder=""></label>
-				<label>Province:<br> <input class="editDialog-form-province" name="province" type="text" placeholder=""></label>
-				<label>Zip:<br> <input class="editDialog-form-zip" name="zip" type="number" placeholder=""></label>
-				<label>Street Name:<br> <input class="editDialog-form-street" name="street" type="text" min="1" max="9999" placeholder=""></label>
-				<label>House Number:<br> <input class="editDialog-form-houseNo" name="houseNo" type="number" min="1" max="9999" placeholder=""></label>
+				<label>Barangay: <span>Invalid Input.</span><br> <input class="editDialog-form-barangay" name="barangay" type="text" maxlength="255"></label>
+				<label>City/Municipality: <span>Invalid Input.</span><br> <input class="editDialog-form-city" name="city" type="text" maxlength="255"></label>
+				<label>Province: <span>Invalid Input.</span><br> <input class="editDialog-form-province" name="province" type="text" maxlength="255"></label>
+				<label>Zip: <span>Invalid Input.</span><br> <input class="editDialog-form-zip" name="zip" type="text"  minlength="4" maxlength="4"></label>
+				<label>Street Name: <span>Invalid Input.</span><br> <input class="editDialog-form-street" name="street" type="text" maxlength="255"></label>
+				<label>House Number: <span>Invalid Input.</span><br> <input class="editDialog-form-houseNo" name="houseNo" type="number" min="1" max="9999"></label>
 			</fieldset>
-			<fieldset class="editDialog-form-person">
-				<label>Age:<br> <input class="editDialog-form-age" name="age" type="number" min="1" max="99" placeholder=""></label>
-				<label>Sex:<br>
-					<select class="editDialog-form-sex" name="sex">
-						<option value="" class="editDialog-form-sex_placeholder" selected hidden disabled></option>
-						<option value="1">Male</option>
-						<option value="0">Female</option>
-					</select>
-				</label>
+			<fieldset class="editDialog-form-account">
+				<label>Phone Number*: <span>Invalid Input.</span><br> <input class="editDialog-form-phoneNumber" name="phoneNumber" type="text" pattern="^09\d{9}$" minlength="11" maxlength="11"></label>
+				<label>Email*: <span>Invalid Input.</span><br> <input class="editDialog-form-email" name="email" type="text" pattern="[^\s@]+@[^\s@]+\.[^\s@]+" maxlength="255"></label>
+				<label>Password*: <span>Invalid Input.</span><br> <input class="editDialog-form-password" name="password" type="password" minlength="3" maxlength="255"></label>
 			</fieldset>
 			<fieldset class="editDialog-form-buttons">
 				<button class="editDialog-form-buttons-submit" type="submit">Submit</button>
-				<button class="editDialog-form-buttons-cancel" onclick="ParentElement.ParentElement.ParentElement.close()">Cancel</button>
+				<button class="editDialog-form-buttons-cancel" type="button" onclick="parentElement.parentElement.parentElement.close()">Cancel</button>
 			</fieldset>
 		</form>
 	</dialog>
@@ -115,7 +121,7 @@
 			<fieldset class="addDialog-form-person">
 				<label>Last Name*: <span>Invalid Input.</span><br> <input class="addDialog-form-lastName" name="lastName" required  maxlength="255" type="text"></label>
 				<label>First Name*: <span>Invalid Input.</span><br> <input class="addDialog-form-firstName" name="firstName" required maxlength="255" type="text"></label>
-				<label>Middle Name:<br> <input class="addDialog-form-middleName" name="middleName" type="text" maxlength="60"></label>
+				<label>Middle Name:<br> <input class="addDialog-form-middleName" name="middleName" type="text" maxlength="255"></label>
 				<label>Age: <span>Invalid Input.</span><br> <input class="addDialog-form-age" name="age" type="number" min="0" max="99" maxlength="2"></label>
 				<label>Sex: <span>Invalid Input.</span><br>
 					<select class="addDialog-form-sex" name="sex">
@@ -161,7 +167,7 @@
 			<fieldset class="addDialog-form-account">
 				<label>Phone Number*: <span>Invalid Input.</span><br> <input class="addDialog-form-phoneNumber" name="phoneNumber" type="text" pattern="^09\d{9}$" required minlength="11" maxlength="11"></label>
 				<label>Email*: <span>Invalid Input.</span><br> <input class="addDialog-form-email" name="email" type="text" pattern="[^\s@]+@[^\s@]+\.[^\s@]+" required maxlength="255"></label>
-				<label>Password*: <span>Invalid Input.</span><br> <input class="addDialog-form-email" name="password" type="password" required minlength="3" maxlength="255"></label>
+				<label>Password*: <span>Invalid Input.</span><br> <input class="addDialog-form-password" name="password" type="password" required minlength="3" maxlength="255"></label>
 			</fieldset>
 			<fieldset class="addDialog-form-buttons">
 				<button class="addDialog-form-buttons-submit" type="submit">Submit</button>

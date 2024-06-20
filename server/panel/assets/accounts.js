@@ -38,9 +38,10 @@ async function submitQuery(type) {
 async function submitEditInfo() {
 	event.preventDefault()
 	try {
-		const data = Object.fromEntries(new FormData(document.querySelector(".editDialog-form")).entries())
+		const data = Object.fromEntries(new FormData(document.querySelector(".editDialog-form")).entries());
+		if ((typeof data.email != undefined && data.email.length != 0 && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) || (typeof data.phoneNumber != undefined && data.phoneNumber.length != 0 && !/^09\d{9}$/.test(data.phoneNumber)) || (typeof data.password != undefined && data.password.length != 0) || (typeof data.lrn != undefined && data.lrn.length != 0 && !/^[1-6]\d{5}(0\d|1\d|2[0-5])\d{4}$/.test(data.lrn)) || (typeof data.lastName != undefined && data.lastName.length != 0) || (typeof data.firstName != undefined && data.firstName.length != 0) || (typeof data.gradeLevel != undefined && data.gradeLevel.length != 0 && (data.gradeLevel < 7 || data.gradeLevel > 12)) || (typeof data.zip !== undefined && data.gradeLevel.length != 0 && !/^(0[4-9]|[1-9]\d)\d{2}/.test(data.zip)) ) {console.log('bad data'); return submitEditOnErr('client', 'bad data')}
 
-		data.userId = document.querySelector('.editDialog').getAttribute('userId')
+		data.userId = document.querySelector('.editDialog').getAttribute('userId');
 
 		const response = await fetch('http://localhost:3000/admin/updateInfo', {
 			method: 'POST',
@@ -51,12 +52,12 @@ async function submitEditInfo() {
 			credentials: 'include',
 		});
 
-		if (!response.ok) {return console.log("sumting wong"); }
+		if (!response.ok) {return submitEditOnErr(response.status,respond.message);}
 
 		const respond = await response.json();
 		console.log(respond);
-	} catch (error) {console.error(console.error(error));}
-	document.querySelector('.editDialog').close()
+		document.querySelector('.editDialog').close();
+	} catch (error) {console.error(error);}
 }
 
 async function submitAddAccount() {
@@ -78,7 +79,7 @@ async function submitAddAccount() {
 		if (!response.ok) {return addAccountOnErr(response.status,respond.message);}
 		addAccountOnSuccess(respond);
 
-	} catch (error) {console.error(console.error(error));}
+	} catch (error) {console.error(error);}
 }
 
 function displayData(data) {
@@ -118,7 +119,7 @@ function getSection(value) {
 		element.removeAttribute("hidden");
 	})
 }
-
+// start of fetch
 async function fetchMessages(limit,offset,userId) {
 	if (!limit || offset == undefined || limit >= 25 || offset <= -1) { console.log("bad data (client)"); return;}
 	return await fetch('http://localhost:3000/admin/getMessage', {
@@ -141,7 +142,7 @@ async function fetchMessages(limit,offset,userId) {
 }
 
 async function fetchInfo(userId, withQrId) {
-	if (userId == undefined) {console.log("bad data (client)");}
+	if (typeof userId === undefined || userId.length === 0) {console.log("bad data (client)");}
 	return await fetch('http://localhost:3000/admin/getInfo', {
 	method: 'post',
 	credentials: 'include',
@@ -182,6 +183,7 @@ async function fetchQrcache(userId) {
 	.catch(error => {console.error(error);});
 }
 
+// start of dialog
 async function openLogsDialog(value) {
 	document.querySelector('.logsDialog').showModal();
 	document.querySelector('.logsDialog').setAttribute("userId",value.parentElement.getAttribute('userId'));
@@ -209,6 +211,16 @@ async function openEditDialog(value) {
 
 function openAddDialog() {
 	document.querySelector('.addDialog').showModal()
+}
+
+// handlers
+function submitEditOnErr(status,respond) {
+	document.querySelector('.editDialog header p').innerText = status + ': ' + respond;
+	document.querySelector('.editDialog header p').style.removeProperty('visibility');
+	setTimeout(() => {
+		document.querySelector('.editDialog header p').style.visibility = 'hidden';
+		document.querySelector('.editDialog header p').innerText = '';
+	}, 10000);
 }
 
 function addAccountOnSuccess(respond) {
@@ -267,17 +279,19 @@ function updateInfoQr(data) {
 
 function updatePlaceholderInfo(data) {
 	if (!data) {return}
+	console.log(data);
 	for (const i in data) {
 		const element = document.querySelector(`.editDialog-form-${i}`)
 		if (!element) {continue;}
 		if (element.tagName == "SELECT" && data[i]) {
-			document.querySelector(`.editDialog-form-${[i]}_placeholder`).innerHTML = data[i];
+			document.querySelector(`.editDialog-form-${i}_placeholder`).innerHTML = data[i];
 			continue;
 		}
 		if (data[i]) {element.placeholder = data[i]}
 	}
 }
 
+// events
 document.querySelector(".logsDialog-container").addEventListener('scrollend', function(){
 	if (getMessageDebounce && (this.clientHeight + this.scrollTop >= this.scrollHeight - 60)) {
 		// When scrolled to the bottom of the container
@@ -297,10 +311,6 @@ dialogElements.forEach(element => {
 		if (e.clientX < dialogDimensions.left ||e.clientX > dialogDimensions.right ||e.clientY < dialogDimensions.top ||e.clientY > dialogDimensions.bottom) {element.close()}
 	})
 });
-
-document.querySelector('.search-level').addEventListener('keyup', (e) => {
-	console.log(e);
-})
 
 document.querySelector(".logsDialog").addEventListener('close', () => {
 	messageCount = 0;
