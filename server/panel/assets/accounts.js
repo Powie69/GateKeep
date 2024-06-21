@@ -52,9 +52,9 @@ async function submitEditInfo() {
 			credentials: 'include',
 		});
 
+		const respond = await response.json();
 		if (!response.ok) {return submitEditOnErr(response.status,respond.message);}
 
-		const respond = await response.json();
 		console.log(respond);
 		document.querySelector('.editDialog').close();
 	} catch (error) {console.error(error);}
@@ -341,7 +341,8 @@ document.querySelector('.editDialog').addEventListener('close', () => {
 
 document.querySelector('.addDialog').addEventListener('close', () => {
 	document.querySelector('.addDialog-form').reset();
-	
+	document.querySelector('.addDialog header p').style.visibility = 'hidden';
+	document.querySelector('.addDialog header p').innerText = '';
 })
 
 function adminLogin() {

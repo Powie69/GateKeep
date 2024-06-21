@@ -81,11 +81,13 @@ app.post('/updateInfo', /*isAdmin*/ (req,res) => {
 	if (data.sex != undefined && !(data.sex == 0 || data.sex == 1)) {return res.status(400).json({message: "bad data"});}
 	for (const i in data) {if (data[i] != undefined && data[i].length > 60) {return res.status(400).json({message: "bad data"})}}
 
-	db.query(q.UPDATE_INFO, [data.email, data.email, data.email, data.phoneNumber, data.phoneNumber, data.phoneNumber, data.password, data.password, data.password, data.userId, data.lastName, data.lastName, data.lastName, data.firstName, data.firstName, data.firstName, data.middleName, data.middleName, data.middleName, data.lrn, data.lrn, data.lrn, data.gradeLevel, data.gradeLevel, data.gradeLevel, data.section, data.section, data.section, data.age, data.age, data.age, data.sex, data.sex, data.sex, data.houseNo, data.houseNo, data.houseNo, data.street, data.street, data.street, data.zip, data.zip, data.zip, data.barangay, data.barangay, data.barangay, data.city, data.city, data.city, data.province, data.province, data.province, data.userId], (err,result) => {
+	console.log(db.format(q.UPDATE_INFO, [data.email, data.email, data.email, data.phoneNumber, data.phoneNumber, data.phoneNumber, data.lrn, data.lrn, data.lrn, data.password, data.password, data.password, data.userId, data.lastName, data.lastName, data.lastName, data.firstName, data.firstName, data.firstName, data.middleName, data.middleName, data.middleName, data.gradeLevel, data.gradeLevel, data.gradeLevel, data.section, data.section, data.section, data.age, data.age, data.age, data.sex, data.sex, data.sex, data.houseNo, data.houseNo, data.houseNo, data.street, data.street, data.street, data.zip, data.zip, data.zip, data.barangay, data.barangay, data.barangay, data.city, data.city, data.city, data.province, data.province, data.province, data.userId]))
+
+	db.query(q.UPDATE_INFO, [data.email, data.email, data.email, data.phoneNumber, data.phoneNumber, data.phoneNumber, data.lrn, data.lrn, data.lrn, data.password, data.password, data.password, data.userId, data.lastName, data.lastName, data.lastName, data.firstName, data.firstName, data.firstName, data.middleName, data.middleName, data.middleName, data.gradeLevel, data.gradeLevel, data.gradeLevel, data.section, data.section, data.section, data.age, data.age, data.age, data.sex, data.sex, data.sex, data.houseNo, data.houseNo, data.houseNo, data.street, data.street, data.street, data.zip, data.zip, data.zip, data.barangay, data.barangay, data.barangay, data.city, data.city, data.city, data.province, data.province, data.province, data.userId], (err,result) => {
         if (err) {console.error('SQL:', err); return res.status(500).json({message: "Internal Server Error"});}
 		console.log(result)
+		res.status(200).json({message: "ok"});
 	})
-	res.status(200).json({message: "ok"});
 })
 
 app.post('/getMessage', /*isAdmin,*/ (req,res) => {
@@ -139,7 +141,7 @@ app.post('/getQrImage', /*isAdmin*/ (req,res) => {
 			if (err) {console.error('SQL:', err); return res.status(500).send('Internal Server Error');}
 			if (!result || result.length == 0) {return res.status(404).json({message: "qr id not found for user"});}
 			try {
-				const response = await fetch(`https://api.qrserver.com/v1/create-qr-code/?size=40x40&qzone=2&format=svg&data=${JSON.stringify(result[0])}`, {
+				const response = await fetch(`https://api.qrserver.com/v1/create-qr-code/?size=25x25&qzone=2&format=svg&data=${JSON.stringify(result[0])}`, {
 					method: 'GET',
 				});
 				if (!response.ok) {console.log(error); return res.status(500).send('Internal Server Error');}

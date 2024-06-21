@@ -17,7 +17,7 @@ CREATE TABLE userInfo (
 	barangay VARCHAR(255),
 	city VARCHAR(255),
 	province VARCHAR(255),
-    FOREIGN KEY (lrn) REFERENCES users(lrn),
+    FOREIGN KEY (lrn) REFERENCES users(lrn) ON UPDATE CASCADE,
     FOREIGN KEY (userId) REFERENCES users(id)
 );
 
@@ -33,7 +33,12 @@ WHERE userInfo.userId = 1;
 -- @block
 SELECT userInfo.*, users.email, users.phoneNumber, users.password FROM userInfo LEFT JOIN users ON userInfo.userId = users.id WHERE userInfo.userId = ?;
 
+-- @block
+ALTER TABLE userinfo
+DROP FOREIGN KEY `userinfo_ibfk_1`;
 
+-- @block
+SHOW CREATE TABLE userinfo;
 -- @block
 SELECT lastName, firstName, middleName, lrn, age, sex, houseNo, street, zip, barangay, city, province FROM userinfo WHERE userId = 1;
 
