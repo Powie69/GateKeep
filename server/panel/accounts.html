@@ -97,7 +97,7 @@
 				<label>Barangay: <span>Invalid Input.</span><br> <input class="editDialog-form-barangay" name="barangay" type="text" maxlength="255"></label>
 				<label>City/Municipality: <span>Invalid Input.</span><br> <input class="editDialog-form-city" name="city" type="text" maxlength="255"></label>
 				<label>Province: <span>Invalid Input.</span><br> <input class="editDialog-form-province" name="province" type="text" maxlength="255"></label>
-				<label>Zip: <span>Invalid Input.</span><br> <input class="editDialog-form-zip" name="zip" type="text"  minlength="4" maxlength="4"></label>
+				<label>Zip: <span>Invalid Input.</span><br> <input class="editDialog-form-zip" name="zip" pattern="^(0[4-9]|[1-9]\d)\d{2}$" type="text"  minlength="4" maxlength="4"></label>
 				<label>Street Name: <span>Invalid Input.</span><br> <input class="editDialog-form-street" name="street" type="text" maxlength="255"></label>
 				<label>House Number: <span>Invalid Input.</span><br> <input class="editDialog-form-houseNo" name="houseNo" type="number" min="1" max="9999"></label>
 			</fieldset>

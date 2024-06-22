@@ -77,9 +77,8 @@ app.post('/updateInfo', /*isAdmin*/ (req,res) => {
 	const data = req.body;
 	console.log(req.body);
 
-	if (data.age != undefined && data.age <= -1 || data.age > 99) {return res.status(400).json({message: "bad data"});}
-	if (data.sex != undefined && !(data.sex == 0 || data.sex == 1)) {return res.status(400).json({message: "bad data"});}
-	for (const i in data) {if (data[i] != undefined && data[i].length > 60) {return res.status(400).json({message: "bad data"})}}
+	if ((typeof data.email != undefined && data.email.length != 0 && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) || (typeof data.phoneNumber != undefined && data.phoneNumber.length != 0 && !/^09\d{9}$/.test(data.phoneNumber)) || (typeof data.password != undefined && data.password.length != 0) || (typeof data.lrn != undefined && data.lrn.length != 0 && !/^[1-6]\d{5}(0\d|1\d|2[0-5])\d{4}$/.test(data.lrn)) || (typeof data.lastName != undefined && data.lastName === '') || (typeof data.firstName != undefined && data.firstName === '') || (typeof data.gradeLevel != undefined && data.gradeLevel.length != 0 && (data.gradeLevel < 7 || data.gradeLevel > 12)) || (typeof data.zip !== undefined && data.zip.length != 0 && !/^(0[4-9]|[1-9]\d)\d{2}$/.test(data.zip))) {return res.status(400).json({message: "bad data"})}
+	for (const i in data) {if (typeof data[i] !== undefined && data[i].length !== 0 && data[i].length >= 255) {return res.status(400).json({message: "bad data"})}}
 
 	console.log(db.format(q.UPDATE_INFO, [data.email, data.email, data.email, data.phoneNumber, data.phoneNumber, data.phoneNumber, data.lrn, data.lrn, data.lrn, data.password, data.password, data.password, data.userId, data.lastName, data.lastName, data.lastName, data.firstName, data.firstName, data.firstName, data.middleName, data.middleName, data.middleName, data.gradeLevel, data.gradeLevel, data.gradeLevel, data.section, data.section, data.section, data.age, data.age, data.age, data.sex, data.sex, data.sex, data.houseNo, data.houseNo, data.houseNo, data.street, data.street, data.street, data.zip, data.zip, data.zip, data.barangay, data.barangay, data.barangay, data.city, data.city, data.city, data.province, data.province, data.province, data.userId]))
 
