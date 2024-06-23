@@ -49,12 +49,12 @@
 				<span>User Id:</br> <span class="_nullItems" id="info-userId">null</span></span>
 		</div>
 	</dialog>
-	<dialog class="editDialog" userId="">
+	<dialog class="editDialog" userId="" onkeyup="submitEditPress(event)">
 		<header>
 			<h2>Edit User Info</h2>
 			<p style="visibility: hidden;"></p>
 		</header>
-		<form class="editDialog-form" autocomplete="off" onsubmit="submitEditInfo()">
+		<form class="editDialog-form" autocomplete="off" onsubmit="submitEditInfo(event)" >
 			<fieldset class="addDialog-form-person">
 				<label>Last Name*: <span>Invalid Input.</span><br> <input class="editDialog-form-lastName" name="lastName"  maxlength="255" type="text"></label>
 				<label>First Name*: <span>Invalid Input.</span><br> <input class="editDialog-form-firstName" name="firstName" maxlength="255" type="text"></label>
@@ -97,7 +97,7 @@
 				<label>Barangay: <span>Invalid Input.</span><br> <input class="editDialog-form-barangay" name="barangay" type="text" maxlength="255"></label>
 				<label>City/Municipality: <span>Invalid Input.</span><br> <input class="editDialog-form-city" name="city" type="text" maxlength="255"></label>
 				<label>Province: <span>Invalid Input.</span><br> <input class="editDialog-form-province" name="province" type="text" maxlength="255"></label>
-				<label>Zip: <span>Invalid Input.</span><br> <input class="editDialog-form-zip" name="zip" pattern="^(0[4-9]|[1-9]\d)\d{2}$" type="text"  minlength="4" maxlength="4"></label>
+				<label>Zip: <span>Invalid Input.</span><br> <input class="editDialog-form-zip" name="zip" pattern="(0[4-9]|[1-9]\d)\d{2}" type="text"  minlength="4" maxlength="4"></label>
 				<label>Street Name: <span>Invalid Input.</span><br> <input class="editDialog-form-street" name="street" type="text" maxlength="255"></label>
 				<label>House Number: <span>Invalid Input.</span><br> <input class="editDialog-form-houseNo" name="houseNo" type="number" min="1" max="9999"></label>
 			</fieldset>
@@ -107,7 +107,7 @@
 				<label>Password*: <span>Invalid Input.</span><br> <input class="editDialog-form-password" name="password" type="password" minlength="3" maxlength="255"></label>
 			</fieldset>
 			<fieldset class="editDialog-form-buttons">
-				<button class="editDialog-form-buttons-submit" type="submit">Submit</button>
+				<button class="editDialog-form-buttons-submit" type="button" onclick="submitEditInfo(event)">Submit</button>
 				<button class="editDialog-form-buttons-cancel" type="button" onclick="parentElement.parentElement.parentElement.close()">Cancel</button>
 			</fieldset>
 		</form>

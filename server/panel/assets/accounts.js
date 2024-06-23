@@ -35,47 +35,11 @@ async function submitQuery(type) {
 	} catch (error) {console.error(console.error(error));}
 }
 
-async function submitEditInfo() {
+async function submitEditInfo(event) {
 	event.preventDefault()
 	try {
 		const data = Object.fromEntries(new FormData(document.querySelector(".editDialog-form")).entries());
-		// if ((typeof data.email != undefined && data.email.length != 0 && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) || (typeof data.phoneNumber != undefined && data.phoneNumber.length != 0 && !/^09\d{9}$/.test(data.phoneNumber)) || (typeof data.password != undefined && data.password.length != 0) || (typeof data.lrn != undefined && data.lrn.length != 0 && !/^[1-6]\d{5}(0\d|1\d|2[0-5])\d{4}$/.test(data.lrn)) || typeof data.lastName != undefined || typeof data.firstName != undefined || (typeof data.gradeLevel != undefined && data.gradeLevel.length != 0 && (data.gradeLevel < 7 || data.gradeLevel > 12)) || (typeof data.zip !== undefined && data.zip.length != 0 && !/^(0[4-9]|[1-9]\d)\d{2}$/.test(data.zip))) {console.log('bad data'); return submitEditOnErr('client', 'bad data')}
-
-
-		if ((typeof data.email != undefined && data.email.length != 0 && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email))) {
-			console.log('email');
-			return;
-		}
-		if ((typeof data.phoneNumber != undefined && data.phoneNumber.length != 0 && !/^09\d{9}$/.test(data.phoneNumber))) {
-			console.log('numehpme');
-			return;
-		}
-		if ((typeof data.password != undefined && data.password.length != 0)) {
-			console.log('passwor');
-			return;
-		}
-		if ((typeof data.lrn != undefined && data.lrn.length != 0 && !/^[1-6]\d{5}(0\d|1\d|2[0-5])\d{4}$/.test(data.lrn))) {
-			console.log('lrn');
-			return;
-		}
-		if (typeof data.lastName != undefined && data.lastName.length ) {
-			console.log('lastname');
-			return;
-		}
-		if ((typeof data.gradeLevel != undefined && data.gradeLevel.length != 0 && (data.gradeLevel < 7 || data.gradeLevel > 12))) {
-			console.log('gradelevel');
-			return;
-		}
-		if ((typeof data.zip !== undefined && data.zip.length != 0 && !/^(0[4-9]|[1-9]\d)\d{2}$/.test(data.zip))) {
-			console.log('zip');
-			return;
-		}
-		if (typeof data.firstName != undefined) {
-			console.log('firstname');
-			return;
-		}
-		console.log('all goods');
-		return
+		if ((typeof data.email != undefined && data.email.length != 0 && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) || (typeof data.phoneNumber != undefined && data.phoneNumber.length != 0 && !/^09\d{9}$/.test(data.phoneNumber)) || (typeof data.password != undefined && data.password.length != 0) || (typeof data.lrn != undefined && data.lrn.length != 0 && !/^[1-6]\d{5}(0\d|1\d|2[0-5])\d{4}$/.test(data.lrn)) || (typeof data.gradeLevel != undefined && data.gradeLevel.length != 0 && (data.gradeLevel < 7 || data.gradeLevel > 12)) || (typeof data.zip !== undefined && data.zip.length != 0 && !/^(0[4-9]|[1-9]\d)\d{2}$/.test(data.zip))) {console.log('bad data'); return submitEditOnErr('client', 'bad data')}
 		for (const i in data) {if (typeof data[i] !== undefined && data[i].length !== 0 && data[i].length >= 255) {return submitEditOnErr('client', 'bad data')}}
 
 		data.userId = document.querySelector('.editDialog').getAttribute('userId');
@@ -94,6 +58,7 @@ async function submitEditInfo() {
 
 		console.log(respond);
 		document.querySelector('.editDialog').close();
+		alert('big success')
 	} catch (error) {console.error(error);}
 }
 
@@ -251,6 +216,13 @@ function openAddDialog() {
 }
 
 // handlers
+
+function submitEditPress(event) {
+	if (event.key === "Enter" && event.keyCode === 13) {
+		submitEditInfo(event)
+	}
+}
+
 function submitEditOnErr(status,respond) {
 	document.querySelector('.editDialog header p').innerText = status + ': ' + respond;
 	document.querySelector('.editDialog header p').style.removeProperty('visibility');
