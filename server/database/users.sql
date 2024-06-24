@@ -16,7 +16,7 @@ SELECT * FROM users;
 UPDATE users SET qrId = NULL;
 
 -- @block
-UPDATE users SET qrCache = NULL;
+-- UPDATE users SET qrCache = NULL WHERE id = 7;
 
 -- @block
 INSERT INTO users (email, phoneNumber, fullName, lrn, password)

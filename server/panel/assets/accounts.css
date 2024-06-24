@@ -16,26 +16,28 @@
 /* *actions */
 
 .actions {
+	width: 40%;
+	min-height: 1.5rem;
+	margin: 1rem auto;
 	display: flex;
 	justify-content: center;
 	flex-wrap: wrap;
-	width: 35%;
-	gap: 1.5rem;
-	margin: 1rem auto;
+	gap: 1rem;
+	overflow: hidden;
 }
 
 .actions-button {
-	width: 20%;
-	aspect-ratio: 4/3;
+	width: 25%;
+	height: 3rem;
 	padding: .5rem;
-	font-size: 85%;
+	font-size: 90%;
 	border: #2e2e2e solid 3px;
 	background: none;
 	border-radius: 14px;
 }
 
 .actions-button:hover, .actions-button:focus{
-	border: #3e3e3e solid 4px;
+	border: #3e3e3e solid 3px;
 }
 
 .actions-button p {
@@ -156,7 +158,7 @@
 .main-table-contain {
 	display: flex;
 	flex-direction: column;
-	height: 55vh;
+	height: 60vh;
 	overflow-y: scroll;
 	scroll-snap-type: y mandatory;
 	scrollbar-width: thin;
@@ -405,7 +407,6 @@
 	visibility: hidden;
 }
 
-
 .editDialog-form fieldset input {
 	width: calc(100% - .7rem);
 	padding: 2px 4px;
@@ -448,10 +449,15 @@
 }
 
 .editDialog-form-buttons button {
-	width: 80%;
+	width: 50%;
 	border: none;
 	background-color: #5C55EF;
 	border-radius: 4px;
+	padding: 4px;
+}
+
+.editDialog-form-buttons button i {
+	font-size: 1.125rem;
 }
 
 .editDialog-form-buttons button:hover {

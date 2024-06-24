@@ -58,7 +58,7 @@ async function submitEditInfo(event) {
 
 		console.log(respond);
 		document.querySelector('.editDialog').close();
-		alert('big success')
+		// alert('big success')
 	} catch (error) {console.error(error);}
 }
 
@@ -146,7 +146,7 @@ async function fetchMessages(limit,offset,userId) {
 async function fetchInfo(userId, withQrId) {
 	if (typeof userId === undefined || userId.length === 0) {console.log("bad data (client)");}
 	return await fetch('http://localhost:3000/admin/getInfo', {
-	method: 'post',
+	method: 'POST',
 	credentials: 'include',
 	headers: {
 		'Content-Type': 'application/json'
@@ -198,10 +198,10 @@ async function openLogsDialog(value) {
 async function openInfoDialog(value) {
 	document.querySelector('.infoDialog').showModal()
 	const data = await fetchInfo(value.parentElement.getAttribute('userId'), true)
-	const qrData = await fetchQrcache(value.parentElement.getAttribute('userId'))
-	console.log(data);
 	updateInfo(data)
+	const qrData = await fetchQrcache(value.parentElement.getAttribute('userId'))
 	updateInfoQr(qrData)
+	console.log(data);
 }
 
 async function openEditDialog(value) {
@@ -246,6 +246,47 @@ function addAccountOnErr(status,respond) {
 	}, 10000);
 }
 
+async function removeAccount(id) {
+	fetch('http://localhost:3000/admin/remove/check',{
+		method: 'POST',
+		credentials: 'include',
+		headers: {
+			'Content-Type': 'application/json'
+	  	},
+		body: `{"id": ${id}}`
+	}).then(response => {
+		if (response.status <= 400) {
+			return response.json();
+		} else if (response.status === 404){
+			// handle if user is not found
+			console.error('user does not exist');
+			return;
+		} else {
+			console.error('erorr when deleting account');
+			return;
+		}
+	}).then(data => {
+		console.log(data);
+		const auth = prompt(`are you sure you want to delete the account of ${data.firstName}, ${data.lastName}\n\n To confirm, retype LRN of user:`);
+		if (auth === null) {return}
+		if (auth != data.lrn) {return alert('Wrong LRN!');}
+		removeAccountReq(id, auth)
+	})
+}
+
+function removeAccountReq(id,lrn) {
+	if (typeof id === undefined || typeof id == '' || typeof lrn === undefined || lrn.length !== 12) {console.warn('bad'); return;}
+	fetch('http://localhost:3000/admin/remove/confirm', {
+		method: 'DELETE',
+		credentials: 'include',
+		headers: {
+			'Content-Type': 'application/json'
+	  	},
+		body: `{"id": "${id}", "lrn": "${lrn}"}`
+	})
+}
+
+
 function updateMessage(data) {
 	if (!data) {return;}
 	for (let i = 0; i < data.length; i++) {
@@ -273,7 +314,7 @@ function updateInfo(data) {
 		const element = document.querySelector(`#info-${i}`)
 		if (!element) {continue;}
 		if (element.id == "info-qrId" && data[i]) {
-			element.innerText = `{"qrId": "${data[i]}"}`;
+			element.innerText = `{"qrId":"${data[i]}"}`;
 			element.classList.remove('_nullItems');
 			continue;
 		}

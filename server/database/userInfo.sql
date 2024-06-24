@@ -25,6 +25,10 @@ CREATE TABLE userInfo (
 SELECT * FROM userInfo;
 
 -- @block
+
+
+
+-- @block
 SELECT userInfo.*, users.qrId
 FROM userInfo
 LEFT JOIN users ON userInfo.userId = users.id
@@ -34,11 +38,8 @@ WHERE userInfo.userId = 1;
 SELECT userInfo.*, users.email, users.phoneNumber, users.password FROM userInfo LEFT JOIN users ON userInfo.userId = users.id WHERE userInfo.userId = ?;
 
 -- @block
-ALTER TABLE userinfo
-DROP FOREIGN KEY `userinfo_ibfk_1`;
+SELECT userInfo.lastName, userInfo.firstName, users.lrn FROM users RIGHT JOIN userInfo ON userInfo.userId = users.id WHERE users.id = 1;
 
--- @block
-SHOW CREATE TABLE userinfo;
 -- @block
 SELECT lastName, firstName, middleName, lrn, age, sex, houseNo, street, zip, barangay, city, province FROM userinfo WHERE userId = 1;
 
@@ -83,6 +84,12 @@ WHERE
 -- @block
 START TRANSACTION; INSERT INTO users (email,phoneNumber,password,lrn,qrId) VALUES (?,?,?,?,?); INSERT INTO userInfo (userId,lastname,firstName,middleName,lrn,gradeLevel,section,age,sex,houseNo,street,zip,barangay,city,province) SELECT LAST_INSERT_ID(),CASE WHEN ? IS NULL OR ? = '' THEN NULL ELSE ? END,CASE WHEN ? IS NULL OR ? = '' THEN NULL ELSE ? END,CASE WHEN ? IS NULL OR ? = '' THEN NULL ELSE ? END,CASE WHEN ? IS NULL OR ? = '' THEN NULL ELSE ? END,CASE WHEN ? IS NULL OR ? = '' THEN NULL ELSE ? END,CASE WHEN ? IS NULL OR ? = '' THEN NULL ELSE ? END,CASE WHEN ? IS NULL OR ? = '' THEN NULL ELSE ? END,CASE WHEN ? IS NULL OR ? = '' THEN NULL ELSE ? END,CASE WHEN ? IS NULL OR ? = '' THEN NULL ELSE ? END,CASE WHEN ? IS NULL OR ? = '' THEN NULL ELSE ? END,CASE WHEN ? IS NULL OR ? = '' THEN NULL ELSE ? END,CASE WHEN ? IS NULL OR ? = '' THEN NULL ELSE ? END,CASE WHEN ? IS NULL OR ? = '' THEN NULL ELSE ? END,CASE WHEN ? IS NULL OR ? = '' THEN NULL ELSE ? END,CASE WHEN ? IS NULL OR ? = '' THEN NULL ELSE ? END,; COMMIT;
 
+-- @block
+START TRANSACTION;
+DELETE FROM userInfo WHERE userId = ? AND lrn = ?;
+DELETE FROM userLogs WHERE userId = ?;
+DELETE FROM users WHERE id = ? AND lrn = ?;
+COMMIT;
 
 -- @block
 UPDATE userinfo

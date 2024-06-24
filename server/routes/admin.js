@@ -54,25 +54,6 @@ app.post('/query', /*isAdmin,*/ (req,res) => {
 	})
 })
 
-app.post('/create', /*isAdmin*/ (req,res) => {
-	const data = req.body;
-	if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email) || !/^09\d{9}$/.test(data.phoneNumber) || !data.password ||!/^[1-6]\d{5}(0\d|1\d|2[0-5])\d{4}$/.test(data.lrn) || !data.lastName || data.lastName.length === 0 || !data.firstName || data.firstName.length === 0 || (typeof data.gradeLevel != undefined && data.gradeLevel.length != 0 && (data.gradeLevel < 7 || data.gradeLevel > 12)) || (typeof data.zip !== undefined && data.gradeLevel.length != 0 && !/^(0[4-9]|[1-9]\d)\d{2}/.test(data.zip))) {return res.status(401).json({message: "bad data"});}
-	console.log(data);
-	
-	// const hash = crypto.createHash('sha256').update(data.lrn + process.env.qrIdSecret).digest('hex').substring(0,25)
-	// console.log(db.format(q.ADD_ACCOUNT, [data.email,data.phoneNumber,data.password,data.lrn,hash,data.lastName,data.lastName,data.lastName,data.firstName,data.firstName,data.firstName,data.middleName,data.middleName,data.middleName,data.lrn,data.lrn,data.lrn,data.gradeLevel,data.gradeLevel,data.gradeLevel,data.section,data.section,data.section,data.age,data.age,data.age,data.sex,data.sex,data.sex,data.houseNo,data.houseNo,data.houseNo,data.street,data.street,data.street,data.zip,data.zip,data.zip,data.barangay,data.barangay,data.barangay,data.city,data.city,data.city,data.province,data.province,data.province]));
-	db.query(q.CHECK_ACCOUNT, [data.lrn], (err,result) => {
-		if (err) { console.error('SQL:', err); return res.status(500).send('Internal Server Error');}
-		if (result.length != 0) {return res.status(409).json({message: 'user with LRN already exist.'});}
-		const hash = crypto.createHash('sha256').update(data.lrn + process.env.qrIdSecret).digest('hex').substring(0,25);
-		db.query(q.ADD_ACCOUNT, [data.email,data.phoneNumber,data.password,data.lrn,hash,data.lastName,data.lastName,data.lastName,data.firstName,data.firstName,data.firstName,data.middleName,data.middleName,data.middleName,data.lrn,data.lrn,data.lrn,data.gradeLevel,data.gradeLevel,data.gradeLevel,data.section,data.section,data.section,data.age,data.age,data.age,data.sex,data.sex,data.sex,data.houseNo,data.houseNo,data.houseNo,data.street,data.street,data.street,data.zip,data.zip,data.zip,data.barangay,data.barangay,data.barangay,data.city,data.city,data.city,data.province,data.province,data.province], (err,result) => {
-			if (err) { console.error('SQL:', err); return res.status(500).send('Internal Server Error');}
-			console.log(result);
-			res.status(201).json({message: "all goods"})
-		})
-	})
-})
-
 app.post('/updateInfo', /*isAdmin*/ (req,res) => {
 	const data = req.body;
 	console.log(req.body);
@@ -126,7 +107,7 @@ app.post('/getInfo', /*isAdmin,*/ (req,res) => {
 	})
 })
 
-app.post('/getQrImage', /*isAdmin*/ (req,res) => {
+app.post('/getQrImage', /*isAdmin,*/ (req,res) => {
 	const data = req.body
 	if (!data || data.userId == undefined) {return res.status(400).send("bad data (server)")}
 	db.query(q.GET_QRCACHE, [data.userId], (err,result) => {
@@ -152,6 +133,46 @@ app.post('/getQrImage', /*isAdmin*/ (req,res) => {
 				res.status(201).send(qrImage)
 			} catch (err) {console.log(err); return res.status(500).send('Internal Server Error');}
 		})
+	})
+})
+
+app.post('/create', /*isAdmin,*/ (req,res) => {
+	const data = req.body;
+	if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email) || !/^09\d{9}$/.test(data.phoneNumber) || !data.password ||!/^[1-6]\d{5}(0\d|1\d|2[0-5])\d{4}$/.test(data.lrn) || !data.lastName || data.lastName.length === 0 || !data.firstName || data.firstName.length === 0 || (typeof data.gradeLevel != undefined && data.gradeLevel.length != 0 && (data.gradeLevel < 7 || data.gradeLevel > 12)) || (typeof data.zip !== undefined && data.gradeLevel.length != 0 && !/^(0[4-9]|[1-9]\d)\d{2}/.test(data.zip))) {return res.status(401).json({message: "bad data"});}
+	console.log(data);
+	
+	// const hash = crypto.createHash('sha256').update(data.lrn + process.env.qrIdSecret).digest('hex').substring(0,25)
+	// console.log(db.format(q.ADD_ACCOUNT, [data.email,data.phoneNumber,data.password,data.lrn,hash,data.lastName,data.lastName,data.lastName,data.firstName,data.firstName,data.firstName,data.middleName,data.middleName,data.middleName,data.lrn,data.lrn,data.lrn,data.gradeLevel,data.gradeLevel,data.gradeLevel,data.section,data.section,data.section,data.age,data.age,data.age,data.sex,data.sex,data.sex,data.houseNo,data.houseNo,data.houseNo,data.street,data.street,data.street,data.zip,data.zip,data.zip,data.barangay,data.barangay,data.barangay,data.city,data.city,data.city,data.province,data.province,data.province]));
+	db.query(q.CHECK_ACCOUNT, [data.lrn], (err,result) => {
+		if (err) { console.error('SQL:', err); return res.status(500).send('Internal Server Error');}
+		if (result.length != 0) {return res.status(409).json({message: 'user with LRN already exist.'});}
+		const hash = crypto.createHash('sha256').update(data.lrn + process.env.qrIdSecret).digest('hex').substring(0,25);
+		db.query(q.ADD_ACCOUNT, [data.email,data.phoneNumber,data.password,data.lrn,hash,data.lastName,data.lastName,data.lastName,data.firstName,data.firstName,data.firstName,data.middleName,data.middleName,data.middleName,data.lrn,data.lrn,data.lrn,data.gradeLevel,data.gradeLevel,data.gradeLevel,data.section,data.section,data.section,data.age,data.age,data.age,data.sex,data.sex,data.sex,data.houseNo,data.houseNo,data.houseNo,data.street,data.street,data.street,data.zip,data.zip,data.zip,data.barangay,data.barangay,data.barangay,data.city,data.city,data.city,data.province,data.province,data.province], (err,result) => {
+			if (err) { console.error('SQL:', err); return res.status(500).send('Internal Server Error');}
+			console.log(result);
+			res.status(201).json({message: "all goods"})
+		})
+	})
+})
+
+app.post('/remove/check', /*isAdmin,*/ (req,res) => {
+	const data = req.body;
+	if (typeof data === undefined || typeof data.id === undefined || data.id == '') {return res.status(400).json({message: 'bad data'});}
+	db.query(q.REMOVE_ACCOUNT_CHECK, [data.id], (err,result) => {
+		if (err) {console.error('SQL:', err); return res.status(500).send('Internal Server Error');}
+		if (result.length === 0) {return res.status(404).json({message: 'user not found'})}
+		res.json(result[0])
+	})
+})
+
+app.delete('/remove/confirm', /*isAdmin,*/ (req,res) => {
+	const data = req.body;
+	console.log(data);
+	if (typeof data.id === undefined || typeof data.id === '' || typeof data.lrn === undefined || data.lrn.length !== 12) {return res.status(400).json({message: 'bad data'});}
+	db.query(q.REMOVE_ACCOUNT_CONFIRM, [data.id,data.lrn,data.id,data.id,data.lrn], (err,result) => {
+		if (err) {console.error('SQL:', err); return res.status(500).send('Internal Server Error');}
+		console.log(result);
+		res.status
 	})
 })
 

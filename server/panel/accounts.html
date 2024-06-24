@@ -54,7 +54,7 @@
 			<h2>Edit User Info</h2>
 			<p style="visibility: hidden;"></p>
 		</header>
-		<form class="editDialog-form" autocomplete="off" onsubmit="submitEditInfo(event)" >
+		<form class="editDialog-form" autocomplete="off" onsubmit="submitEditInfo(event)">
 			<fieldset class="addDialog-form-person">
 				<label>Last Name*: <span>Invalid Input.</span><br> <input class="editDialog-form-lastName" name="lastName"  maxlength="255" type="text"></label>
 				<label>First Name*: <span>Invalid Input.</span><br> <input class="editDialog-form-firstName" name="firstName" maxlength="255" type="text"></label>
@@ -107,8 +107,9 @@
 				<label>Password*: <span>Invalid Input.</span><br> <input class="editDialog-form-password" name="password" type="password" minlength="3" maxlength="255"></label>
 			</fieldset>
 			<fieldset class="editDialog-form-buttons">
-				<button class="editDialog-form-buttons-submit" type="button" onclick="submitEditInfo(event)">Submit</button>
-				<button class="editDialog-form-buttons-cancel" type="button" onclick="parentElement.parentElement.parentElement.close()">Cancel</button>
+				<button class="editDialog-form-buttons-submit" type="button" onclick="submitEditInfo(event)"><i class="material-symbols-rounded">check_circle</i> Submit</button>
+				<button class="editDialog-form-buttons-cancel" type="button" onclick="parentElement.parentElement.parentElement.close()"><i class="material-symbols-rounded">cancel</i> Cancel</button>
+				<button class="editDialog-form-buttons-cancel" type="button" onclick="removeAccount(parentElement.parentElement.parentElement.getAttribute('userId'))"><i class="material-symbols-rounded">person_remove</i> Delete</button>
 			</fieldset>
 		</form>
 	</dialog>
@@ -177,17 +178,14 @@
 	</dialog>
 	<section class="actions wrapper">
 		<button class="actions-button" onclick="openAddDialog()">
-			<i class="material-symbols-rounded">person_add</i><br>
-			<p>Add Account</p>
+			<p><i class="material-symbols-rounded">person_add</i> Add Account</p>
 		</button>
 		<button class="actions-button">
-			<i class="material-symbols-rounded">group_add</i><br>
-			<p>Bulk Add</p>
+			<p><i class="material-symbols-rounded">group_add</i> Bulk Add</p>
 		</button>
-		<button class="actions-button">
-			<i class="material-symbols-rounded">person_remove</i><br>
-			<p>Remove Account</p>
-		</button>
+		<!-- <button class="actions-button">
+			<p><i class="material-symbols-rounded">person_remove</i>Remove Account</p>
+		</button> -->
 	</section>
 	<form action="" method="post" onsubmit="submitQuery()" autocomplete="off" class="search">
 		<input type="text" name="query" placeholder="search" class="search-query">
