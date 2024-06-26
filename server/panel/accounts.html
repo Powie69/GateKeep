@@ -176,6 +176,28 @@
 			</fieldset>
 		</form>
 	</dialog>
+	<dialog class="bulkAddDialog" open>
+		<header class="bulkAddDialog-header">
+			<h2>Bulk Create Accounts</h2>
+			<p>&nbsp;</p>
+		</header>
+		<div class="bulkAddDialog-preview">
+			<ul>
+				<li class="bulkAddDialog-preview-accounts"><i class="material-symbols-rounded">group</i> Accounts: <span>62</span></li>
+				<li class="bulkAddDialog-preview-accounts"><i class="material-symbols-rounded">error</i> Errors: <span>54</span></li>
+				<li class="bulkAddDialog-preview-Warnings"><i class="material-symbols-rounded">warning</i> Warnings: <span>0</span></li>
+			</ul>
+			<p style="visibility: hidden;"><i class="material-symbols-rounded">error</i> <span></span></p>
+		</div>
+		<form class="bulkAddDialog-form" onsubmit="event.preventDefault()">
+			<label>Json: <textarea name="jsonData" cols="" rows=""></textarea></label>
+			<fieldset class="bulkAddDialog-form-buttons">
+				<!-- <button onclick="event.preventDefault()"><i class="material-symbols-rounded">verified_user</i> Check</button> -->
+				<button type="submit"><i class="material-symbols-rounded">check_circle</i> Submit</button>
+				<button onclick="event.preventDefault()"><i class="material-symbols-rounded">cancel</i> Cancel</button>
+			</fieldset>
+		</form>
+	</dialog>
 	<section class="actions wrapper">
 		<button class="actions-button" onclick="openAddDialog()">
 			<p><i class="material-symbols-rounded">person_add</i> Add Account</p>
@@ -183,9 +205,6 @@
 		<button class="actions-button">
 			<p><i class="material-symbols-rounded">group_add</i> Bulk Add</p>
 		</button>
-		<!-- <button class="actions-button">
-			<p><i class="material-symbols-rounded">person_remove</i>Remove Account</p>
-		</button> -->
 	</section>
 	<form action="" method="post" onsubmit="submitQuery()" autocomplete="off" class="search">
 		<input type="text" name="query" placeholder="search" class="search-query">
@@ -210,7 +229,6 @@
 		</select>
 		<button tabindex="0" type="submit" class="search-submit"><i class="material-symbols-rounded">search</i></button>
 	</form>
-	
 	<main class="main wrapper">
 		<header class="main-title"><span class="main-title_number">0</span> results found.</header>
 		<div class="main-table">

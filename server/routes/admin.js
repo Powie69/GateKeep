@@ -1,7 +1,7 @@
 const express = require('express');
 const fetch = require('node-fetch');
 const crypto = require('crypto');
-const { isAdmin, db } = require('../js/middleware.js');
+const { isAdmin, limiter, db } = require('../js/middleware.js');
 const {parseGender} = require('../js/utility.js');
 const q = require('../js/adminQuery.js');
 const app = express.Router();
@@ -155,7 +155,7 @@ app.post('/create', /*isAdmin,*/ (req,res) => {
 	})
 })
 
-app.post('/remove/check', /*isAdmin,*/ (req,res) => {
+app.post('/remove/check', /*isAdmin,*/ limiter(10,1), (req,res) => {
 	const data = req.body;
 	if (typeof data === undefined || typeof data.id === undefined || data.id == '') {return res.status(400).json({message: 'bad data'});}
 	db.query(q.REMOVE_ACCOUNT_CHECK, [data.id], (err,result) => {
@@ -165,14 +165,14 @@ app.post('/remove/check', /*isAdmin,*/ (req,res) => {
 	})
 })
 
-app.delete('/remove/confirm', /*isAdmin,*/ (req,res) => {
+app.delete('/remove/confirm',/*isAdmin,*/ limiter(10,1), (req,res) => {
 	const data = req.body;
 	console.log(data);
 	if (typeof data.id === undefined || typeof data.id === '' || typeof data.lrn === undefined || data.lrn.length !== 12) {return res.status(400).json({message: 'bad data'});}
 	db.query(q.REMOVE_ACCOUNT_CONFIRM, [data.id,data.lrn,data.id,data.id,data.lrn], (err,result) => {
 		if (err) {console.error('SQL:', err); return res.status(500).send('Internal Server Error');}
 		console.log(result);
-		res.status
+		res.json({message: "massive success"})
 	})
 })
 
