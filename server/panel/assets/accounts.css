@@ -582,20 +582,28 @@
 	text-decoration: underline;
 }
 
-/* bulkaddDialog */
+/** bulkaddDialog */
 
 .bulkAddDialog {
 	z-index: 1;
 	width: 35%;
-	height: 60%;
+	height: 50vh;
 	border: none;
+	display: flex;
+	flex-direction: column;
 	background-color: var(--c-content);
 	box-shadow: rgb(2, 9, 15) 0px 30px 40px -10px;
 	border-radius: 14px;
+	box-sizing: border-box;	
+
 }
 
 .bulkAddDialog::backdrop {
 	backdrop-filter: blur(2px);
+}
+
+.bulkAddDialog-header {
+	flex: 0 1 auto;
 }
 
 .bulkAddDialog-header h2{
@@ -625,18 +633,29 @@
 }
 
 .bulkAddDialog-form {
+	flex: 1 1 auto;
 	margin: .5rem 0;
+	/* height: 100%; */
+	box-sizing: border-box;	
 }
 
+
 .bulkAddDialog-form textarea {
-	display: block;
-	margin: 4px 0 0 0 ;
+	min-height: 30%;
+	height: 65%;
+	max-height: 65%;
 	width: 100%;
+	margin: 4px 0 0 0 ;
+	padding: 4px 8px;
+	display: block;
 	box-sizing: border-box;
 	resize: vertical;
-	height: 530px;
+	border-radius: 14px;
+
 }
 
 .bulkAddDialog-form-buttons {
-	
+	padding: .5rem 1rem;
+	border: #3e3e3e 2px dashed;
+	border-radius: 14px;
 }
