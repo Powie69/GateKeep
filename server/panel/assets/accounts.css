@@ -587,7 +587,7 @@
 .bulkAddDialog {
 	z-index: 1;
 	width: 35%;
-	height: 50vh;
+	height: 55%;
 	border: none;
 	display: flex;
 	flex-direction: column;
@@ -595,7 +595,6 @@
 	box-shadow: rgb(2, 9, 15) 0px 30px 40px -10px;
 	border-radius: 14px;
 	box-sizing: border-box;	
-
 }
 
 .bulkAddDialog::backdrop {
@@ -619,6 +618,10 @@
 	text-align: center;
 }
 
+.bulkAddDialog-preview {
+	margin: .5rem 0;
+}
+
 .bulkAddDialog-preview ul {
 	margin: 0;
 	display: flex;
@@ -633,29 +636,50 @@
 }
 
 .bulkAddDialog-form {
-	flex: 1 1 auto;
-	margin: .5rem 0;
-	/* height: 100%; */
-	box-sizing: border-box;	
+	flex-grow: 1;
+	display: flex;
+	flex-direction: column;
+	gap: 2rem;
+	box-sizing: border-box;
+	margin: .5rem 0 0 0;
 }
 
+.bulkAddDialog-form label {
+	height: 100%;
+}
 
 .bulkAddDialog-form textarea {
-	min-height: 30%;
-	height: 65%;
-	max-height: 65%;
+	min-height: 20%;
+	height: 100%;
+	max-height: 100%;
 	width: 100%;
-	margin: 4px 0 0 0 ;
-	padding: 4px 8px;
-	display: block;
+	margin: 4px 0 0 0;
+	padding: 8px;
 	box-sizing: border-box;
-	resize: vertical;
+	resize: none;
+	/* ^janky fix. learn flex */
 	border-radius: 14px;
-
 }
 
 .bulkAddDialog-form-buttons {
+	flex-grow: 1;
 	padding: .5rem 1rem;
 	border: #3e3e3e 2px dashed;
+	display: flex;
+	gap: 3rem;
+	justify-content: center;
 	border-radius: 14px;
+	box-sizing: border-box;
+}
+
+.bulkAddDialog-form-buttons button {
+	width: 40%;
+	border: none;
+	background-color: #5C55EF;
+	border-radius: 4px;
+	padding: 4px;
+}
+
+.bulkAddDialog-form-buttons button:hover {
+	text-decoration: underline;
 }
