@@ -343,7 +343,6 @@
 /* *edit dialog */
 
 .editDialog {
-	z-index: 1;
 	width: 65%;
 	height: 75%;
 	border: none;
@@ -589,7 +588,7 @@
 	width: 35%;
 	height: 55%;
 	border: none;
-	display: flex;
+	/* display: flex; */
 	flex-direction: column;
 	background-color: var(--c-content);
 	box-shadow: rgb(2, 9, 15) 0px 30px 40px -10px;

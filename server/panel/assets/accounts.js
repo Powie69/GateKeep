@@ -6,7 +6,7 @@ const sections = {
 	"11": ["",""],
 	"12": ["",""],
 };
-const dialogElements = document.querySelectorAll(".logsDialog, .infoDialog, .editDialog, .addDialog");
+const dialogElements = document.querySelectorAll(".logsDialog, .infoDialog, .editDialog, .addDialog, .bulkAddDialog");
 let getMessageDebounce = true;
 let messageCount = 0;
 
@@ -62,11 +62,11 @@ async function submitEditInfo(event) {
 	} catch (error) {console.error(error);}
 }
 
-async function submitAddAccount() {
+async function submitAddAccount(event) {
 	event.preventDefault()
 	try {
-		const data = Object.fromEntries(new FormData(document.querySelector(".addDialog-form")).entries())
-		if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email) || !/^09\d{9}$/.test(data.phoneNumber) || !data.password ||!/^[1-6]\d{5}(0\d|1\d|2[0-5])\d{4}$/.test(data.lrn) || !data.lastName || data.lastName.length === 0 || !data.firstName || data.firstName.length === 0 || (typeof data.gradeLevel != undefined && data.gradeLevel.length != 0 && (data.gradeLevel < 7 || data.gradeLevel > 12)) || (typeof data.zip !== undefined && data.gradeLevel.length != 0 && !/^(0[4-9]|[1-9]\d)\d{2}/.test(data.zip))) {return console.log('bad data');}
+		const data = Object.fromEntries(new FormData(event.target).entries())
+		if (typeof data.email === 'undefined' || data.email.length === 0 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email) || typeof data.phoneNumber === 'undefined' || data.phoneNumber.length === 0 || !/^09\d{9}$/.test(data.phoneNumber) || typeof data.password === 'undefined' || data.password.length === 0 || typeof data.lrn === 'undefined' || data.lrn.length === 0 || !/^[1-6]\d{5}(0\d|1\d|2[0-5])\d{4}$/.test(data.lrn) || typeof data.lastName === 'undefined'  || data.lastName.length === 0 || typeof data.firstName === 'undefined' || data.firstName.length === 0 || (typeof data.gradeLevel != undefined && data.gradeLevel.length != 0 && (data.gradeLevel < 7 || data.gradeLevel > 12)) || (typeof data.zip !== undefined && data.zip.length != 0 && !/^(0[4-9]|[1-9]\d)\d{2}/.test(data.zip))) {return console.log('bad data');}
 
 		const response = await fetch('http://localhost:3000/admin/create', {
 			method: 'POST',
@@ -215,6 +215,11 @@ function openAddDialog() {
 	document.querySelector('.addDialog').showModal()
 }
 
+function openBulkAddDialog() {
+	document.querySelector('.bulkAddDialog').showModal()
+	document.querySelector('.bulkAddDialog').style.display = 'flex';
+}
+
 // handlers
 
 function submitEditPress(event) {
@@ -244,6 +249,66 @@ function addAccountOnErr(status,respond) {
 		document.querySelector('.addDialog header p').style.visibility = 'hidden';
 		document.querySelector('.addDialog header p').innerText = '';
 	}, 10000);
+}
+
+// returns 'true' if valid
+function checkBulkAdd(data) {
+	if (typeof data !== 'string' || data.length === 0) {return false}
+	console.log('1');
+	try {
+		data = JSON.parse(data);
+	} catch (error) {
+		console.log(error);
+		return false;
+	}
+	console.log('2');
+	if (typeof data !== 'object' || data.length === 0) {return false}
+	console.log('3');
+	console.log(data);
+	for (let i = 0; i < data.length; i++) {
+		// if (typeof data.email === 'undefined' || data.email.length === 0 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email) || typeof data.phoneNumber === 'undefined' || data.phoneNumber.length === 0 || !/^09\d{9}$/.test(data.phoneNumber) || typeof data.password === 'undefined' || data.password.length === 0 || typeof data.lrn === 'undefined' || data.lrn.length === 0 || !/^[1-6]\d{5}(0\d|1\d|2[0-5])\d{4}$/.test(data.lrn) || typeof data.lastName === 'undefined'  || data.lastName.length === 0 || typeof data.firstName === 'undefined' || data.firstName.length === 0 || (typeof data.gradeLevel != undefined && data.gradeLevel.length != 0 && (data.gradeLevel < 7 || data.gradeLevel > 12)) || (typeof data.zip !== undefined && data.zip.length != 0 && !/^(0[4-9]|[1-9]\d)\d{2}/.test(data.zip))) {return false}
+		if (typeof data.email === 'undefined' || data.email.length === 0 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) {
+			console.log(data.email);
+			console.log('mail');
+			return;
+		}
+		if (typeof data.phoneNumber === 'undefined' || data.phoneNumber.length === 0 || !/^09\d{9}$/.test(data.phoneNumber)) {
+			console.log('nubmer');
+			return;
+		}
+		if (typeof data.password === 'undefined' || data.password.length === 0) {
+			console.log('passowr');
+			return;
+		}
+		if (typeof data.lrn === 'undefined' || data.lrn.length === 0 || !/^[1-6]\d{5}(0\d|1\d|2[0-5])\d{4}$/.test(data.lrn)) {
+			console.log('lrn');
+			return;
+		}
+		if (typeof data.lastName === 'undefined'  || data.lastName.length === 0) {
+			console.log('last');
+			return;
+		}
+		if (typeof data.firstName === 'undefined' || data.firstName.length === 0) {
+			console.log('fiestna');
+			return;
+		}
+		if (typeof data.gradeLevel != undefined && data.gradeLevel.length != 0 && (data.gradeLevel < 7 || data.gradeLevel > 12)) {
+			console.log('grade');
+			return;
+		}
+		if ((typeof data.zip !== undefined && data.zip.length != 0 && !/^(0[4-9]|[1-9]\d)\d{2}/.test(data.zip))) {
+			console.log('zup');
+			return;
+		}
+		console.log('all godd');
+		return;
+	}
+	console.log(data);
+	return true;
+}
+
+async function submitBulkAdd(data) {
+	
 }
 
 async function removeAccount(id) {
@@ -285,7 +350,6 @@ function removeAccountReq(id,lrn) {
 		body: `{"id": "${id}", "lrn": "${lrn}"}`
 	})
 }
-
 
 function updateMessage(data) {
 	if (!data) {return;}
@@ -393,6 +457,16 @@ document.querySelector('.addDialog').addEventListener('close', () => {
 	document.querySelector('.addDialog-form').reset();
 	document.querySelector('.addDialog header p').style.visibility = 'hidden';
 	document.querySelector('.addDialog header p').innerText = '';
+})
+
+
+document.querySelector('.bulkAddDialog').addEventListener('close', (event) => {
+	event.target.style.removeProperty('display')
+})
+
+document.querySelector('.bulkAddDialog-form textarea').addEventListener('change', (event) => {
+	console.log(event.target.value);
+	console.log(checkBulkAdd(event.target.value));
 })
 
 function adminLogin() {

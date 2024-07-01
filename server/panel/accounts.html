@@ -118,7 +118,7 @@
 			<h2>Create An Account</h2>
 			<p style="visibility: hidden;"></p>
 		</header>
-		<form class="addDialog-form" onsubmit="submitAddAccount()">
+		<form class="addDialog-form" onsubmit="submitAddAccount(event)">
 			<fieldset class="addDialog-form-person">
 				<label>Last Name*: <span>Invalid Input.</span><br> <input class="addDialog-form-lastName" name="lastName" required  maxlength="255" type="text"></label>
 				<label>First Name*: <span>Invalid Input.</span><br> <input class="addDialog-form-firstName" name="firstName" required maxlength="255" type="text"></label>
@@ -176,14 +176,14 @@
 			</fieldset>
 		</form>
 	</dialog>
-	<dialog class="bulkAddDialog" open>
+	<dialog class="bulkAddDialog">
 		<header class="bulkAddDialog-header">
 			<h2>Bulk Create Accounts</h2>
 		</header>
 		<div class="bulkAddDialog-preview">
 			<ul>
-				<li class="bulkAddDialog-preview-accounts"><i class="material-symbols-rounded">group</i> Accounts: <span>62</span></li>
-				<li class="bulkAddDialog-preview-errors"><i class="material-symbols-rounded">error</i> Errors: <span>54</span></li>
+				<li class="bulkAddDialog-preview-accounts"><i class="material-symbols-rounded">group</i> Accounts: <span>0</span></li>
+				<li class="bulkAddDialog-preview-errors"><i class="material-symbols-rounded">error</i> Errors: <span>0</span></li>
 				<li class="bulkAddDialog-preview-warnings"><i class="material-symbols-rounded">warning</i> Warnings: <span>0</span></li>
 			</ul>
 			<p style="visibility: hidden;"><i class="material-symbols-rounded">error</i> <span>you fucking donkey idiot sandwich</span></p>
@@ -193,7 +193,7 @@
 			<fieldset class="bulkAddDialog-form-buttons">
 				<!-- <button onclick="event.preventDefault()"><i class="material-symbols-rounded">verified_user</i> Check</button> -->
 				<button type="submit"><i class="material-symbols-rounded">check_circle</i> Submit</button>
-				<button onclick="event.preventDefault()"><i class="material-symbols-rounded">cancel</i> Cancel</button>
+				<button onclick="parentElement.parentElement.parentElement.close()"><i class="material-symbols-rounded">cancel</i> Cancel</button>
 			</fieldset>
 		</form>
 	</dialog>
@@ -201,7 +201,7 @@
 		<button class="actions-button" onclick="openAddDialog()">
 			<p><i class="material-symbols-rounded">person_add</i> Add Account</p>
 		</button>
-		<button class="actions-button">
+		<button class="actions-button" onclick="openBulkAddDialog()">
 			<p><i class="material-symbols-rounded">group_add</i> Bulk Add</p>
 		</button>
 	</section>
