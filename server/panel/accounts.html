@@ -188,7 +188,7 @@
 			</ul>
 			<p style="visibility: hidden;"><i class="material-symbols-rounded">error</i> <span>you fucking donkey idiot sandwich</span></p>
 		</div>
-		<form class="bulkAddDialog-form" onsubmit="event.preventDefault()">
+		<form class="bulkAddDialog-form" onsubmit="submitBulkAddAccount(event)">
 			<label>Json: <textarea name="jsonData"></textarea></label>
 			<fieldset class="bulkAddDialog-form-buttons">
 				<!-- <button onclick="event.preventDefault()"><i class="material-symbols-rounded">verified_user</i> Check</button> -->
@@ -205,7 +205,7 @@
 			<p><i class="material-symbols-rounded">group_add</i> Bulk Add</p>
 		</button>
 	</section>
-	<form action="" method="post" onsubmit="submitQuery()" autocomplete="off" class="search">
+	<form onsubmit="submitQuery()" autocomplete="off" class="search">
 		<input type="text" name="query" placeholder="search" class="search-query">
 		<select class="search-level" onchange="getSection(this.value)" name="searchLevel" aria-label="search in grade-level">
 			<option value="" selected hidden disabled>Grade Level</option>
@@ -250,7 +250,7 @@
 					<span id="heading-barangay">Barangay</span>
 					<span id="heading-city">City</span>
 					<span id="heading-street">Street<br>Name</span>
-					<span id="heading-houseNo">House<br/=>No.</span>
+					<span id="heading-houseNo">House<br>No.</span>
 				</div>
 				<span id="heading-userId">userId</span>
 				<span class="main-table-heading-option">user options</span>

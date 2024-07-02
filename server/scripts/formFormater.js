@@ -1,21 +1,17 @@
 const data = [/* insert json here */
-	
-		{
-			"timestamp": "2024-07-01T09:59:53.164Z",
-			"emailAddress": "kdso@gmaji.com",
-			"firstName": "kir",
-			"lastName": "dfkdsfk",
-			"age": 32,
-			"sex": "Male",
-			"lrn": 400650150053,
-			"zipCode": 3008,
-			"streetName": "obloc",
-			"phoneNumber": "09123546432",
-			"password": "banans"
-		},
-		
-	
-
+	{
+        "timestamp": "2024-07-01T09:59:53.164Z",
+        "emailAddress": "kdso@gmaji.com",
+        "firstName": "kir",
+        "lastName": "dfkdsfk",
+        "age": 32,
+        "sex": "Male",
+        "lrn": 400650150053,
+        "zipCode": 3008,
+        "streetName": "obloc",
+        "phoneNumber": "09123546432",
+        "password": "banans"
+    }
 ]
 
 function renameKey(obj, oldKey, newKey) {
@@ -26,7 +22,6 @@ function renameKey(obj, oldKey, newKey) {
 		Object.defineProperty(obj, newKey, Object.getOwnPropertyDescriptor(obj, oldKey));
 		delete obj[oldKey];
 	}
-    return obj;
 }
 
 for (let i = 0; i < data.length; i++) {
@@ -40,5 +35,5 @@ for (let i = 0; i < data.length; i++) {
 	}
 }
 
-console.log(data);
+console.log(`(●'◡'●)`);
 console.log(JSON.stringify(data));

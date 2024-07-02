@@ -601,7 +601,7 @@
 }
 
 .bulkAddDialog-header {
-	flex: 0 1 auto;
+	/* flex: 0 1 auto; */
 }
 
 .bulkAddDialog-header h2{
@@ -618,7 +618,7 @@
 }
 
 .bulkAddDialog-preview {
-	margin: .5rem 0;
+	margin: .5rem 0 0 0;
 }
 
 .bulkAddDialog-preview ul {
@@ -628,8 +628,10 @@
 }
 
 .bulkAddDialog-preview p{
-	margin: .3rem 0;
+	margin: .3rem 0 ;
+	padding: 0 1rem;
 	min-height: 18.4px;
+	/* min-height: 36.8px; */
 	color: red;
 	text-align: center;
 }
@@ -640,7 +642,7 @@
 	flex-direction: column;
 	gap: 2rem;
 	box-sizing: border-box;
-	margin: .5rem 0 0 0;
+	margin: .3rem 0 0 0;
 }
 
 .bulkAddDialog-form label {

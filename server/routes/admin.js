@@ -155,6 +155,53 @@ app.post('/create', /*isAdmin,*/ (req,res) => {
 	})
 })
 
+app.post('/bulkCreate', /*isAdmin,*/ async (req,res) => {
+	let data = req.body.jsonData;
+	if (typeof data !== 'string' || data.length === 0) {return res.status(400).json();}
+	try {
+		data = JSON.parse(data);
+	} catch (err) {
+		console.log(err);
+		return res.status(400).json({message:err.message});
+	}
+	if (typeof data !== 'object' || data.length === 0) {return res.status(400).json({message:'No accounts in json'});}
+	for (let i = 0; i < data.length; i++) {
+		if (typeof data[i].email === 'undefined' || data[i].email.length === 0 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data[i].email) || typeof data[i].phoneNumber === 'undefined' || data[i].phoneNumber.length === 0 || !/^09\d{9}$/.test(data[i].phoneNumber) || typeof data[i].password === 'undefined' || data[i].password.length === 0 || typeof data[i].lrn === 'undefined' || data[i].lrn.length === 0 || !/^[1-6]\d{5}(0\d|1\d|2[0-5])\d{4}$/.test(data[i].lrn) || typeof data[i].lastName === 'undefined'  || data[i].lastName.length === 0 || typeof data[i].firstName === 'undefined' || data[i].firstName.length === 0 || (typeof data[i].gradeLevel != 'undefined' && data[i].gradeLevel.length != 0 && (data[i].gradeLevel < 7 || data[i].gradeLevel > 12)) || (typeof data[i].zip !== undefined && data[i].zip.length != 0 && !/^(0[4-9]|[1-9]\d)\d{2}/.test(data[i].zip))) {
+			return res.status(400).json({message:'accounts have invalid values'})
+		}
+	}
+	try {
+		for (let i = 0; i < data.length; i++) {
+			await new Promise((resolve,reject) => {
+				console.log(data[i]);
+				db.query(q.CHECK_ACCOUNT, [data[i].lrn], (err,result) => {
+					console.log('sql result:',result);
+					if (err) {console.error('SQL:', err); return reject('internal server error')}
+					if (result.length !== 0) {return reject('user with LRN already exist.');}
+					resolve();
+				})
+			});
+		}
+		res.status(201).json({message: "all goods"})
+	} catch (err) {
+		console.log(err);
+		res.status(500).send('Internal Server Error');
+	}
+
+
+	// for (let i = 0; i < data.length; i++) {
+	// 	const account = data[i];
+	// 	const hash = crypto.createHash('sha256').update(account.lrn + process.env.qrIdSecret).digest('hex').substring(0,25);
+	// 	db.query(q.ADD_ACCOUNT, [account.email,account.phoneNumber,account.password,account.lrn,hash,account.lastName,account.lastName,account.lastName,account.firstName,account.firstName,account.firstName,account.middleName,account.middleName,account.middleName,account.lrn,account.lrn,account.lrn,account.gradeLevel,account.gradeLevel,account.gradeLevel,account.section,account.section,account.section,account.age,account.age,account.age,account.sex,account.sex,account.sex,account.houseNo,account.houseNo,account.houseNo,account.street,account.street,account.street,account.zip,account.zip,account.zip,account.barangay,account.barangay,account.barangay,account.city,account.city,account.city,account.province,account.province,account.province], (err,result) => {
+	// 			if (err) {ok = false; console.error('SQL:', err); return res.status(500).send('Internal Server Error');}
+	// 			console.log(result);
+	// 			// ok = true;
+	// 			// res.status(201).json({message: "all goods"})
+	// 		})
+	// }
+
+})
+
 app.post('/remove/check', /*isAdmin,*/ limiter(10,1), (req,res) => {
 	const data = req.body;
 	if (typeof data === undefined || typeof data.id === undefined || data.id == '') {return res.status(400).json({message: 'bad data'});}

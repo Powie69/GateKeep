@@ -9,7 +9,9 @@ const sections = {
 const dialogElements = document.querySelectorAll(".logsDialog, .infoDialog, .editDialog, .addDialog, .bulkAddDialog");
 let getMessageDebounce = true;
 let messageCount = 0;
+let isBulkAddValid = false;
 
+// submit
 async function submitQuery(type) {
 	event.preventDefault()
 	try {
@@ -84,6 +86,29 @@ async function submitAddAccount(event) {
 	} catch (error) {console.error(error);}
 }
 
+async function submitBulkAddAccount(event) {
+	event.preventDefault()
+	console.log('she');
+	try {
+		const data = Object.fromEntries(new FormData(event.target).entries())
+		if (!isBulkAddValid) {return}
+		console.log('go');
+		const response = await fetch('http://localhost:3000/admin/bulkCreate', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/x-www-form-urlencoded',
+			},
+			body: new URLSearchParams(data),
+			credentials: 'include',
+		});
+
+		// const respond = await response.json();
+		if (!response.ok) {/*fail*/}
+		// success
+	} catch (error) {console.error(error);}
+}
+
+// 
 function displayData(data) {
 	document.querySelectorAll(".main-table-contain > div.main-table-contain-item").forEach(element => {
 		document.querySelector(".main-table-contain").removeChild(element);
@@ -121,6 +146,7 @@ function getSection(value) {
 		element.removeAttribute("hidden");
 	})
 }
+
 // start of fetch
 async function fetchMessages(limit,offset,userId) {
 	if (!limit || offset == undefined || limit >= 25 || offset <= -1) { console.log("bad data (client)"); return;}
@@ -253,58 +279,27 @@ function addAccountOnErr(status,respond) {
 
 // returns 'true' if valid
 function checkBulkAdd(data) {
-	if (typeof data !== 'string' || data.length === 0) {return false}
-	console.log('1');
+	if (typeof data !== 'string' || data.length === 0) {return {ok:false,accounts:0,errors:0,message:''}}
 	try {
 		data = JSON.parse(data);
-	} catch (error) {
-		console.log(error);
-		return false;
+	} catch (err) {
+		console.log(err);
+		return {ok:false,accounts:0,errors:1,message:err.message};
 	}
-	console.log('2');
-	if (typeof data !== 'object' || data.length === 0) {return false}
-	console.log('3');
-	console.log(data);
+	if (typeof data !== 'object' || data.length === 0) {return {ok:false,accounts:0,errors:1,message:'No accounts in json'};}
+	let accounts = 0;
+	let errors = 0;
 	for (let i = 0; i < data.length; i++) {
-		// if (typeof data.email === 'undefined' || data.email.length === 0 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email) || typeof data.phoneNumber === 'undefined' || data.phoneNumber.length === 0 || !/^09\d{9}$/.test(data.phoneNumber) || typeof data.password === 'undefined' || data.password.length === 0 || typeof data.lrn === 'undefined' || data.lrn.length === 0 || !/^[1-6]\d{5}(0\d|1\d|2[0-5])\d{4}$/.test(data.lrn) || typeof data.lastName === 'undefined'  || data.lastName.length === 0 || typeof data.firstName === 'undefined' || data.firstName.length === 0 || (typeof data.gradeLevel != undefined && data.gradeLevel.length != 0 && (data.gradeLevel < 7 || data.gradeLevel > 12)) || (typeof data.zip !== undefined && data.zip.length != 0 && !/^(0[4-9]|[1-9]\d)\d{2}/.test(data.zip))) {return false}
-		if (typeof data.email === 'undefined' || data.email.length === 0 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) {
-			console.log(data.email);
-			console.log('mail');
-			return;
+		if (typeof data[i].email === 'undefined' || data[i].email.length === 0 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data[i].email) || typeof data[i].phoneNumber === 'undefined' || data[i].phoneNumber.length === 0 || !/^09\d{9}$/.test(data[i].phoneNumber) || typeof data[i].password === 'undefined' || data[i].password.length === 0 || typeof data[i].lrn === 'undefined' || data[i].lrn.length === 0 || !/^[1-6]\d{5}(0\d|1\d|2[0-5])\d{4}$/.test(data[i].lrn) || typeof data[i].lastName === 'undefined'  || data[i].lastName.length === 0 || typeof data[i].firstName === 'undefined' || data[i].firstName.length === 0 || (typeof data[i].gradeLevel != 'undefined' && data[i].gradeLevel.length != 0 && (data[i].gradeLevel < 7 || data[i].gradeLevel > 12)) || (typeof data[i].zip !== undefined && data[i].zip.length != 0 && !/^(0[4-9]|[1-9]\d)\d{2}/.test(data[i].zip))) {
+			errors++;
 		}
-		if (typeof data.phoneNumber === 'undefined' || data.phoneNumber.length === 0 || !/^09\d{9}$/.test(data.phoneNumber)) {
-			console.log('nubmer');
-			return;
-		}
-		if (typeof data.password === 'undefined' || data.password.length === 0) {
-			console.log('passowr');
-			return;
-		}
-		if (typeof data.lrn === 'undefined' || data.lrn.length === 0 || !/^[1-6]\d{5}(0\d|1\d|2[0-5])\d{4}$/.test(data.lrn)) {
-			console.log('lrn');
-			return;
-		}
-		if (typeof data.lastName === 'undefined'  || data.lastName.length === 0) {
-			console.log('last');
-			return;
-		}
-		if (typeof data.firstName === 'undefined' || data.firstName.length === 0) {
-			console.log('fiestna');
-			return;
-		}
-		if (typeof data.gradeLevel != undefined && data.gradeLevel.length != 0 && (data.gradeLevel < 7 || data.gradeLevel > 12)) {
-			console.log('grade');
-			return;
-		}
-		if ((typeof data.zip !== undefined && data.zip.length != 0 && !/^(0[4-9]|[1-9]\d)\d{2}/.test(data.zip))) {
-			console.log('zup');
-			return;
-		}
-		console.log('all godd');
-		return;
+		accounts++
 	}
-	console.log(data);
-	return true;
+	console.log('40 ', data);
+	if (errors !== 0) {
+		return {ok:false,accounts:accounts,errors:errors,message:'accounts have invalid values'};
+	}
+	return {ok:true,accounts:accounts,errors:errors,message:''};
 }
 
 async function submitBulkAdd(data) {
@@ -465,8 +460,18 @@ document.querySelector('.bulkAddDialog').addEventListener('close', (event) => {
 })
 
 document.querySelector('.bulkAddDialog-form textarea').addEventListener('change', (event) => {
-	console.log(event.target.value);
-	console.log(checkBulkAdd(event.target.value));
+	const response = checkBulkAdd(event.target.value);
+	isBulkAddValid = response.ok;
+	document.querySelector('.bulkAddDialog-preview-accounts span').innerText = response.accounts;
+	document.querySelector('.bulkAddDialog-preview-errors span').innerText = response.errors;
+	console.log(document.querySelector('.bulkAddDialog-preview p'));
+	if (response.message !== '') {
+		document.querySelector('.bulkAddDialog-preview p').innerText = response.message;
+		document.querySelector('.bulkAddDialog-preview p').style.removeProperty('visibility');
+		return;
+	}
+	document.querySelector('.bulkAddDialog-preview p').innerText = '';
+	document.querySelector('.bulkAddDialog-preview p').style.visibility = 'hidden';
 })
 
 function adminLogin() {
