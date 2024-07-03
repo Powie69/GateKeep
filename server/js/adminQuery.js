@@ -1,6 +1,6 @@
 module.exports = {
 	ADD_ACCOUNT: `START TRANSACTION; INSERT INTO users (email,phoneNumber,password,lrn,qrId) VALUES (?,?,?,?,?); INSERT INTO userInfo (userId,lastname,firstName,middleName,lrn,gradeLevel,section,age,sex,houseNo,street,zip,barangay,city,province) SELECT LAST_INSERT_ID(),CASE WHEN ? IS NULL OR ? = '' THEN NULL ELSE ? END,CASE WHEN ? IS NULL OR ? = '' THEN NULL ELSE ? END,CASE WHEN ? IS NULL OR ? = '' THEN NULL ELSE ? END,CASE WHEN ? IS NULL OR ? = '' THEN NULL ELSE ? END,CASE WHEN ? IS NULL OR ? = '' THEN NULL ELSE ? END,CASE WHEN ? IS NULL OR ? = '' THEN NULL ELSE ? END,CASE WHEN ? IS NULL OR ? = '' THEN NULL ELSE ? END,CASE WHEN ? IS NULL OR ? = '' THEN NULL ELSE ? END,CASE WHEN ? IS NULL OR ? = '' THEN NULL ELSE ? END,CASE WHEN ? IS NULL OR ? = '' THEN NULL ELSE ? END,CASE WHEN ? IS NULL OR ? = '' THEN NULL ELSE ? END,CASE WHEN ? IS NULL OR ? = '' THEN NULL ELSE ? END,CASE WHEN ? IS NULL OR ? = '' THEN NULL ELSE ? END,CASE WHEN ? IS NULL OR ? = '' THEN NULL ELSE ? END; COMMIT;`,
-	ADD_ACCOUNT_QRID: 'UPDATE users SET qrId = ? WHERE id = ?;',
+	// ADD_ACCOUNT_QRID: 'UPDATE users SET qrId = ? WHERE id = ?;',
 	CHECK_ACCOUNT: 'SELECT NULL FROM users WHERE lrn = ?;',
 	REMOVE_ACCOUNT_CHECK: 'SELECT userInfo.lastName, userInfo.firstName, users.lrn FROM users RIGHT JOIN userInfo ON userInfo.userId = users.id WHERE users.id = ?;',
 	REMOVE_ACCOUNT_CONFIRM: 'START TRANSACTION; DELETE FROM userInfo WHERE userId = ? AND lrn = ?; DELETE FROM userLogs WHERE userId = ?; DELETE FROM users WHERE id = ? AND lrn = ?; COMMIT;',

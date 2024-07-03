@@ -1,6 +1,6 @@
 const express = require('express');
-const fetch = require('node-fetch');
 const crypto = require('crypto');
+const qrcode = require('qrcode')
 const { isAdmin, limiter, db } = require('../js/middleware.js');
 const {parseGender} = require('../js/utility.js');
 const q = require('../js/adminQuery.js');
@@ -121,11 +121,7 @@ app.post('/getQrImage', /*isAdmin,*/ (req,res) => {
 			if (err) {console.error('SQL:', err); return res.status(500).send('Internal Server Error');}
 			if (!result || result.length == 0) {return res.status(404).json({message: "qr id not found for user"});}
 			try {
-				const response = await fetch(`https://api.qrserver.com/v1/create-qr-code/?size=25x25&qzone=2&format=svg&data=${JSON.stringify(result[0])}`, {
-					method: 'GET',
-				});
-				if (!response.ok) {console.log(error); return res.status(500).send('Internal Server Error');}
-				const qrImage = await response.buffer();
+				const qrImage = Buffer.from(await qrcode.toString(JSON.stringify(result[0]), {type:'svg',width:10,margin:1,scale:1}));
 				db.query(q.ADD_QRCACHE, [qrImage, data.userId], (err) => {
 					if (err) {console.error('SQL:', err); return res.status(500).send('Internal Server Error');}
 				})
