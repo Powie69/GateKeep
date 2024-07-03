@@ -13,10 +13,10 @@ CREATE TABLE users(
 SELECT * FROM users;
 
 -- @block
-UPDATE users SET qrId = NULL;
+-- UPDATE users SET qrId = NULL;
 
 -- @block
--- UPDATE users SET qrCache = NULL WHERE id = 7;
+UPDATE users SET qrCache = NULL WHERE id = 35;
 
 -- @block
 INSERT INTO users (email, phoneNumber, fullName, lrn, password)
@@ -29,4 +29,4 @@ INSERT INTO users (email,phoneNumber,password,lrn) VALUES (?,?,?,?); INSERT INTO
 -- @block
 -- DELETE FROM users;
 -- @block
-DROP TABLE users;
+-- DROP TABLE users;

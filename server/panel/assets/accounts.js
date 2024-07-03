@@ -11,7 +11,7 @@ let getMessageDebounce = true;
 let messageCount = 0;
 let isBulkAddValid = false;
 
-// submit
+//* submit
 async function submitQuery(type) {
 	event.preventDefault()
 	try {
@@ -88,11 +88,10 @@ async function submitAddAccount(event) {
 
 async function submitBulkAddAccount(event) {
 	event.preventDefault()
-	console.log('she');
 	try {
 		const data = Object.fromEntries(new FormData(event.target).entries())
 		if (!isBulkAddValid) {return}
-		console.log('go');
+
 		const response = await fetch('http://localhost:3000/admin/bulkCreate', {
 			method: 'POST',
 			headers: {
@@ -102,13 +101,13 @@ async function submitBulkAddAccount(event) {
 			credentials: 'include',
 		});
 
-		// const respond = await response.json();
-		if (!response.ok) {/*fail*/}
-		// success
+		const respond = await response.json();
+		if (!response.ok) {alert(`${response.status}: ${respond.message}`); console.log(respond.message); return;}
+		alert(`${response.status}: ${respond.message}`);
 	} catch (error) {console.error(error);}
 }
 
-// 
+//*
 function displayData(data) {
 	document.querySelectorAll(".main-table-contain > div.main-table-contain-item").forEach(element => {
 		document.querySelector(".main-table-contain").removeChild(element);
@@ -147,7 +146,7 @@ function getSection(value) {
 	})
 }
 
-// start of fetch
+//* start of fetch
 async function fetchMessages(limit,offset,userId) {
 	if (!limit || offset == undefined || limit >= 25 || offset <= -1) { console.log("bad data (client)"); return;}
 	return await fetch('http://localhost:3000/admin/getMessage', {
@@ -211,7 +210,7 @@ async function fetchQrcache(userId) {
 	.catch(error => {console.error(error);});
 }
 
-// start of dialog
+//* start of dialog
 async function openLogsDialog(value) {
 	document.querySelector('.logsDialog').showModal();
 	document.querySelector('.logsDialog').setAttribute("userId",value.parentElement.getAttribute('userId'));
@@ -246,7 +245,7 @@ function openBulkAddDialog() {
 	document.querySelector('.bulkAddDialog').style.display = 'flex';
 }
 
-// handlers
+//* handlers
 
 function submitEditPress(event) {
 	if (event.key === "Enter" && event.keyCode === 13) {
@@ -307,10 +306,6 @@ function checkBulkAdd(data) {
 	return {ok:true,accounts:accounts,errors:errors,message:''};
 }
 
-async function submitBulkAdd(data) {
-	
-}
-
 async function removeAccount(id) {
 	fetch('http://localhost:3000/admin/remove/check',{
 		method: 'POST',
@@ -330,25 +325,29 @@ async function removeAccount(id) {
 			console.error('erorr when deleting account');
 			return;
 		}
-	}).then(data => {
-		console.log(data);
+	}).then(async data => {
 		const auth = prompt(`are you sure you want to delete the account of ${data.firstName}, ${data.lastName}\n\n To confirm, retype LRN of user:`);
 		if (auth === null) {return}
 		if (auth != data.lrn) {return alert('Wrong LRN!');}
-		removeAccountReq(id, auth)
+		const response = await removeAccountReq(id, auth);
+		const respond = await response.json();
+		if (!response.ok) {alert(`${response.status}: ${respond.message}`); console.log(respond.message); return;}
+		alert(`${response.status}: ${respond.message}`);
 	})
 }
 
-function removeAccountReq(id,lrn) {
+async function removeAccountReq(id,lrn) {
 	if (typeof id === undefined || typeof id == '' || typeof lrn === undefined || lrn.length !== 12) {console.warn('bad'); return;}
-	fetch('http://localhost:3000/admin/remove/confirm', {
+	return await fetch('http://localhost:3000/admin/remove/confirm', {
 		method: 'DELETE',
 		credentials: 'include',
 		headers: {
 			'Content-Type': 'application/json'
 	  	},
 		body: `{"id": "${id}", "lrn": "${lrn}"}`
-	})
+	}).then(response => {return response;})
+	.then(data => {return data;})
+	.catch(err => {console.error(err);});
 }
 
 function updateMessage(data) {
@@ -405,7 +404,7 @@ function updatePlaceholderInfo(data) {
 	}
 }
 
-// events
+//* events
 document.querySelector(".logsDialog-container").addEventListener('scrollend', function(){
 	if (getMessageDebounce && (this.clientHeight + this.scrollTop >= this.scrollHeight - 60)) {
 		// When scrolled to the bottom of the container
@@ -459,9 +458,9 @@ document.querySelector('.addDialog').addEventListener('close', () => {
 	document.querySelector('.addDialog header p').innerText = '';
 })
 
-
 document.querySelector('.bulkAddDialog').addEventListener('close', (event) => {
 	event.target.style.removeProperty('display')
+	event.target.querySelector('.bulkAddDialog-form').reset()
 })
 
 document.querySelector('.bulkAddDialog-form textarea').addEventListener('change', (event) => {

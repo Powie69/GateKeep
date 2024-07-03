@@ -179,7 +179,6 @@ app.post('/bulkCreate', /*isAdmin,*/ async (req,res) => {
 		for (let i = 0; i < data.length; i++) {
 			await new Promise((resolve,reject) => {
 				db.query(q.CHECK_ACCOUNT, [data[i].lrn], (err,result) => {
-					console.log('sql result:',result);
 					if (err) {console.error('SQL:', err); return reject({status:500,message:'Internal server error'})}
 					if (result.length !== 0) {return reject({status:409,message:'user with LRN already exist.'});}
 					resolve();
