@@ -289,10 +289,15 @@ function checkBulkAdd(data) {
 	if (typeof data !== 'object' || data.length === 0) {return {ok:false,accounts:0,errors:1,message:'No accounts in json'};}
 	let accounts = 0;
 	let errors = 0;
+	const lrn = new Set();
 	for (let i = 0; i < data.length; i++) {
+		if (lrn.has(data[i].lrn)) {
+			errors++;
+		}
 		if (typeof data[i].email === 'undefined' || data[i].email.length === 0 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data[i].email) || typeof data[i].phoneNumber === 'undefined' || data[i].phoneNumber.length === 0 || !/^09\d{9}$/.test(data[i].phoneNumber) || typeof data[i].password === 'undefined' || data[i].password.length === 0 || typeof data[i].lrn === 'undefined' || data[i].lrn.length === 0 || !/^[1-6]\d{5}(0\d|1\d|2[0-5])\d{4}$/.test(data[i].lrn) || typeof data[i].lastName === 'undefined'  || data[i].lastName.length === 0 || typeof data[i].firstName === 'undefined' || data[i].firstName.length === 0 || (typeof data[i].gradeLevel != 'undefined' && data[i].gradeLevel.length != 0 && (data[i].gradeLevel < 7 || data[i].gradeLevel > 12)) || (typeof data[i].zip !== undefined && data[i].zip.length != 0 && !/^(0[4-9]|[1-9]\d)\d{2}/.test(data[i].zip))) {
 			errors++;
 		}
+		lrn.add(data[i].lrn);
 		accounts++
 	}
 	console.log('40 ', data);

@@ -14,6 +14,7 @@
 ##
 
 
+- [ ] fix qr generation cuz it broke
 - [X] separate mysql commands
 - [ ] panel login stuff
 - [ ] move client folder to '/public'
