@@ -7,7 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "s": "nodemon --watch . --config nodemon.json",
     "start": "node .",
-    "panel": "http-server ./ -p 5300"
+    "panel": "http-server ./ -p 5300",
+    "format": "node scripts/formFormater.js"
   },
   "keywords": [],
   "author": "",
