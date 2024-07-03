@@ -8,7 +8,8 @@
     "s": "nodemon --watch . --config nodemon.json",
     "start": "node .",
     "panel": "http-server ./ -p 5300",
-    "format": "node scripts/formFormater.js"
+    "format": "node scripts/formFormater.js",
+    "makeQrId": "node scripts/qrIdGenerate.js"
   },
   "keywords": [],
   "author": "",
@@ -21,8 +22,8 @@
     "express-rate-limit": "^7.2.0",
     "express-session": "^1.18.0",
     "mysql2": "^3.9.2",
-    "node-fetch": "^2.7.0",
     "nodemon": "^3.1.0",
-    "qr-scanner": "^1.4.2"
+    "qr-scanner": "^1.4.2",
+    "qrcode": "^1.5.3"
   }
 }
