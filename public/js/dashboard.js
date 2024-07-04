@@ -3,25 +3,26 @@ let getMessageDebounce = true;
 const msgElement = document.querySelector(".logs-item_template");
 const dialogElements = document.querySelectorAll(".update, .view");
 
+// fetch
 function fetchInfo() {
-	return fetch('http://localhost:3000/profile/getData', {
+	return fetch('profile/getData', {
 		method: 'post',
 		credentials: 'include'
 	})
 	.then(response => {
 		if (response.status >= 400) {
-			console.warn("wong (client)"); return;
+			console.warn('fetchInfo'); return;
 		} else {
 			return response.json()
 		}
 	})
-	.then(data => { return data; })
-  	.catch(error => { console.error(error) });
+	.then(data => {return data;})
+  	.catch(error => {console.error(error)});
 }
 
 function fetchMessages(limit, offset) {
 	if (!limit || offset == undefined || limit >= 25 || offset <= -1) { console.log("bad data (client)"); return;}
-	return fetch('http://localhost:3000/profile/getMessage', {
+	return fetch('profile/getMessage', {
 	method: 'post',
 	credentials: 'include',
 	headers: {
@@ -31,7 +32,7 @@ function fetchMessages(limit, offset) {
 	})
 	.then(response => {
 		if (response.status >= 400) {
-			console.warn("wong (client)"); return;
+			console.warn("fetchMessage"); return;
 		} else {
 			return response.json();
 		}
@@ -41,7 +42,7 @@ function fetchMessages(limit, offset) {
 }
 
 function fetchQrcode() {
-	fetch('http://localhost:3000/profile/getQrcode', {
+	fetch('profile/getQrcode', {
 		method: 'post',
 		credentials: 'include',
 	})
@@ -58,7 +59,7 @@ function fetchQrcode() {
 	.catch(error => { console.error(error); });
 }
 
-fetchQrcode()
+// update
 
 function updateMessage(data) {
 	if (!data) {return;}
@@ -97,14 +98,6 @@ function updateInfo() {
 	})
 }
 
-// gets placeholder for 'update' dialog
-function updateInfoDialog(data) {
-	for (var i in data) {
-		if (i == "lrn" || i == "sex") {continue}
-		if (data[i] != undefined) {document.querySelector(`#form-update label input[name=${i}]`).setAttribute("placeholder", data[i])}
-	}
-}
-
 // gets data for 'view' dialog
 function updateViewDialog(data) {
 	for (var i in data) {
@@ -115,17 +108,6 @@ function updateViewDialog(data) {
 			continue;
 		}
 		if (data[i] != undefined) {document.querySelector(`.view-${i} p`).innerText = data[i]}
-	}
-}
-
-// update-info dialog
-function updateShow() {
-	if (window.innerWidth <= 600) {
-		window.location.href = "./updateInfo.html"
-	} else {
-		document.querySelector(".update").showModal()
-		fetchInfo()
-		.then(data => {updateInfoDialog(data)})
 	}
 }
 
@@ -141,6 +123,7 @@ function viewShow() {
 }
 
 updateInfo()
+fetchQrcode()
 
 fetchMessages(10, messageCount)
 .then(data => { updateMessage(data)})
@@ -155,7 +138,6 @@ dialogElements.forEach(element => {
 // get messages when scrolling
 document.querySelector(".logs-container").addEventListener('scrollend', function(){
 	if (getMessageDebounce && (this.clientHeight + this.scrollTop >= this.scrollHeight - 60)) {
-		// When scrolled to the bottom of the container
 		fetchMessages(5, messageCount)
 		.then(data => {updateMessage(data)})
 		getMessageDebounce = false;
@@ -174,39 +156,7 @@ document.querySelector("._logout").addEventListener("click", () => {
 		if (response.status >= 400) {
 			return;
 		}
-		window.location.href = "../"
+		location.reload()
 	})
   	.catch(error => {console.error(error);});
 })
-
-async function updateSubmit() {
-    event.preventDefault();
-    try {
-        const data = Object.fromEntries(new FormData(document.getElementById("form-update")).entries());
-
-		if (data.age != undefined && data.age <= -1 || data.age > 99) {document.querySelector(".update .update-header p").innerText = "bad data"; return console.log("bad data (cleint)");}
-		if (data.sex != undefined && !(data.sex == 0 || data.sex == 1)) {return console.log("bad data (client)");}
-		for (const i in data) {if (data[i] != undefined && data[i].length > 60) {return console.log("bad data (client)");}}
-
-        const response = await fetch('http://localhost:3000/profile/updateData', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-            },
-            body: new URLSearchParams(data),
-			credentials: 'include',
-        });
-
-        if (!response.ok) {
-			console.log(`server: ${response}`);
-			document.querySelector(".update").close();
-			return;
-        }
-		const respond = await response.json();
-		
-    } catch (error) {
-		document.querySelector(".update").close();
-    }
-	document.querySelector(".update").close();
-	updateInfo()
-}

@@ -28,45 +28,6 @@
 			<li><button class="_logout"><i class="material-symbols-rounded">Account_Circle</i></button></li>
 		</ul>
 	</header>
-	<dialog class="update" >
-		<form action="" method="post" autocomplete="off" id="form-update">
-			<header class="update-header">
-				<h4>Update info</h4>
-				<p>&nbsp;</p>
-			</header>
-			<fieldset class="update-general">
-				<legend>General infomation</legend>
-				<div class="update-general-grid">
-					<label id="lastName">last Name: <input maxlength="60" type="text" name="lastName"></label>
-					<label id="firstName">first Name: <input maxlength="60" type="text" name="firstName"></label>
-					<label id="middleName">middle Name: <input maxlength="60" type="text" name="middleName"></label>
-					<label id="age">age: <input min="0" max="99" type="number" name="age"></label>
-					<label id="sex">
-						sex:<br>
-						<select name="sex">
-							<option selected disabled hidden value="">lorem</option>
-							<option value="1">Male</option>
-							<option value="0">Female</option>
-						</select>
-					</label>
-				</div>
-			</fieldset>
-			<fieldset class="update-address">
-				<legend>Address</legend>
-				<div class="update-address-grid">
-					<label>House No.: <input min="0" type="number" name="houseNo" id="houseNo"></label>
-					<label>Street Name: <input maxlength="60" type="text" name="street" id="street"></label>
-					<label>zip code: <input min="0" type="number" name="zip" id="zip"></label>
-					<label>Barangay: <input maxlength="60" type="text" name="barangay" id="barangay"></label>
-					<label>Municipality/City: <input maxlength="60" type="text" name="city" id="city"></label>
-					<label>Province: <input maxlength="60" type="text" name="province" id="province"></label>
-				</div>
-			</fieldset>
-			<ul class="update-buttons">
-				<li><button class="submit" tabindex="0" onclick="return updateSubmit()">Done</button></li>
-			</ul>
-		</form>
-	</dialog>
 	<dialog class="view">
 		<header><h4>view all info</h4></header>
 		<div class="view-contain">

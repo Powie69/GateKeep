@@ -1,5 +1,6 @@
-const bodyParser = require('body-parser');
 const express = require('express');
+const bodyParser = require('body-parser');
+const path = require('path')
 const session = require('express-session');
 const cors = require('cors');
 const app = express();
@@ -16,6 +17,7 @@ app.use(session({
     secret: process.env.cookieSecret,
 	saveUninitialized: false,
 	resave: false,
+	unset: 'destroy',
 	cookie: {
 		maxAge: 3600000,
 		// httpOnly: false,
@@ -27,8 +29,6 @@ app.use(session({
 	
 // *static files //
 app.get('/',(req,res) => {
-	console.log('wow');
-	console.log(req.session.authenticated);
 	if (typeof req.session.authenticated === 'undefined' || req.session.authenticated === false || typeof req.session.user === 'undefined') {
 		res.sendFile('views/home.html',{root: __dirname })
 		return;
@@ -38,7 +38,11 @@ app.get('/',(req,res) => {
 	}
 })
 
+if (process.env.NODE_ENV === 'production') {
+	app.use('/css',express.static(path.join(__dirname, 'public', 'cssMinified')))
+}
 app.use(express.static('public',{extensions:'html'}));
+
 // **
 
 // **routes //
@@ -48,7 +52,7 @@ app.use('/admin', require('./routes/admin.js'))
 
 // **404 handler //
 app.use((req,res) => {
-	res.status(404)
+	console.log(req.ip);
 	console.log('404!',req.originalUrl);
 	if (req.accepts('html')) {
 		return res.sendFile('views/404.html',{ root: __dirname });
@@ -61,5 +65,5 @@ app.use((req,res) => {
 // ** //
 
 app.listen(process.env.serverPort, () => {
-	console.log(`Server is running on http://localhost:${process.env.serverPort}`);
+	console.log(`Server is running on http://localhost:${process.env.serverPort} || ${process.env.NODE_ENV}`);
 });
