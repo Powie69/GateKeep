@@ -2,8 +2,8 @@
 
 *.txt.bak
 
-server/node_modules
-server/nodemon.json
+node_modules
+nodemon.json
 
-server/js/temp.js
-server/database/guh.sql
+js/temp.js
+database/guh.sql
