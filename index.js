@@ -11,7 +11,6 @@ app.use(cors({ origin: process.env.corsOrigin.split(','), credentials: true }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use(express.static('public',{extensions:'html'}));
 
 app.use(session({
     secret: process.env.cookieSecret,
@@ -26,17 +25,28 @@ app.use(session({
 	},
 }));
 	
+// *static files //
+app.get('/',(req,res) => {
+	console.log('wow');
+	console.log(req.session.authenticated);
+	if (typeof req.session.authenticated === 'undefined' || req.session.authenticated === false || typeof req.session.user === 'undefined') {
+		res.sendFile('views/home.html',{root: __dirname })
+		return;
+	} else if (typeof req.session.authenticated !== 'undefined' || req.session.authenticated === true || typeof req.session.user !== 'undefined') {
+		res.sendFile('views/dashBoard.html',{root: __dirname })
+		return;
+	}
+})
+
+app.use(express.static('public',{extensions:'html'}));
+// **
+
 // **routes //
-
-// app.get('/',(req,res) => {
-// 	console.log('wow');
-// 	if (req.session.)
-// })
-
 app.use('/profile', require('./routes/profile.js'))
 app.use('/admin', require('./routes/admin.js'))
+// **end of routes** //
 
-
+// **404 handler //
 app.use((req,res) => {
 	res.status(404)
 	console.log('404!',req.originalUrl);
@@ -48,7 +58,7 @@ app.use((req,res) => {
 	}
 	res.type('txt').send('not found');
 })
-// **end of routes** //
+// ** //
 
 app.listen(process.env.serverPort, () => {
 	console.log(`Server is running on http://localhost:${process.env.serverPort}`);

@@ -38,24 +38,14 @@
 		</ul>
 	</header>
 	<main class="main">
-		<form action="http://localhost:3000/" method="post" class="form disabled" id="form-signup">
-			<h2>Create an Account</h2>
-			<label>Email <input type="email" required name="email" id="s-email"></label>
-			<label>Phone Number<span class="exist-m exist-n disabled"><br>This phone number is already in use.</span> <input type="number" required min="0" maxlength="12" name="phoneNumber" id="s-phoneNumber"></label>
-			<label>Full name <input type="text" required name="fullName" id="s-fullName"></label>
-			<label>LRN<span class="exist-m exist-l disabled"><br>This lrn is already in use.</span> <input type="number" required maxlength="12" name="lrn" id="s-lrn"></label>
-			<label>Password <input type="password" required name="password" id="s-password"></label>
-			<button class="submit" tabindex="0" onclick="return signupSubmit()">Create Account</button>
-			<span class="form-redirect">already have an Account? <a href="?login">Log in</a></span>
-		</form>
-		<form action="http://localhost:3000" method="post" class="form " id="form-login">
+		<form onsubmit="loginSubmit(event)" class="main-form" id="form-login">
 			<h2>Login</h2>
-			<label>Email or Phone number<br> <input type="email" required name="username" id="l-email"></label>
-			<label>LRN<br> <input type="number" required maxlength="12" name="lrn" id="l-lrn"></label>
-			<label>Password<br> <input type="password" required name="password" id="l-password"></label>
-			<span id="l-invalid" class="disabled">invalid Email, Phone number, LRN, or password</span>
-			<button class="submit" tabindex="0" onclick="return loginSubmit()">Login</button>
-			<span class="form-redirect">Don't have an account? <a href="?signup">Signup</a></span>
+			<label>Email or Phone number <span class="main-form-invalid _hidden">Invalid</span><br> <input type="email" required pattern="[^\s@]+@[^\s@]+\.[^\s@]+" name="username"></label>
+			<label>LRN <span class="main-form-invalid _hidden">Invalid</span><br> <input type="text" required pattern="[1-6]\d{5}(0\d|1\d|2[0-5])\d{4}" name="lrn"></label>
+			<label>Password <span class="main-form-invalid _hidden">Invalid</span><br> <input type="password" required name="password"></label>
+			<span class="main-form-message _noDisplay">Too many request, Try agian later</span>
+			<button class="main-form-submit" tabindex="0">Login</button>
+			<span class="main-form-redirect">Don't have an account? <a href="?signup">Signup</a></span>
 		</form>
 		<div class="main-info">
 			<h1>Gatekeep. Woah very cool massive heading text, Nice! I wonder if this is cool or not? How much words I'm I going to actually put in here? I dunno.</h1>
@@ -78,13 +68,13 @@
 			</svg>
 		</div>
 	</section>
-	<section class="about wrapper">
+	<section class="about _wrapper">
 		<picture class="about-img">
 			<source srcset="images/dashbaord-mobile-screen.webp" alt="" media="only screen and (max-width: 600px)">
 			<img src="images/dashbaord-screen.webp" alt="image of dashbaord page">
 		</picture>
 	</section>
-	<section class="help wrapper" id="Help">
+	<section class="help _wrapper" id="Help">
 		<header class="help-header"><h3>Frequently asked questions</h3></header>
 		<div class="help-container">
 			<hr>

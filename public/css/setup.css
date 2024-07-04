@@ -18,8 +18,8 @@ body {
 	font-family: 'Inter', 'Noto Color Emoji', sans-serif;
 }
 
-/* utility classes */
-.wrapper {
+/** utility classes */
+._wrapper {
 	width: 85vw;
 	margin: 0 auto;
 }
@@ -39,8 +39,11 @@ body {
 	}
 }
 
+._hidden {
+	visibility: hidden;
+}
 
-.disabled {
+._noDisplay {
 	display: none;
 }
 

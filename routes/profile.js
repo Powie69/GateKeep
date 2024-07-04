@@ -6,16 +6,15 @@ const q = require('../js/profileQuery.js')
 const app = express.Router();
 
 app.post('/login', limiter(30, 5),(req, res) => {
-	console.log(req.body)
 	const data = req.body;
-
+	
 	if (!(/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.username) || /^09\d{9}$/.test(data.username)) || !/^[1-6]\d{11}$/.test(data.lrn) || !data.password) {
         return res.status(400).json({ message: "Email or Phone number, LRN, and password are required" });
     }
 
 	db.query(q.LOGIN, [data.username, data.username, data.lrn, data.password], (err, result) => {
         if (err) {console.error('login SQL:', err); return res.status(500).send('Internal Server Error');}
-        if (result.length === 0) { return res.status(401).json({ message: "Invalid email/phone, LRN, or password" }); }
+        if (result.length === 0) {return res.status(401).json({ message: "Invalid email/phone, LRN, or password" });}
 
 		req.session.authenticated = true;
 		req.session.user = result[0].id;
