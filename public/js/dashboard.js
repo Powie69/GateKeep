@@ -148,7 +148,7 @@ document.querySelector(".logs-container").addEventListener('scrollend', function
 })
 
 document.querySelector("._logout").addEventListener("click", () => {
-	fetch('http://localhost:3000/profile/logout', {
+	fetch('/profile/logout', {
 	method: 'post',
 	credentials: 'include'
 })

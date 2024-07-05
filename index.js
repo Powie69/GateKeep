@@ -12,7 +12,6 @@ app.use(cors({ origin: process.env.corsOrigin.split(','), credentials: true }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-
 app.use(session({
     secret: process.env.cookieSecret,
 	saveUninitialized: false,
@@ -26,36 +25,33 @@ app.use(session({
 		partitioned: process.env.cookiePartitioned,
 	},
 }));
-	
+
 // *static files //
 app.get('/',(req,res) => {
 	if (typeof req.session.authenticated === 'undefined' || req.session.authenticated === false || typeof req.session.user === 'undefined') {
-		res.sendFile('views/home.html',{root: __dirname })
-		return;
+		return res.sendFile('views/home.html',{root: __dirname });
 	} else if (typeof req.session.authenticated !== 'undefined' || req.session.authenticated === true || typeof req.session.user !== 'undefined') {
-		res.sendFile('views/dashBoard.html',{root: __dirname })
-		return;
+		return res.sendFile('views/dashBoard.html',{root: __dirname });
 	}
 })
 
 if (process.env.NODE_ENV === 'production') {
 	app.use('/css',express.static(path.join(__dirname, 'public', 'cssMinified')))
+	app.use('/js',express.static(path.join(__dirname, 'public', 'jsMinified')))
 }
 app.use(express.static('public',{extensions:'html'}));
-
-// **
+// ** //
 
 // **routes //
 app.use('/profile', require('./routes/profile.js'))
 app.use('/admin', require('./routes/admin.js'))
-// **end of routes** //
+// ** //
 
 // **404 handler //
 app.use((req,res) => {
-	console.log(req.ip);
 	console.log('404!',req.originalUrl);
 	if (req.accepts('html')) {
-		return res.sendFile('views/404.html',{ root: __dirname });
+		return res.sendFile('views/404.html',{root:__dirname});
 	}
 	if (req.accepts('json')) {
 		return res.json({message:'not found'});
@@ -65,5 +61,6 @@ app.use((req,res) => {
 // ** //
 
 app.listen(process.env.serverPort, () => {
+	process.title = `Gatekeep Server | ${process.env.serverPort}`
 	console.log(`Server is running on http://localhost:${process.env.serverPort} || ${process.env.NODE_ENV}`);
 });

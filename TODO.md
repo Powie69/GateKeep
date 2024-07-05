@@ -9,17 +9,17 @@
 - [X] session tokens 💀💀
 - [X] SSL certificate
 - [X] qr scanner
-- [ ] account managment dasbaord
+- [X] account managment dasbaord
 
 ##
 
 
-- [ ] fix qr generation cuz it broke
+- [X] fix qr generation cuz it broke
 - [X] separate mysql commands
 - [ ] panel login stuff
-- [ ] move client folder to '/public'
+- [X] move client folder to '/public'
 - [X] Create account
-- [ ] Create account with Bulk google forms stuff
+- [X] Create account with Bulk google forms stuff
 - [X] env everything
 - [X] about,help section
 - [X] info form html/js stuff
