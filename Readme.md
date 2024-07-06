@@ -4,10 +4,20 @@ gaslight, **gatekeep**, girlboss
 
 💅💅💅
 
+##
+
+#### how to run in production mode:
+
+```sh
+npm run prod
+```
+
 #### [TODO list](./TODO.md)
 
-## refs
+## software requirements
 
-[qr code api](https://goqr.me/api/)
+- [**Node**](nodejs.org) for server runtime
 
-[gDrive](https://drive.google.com/drive/folders/1grBL7y0ZVH7J0m2zShPvi6TA3vHeRNWK?usp=sharing)
+- [**mySql**](https://dev.mysql.com/downloads/installer/) for Database
+
+- [**gDrive**](https://drive.google.com/drive/folders/1grBL7y0ZVH7J0m2zShPvi6TA3vHeRNWK?usp=sharing) extra files and stuff
