@@ -4,13 +4,32 @@ const qrcode = require('qrcode')
 const { isAdmin, limiter, db } = require('../js/middleware.js');
 const {parseGender} = require('../js/utility.js');
 const q = require('../js/adminQuery.js');
+const { url } = require('inspector');
 const app = express.Router();
 require('dotenv').config();
 
+
+app.get('/',(req,res) => {
+	console.log(req.session.isAdmin);
+	if (typeof req.session.isAdmin === 'undefined' || req.session.isAdmin === false) {
+		return res.sendFile('views/admin/login.html',{root:'./'});
+	}
+	// app.use(express.static('views/admin'));
+	console.log(req.query);
+	res.sendFile('views/admin/accounts.html',{root:'./'});
+
+	// if (req.query.toLowerCase() === 'account') {
+	// 	res.sendFile('views/admin/login.html',{root:__dirname})
+	// }
+})
+
+app.use('/assets',isAdmin,express.static('views/admin/assets'))
+
 app.post('/login', (req,res) => {
-	if (req.body.password != process.env.adminPassword) {res.status(401).json({message: "big fail"}); return; }
-	console.log("big success");
+	// if (req.body.password != process.env.adminPassword) {res.status(401).json({message: "big fail"}); return; }
+	// console.log("big success");
 	req.session.isAdmin = true;
+	res.send('win');
 })
 
 app.post('/check', isAdmin, (req,res) => {

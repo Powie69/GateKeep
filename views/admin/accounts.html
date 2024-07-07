@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Account Management | Gatekeep</title>
+	<!--  -->
+	<link rel="preconnect" href="https://fonts.googleapis.com" defer>
+	<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded" rel="stylesheet" defer>
+	<link rel="icon" type="image/x-icon" href="assets/ico.ico" defer>
+	<link rel="stylesheet" href="assets/basic.css">
+	<link rel="stylesheet" href="assets/accounts.css">
+</head>
+<body>
+	<header class="header"><h1 class="header-title">Account Management</h1></header>
+	<dialog class="logsDialog" userId="">
+		<header><p>Logs</p></header>
+		<div class="logsDialog-container">
+			<template class="logsDialog-container-item_template">
+				<div class="logsDialog-container-item">
+					<p class="logsDialog-container-item-title"><i class="material-symbols-rounded">Login</i> <span>IN</span></p>
+					<p class="logsDialog-container-item-desc"><span class="logsDialog-container-item-desc_name"></span> <span class="logsDialog-container-item-desc_isIn">arrived</span> at <span class="logsDialog-container-item-desc_time">0:00am</span> • <span class="logsDialog-container-item-desc_date">jan 0</span></p>
+				</div>
+			</template>
+		</div>
+	</dialog>
+	<dialog class="infoDialog">
+		<header><p>User Info</p></header>
+		<div class="infoDialog-container">
+				<span>
+					QR CODE:<br>
+					<span class="_nullItems" id="info-qrId">null</span>
+					<img src="" title="" alt="qr code">
+				</span>
+				<span>Last Name:<br> <span class="_nullItems" id="info-lastName">null</span></span>
+				<span>First Name:</br> <span class="_nullItems" id="info-firstName">null</span></span>
+				<span>Middle Name:</br> <span class="_nullItems" id="info-middleName">null</span></span>
+				<span>LRN:</br> <span class="_nullItems" id="info-lrn">null</span></span>
+				<span>Grade Level:</br> <span class="_nullItems" id="info-gradeLevel">null</span></span>
+				<span>Section:</br> <span class="_nullItems"  id="info-section">null</span></span>
+				<span>Age:</br> <span class="_nullItems" id="info-age">null</span></span>
+				<span>Sex:</br> <span class="_nullItems" id="info-sex">null</span></span>
+				<span>Zip:</br> <span class="_nullItems" id="info-zip">null</span></span>
+				<span>Barangay:</br> <span class="_nullItems" id="info-barangay">null</span></span>
+				<span>City/Municipality:</br> <span class="_nullItems" id="info-city">null</span></span>
+				<span>Province:</br> <span class="_nullItems" id="info-province">null</span></span>
+				<span>Street Name:</br> <span class="_nullItems" id="info-street">null</span></span>
+				<span>House Number:</br> <span class="_nullItems" id="info-houseNo">null</span></span>
+				<span>User Id:</br> <span class="_nullItems" id="info-userId">null</span></span>
+		</div>
+	</dialog>
+	<dialog class="editDialog" userId="" onkeyup="submitEditPress(event)">
+		<header>
+			<h2>Edit User Info</h2>
+			<p style="visibility: hidden;"></p>
+		</header>
+		<form class="editDialog-form" autocomplete="off" onsubmit="submitEditInfo(event)">
+			<fieldset class="addDialog-form-person">
+				<label>Last Name*: <span>Invalid Input.</span><br> <input class="editDialog-form-lastName" name="lastName"  maxlength="255" type="text"></label>
+				<label>First Name*: <span>Invalid Input.</span><br> <input class="editDialog-form-firstName" name="firstName" maxlength="255" type="text"></label>
+				<label>Middle Name:<br> <input class="editDialog-form-middleName" name="middleName" type="text" maxlength="255"></label>
+				<label>Age: <span>Invalid Input.</span><br> <input class="editDialog-form-age" name="age" type="number" min="0" max="99"></label>
+				<label>Sex: <span>Invalid Input.</span><br>
+					<select class="editDialog-form-sex" name="sex">
+						<option value="" class="editDialog-form-sex_placeholder" selected hidden disabled></option>
+						<option value="1">Male</option>
+						<option value="0">Female</option>
+					</select>
+				</label>
+			</fieldset>
+			<fieldset class="editDialog-form-school">
+				<label>LRN*: <span>Invalid Input.</span><br> <input class="editDialog-form-lrn" name="lrn" pattern="[1-6]\d{5}(0\d|1\d|2[0-5])\d{4}" type="text" maxlength="12" minlength="12"></label>
+				<label>Grade Level: <span>Invalid Input.</span><br> <input class="editDialog-form-gradeLevel" name="gradeLevel" type="number" min="7" max="12"></label>
+				<label>Section: <span>Invalid Input.</span><br>
+					<select class="editDialog-form-section" name="section">
+						<option value="" class="editDialog-form-section_placeholder" selected hidden disabled></option>
+						<option value="love">Love</option>
+						<option value="kindness">Kindness</option>
+						<option value="hope">Hope</option>
+						<option value="faith">Faith</option>
+						<option value="matthew">Matthew</option>
+						<option value="jeremiah">Jeremiah</option>
+						<option value="psalm">Psalm</option>
+						<option value="john">John</option>
+						<option value="thomas">Thomas</option>
+						<option value="joseph">Joseph</option>
+						<option value="james">James</option>
+						<option value="paul">Paul</option>
+						<option value="zeus">Zeus</option>
+						<option value="aphrodite">Aphrodite</option>
+						<option value="athena">Athena</option>
+						<option value="poseidon">Poseidon</option>
+					</select>
+				</label>
+			</fieldset>
+			<fieldset class="editDialog-form-address">
+				<label>Barangay: <span>Invalid Input.</span><br> <input class="editDialog-form-barangay" name="barangay" type="text" maxlength="255"></label>
+				<label>City/Municipality: <span>Invalid Input.</span><br> <input class="editDialog-form-city" name="city" type="text" maxlength="255"></label>
+				<label>Province: <span>Invalid Input.</span><br> <input class="editDialog-form-province" name="province" type="text" maxlength="255"></label>
+				<label>Zip: <span>Invalid Input.</span><br> <input class="editDialog-form-zip" name="zip" pattern="(0[4-9]|[1-9]\d)\d{2}" type="text"  minlength="4" maxlength="4"></label>
+				<label>Street Name: <span>Invalid Input.</span><br> <input class="editDialog-form-street" name="street" type="text" maxlength="255"></label>
+				<label>House Number: <span>Invalid Input.</span><br> <input class="editDialog-form-houseNo" name="houseNo" type="number" min="1" max="9999"></label>
+			</fieldset>
+			<fieldset class="editDialog-form-account">
+				<label>Phone Number*: <span>Invalid Input.</span><br> <input class="editDialog-form-phoneNumber" name="phoneNumber" type="text" pattern="^09\d{9}$" minlength="11" maxlength="11"></label>
+				<label>Email*: <span>Invalid Input.</span><br> <input class="editDialog-form-email" name="email" type="text" pattern="[^\s@]+@[^\s@]+\.[^\s@]+" maxlength="255"></label>
+				<label>Password*: <span>Invalid Input.</span><br> <input class="editDialog-form-password" name="password" type="password" minlength="3" maxlength="255"></label>
+			</fieldset>
+			<fieldset class="editDialog-form-buttons">
+				<button class="editDialog-form-buttons-submit" type="button" onclick="submitEditInfo(event)"><i class="material-symbols-rounded">check_circle</i> Submit</button>
+				<button class="editDialog-form-buttons-cancel" type="button" onclick="parentElement.parentElement.parentElement.close()"><i class="material-symbols-rounded">cancel</i> Cancel</button>
+				<button class="editDialog-form-buttons-cancel" type="button" onclick="removeAccount(parentElement.parentElement.parentElement.getAttribute('userId'))"><i class="material-symbols-rounded">person_remove</i> Delete</button>
+			</fieldset>
+		</form>
+	</dialog>
+	<dialog class="addDialog">
+		<header>
+			<h2>Create An Account</h2>
+			<p style="visibility: hidden;"></p>
+		</header>
+		<form class="addDialog-form" onsubmit="submitAddAccount(event)">
+			<fieldset class="addDialog-form-person">
+				<label>Last Name*: <span>Invalid Input.</span><br> <input class="addDialog-form-lastName" name="lastName" required  maxlength="255" type="text"></label>
+				<label>First Name*: <span>Invalid Input.</span><br> <input class="addDialog-form-firstName" name="firstName" required maxlength="255" type="text"></label>
+				<label>Middle Name:<br> <input class="addDialog-form-middleName" name="middleName" type="text" maxlength="255"></label>
+				<label>Age: <span>Invalid Input.</span><br> <input class="addDialog-form-age" name="age" type="number" min="0" max="99" maxlength="2"></label>
+				<label>Sex: <span>Invalid Input.</span><br>
+					<select class="addDialog-form-sex" name="sex">
+						<option value="" class="addDialog-form-sex_placeholder" selected hidden disabled></option>
+						<option value="1">Male</option>
+						<option value="0">Female</option>
+					</select>
+				</label>
+			</fieldset>
+			<fieldset class="addDialog-form-school">
+				<label>LRN*: <span>Invalid Input.</span><br> <input class="addDialog-form-lrn" name="lrn" pattern="[1-6]\d{5}(0\d|1\d|2[0-5])\d{4}" type="text" required maxlength="12" minlength="12" max="699999999999" min="100000000000"></label>
+				<label>Grade Level: <span>Invalid Input.</span><br> <input class="addDialog-form-gradeLevel" name="gradeLevel" type="number" min="7" max="12"></label>
+				<label>Section: <span>Invalid Input.</span><br>
+					<select class="addDialog-form-section" name="section">
+						<option value="" class="addDialog-form-section_placeholder" selected hidden disabled></option>
+						<option value="love">Love</option>
+						<option value="kindness">Kindness</option>
+						<option value="hope">Hope</option>
+						<option value="faith">Faith</option>
+						<option value="matthew">Matthew</option>
+						<option value="jeremiah">Jeremiah</option>
+						<option value="psalm">Psalm</option>
+						<option value="john">John</option>
+						<option value="thomas">Thomas</option>
+						<option value="joseph">Joseph</option>
+						<option value="james">James</option>
+						<option value="paul">Paul</option>
+						<option value="zeus">Zeus</option>
+						<option value="aphrodite">Aphrodite</option>
+						<option value="athena">Athena</option>
+						<option value="poseidon">Poseidon</option>
+					</select>
+				</label>
+			</fieldset>
+			<fieldset class="addDialog-form-address">
+				<label>Barangay: <span>Invalid Input.</span><br> <input class="addDialog-form-barangay" name="barangay" type="text" maxlength="255"></label>
+				<label>City/Municipality: <span>Invalid Input.</span><br> <input class="addDialog-form-city" name="city" type="text" maxlength="255"></label>
+				<label>Province: <span>Invalid Input.</span><br> <input class="addDialog-form-province" name="province" type="text" maxlength="255"></label>
+				<label>Zip: <span>Invalid Input.</span><br> <input class="addDialog-form-zip" name="zip" type="text" pattern="(0[4-9]|[1-9]\d)\d{2}" minlength="4" maxlength="4"></label>
+				<label>Street Name: <span>Invalid Input.</span><br> <input class="addDialog-form-street" name="street" type="text" maxlength="255"></label>
+				<label>House Number: <span>Invalid Input.</span><br> <input class="addDialog-form-houseNo" name="houseNo" type="number" min="1" max="9999"></label>
+			</fieldset>
+			<fieldset class="addDialog-form-account">
+				<label>Phone Number*: <span>Invalid Input.</span><br> <input class="addDialog-form-phoneNumber" name="phoneNumber" type="text" pattern="^09\d{9}$" required minlength="11" maxlength="11"></label>
+				<label>Email*: <span>Invalid Input.</span><br> <input class="addDialog-form-email" name="email" type="text" pattern="[^\s@]+@[^\s@]+\.[^\s@]+" required maxlength="255"></label>
+				<label>Password*: <span>Invalid Input.</span><br> <input class="addDialog-form-password" name="password" type="password" required minlength="3" maxlength="255"></label>
+			</fieldset>
+			<fieldset class="addDialog-form-buttons">
+				<button class="addDialog-form-buttons-submit" type="submit">Submit</button>
+				<button class="addDialog-form-buttons-cancel" type="button" onclick="parentElement.parentElement.parentElement.close()">Cancel</button>
+			</fieldset>
+		</form>
+	</dialog>
+	<dialog class="bulkAddDialog">
+		<header class="bulkAddDialog-header">
+			<h2>Bulk Create Accounts</h2>
+		</header>
+		<div class="bulkAddDialog-preview">
+			<ul>
+				<li class="bulkAddDialog-preview-accounts"><i class="material-symbols-rounded">group</i> Accounts: <span>0</span></li>
+				<li class="bulkAddDialog-preview-errors"><i class="material-symbols-rounded">error</i> Errors: <span>0</span></li>
+				<li class="bulkAddDialog-preview-warnings"><i class="material-symbols-rounded">warning</i> Warnings: <span>0</span></li>
+			</ul>
+			<p style="visibility: hidden;"><i class="material-symbols-rounded">error</i> <span>you fucking donkey idiot sandwich</span></p>
+		</div>
+		<form class="bulkAddDialog-form" onsubmit="submitBulkAddAccount(event)">
+			<label>Json: <textarea name="jsonData"></textarea></label>
+			<fieldset class="bulkAddDialog-form-buttons">
+				<!-- <button onclick="event.preventDefault()"><i class="material-symbols-rounded">verified_user</i> Check</button> -->
+				<button type="submit"><i class="material-symbols-rounded">check_circle</i> Submit</button>
+				<button type="button" onclick="parentElement.parentElement.parentElement.close()"><i class="material-symbols-rounded">cancel</i> Cancel</button>
+			</fieldset>
+		</form>
+	</dialog>
+	<section class="actions wrapper">
+		<button class="actions-button" onclick="openAddDialog()">
+			<p><i class="material-symbols-rounded">person_add</i> Add Account</p>
+		</button>
+		<button class="actions-button" onclick="openBulkAddDialog()">
+			<p><i class="material-symbols-rounded">group_add</i> Bulk Add</p>
+		</button>
+	</section>
+	<form onsubmit="submitQuery()" autocomplete="off" class="search">
+		<input type="text" name="query" placeholder="Search for name, LRN, or address." class="search-query">
+		<select class="search-level" onchange="getSection(this.value)" name="searchLevel" aria-label="search in grade-level">
+			<option value="" selected hidden disabled>Grade Level</option>
+			<option value="">Any</option>
+			<option value="7">7</option>
+			<option value="8">8</option>
+			<option value="9">9</option>
+			<option value="10">10</option>
+			<option value="11">11</option>
+			<option value="12">12</option>
+		</select>
+		<select class="search-section" onchange="submitQuery()" name="searchSection"  aria-label="search in section">
+			<option value="" selected hidden class="search-section-text" disabled>Section</option>
+			<option value="" disabled class="search-section-none">select grade-level first</option>
+			<option value="" hidden class="search-section-any">Any</option>
+			<option value="" hidden class="search-section-item"></option>
+			<option value="" hidden class="search-section-item"></option>
+			<option value="" hidden class="search-section-item"></option>
+			<option value="" hidden class="search-section-item"></option>
+		</select>
+		<button tabindex="0" type="submit" class="search-submit"><i class="material-symbols-rounded">search</i></button>
+	</form>
+	<main class="main wrapper">
+		<header class="main-title"><span class="main-title_number">0</span> results found.</header>
+		<div class="main-table">
+			<div class="main-table-heading">
+				<div class="main-table-heading-group" id="heading-name">
+					<span id="heading-lastName">Last<br>Name</span>
+					<span id="heading-firstname">First<br>Name</span>
+					<span id="heading-middleName">Middle<br>Name</span>
+				</div>
+				<div class="main-table-heading-group" id="heading-school">
+					<span id="heading-lrn">LRN</span>
+					<span id="heading-gradeLevel">Grade<br>Level</span>
+					<span id="heading-section">Section</span>
+				</div>
+				<div class="main-table-heading-group" id="heading-info">
+					<span id="heading-age">Age</span>
+					<span id="heading-sex">Sex</span>
+				</div>
+				<div class="main-table-heading-group" id="heading-address">
+					<span id="heading-barangay">Barangay</span>
+					<span id="heading-city">City</span>
+					<span id="heading-street">Street<br>Name</span>
+					<span id="heading-houseNo">House<br>No.</span>
+				</div>
+				<span id="heading-userId">userId</span>
+				<span class="main-table-heading-option">user options</span>
+			</div>
+			<hr class="main-table-separator">
+			<div class="main-table-contain">
+				<template class="main-table-contain_template">
+					<div class="main-table-contain-item" tabindex="0">
+						<div class="main-table-contain-item-group">
+							<span class="_nullItems" id="item-lastName">null</span>
+							<span class="_nullItems" id="item-firstName">null</span>
+							<span class="_nullItems" id="item-middleName">null</span>
+						</div>
+						<div class="main-table-contain-item-group">
+							<span class="_nullItems" id="item-lrn">null</span>
+							<span class="_nullItems" id="item-gradeLevel">null</span>
+							<span class="_nullItems"  id="item-section">null</span>
+						</div>
+						<div class="main-table-contain-item-group">
+							<span class="_nullItems" id="item-age">null</span>
+							<span class="_nullItems" id="item-sex">null</span>
+						</div>
+						<div class="main-table-contain-item-group">
+							<span class="_nullItems" id="item-barangay">null</span>
+							<span class="_nullItems" id="item-city">null</span>
+							<span class="_nullItems" id="item-street">null</span>
+							<span class="_nullItems" id="item-houseNo">null</span>
+						</div>
+						<span class="_nullItems" id="item-userId">null</span>
+						<div class="main-table-contain-item-buttons" userId="">
+							<button class="main-table-contain-item-button" onclick="openLogsDialog(this)"><i class="material-symbols-rounded">receipt</i></button>
+							<button class="main-table-contain-item-button" onclick="openInfoDialog(this)"><i class="material-symbols-rounded">id_card</i></button>
+							<button class="main-table-contain-item-button" onclick="openEditDialog(this)"><i class="material-symbols-rounded">edit</i></button>
+						</div>
+					</div>
+				</template>
+			</div>
+		</div>
+	</main>
+
+	<script src="assets/accounts.js" defer></script>
+</body>
+</html>

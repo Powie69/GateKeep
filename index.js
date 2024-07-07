@@ -26,7 +26,7 @@ app.use(session({
 	},
 }));
 
-// *static files //
+// **routes //
 app.get('/',(req,res) => {
 	if (typeof req.session.authenticated === 'undefined' || req.session.authenticated === false || typeof req.session.user === 'undefined') {
 		return res.sendFile('views/home.html',{root: __dirname });
@@ -39,12 +39,13 @@ if (process.env.NODE_ENV === 'production') {
 	app.use('/css',express.static(path.join(__dirname, 'public', 'cssMinified')))
 	app.use('/js',express.static(path.join(__dirname, 'public', 'jsMinified')))
 }
+// static files
 app.use(express.static('public',{extensions:'html'}));
-// ** //
 
-// **routes //
 app.use('/profile', require('./routes/profile.js'))
 app.use('/admin', require('./routes/admin.js'))
+
+
 // ** //
 
 // **404 handler //

@@ -1,0 +1,689 @@
+:root {
+	--c-text: #fefae0ff;
+	--c-highlight: #7C88D4;
+	--c-content: #2e2e2e;
+	--c-background: #1e1e1e;
+	--c-1st: #5C55EF;
+	--c-2nd: #9F5B1E;
+}
+
+.header h1 {
+	margin: 1rem 0;
+	text-align: center;
+	font-size: 1.5rem;
+}
+
+/* *actions */
+
+.actions {
+	width: 40%;
+	min-height: 1.5rem;
+	margin: 1rem auto;
+	display: flex;
+	justify-content: center;
+	flex-wrap: wrap;
+	gap: 1rem;
+	overflow: hidden;
+}
+
+.actions-button {
+	width: 25%;
+	height: 3rem;
+	padding: .5rem;
+	font-size: 90%;
+	border: #2e2e2e solid 3px;
+	background: none;
+	border-radius: 14px;
+	box-shadow: 0px 0px 5px 0px rgba(80,80,80,0.3) inset;
+}
+
+.actions-button:hover, .actions-button:focus{
+	border: #3e3e3e solid 3px;
+}
+
+.actions-button p {
+	margin: 0;
+}
+
+.actions-button i {
+	font-size: 1.5rem;
+}
+
+/* *search */
+.search {
+	display: flex;
+	position: relative;
+	gap: .5rem;
+	width: 40%;
+	height: 2.5rem;
+	left: 50%;
+	transform: translateX(-50%);
+}
+
+.search-query {
+	height: calc(100% - 4px);
+	flex-grow: 85;
+	padding: 2px 8px;
+	border: none;
+	border-radius: 12px;
+	box-shadow: 1px 0px 5px 1px rgba(175,175,175,0.4);
+}
+
+.search-query::placeholder {
+	font-size: calc(1rem - 10%);
+}
+
+.search select {
+	height: 100%;
+	overflow: hidden;
+	border: none;
+	border-radius: 12px;
+	box-shadow: 1px 0px 5px 1px rgba(175,175,175,0.4);
+}
+
+.search-level {
+	width: 110px;
+}
+
+.search-section {
+	width: 90px;
+	text-transform: capitalize;
+}
+
+.search-section option {
+	width: 100%;
+	overflow: hidden;
+	font-size: 90%;
+	text-transform: capitalize;
+}
+
+.search-submit {
+	flex-grow: 5;
+	border-radius: 12px;
+	background: none;
+	border: none;
+}
+
+.search select:focus {
+	background-color: #B3B3B3;
+}
+
+.search-submit:hover {
+	color: #8D8D8D;
+}
+
+.search-submit i {
+	font-size: 2.5rem;
+}
+
+/* *main */
+
+.main {
+	font-size: calc(1rem - 3%);
+}
+
+.main-title {
+	margin: 1rem 0;
+	color: var(--c-text);
+	text-align: center;
+	font-size: 1.3rem;
+}
+
+.main-table-heading {
+	display: flex;
+	gap: 2.3rem;
+}
+
+.main-table-heading-group {
+	display: flex;
+	gap: .3rem;
+}
+
+.main-table-heading span {
+	min-width: 80px;
+	align-content: center;
+	text-align: center;
+}
+
+#heading-lrn {
+	width: 100px;
+	font-size: 85%;
+}
+
+.main-table-heading-option {
+	width: 100px;
+}
+/*  */
+
+.main-table-separator {
+	border: 1px #fefae0 solid;
+}
+
+/*  */
+.main-table-contain {
+	display: flex;
+	flex-direction: column;
+	height: 60vh;
+	overflow-y: scroll;
+	scroll-snap-type: y mandatory;
+	scrollbar-width: thin;
+}
+
+.main-table-contain-item {
+	display: flex;
+	gap: 2.3rem;
+	border-bottom: 2px #fefae0 dashed;
+	padding: .3rem 0;
+	scroll-snap-align: start;
+}
+
+.main-table-contain-item-group {
+	display: flex;
+	gap: .3rem;
+}
+
+.main-table-contain-item span {
+	width: 80px;
+	overflow: hidden;
+	align-content: center;
+	text-align: center;
+	word-wrap: break-word;
+	text-overflow: ellipsis;
+}
+
+._nullItems {
+	font-style: italic;
+	color: #8D8D8D;
+}
+
+#item-lrn {
+	width: 100px;
+	font-size: 85%;
+}
+
+.main-table-contain-item-buttons {
+	visibility: hidden;
+	align-items: center;
+}
+
+.main-table-contain-item:hover .main-table-contain-item-buttons {
+	visibility: visible;
+}
+
+.main-table-contain-item-button {
+	border: none;
+	background: none;
+}
+
+.main-table-contain-item-button i {
+	font-size: 21px;
+}
+
+.main-table-contain-item-button:hover {
+	color: #8D8D8D;
+}
+
+/* *logsDialog */
+
+.logsDialog {
+	/* position: absolute; */
+	top: 5%;
+	/* z-index: 1; */
+	width: 30%;
+	height: 80%;
+	border: none;
+	background-color: var(--c-content);
+	box-shadow: rgb(2, 9, 15) 0px 30px 40px -10px;
+	border-radius: 14px;
+}
+
+.logsDialog::backdrop {
+	backdrop-filter: blur(2px);
+}
+
+.logsDialog header p {
+	margin: .5rem 0;
+	text-align: center;
+	font-size: 2rem;
+	font-weight: 600;
+}
+
+.logsDialog-container {
+	display: flex;
+	flex-direction: column;
+	place-items: center;
+	gap: 1rem;
+	height: 90%;
+	overflow-y: scroll;
+	scroll-snap-type: y mandatory;
+	scrollbar-width: thin;
+}
+
+.logsDialog-container-item {
+	width: 90%;
+	padding: 1rem;
+	border-radius: 14px;
+	scroll-snap-align: start;
+	background-color: #3e3e3e;
+	box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+}
+
+.logsDialog-container-item-title {
+	margin: 0.5rem 0;
+	font-size: 1.5rem;
+	font-weight: 500;
+}
+
+.logsDialog-container-item-desc {
+	margin: 0.5rem 0;
+	font-size: .9rem;
+}
+
+.logsDialog-container-item-desc_time {
+	padding: 3px 4px;
+	border-radius: 8px;
+	background-color: #26262680;
+	color: var(--c-2nd);
+	font-weight: 500;
+	font-style: italic;
+}
+
+/* *info dialog */
+
+.infoDialog {
+	top: 5%;
+	z-index: 1;
+	width: 25%;
+	height: 85%;
+	border: none;
+	background-color: var(--c-content);
+	box-shadow: rgb(2, 9, 15) 0px 30px 40px -10px;
+	border-radius: 14px;
+}
+
+.infoDialog::backdrop {
+	backdrop-filter: blur(2px);
+}
+
+.infoDialog header p{
+	margin: .5rem 0;
+	text-align: center;
+	font-size: 2rem;
+	font-weight: 600;
+}
+
+.infoDialog-container {
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+	height: 90%;
+	overflow-y: scroll;
+	scroll-snap-type: y mandatory;
+	scrollbar-width: thin;
+}
+
+.infoDialog-container > span span{
+	display: block;
+	margin: 4px 2rem;
+	max-height: 60px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	word-wrap: break-word;
+}
+
+#info-qrId {
+	font-size: 90%;
+}
+
+.infoDialog-container > span img {
+	position: relative;
+	left: 50%;
+	transform: translateX(-50%);
+	margin-top: .5rem;
+	width: 70%;
+	aspect-ratio: 1/1;
+	align-items: center;
+}
+
+/* *edit dialog */
+
+.editDialog {
+	width: 65%;
+	height: 75%;
+	border: none;
+	background-color: var(--c-content);
+	box-shadow: rgb(2, 9, 15) 0px 30px 40px -10px;
+	border-radius: 14px;
+}
+
+.editDialog::backdrop {
+	backdrop-filter: blur(2px);
+}
+
+.editDialog header h2{
+	margin: .3rem 0;
+	text-align: center;
+	font-size: 2rem;
+	font-weight: 600;
+}
+
+.editDialog header p{
+	margin: .3rem 0;
+	min-height: 18.4px;
+	color: red;
+	text-align: center;
+}
+
+.editDialog-form {
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	grid-template-rows: repeat(7, 1fr);
+	gap: .5rem;
+	height: 90%;
+	overflow-y: scroll;
+	scroll-snap-type: y mandatory;
+	scrollbar-width: thin;
+	grid-template-areas:
+    "person person person person"
+    "person person person person"
+    "school school school school"
+    "address address address address"
+    "address address address address"
+	"account account account account"
+	". buttons buttons .";
+}
+
+.editDialog-form fieldset {
+	display: flex;
+	justify-content: space-around;
+	gap: .5rem 1rem;
+	padding: .5rem 1rem;
+	border: #3e3e3e 2px dashed;
+	border-radius: 14px;
+}
+
+.editDialog-form fieldset label {
+	width: 100%;
+}
+
+.editDialog-form fieldset label span {
+	color: red;
+	font-style: italic;
+	visibility: hidden;
+}
+
+.editDialog-form fieldset input {
+	width: calc(100% - .7rem);
+	padding: 2px 4px;
+	margin: 4px 0;
+	border-radius: 4px;
+}
+
+.editDialog-form fieldset input:user-invalid{
+	border: red solid 2px;
+}
+
+.editDialog-form fieldset label:has(input:user-invalid) > span{
+	visibility: visible;
+}
+
+.editDialog-form fieldset select {
+	width: 100%;
+	padding: 2px 4px;
+	margin: 4px 0;
+	border-radius: 4px;
+}
+
+.editDialog-form-person { 
+	grid-area: person;
+	display: grid !important;
+	grid-template-columns: repeat(3, 1fr);
+	grid-template-rows: repeat(2, 1fr);
+}
+.editDialog-form-school { grid-area: school; }
+.editDialog-form-address {
+	grid-area: address;
+	display: grid !important;
+	grid-template-columns: repeat(3, 1fr);
+}
+/*pattern="^[1-6]\d{5}(0\d|1\d|2[0-5])\d{4}$"*/
+.editDialog-form-account {grid-area: account;}
+.editDialog-form-buttons {
+	grid-area: buttons;
+	padding: 1rem .5rem!important;
+}
+
+.editDialog-form-buttons button {
+	width: 50%;
+	border: none;
+	background-color: #5C55EF;
+	border-radius: 4px;
+	padding: 4px;
+}
+
+.editDialog-form-buttons button i {
+	font-size: 1.125rem;
+}
+
+.editDialog-form-buttons button:hover {
+	text-decoration: underline;
+}
+
+/* *add Dialog */
+
+.addDialog {
+
+	z-index: 1;
+	width: 65%;
+	height: 75%;
+	border: none;
+	background-color: var(--c-content);
+	box-shadow: rgb(2, 9, 15) 0px 30px 40px -10px;
+	border-radius: 14px;
+}
+
+.addDialog::backdrop {
+	backdrop-filter: blur(2px);
+}
+
+.addDialog header h2{
+	margin: .3rem 0;
+	text-align: center;
+	font-size: 2rem;
+	font-weight: 600;
+}
+
+.addDialog header p{
+	margin: .3rem 0;
+	color: red;
+	text-align: center;
+}
+
+.addDialog-form {
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	grid-template-rows: repeat(6, 1fr);
+	gap: .5rem;
+	height: 90%;
+	overflow-y: scroll;
+	scroll-snap-type: y mandatory;
+	scrollbar-width: thin;
+	grid-template-areas:
+    "person person person person"
+    "school school school school"
+    "address address address address"
+    "address address address address"
+	"account account account account"
+	". buttons buttons .";
+}
+
+.addDialog-form fieldset {
+	display: flex;
+	justify-content: space-around;
+	gap: .5rem 1rem;
+	padding: .5rem 1rem;
+	border: #3e3e3e 2px dashed;
+	border-radius: 14px;
+}
+
+.addDialog-form fieldset label {
+	width: 100%;
+}
+
+.addDialog-form fieldset label span {
+	color: red;
+	font-style: italic;
+	visibility: hidden;
+}
+
+.addDialog-form fieldset input {
+	width: calc(100% - .7rem);
+	padding: 2px 4px;
+	margin: 4px 0;
+	border-radius: 4px;
+}
+
+.addDialog-form fieldset input:user-invalid{
+	border: red solid 2px;
+}
+
+.addDialog-form fieldset label:has(input:user-invalid) > span{
+	visibility: visible;
+}
+
+.addDialog-form fieldset select {
+	width: 100%;
+	padding: 2px 4px;
+	margin: 4px 0;
+	border-radius: 4px;
+}
+
+.addDialog-form-person { 
+	grid-area: person;
+	display: grid !important;
+	grid-template-columns: repeat(3, 1fr);
+	grid-template-rows: repeat(2, 1fr);
+}
+.addDialog-form-school { grid-area: school; }
+.addDialog-form-address {
+	grid-area: address;
+	display: grid !important;
+	grid-template-columns: repeat(3, 1fr);
+}
+/*pattern="^[1-6]\d{5}(0\d|1\d|2[0-5])\d{4}$"*/
+.addDialog-form-account {grid-area: account;}
+.addDialog-form-buttons {
+	grid-area: buttons;
+	padding: 1rem .5rem!important;
+}
+
+.addDialog-form-buttons button {
+	width: 80%;
+	border: none;
+	background-color: #5C55EF;
+	border-radius: 4px;
+}
+
+.addDialog-form-buttons button:hover {
+	text-decoration: underline;
+}
+
+/** bulkaddDialog */
+
+.bulkAddDialog {
+	z-index: 1;
+	width: 35%;
+	height: 55%;
+	border: none;
+	/* display: flex; */
+	flex-direction: column;
+	background-color: var(--c-content);
+	box-shadow: rgb(2, 9, 15) 0px 30px 40px -10px;
+	border-radius: 14px;
+	box-sizing: border-box;	
+}
+
+.bulkAddDialog::backdrop {
+	backdrop-filter: blur(2px);
+}
+
+.bulkAddDialog-header h2{
+	margin: .3rem 0;
+	text-align: center;
+	font-size: 2rem;
+	font-weight: 600;
+}
+
+.bulkAddDialog-header p{
+	margin: .3rem 0;
+	color: red;
+	text-align: center;
+}
+
+.bulkAddDialog-preview {
+	margin: .5rem 0 0 0;
+}
+
+.bulkAddDialog-preview ul {
+	margin: 0;
+	display: flex;
+	justify-content: space-evenly;
+}
+
+.bulkAddDialog-preview p{
+	margin: .3rem 0 ;
+	padding: 0 1rem;
+	min-height: 18.4px;
+	/* min-height: 36.8px; */
+	color: red;
+	text-align: center;
+}
+
+.bulkAddDialog-form {
+	flex-grow: 1;
+	display: flex;
+	flex-direction: column;
+	gap: 2rem;
+	box-sizing: border-box;
+	margin: .3rem 0 0 0;
+}
+
+.bulkAddDialog-form label {
+	height: 100%;
+}
+
+.bulkAddDialog-form textarea {
+	min-height: 20%;
+	height: 100%;
+	max-height: 100%;
+	width: 100%;
+	margin: 4px 0 0 0;
+	padding: 8px;
+	box-sizing: border-box;
+	resize: none;
+	/* ^janky fix. learn flex */
+	border-radius: 14px;
+}
+
+.bulkAddDialog-form-buttons {
+	flex-grow: 1;
+	padding: .5rem 1rem;
+	border: #3e3e3e 2px dashed;
+	display: flex;
+	gap: 3rem;
+	justify-content: center;
+	border-radius: 14px;
+	box-sizing: border-box;
+}
+
+.bulkAddDialog-form-buttons button {
+	width: 40%;
+	border: none;
+	background-color: #5C55EF;
+	border-radius: 4px;
+	padding: 4px;
+}
+
+.bulkAddDialog-form-buttons button:hover {
+	text-decoration: underline;
+}
