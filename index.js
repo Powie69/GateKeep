@@ -7,7 +7,7 @@ const app = express();
 
 // *middleware stuff
 require('dotenv').config();
-
+app.disable('x-powered-by');
 app.use(cors({ origin: process.env.corsOrigin.split(','), credentials: true }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -44,7 +44,6 @@ app.use(express.static('public',{extensions:'html'}));
 
 app.use('/profile', require('./routes/profile.js'))
 app.use('/admin', require('./routes/admin.js'))
-
 
 // ** //
 
