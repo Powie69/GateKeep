@@ -44,9 +44,7 @@ const isAuthenticated = (req, res, next) => {
 const isAdmin = (req, res, next) => {
 	if (!req.session.isAdmin) {
 		console.log(`profile: ${req.sessionID}`)
-		if (process.env.NODE_ENV === 'production') {
-			return next('route')
-		}
+		// return next('route')
 		return res.status(401).json({ message: "Unauthorized access" });
 	}
 	next();

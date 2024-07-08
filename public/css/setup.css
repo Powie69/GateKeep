@@ -58,7 +58,7 @@ body {
         'opsz' 24
 }
 
-p,a,h1,h2,h3,h4,h5,h6,ul,ol,li,label,button,span {
+p,a,h1,h2,h3,h4,h5,h6,ul,ol,li,label,button,span,legend {
 	color: var(--c-text);
 }
 

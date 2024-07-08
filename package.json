@@ -23,7 +23,7 @@
     "express-rate-limit": "^7.2.0",
     "express-session": "^1.18.0",
     "mysql2": "^3.9.2",
-    "nodemon": "^3.1.0",
+    "nodemon": "^3.1.4",
     "qr-scanner": "^1.4.2",
     "qrcode": "^1.5.3"
   }

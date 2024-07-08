@@ -4,33 +4,30 @@ const qrcode = require('qrcode')
 const { isAdmin, limiter, db } = require('../js/middleware.js');
 const {parseGender} = require('../js/utility.js');
 const q = require('../js/adminQuery.js');
-const { url } = require('inspector');
 const app = express.Router();
-require('dotenv').config();
 
-
-app.get('/',(req,res) => {
-	console.log(req.session.isAdmin);
+app.get('/',(req,res,next) => {
+	if (/Mobile|Android|iP(hone|ad)/.test(req.headers['user-agent']) || typeof req.session.authenticated !== 'undefined' || req.session.authenticated === true) {
+		return next('router'); // goes to 404 page
+	}
 	if (typeof req.session.isAdmin === 'undefined' || req.session.isAdmin === false) {
 		return res.sendFile('views/admin/login.html',{root:'./'});
 	}
-	// app.use(express.static('views/admin'));
-	console.log(req.query);
-	res.sendFile('views/admin/accounts.html',{root:'./'});
-
-	// if (req.query.toLowerCase() === 'account') {
-	// 	res.sendFile('views/admin/login.html',{root:__dirname})
-	// }
+	if (typeof req.query.account !== 'undefined') {
+		return res.redirect('admin/accounts')
+	} // else
+	res.redirect('/admin/panel')
 })
 
-app.use('/assets',isAdmin,express.static('views/admin/assets'))
-
-app.post('/login', (req,res) => {
-	// if (req.body.password != process.env.adminPassword) {res.status(401).json({message: "big fail"}); return; }
+app.post('/login', limiter(10,1),(req,res) => {
+	if (req.body.password != process.env.adminPassword) {res.status(401).json({message: "no."}); return; }
 	// console.log("big success");
 	req.session.isAdmin = true;
-	res.send('win');
+	res.status(200).json({message:'success'})
 })
+
+//* requires 'isAdmin'
+app.use('/',isAdmin,express.static('views/admin',{extensions:'html'}))
 
 app.post('/check', isAdmin, (req,res) => {
 	res.send("nice")
@@ -57,8 +54,7 @@ app.post('/send', isAdmin, (req,res) => {
 	})
 })
 
-app.post('/query', /*isAdmin,*/ (req,res) => {
-	// console.log(req.body);
+app.post('/query', isAdmin, (req,res) => {
 	const data = req.body;
 	if (data.query.length == 0 && data.searchLevel == undefined && data.searchSection == undefined) {return res.status(400).send('Bad data')}
 	db.query(q.GET_QUERY, [...new Array(10).fill(data.query), ...new Array(3).fill(data.searchLevel), ...new Array(3).fill(data.searchSection)], (err,result) => {
@@ -73,7 +69,7 @@ app.post('/query', /*isAdmin,*/ (req,res) => {
 	})
 })
 
-app.post('/updateInfo', /*isAdmin*/ (req,res) => {
+app.post('/updateInfo', isAdmin, (req,res) => {
 	const data = req.body;
 	console.log(req.body);
 
@@ -89,7 +85,7 @@ app.post('/updateInfo', /*isAdmin*/ (req,res) => {
 	})
 })
 
-app.post('/getMessage', /*isAdmin,*/ (req,res) => {
+app.post('/getMessage', isAdmin, (req,res) => {
 	const data = req.body;
 	if (!data.limit || data.offset == undefined || data.limit >= 25 || data.offset <= -1) {return res.status(400).send("bad data (server)")}
 	db.query(q.GET_MESSAGE, [data.userId, data.limit, data.offset], (err, result) => {
@@ -102,7 +98,7 @@ app.post('/getMessage', /*isAdmin,*/ (req,res) => {
 	})
 });
 
-app.post('/getInfo', /*isAdmin,*/ (req,res) => {
+app.post('/getInfo', isAdmin, (req,res) => {
 	const data = req.body;
 	if (!data || data.userId == undefined || data.withQrId == undefined) {return res.status(400).send("bad data (server)")}
 	if (data.withQrId) {
@@ -126,7 +122,7 @@ app.post('/getInfo', /*isAdmin,*/ (req,res) => {
 	})
 })
 
-app.post('/getQrImage', /*isAdmin,*/ (req,res) => {
+app.post('/getQrImage', isAdmin, (req,res) => {
 	const data = req.body
 	if (!data || data.userId == undefined) {return res.status(400).send("bad data (server)")}
 	db.query(q.GET_QRCACHE, [data.userId], (err,result) => {
@@ -151,7 +147,7 @@ app.post('/getQrImage', /*isAdmin,*/ (req,res) => {
 	})
 })
 
-app.post('/create', /*isAdmin,*/ (req,res) => {
+app.post('/create', isAdmin, (req,res) => {
 	const data = req.body;
 	if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email) || !/^09\d{9}$/.test(data.phoneNumber) || !data.password ||!/^[1-6]\d{5}(0\d|1\d|2[0-5])\d{4}$/.test(data.lrn) || !data.lastName || data.lastName.length === 0 || !data.firstName || data.firstName.length === 0 || (typeof data.gradeLevel != undefined && data.gradeLevel.length != 0 && (data.gradeLevel < 7 || data.gradeLevel > 12)) || (typeof data.zip !== undefined && data.zip.length != 0 && !/^(0[4-9]|[1-9]\d)\d{2}$/.test(data.zip))) {return res.status(401).json({message: "bad data"});}
 	console.log(data);
@@ -170,7 +166,7 @@ app.post('/create', /*isAdmin,*/ (req,res) => {
 	})
 })
 
-app.post('/bulkCreate', /*isAdmin,*/ async (req,res) => {
+app.post('/bulkCreate', isAdmin, async (req,res) => {
 	let data = req.body.jsonData;
 	if (typeof data !== 'string' || data.length === 0) {return res.status(400).json();}
 	try {
@@ -224,7 +220,7 @@ app.post('/bulkCreate', /*isAdmin,*/ async (req,res) => {
 	res.status(201).json({message: "all goods"})
 })
 
-app.post('/remove/check', /*isAdmin,*/ limiter(10,1), (req,res) => {
+app.post('/remove/check', isAdmin, limiter(10,1), (req,res) => {
 	const data = req.body;
 	if (typeof data === undefined || typeof data.id === undefined || data.id == '') {return res.status(400).json({message: 'bad data'});}
 	db.query(q.REMOVE_ACCOUNT_CHECK, [data.id], (err,result) => {
@@ -234,7 +230,7 @@ app.post('/remove/check', /*isAdmin,*/ limiter(10,1), (req,res) => {
 	})
 })
 
-app.delete('/remove/confirm',/*isAdmin,*/ limiter(10,1), (req,res) => {
+app.delete('/remove/confirm', isAdmin, limiter(10,1), (req,res) => {
 	const data = req.body;
 	console.log(data);
 	if (typeof data.id === undefined || typeof data.id === '' || typeof data.lrn === undefined || data.lrn.length !== 12) {return res.status(400).json({message: 'bad data'});}

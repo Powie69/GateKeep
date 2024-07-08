@@ -7,18 +7,20 @@
 	<!--  -->
 	<link rel="preconnect" href="https://fonts.googleapis.com" defer>
 	<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded" rel="stylesheet" defer>
-	<link rel="icon" type="image/x-icon" href="assets/ico.ico" defer>
-	<link rel="stylesheet" href="css/normalize.css">
-	<link rel="stylesheet" href="assets/setup">
-	<link rel="stylesheet" href="assets/accounts.css">
+	<link rel="stylesheet" href="/css/normalize.css">
+	<link rel="stylesheet" href="/css/setup.css">
+	<link rel="stylesheet" href="/css/adminLogin.css">
 </head>
 <body>
 	<header class="heading">
 		<h1>Gatekeep</h1>
 		<p>Admin Panel</p>
 	</header>
-	<form class="form" onclick="event.preventDefault()">
-		<label>Enter Password <input type="text"></label>
+	<form class="form" onsubmit="submitLogin(event)">
+		<label>Enter Password <input type="password" name="password" required></label>
+		<button type="submit">Submit</button>
 	</form>
+
+	<script src="/js/adminLogin.js"></script>
 </body>
 </html>
