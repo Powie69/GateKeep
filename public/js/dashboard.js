@@ -98,28 +98,16 @@ function updateInfo() {
 	})
 }
 
-// gets data for 'view' dialog
-function updateViewDialog(data) {
-	for (var i in data) {
-		if (data[i] != undefined && i == "sex") {
-			if (data[i] == 1) {
-				document.querySelector('.view-sex p').innerText = "Male"
-			} else { document.querySelector('.view-sex p').innertext = "Female" }
-			continue;
-		}
-		if (data[i] != undefined) {document.querySelector(`.view-${i} p`).innerText = data[i]}
-	}
-}
 
 // view-info dialog
 function viewShow() {
-	if (window.innerWidth <= 600) {
-		window.location.href = "./viewInfo.html"
-	} else {
-		document.querySelector(".view").showModal()
-		fetchInfo()
-		.then(data => { updateViewDialog(data) })
-	}
+	// if (window.innerWidth <= 600) {
+	// 	window.location.href = "./viewInfo.html"
+	// } else {
+	// 	document.querySelector(".view").showModal()
+	// 	fetchInfo()
+	// 	.then(data => { updateViewDialog(data) })
+	// }
 }
 
 updateInfo()

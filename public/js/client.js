@@ -10,7 +10,7 @@ if ('serviceWorker' in navigator) {
 
 document.querySelector(".main").style.setProperty('background', `url(images/circles/${Math.floor(Math.random() * 10) + 1}.svg) no-repeat top left / cover`)
 document.querySelector("._logout").addEventListener("click", () => {
-	fetch('http://localhost:3000/profile/logout', {
+	fetch('/profile/logout', {
 	method: 'post',
 	credentials: 'include'
 })
@@ -43,7 +43,7 @@ function lazyLogin() {
 	headers: {
 		'Content-Type': 'application/json'
 	  },
-	body: '{ "username": "godwin@gmail.com", "lrn": "123456789011", "password": "123" }'
+	body: '{ "username": "godwin@gmail.com", "lrn": "123456189011", "password": "123" }'
 	})
 	.then(response => {
 		if (response.status >= 400) {console.warn("wong (client)"); return;} else { return response.json() }
