@@ -3,6 +3,8 @@ async function submitLogin(event) {
 	try {
 		const data = Object.fromEntries(new FormData(event.target).entries())
 
+		if (typeof data.password === 'undefined') {return;}
+		
 		const response = await fetch('/admin/login', {
 			method: 'POST',
 			headers: {
