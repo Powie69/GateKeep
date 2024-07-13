@@ -52,7 +52,6 @@ function lazyLogin() {
 	.catch(error => { console.error(error); });
 }
 
-
 async function loginSubmit(event) {
     event.preventDefault();
     try {

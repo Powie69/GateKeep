@@ -5,8 +5,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>dashboard | Gatekeep</title>
 	<!--  -->
-	<link rel="icon" type="image/x-icon" href="../images/ico.ico">
-	<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded" rel="stylesheet" defer/>
+	<link defer href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded" rel="stylesheet">
 	<link rel="stylesheet" href="css/normalize.css">
     <link rel="stylesheet" href="css/setup.css">
     <link rel="stylesheet" href="css/styles.css">
@@ -28,36 +27,6 @@
 			<li><button class="_logout"><i class="material-symbols-rounded">Account_Circle</i></button></li>
 		</ul>
 	</header>
-	<dialog class="view">
-		<header><h4>view all info</h4></header>
-		<div class="view-contain">
-			<fieldset class="view-general">
-				<legend>General infomation</legend>
-				<div class="view-general-grid">
-					<label class="view-lastName">Last Name: <p></p></label>
-					<label class="view-lrn">LRN: <p></p></label>
-					<label class="view-firstName">first Name: <p></p></label>
-					<label class="view-age">age: <p></p></label>
-					<label class="view-middleName">middle Name: <p></p></label>
-					<label class="view-sex">sex: <p></p></label>
-				</div>
-			</fieldset>
-			<fieldset class="view-addres">
-				<legend>Address</legend>
-				<div class="view-address-grid">
-					<label class="view-houseNo">House No. <p></p></label>
-					<label class="view-street">Street Name: <p></p></label>
-					<label class="view-zip">zip code: <p></p></label>
-					<label class="view-barangay">Barangay: <p></p></label>
-					<label class="view-city">Municipality/City: <p></p></label>
-					<label class="view-province">Province: <p></p></label>
-				</div>
-			</fieldset>
-		</div>
-		<div class="view-buttons">
-			<button tabindex="0" onclick="document.querySelector('.view').close()">Close</button>
-		</div>
-	</dialog>
 	<main class="main">
 		<article class="logs">
 			<header><h1>Logs</h1></header>
@@ -71,22 +40,23 @@
 			</div>
 		</article>
 		<article class="info">
-			<header><h2>Info</h2></header>
+			<header class="info-header">
+				<h2>Info</h2>
+				<div class="info-header-buttons">
+					<button>click</button>
+					<button><i class="material-symbols-rounded" aria-hidden="true">keyboard_arrow_down</i></button>
+				</div>
+			</header>
 			<div class="info-contain">
-				<label class="lastName">Last Name: <p></p></label>
-				<label class="firstName">first Name: <p></p></label>
-				<label class="middleName">middle Name: <p></p></label>
-				<label class="lrn">LRN: <p></p></label>
-				<label class="age">age: <p></p></label>
-				<label class="sex">sex: <p></p></label>
-				<!-- <p id="placeBirth"></p> -->
-				<!-- Address -->
-			</div>
-			<div class="info-buttons">
-				<ul>
-					<li><button tabindex="0" onclick="viewShow()"><i class="material-symbols-rounded">preview</i>view all info</button></li>
-					<li><button tabindex="0" onclick="updateShow()"><i class="material-symbols-rounded">edit</i>edit info</button></li>
-				</ul>
+				<fieldset>
+					<legend>Name</legend>
+					<label><span></span></label>
+				</fieldset>
+				<fieldset>
+					<legend>school info</legend>
+					<label><span></span></label>
+					
+				</fieldset>
 			</div>
 		</article>
 		<article class="qr">

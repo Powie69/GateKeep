@@ -88,78 +88,21 @@
 
 /* *info */
 
-.info { grid-area: info; }
-
-.info h2 {
-	font-size: 1.5rem;
-	margin: .3rem 0;
-	font-weight: 600;
-	text-align: center;
-}
-
-.info-contain {
-	display: grid;
-	grid-template-columns: repeat(2, 1fr);
-	grid-template-rows: repeat(3, 1fr);
-	gap: .3rem;
-	grid-template-areas:
-    "lastName lrn"
-    "firstName age"
-    "middleName sex"
-}
-
-.lastName { grid-area: lastName; }
-.firstName { grid-area: firstName; }
-.middleName { grid-area: middleName; }
-.suffixName { grid-area: suffixName; }
-.lrn { grid-area: lrn; }
-.birthdate { grid-area: birthdate; }
-.age { grid-area: age; }
-.sex { grid-area: sex; }
-
-.info-contain label {
-	font-size: 1rem;
-}
-
-.info-contain label p {
-	display: block;
-	height: calc(1rem + 2px);
-	overflow: hidden;
-	margin: 5px 0;
-	padding: 4px;
-	text-overflow: ellipsis;
-	border-radius: 4px;
-	background-color: #fff;
-	color: #000;
-}
-
-.info-buttons ul {
+.info-header {
 	display: flex;
 	justify-content: center;
-	gap: 1rem;
-	margin: 5px 0;
-	color: var(--c-text);
+	align-items: center;
+	position: relative;
 }
 
-.info-buttons ul li {
-	padding: 8px 4px;
-	background-color: var(--c-1st);
-	border-radius: 14px;
+.info-header h2 {
+	position: absolute;
+	left: 50%;
+	transform: translateX(-50%);
 }
 
-.info-buttons ul li button {
-	background-color: transparent;
-	border: none;
-	width: 100%;
-	height: 100%;
-}
-
-.info-buttons ul li button i{
-	font-size: 1.3rem;
-}
-
-.info-buttons button:hover {
-	text-decoration: underline;
+.info-header-buttons {
+	margin-left: auto;
 }
 
 /* *qr */
@@ -199,91 +142,6 @@
 }
 
 .qr-buttons button:hover {
-	text-decoration: underline;
-}
-
-/* *view */
-
-.view {
-	width: 60%;
-	border: none;
-	padding: 1rem;
-	box-shadow: rgb(2, 9, 15) 0px 30px 40px -10px;
-	border-radius: 14px;
-	background-color: var(--c-content);
-}
-
-.view::backdrop {
-	backdrop-filter: blur(4px);
-}
-
-.view header h4 {
-	font-size: 1.8rem;
-	margin: 1rem auto;
-	font-weight: 600;
-	text-align: center;
-}
-
-.view fieldset {
-	box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
-	border: #3e3e3e 3px dashed;
-	border-radius: 14px;
-}
-
-.view fieldset legend{
-	margin: 0 auto;
-	margin-top: 1.5rem;
-	font-size: 1rem;
-	color: var(--c-text);
-}
-
-.view-general-grid {
-	display: grid;
-	grid-template-columns: repeat(2, 1fr);
-	grid-template-rows: repeat(3, 1fr);
-	gap: .3rem;
-}
-
-.view-address-grid {
-	display: grid;
-	gap: .3rem;
-	grid-template-columns: repeat(3, 1fr);
-	grid-template-rows: repeat(2, 1fr);
-}
-
-.view-contain label {
-	font-size: 1rem;
-	width: 95%;
-}
-
-.view-contain label p {
-	height: 18.4px;
-	display: block;
-	margin: 5px 0;
-	padding: 4px 2px;
-	border-radius: 4px;
-	background-color: #fff;
-	color: #000;
-}
-
-.view-buttons {
-	display: flex;
-	justify-content: center;
-	gap: 1rem;
-	margin: 5px 0;
-	/* color: var(--c-text); */
-}
-
-.view-buttons button {
-	height: 100%;
-	width: 15%;
-	padding: 8px 4px;
-	border: none;
-	border-radius: 14px;
-	background-color: var(--c-1st);
-}
-
-.view-buttons button:hover {
 	text-decoration: underline;
 }
 
