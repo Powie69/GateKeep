@@ -10,18 +10,20 @@
 - [X] SSL certificate
 - [X] qr scanner
 - [X] account managment dasbaord
+- [ ] command line
 
 ##
 
 
+- [ ] redis for counting logged in users
 - [X] fix qr generation cuz it broke
 - [X] separate mysql commands
-- [ ] panel login stuff
+- [X] panel login stuff
 - [X] move client folder to '/public'
 - [X] Create account
 - [X] Create account with Bulk google forms stuff
 - [X] env everything
-- [X] about,help section
+- [ ] about,help section (agian)
 - [X] info form html/js stuff
 - [X] fix stupid form shit (not implemented for everything yet)
 - [ ] box shadow
