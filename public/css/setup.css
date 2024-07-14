@@ -2,6 +2,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Noto+Color+Emoji&family=Permanent+Marker&display=swap');
 :root {
 	--c-text: #fefae0ff;
+	--c-text-dark: #b0a783;
 	--c-highlight: #7C88D4;
 	--c-content: #2e2e2e;
 	--c-background: #1e1e1e;

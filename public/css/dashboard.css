@@ -1,5 +1,6 @@
 :root {
 	--c-text: #fefae0ff;
+	--c-text-dark: #b0a783;
 	--c-highlight: #7C88D4;
 	--c-content: #2e2e2e;
 	--c-background: #1e1e1e;
@@ -35,6 +36,19 @@
 	border-radius: 14px;
 	background-color: var(--c-content);
 }
+
+/* *dropdown */
+.dropdown-contain ul{
+	padding: .3rem;
+	margin: 0;
+	display: none;
+	position: absolute;
+	top: 2rem;
+	right: .5rem;
+	background-color: #3e3e3e;
+	border-radius: 14px;
+}
+/*  */
 
 /* *logs */
 
@@ -103,6 +117,17 @@
 
 .info-header-buttons {
 	margin-left: auto;
+	display: flex;
+}
+
+.info-header-buttons button {
+	background: none;
+	border: none;
+}
+
+.info-header-buttons button:hover {
+	color: var(--c-text-dark)
+
 }
 
 /* *qr */

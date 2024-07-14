@@ -24,6 +24,7 @@
 		<ul class="header-buttons">
 			<li><button><i class="material-symbols-rounded">accessibility_new</i></button></li>
 			<li><button><i class="material-symbols-rounded">Language</i></button></li>
+			<li><button class="_mobileOnly"><i class="material-symbols-rounded">menu</i></button></li>
 			<li><button class="_logout"><i class="material-symbols-rounded">Account_Circle</i></button></li>
 		</ul>
 	</header>
@@ -43,19 +44,33 @@
 			<header class="info-header">
 				<h2>Info</h2>
 				<div class="info-header-buttons">
-					<button>click</button>
-					<button><i class="material-symbols-rounded" aria-hidden="true">keyboard_arrow_down</i></button>
+					<div class="dropdown">
+						<button class="info-header-buttons-dropdown dropdown-button" isDropdownOpen="false" onclick="handleDropdown(this)" type="button"><i class="material-symbols-rounded" aria-hidden="true">more_vert</i></button>
+						<div class="dropdown-contain">
+							<ul>
+								<li><button onclick="event.preventDefault()">do stuff</button></li>
+								<li><button onclick="event.preventDefault()">do stuff</button></li>
+							</ul>
+						</div>
+					</div>
+					<button class="_mobileOnly"><i class="material-symbols-rounded" aria-hidden="true">keyboard_arrow_down</i></button>
 				</div>
 			</header>
+			
 			<div class="info-contain">
 				<fieldset>
 					<legend>Name</legend>
 					<label><span></span></label>
 				</fieldset>
 				<fieldset>
-					<legend>school info</legend>
+					<legend>School info</legend>
+					<label>Grade Level:<span></span></label>
+					<label>Section:<span></span></label>
+					<label>LRN:<span></span></label>
+				</fieldset>
+				<fieldset>
+					<legend>Address</legend>
 					<label><span></span></label>
-					
 				</fieldset>
 			</div>
 		</article>

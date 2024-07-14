@@ -1,7 +1,7 @@
 var messageCount = 0;
 let getMessageDebounce = true;
 const msgElement = document.querySelector(".logs-item_template");
-const dialogElements = document.querySelectorAll(".update, .view");
+// const sectionElements = document.querySelectorAll('.info')
 
 // fetch
 function fetchInfo() {
@@ -81,23 +81,22 @@ function updateMessage(data) {
 	}
 }
 
-function updateInfo() {
-	fetchInfo()
-	.then(data => {
-		if (!data) {return}
-		if (data.lastName) {document.querySelector(".lastName p").innerText = data.lastName;}
-		if (data.firstName) {document.querySelector(".firstName p").innerText = data.firstName; msgElement.content.querySelector("._name").innerText = data.firstName}
-		if (data.middleName) {document.querySelector(".middleName p").innerText = data.middleName;}
-		if (data.lrn) {document.querySelector(".lrn p").innerText = data.lrn;}
-		if (data.age) {document.querySelector(".age p").innerText = data.age;}
-		if (data.sex != undefined) {
-			if (data.sex == 1) {
-				document.querySelector(".sex p").innerText = "Male";
-			} else {document.querySelector(".sex p").innerText = "Female";}
-		}
-	})
-}
-
+// function updateInfo() {
+// 	fetchInfo()
+// 	.then(data => {
+// 		if (!data) {return}
+// 		if (data.lastName) {document.querySelector(".lastName p").innerText = data.lastName;}
+// 		if (data.firstName) {document.querySelector(".firstName p").innerText = data.firstName; msgElement.content.querySelector("._name").innerText = data.firstName}
+// 		if (data.middleName) {document.querySelector(".middleName p").innerText = data.middleName;}
+// 		if (data.lrn) {document.querySelector(".lrn p").innerText = data.lrn;}
+// 		if (data.age) {document.querySelector(".age p").innerText = data.age;}
+// 		if (data.sex != undefined) {
+// 			if (data.sex == 1) {
+// 				document.querySelector(".sex p").innerText = "Male";
+// 			} else {document.querySelector(".sex p").innerText = "Female";}
+// 		}
+// 	})
+// }
 
 // view-info dialog
 function viewShow() {
@@ -110,18 +109,55 @@ function viewShow() {
 	// }
 }
 
-updateInfo()
+// updateInfo()
 fetchQrcode()
 
 fetchMessages(10, messageCount)
 .then(data => { updateMessage(data)})
 
-dialogElements.forEach(element => {
-	element.addEventListener("click", e => {
-		const dialogDimensions = element.getBoundingClientRect()
-		if (e.clientX < dialogDimensions.left ||e.clientX > dialogDimensions.right ||e.clientY < dialogDimensions.top ||e.clientY > dialogDimensions.bottom) {element.close()}
+// 
+
+function handleDropdown(element) {
+	// console.log(element.attributes.isDropdownOpen.value);
+	if (element.attributes.isDropdownOpen.value === 'false') {
+		element.setAttribute('isDropdownOpen', 'true')
+		element.nextElementSibling.querySelector('ul').style.display = 'inline';
+	} else if (element.attributes.isDropdownOpen.value === 'true') {
+		element.setAttribute('isDropdownOpen', 'false')
+		element.nextElementSibling.querySelector('ul').style.removeProperty('display');
+	} else {
+		console.warn('dropdown out of sync. refresh page.');
+	}
+}
+
+document.addEventListener('click',event => {
+	if (event.target.closest('.dropdown-contain') || event.target.closest('.dropdown-button') || document.querySelector('.dropdown-button').attributes.isDropdownOpen.value === 'false') {
+		return
+	}
+	document.querySelectorAll('.dropdown').forEach(element => {
+		element.querySelector('.dropdown-contain ul').style.removeProperty('display');
+		element.querySelector('.dropdown-button').setAttribute('isDropdownOpen', 'false');
 	})
-});
+})
+
+// function closeAllDropdowns() {
+// 	const dropdowns = document.querySelectorAll('.dropdown');
+// 	dropdowns.forEach(item => {
+// 		const dropdownContain = item.querySelector('.dropdown-contain');
+// 		dropdownContain.style.removeProperty('display');
+// 		item.querySelector('.dropdown-button').setAttribute('isDropdownOpen', 'false');
+// 	});
+// }
+
+// document.addEventListener('click', function(event) {
+// 	const isClickInsideDropdown = event.target.closest('.dropdown');
+	
+// 	if (!isClickInsideDropdown) {
+// 		closeAllDropdowns();
+// 	}
+// });
+
+// TODO: close dropdown when clicked outside of button or container
 
 // get messages when scrolling
 document.querySelector(".logs-container").addEventListener('scrollend', function(){
