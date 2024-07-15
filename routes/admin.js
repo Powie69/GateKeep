@@ -20,8 +20,8 @@ app.get('/',(req,res,next) => {
 })
 
 app.post('/login', limiter(10,1),(req,res) => {
-	if (req.body.password != process.env.adminPassword) {res.status(401).json({message: "no."}); return; }
-	// console.log("big success");
+	if (req.body.password != process.env.adminPassword) {return res.status(401).json({message: "no."});}
+	req.session.cookie.maxAge = 50400000; // 14 hours
 	req.session.isAdmin = true;
 	res.status(200).json({message:'success'})
 })

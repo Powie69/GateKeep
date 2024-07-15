@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const path = require('path')
 const session = require('express-session');
 const cors = require('cors');
+const MySQLStore = require('express-mysql-session')(session);
 const app = express();
 
 // *middleware stuff
@@ -12,13 +13,25 @@ app.use(cors({ origin: process.env.corsOrigin.split(','), /*credentials: true*/ 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+const sessionStore = new MySQLStore({
+	host: process.env.dbHost,
+    user: process.env.dbUser,
+    password: process.env.dbPassword,
+    database: process.env.dbName,
+	clearExpired: true,
+	checkExpirationInterval: 1209600000, // 2 wekks
+	expiration: 2419200000, // 4 weeks
+	createDatabaseTable: false
+});
+
 app.use(session({
     secret: process.env.cookieSecret,
 	saveUninitialized: false,
 	resave: false,
 	unset: 'destroy',
+	store: sessionStore,
 	cookie: {
-		maxAge: 3600000, // 1 hour
+		maxAge: 2419200000, // 4 weeks
 		// httpOnly: false,
 		// secure: true,
 		sameSite: 'strict'
