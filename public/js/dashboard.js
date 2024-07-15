@@ -118,46 +118,27 @@ fetchMessages(10, messageCount)
 // 
 
 function handleDropdown(element) {
-	// console.log(element.attributes.isDropdownOpen.value);
 	if (element.attributes.isDropdownOpen.value === 'false') {
 		element.setAttribute('isDropdownOpen', 'true')
-		element.nextElementSibling.querySelector('ul').style.display = 'inline';
+		element.nextElementSibling.querySelector('menu').style.display = 'inline';
 	} else if (element.attributes.isDropdownOpen.value === 'true') {
 		element.setAttribute('isDropdownOpen', 'false')
-		element.nextElementSibling.querySelector('ul').style.removeProperty('display');
+		element.nextElementSibling.querySelector('menu').style.removeProperty('display');
 	} else {
 		console.warn('dropdown out of sync. refresh page.');
 	}
 }
 
+// closes dropdown when clicked outside of container
 document.addEventListener('click',event => {
 	if (event.target.closest('.dropdown-contain') || event.target.closest('.dropdown-button') || document.querySelector('.dropdown-button').attributes.isDropdownOpen.value === 'false') {
 		return
 	}
 	document.querySelectorAll('.dropdown').forEach(element => {
-		element.querySelector('.dropdown-contain ul').style.removeProperty('display');
+		element.querySelector('.dropdown-contain menu').style.removeProperty('display');
 		element.querySelector('.dropdown-button').setAttribute('isDropdownOpen', 'false');
 	})
 })
-
-// function closeAllDropdowns() {
-// 	const dropdowns = document.querySelectorAll('.dropdown');
-// 	dropdowns.forEach(item => {
-// 		const dropdownContain = item.querySelector('.dropdown-contain');
-// 		dropdownContain.style.removeProperty('display');
-// 		item.querySelector('.dropdown-button').setAttribute('isDropdownOpen', 'false');
-// 	});
-// }
-
-// document.addEventListener('click', function(event) {
-// 	const isClickInsideDropdown = event.target.closest('.dropdown');
-	
-// 	if (!isClickInsideDropdown) {
-// 		closeAllDropdowns();
-// 	}
-// });
-
-// TODO: close dropdown when clicked outside of button or container
 
 // get messages when scrolling
 document.querySelector(".logs-container").addEventListener('scrollend', function(){

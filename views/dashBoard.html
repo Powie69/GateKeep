@@ -45,38 +45,37 @@
 				<h2>Info</h2>
 				<div class="info-header-buttons">
 					<div class="dropdown">
-						<button class="info-header-buttons-dropdown dropdown-button" isDropdownOpen="false" onclick="handleDropdown(this)" type="button"><i class="material-symbols-rounded" aria-hidden="true">more_vert</i></button>
+						<button class="info-header-buttons-dropdown dropdown-button" isDropdownOpen="false" onclick="handleDropdown(this)" aria-label="more options" aria-haspopup="menu" type="button"><i class="material-symbols-rounded" aria-hidden="true">more_vert</i></button>
 						<div class="dropdown-contain">
-							<ul>
+							<menu>
 								<li><button onclick="event.preventDefault()">do stuff</button></li>
 								<li><button onclick="event.preventDefault()">do stuff</button></li>
-							</ul>
+							</menu>
 						</div>
 					</div>
 					<button class="_mobileOnly"><i class="material-symbols-rounded" aria-hidden="true">keyboard_arrow_down</i></button>
 				</div>
 			</header>
-			
 			<div class="info-contain">
 				<fieldset>
 					<legend>Name</legend>
-					<label><span></span></label>
+					<label class="info-contain-item-label"><span class="info-contain-item-span"></span></label>
 				</fieldset>
-				<fieldset>
+				<fieldset class="info-contain-item_school">
 					<legend>School info</legend>
-					<label>Grade Level:<span></span></label>
-					<label>Section:<span></span></label>
-					<label>LRN:<span></span></label>
+					<label class="info-contain-item-label">Grade Level:<span class="info-contain-item-span"></span></label>
+					<label class="info-contain-item-label">Section:<span class="info-contain-item-span"></span></label>
+					<label class="info-contain-item-label">LRN:<span class="info-contain-item-span"></span></label>
 				</fieldset>
 				<fieldset>
 					<legend>Address</legend>
-					<label><span></span></label>
+					<label class="info-contain-item-label"><span class="info-contain-item-span"></span></label>
 				</fieldset>
 			</div>
 		</article>
 		<article class="qr">
-			<header><h3>QR code</h3></header>
 			<div class="qr-contain">
+				<header><h3>QR code</h3></header>
 				<img src="" alt="" class="qr-img">
 
 				<!-- <div class="qr-buttons">
