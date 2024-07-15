@@ -25,10 +25,11 @@
 	grid-template-areas:
     "logs info"
     "logs qr";
-	/* height: 80vh; */
-	width: calc(100% - 4rem);
-	height: calc(100vh - 6.75rem);
+	width: 100%;
+	height: calc(100vh - 5rem);
 	padding: 1rem 2rem;
+	box-sizing: border-box;
+	overflow: auto;
 }
 
 .main article {
@@ -55,6 +56,9 @@
 .logs {
 	grid-area: logs;
 	padding: .5rem !important;
+	height: 100%;
+	overflow: hidden;
+	box-sizing: border-box;
 }
 
 .logs h1 {
