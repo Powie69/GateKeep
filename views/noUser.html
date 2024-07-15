@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>not logged in | Gatekeep</title>
+	<!--  -->
+	<link defer href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded" rel="stylesheet">
+	<link rel="stylesheet" href="/css/normalize.css">
+    <link rel="stylesheet" href="/css/setup.css">
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/noUser.css">
+</head>
+<body>
+	<header class="header">
+		<a class="header-logo" href="."><img src="../images/logo.png" alt=""></a>
+		<nav class="header-nav">
+			<ul>
+				<li><a href="../#About">About</a></li>
+				<li><a href="">Help</a></li>
+			</ul>
+		</nav>
+		<ul class="header-buttons">
+			<li><button class="" aria-label="accessibility_new"><i class="material-symbols-rounded" aria-hidden="true">accessibility_new</i></button></li>
+			<li><button class="_mobileOnly" aria-label="menu"><i class="material-symbols-rounded" aria-hidden="true">menu</i></button></li>
+			<li><button class="_logout"><i class="material-symbols-rounded" aria-hidden="true">Account_Circle</i></button></li>
+		</ul>
+	</header>
+	<main class="main">
+		<h1>Not logged in</h1>
+		<nav class="main-nav">
+			<ul>
+				<li><a href="/">Home</a></li>
+				<li><a href="/register">Register</a></li>
+				<li><a href="/help">Help</a></li>
+			</ul>
+		</nav>
+		<form onsubmit="loginSubmit(event)" class="main-form" id="form-login">
+			<h2>Login</h2>
+			<label>Email or Phone number <span class="main-form-invalid _hidden">Invalid</span><br> <input type="email" required pattern="[^\s@]+@[^\s@]+\.[^\s@]+" name="username"></label>
+			<label>LRN <span class="main-form-invalid _hidden">Invalid</span><br> <input type="text" required pattern="[1-6]\d{5}(0\d|1\d|2[0-5])\d{4}" name="lrn"></label>
+			<label>Password <span class="main-form-invalid _hidden">Invalid</span><br> <input type="password" required name="password"></label>
+			<span class="main-form-message _noDisplay">Too many request, Try agian later</span>
+			<button class="main-form-submit" tabindex="0">Login</button>
+			<span class="main-form-redirect">Don't have an account? <a href="?signup">Register</a></span>
+		</form>
+	</main>
+
+	<script src="/js/noUser.js"></script>
+</body>
+</html>

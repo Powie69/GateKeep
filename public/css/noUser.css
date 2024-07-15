@@ -1,0 +1,127 @@
+.main {
+	align-items: center;
+	width: 50vw;
+	margin: 0 auto;
+}
+
+.main h1 {
+	font-size: 3rem;
+	margin: 3rem 0;
+	text-align: center;
+
+}
+
+.main-nav ul {
+	display: flex;
+	justify-content: space-around;
+	width: 50%;
+	margin: 0 auto;
+	text-align: center;
+}
+
+.main-nav ul li a {
+	color: var(--c-highlight);
+	text-decoration: underline;
+}
+
+.main-nav ul li a:hover {
+	text-decoration: none;
+}
+
+/* *login form */
+
+.main-form {
+	position: relative;
+	left: 50%;
+	transform: translatex(-50%);
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+	place-items: center;
+	width: 65%;
+	margin: 1.5rem 0;
+	padding: 1rem;
+	box-shadow: inset 0px 0px 15px 10px rgba(0, 0, 0, .25);
+	border-radius: 14px;
+	background-color: var(--c-content);
+}
+
+.main-form h2 {
+	margin: 1rem 0;
+	text-align: center;
+	font-size: 1.5rem;
+}
+
+.main-form label {
+	display: block;
+	width: 80%;
+}
+
+.main-form-invalid {
+	color: red;
+	font-size: 90%;
+	font-style: italic;
+}
+
+.main-form input{
+	display: block;
+	height: 30px;
+	width: 100%;
+	margin-top: 4px;
+	border: none;
+	padding: 0 10px;
+	box-sizing: border-box;
+	border-radius: 4px;
+	box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+}
+
+.main-form label:has(input:user-invalid) > .main-form-invalid{
+	visibility: visible;
+}
+
+.main-form-message {
+	margin: 3px 0;
+	color: red;
+	text-align: center;
+	font-size: calc(1rem - 10%);
+}
+
+.main-form-submit {
+	width: 70%;
+	height: 30px;
+	border: none;
+	border-radius: 4px;
+	background-color: var(--c-1st);
+}
+
+.main-form-submit:hover {
+	text-decoration: underline;
+}
+
+.main-form-submit:focus {
+	outline: 3px var(--c-highlight) solid;
+}
+
+.main-form-redirect a {
+	color: var(--c-highlight);
+	text-decoration: underline;
+}
+
+.main-form-redirect a:hover {
+	text-decoration: none;
+}
+
+/*  */
+@media only screen and (max-width: 600px) {
+	.main {
+		width: 90vw;
+	}
+
+	.main-nav ul {
+		width: 85%;
+	}
+
+	.main-form {
+		width: 95;
+	}
+}
