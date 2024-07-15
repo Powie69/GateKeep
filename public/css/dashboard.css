@@ -73,6 +73,7 @@
 	overflow-y: auto;
 	scroll-snap-type: y mandatory;
 	scrollbar-width: thin;
+	z-index: 10;
 }
 
 /* doesn't work on my client */
@@ -114,6 +115,7 @@
 	position: absolute;
 	left: 50%;
 	transform: translateX(-50%);
+	margin: 0;
 	font-size: 2rem;
 }
 
@@ -129,7 +131,6 @@
 
 .info-header-buttons button:hover {
 	color: var(--c-text-dark)
-
 }
 
 .info-contain {
@@ -170,42 +171,50 @@
 
 /* *qr */
 
-.qr { grid-area: qr; }
+.qr { 
+	position: relative;
+	grid-area: qr; 
+}
 
-.qr h3 {
-	font-size: 2rem;
+.qr-header {
+	display: flex;
+	justify-content: center;
+	align-items: center;
 	margin: .5rem 0;
-	text-align: center;
+}
+
+.qr-header h3 {
+	position: absolute;
+	left: 50%;
+	transform: translateX(-50%);
+	margin: 0;
+	font-size: 2rem;
+}
+
+.qr-header-buttons {
+	margin-left: auto;
+	display: flex;
+}
+
+.qr-header-buttons button {
+	background: none;
+	border: none;
+}
+
+.qr-header-buttons button:hover {
+	color: var(--c-text-dark)
 }
 
 .qr-contain {
-	gap: 1rem;
+	display: flex;
+	justify-content: center;
 }
 
-.qr-img {
-	position: relative;
-	left: 50%;
-	transform: translateX(-50%);
+.qr-contain-img {
 	width: 25%;
+	margin: 1rem 0;
 	border-radius: 14px;
 	aspect-ratio: 1 / 1;
-}
-
-.qr-buttons {
-	display: flex;
-	flex-direction: column;
-	gap: .5rem;
-}
-
-.qr-buttons button {
-	border: none;
-	padding: 4px 8px;
-	border-radius: 4px;
-	background-color: #3e3e3e;
-}
-
-.qr-buttons button:hover {
-	text-decoration: underline;
 }
 
 /* small screens */
@@ -232,12 +241,8 @@
 		display: block;
 	}
 
-	.qr-img {
+	.qr-contain-img {
 		width: 75%;
 		align-self: center;
-	}
-	.qr-contain {
-		flex-direction: column;
-		padding-bottom: 1rem;
 	}
 }

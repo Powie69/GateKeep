@@ -53,7 +53,7 @@
 							</menu>
 						</div>
 					</div>
-					<button class="_mobileOnly"><i class="material-symbols-rounded" aria-hidden="true">keyboard_arrow_down</i></button>
+					<button class="_mobileOnly" aria-label="hide or show Section"><i class="material-symbols-rounded" aria-hidden="true">keyboard_arrow_down</i></button>
 				</div>
 			</header>
 			<div class="info-contain">
@@ -74,15 +74,20 @@
 			</div>
 		</article>
 		<article class="qr">
-			<div class="qr-contain">
-				<header><h3>QR code</h3></header>
-				<img src="" alt="" class="qr-img">
-
-				<!-- <div class="qr-buttons">
-					<button tabindex="0"><i class="material-symbols-rounded">qr_code</i> Update QR code</button>
-					<button tabindex="0"><i class="material-symbols-rounded">print</i> Print QR code (but why tho)</button>
-				</div> -->
-			</div>
+			<header class="qr-header">
+				<h3>QR code</h3>
+				<div class="qr-header-buttons">
+					<div class="dropdown">
+						<button class="info-header-buttons-dropdown dropdown-button" isDropdownOpen="false" onclick="handleDropdown(this)" aria-label="more options" aria-haspopup="menu" type="button"><i class="material-symbols-rounded" aria-hidden="true">more_vert</i></button>
+						<div class="dropdown-contain">
+							<menu>
+								<li><button onclick="event.preventDefault()">Print QR code</button></li>
+							</menu>
+						</div>
+					</div>
+				</div>
+			</header>
+		<div class="qr-contain"><img src="" alt="" class="qr-contain-img"></div>
 		</article>
 	</main>
 

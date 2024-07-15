@@ -54,7 +54,7 @@ function fetchQrcode() {
 		}
 	})
 	.then(data => {
-		document.querySelector(".qr-img").src = URL.createObjectURL(data);
+		document.querySelector(".qr-contain-img").src = URL.createObjectURL(data);
 	})
 	.catch(error => { console.error(error); });
 }
@@ -124,8 +124,6 @@ function handleDropdown(element) {
 	} else if (element.attributes.isDropdownOpen.value === 'true') {
 		element.setAttribute('isDropdownOpen', 'false')
 		element.nextElementSibling.querySelector('menu').style.removeProperty('display');
-	} else {
-		console.warn('dropdown out of sync. refresh page.');
 	}
 }
 
