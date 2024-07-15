@@ -4,37 +4,30 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Gatekeep</title>
-	<meta name="description" content="Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quibusdam, minima!">
 	<meta name="theme-color" content="#5048ef">
-	<link rel="icon" type="image/x-icon" href="images/ico.ico" defer>
 	<link rel="manifest" href="assets/manifest.json">
 	<!--  -->
-	<link rel="preconnect" href="https://fonts.googleapis.com" defer>
-	<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded" rel="stylesheet" defer/>
-	<link rel="stylesheet" href="css/normalize.css">
-    <link rel="stylesheet" href="css/setup.css">
-    <link rel="stylesheet" href="css/styles.css">
-    <link rel="stylesheet" href="css/index.css">
-	<link rel="preconnect" href="http://localhost:3000">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded">
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<link rel="stylesheet" href="/css/normalize.css">
+    <link rel="stylesheet" href="/css/setup.css">
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/index.css">
 </head>
 <body>
-	<dialog class="logout" >
-		<button><i class="material-symbols-rounded">logout</i> <span>Logout</span></button>
-	</dialog>
 	<header class="header">
-		<a class="header-logo" href=""><img src="images/logo.webp" alt="website logo"></a>
-		<nav class="header-nav _desktopOnly">
+		<a class="header-logo" href="/"><img src="/images/logo.webp" alt="website logo"></a>
+		<nav class="header-nav">
 			<ul>
-				<li><a href="#">Home</a></li>
-				<li><a href="#About">About</a></li>
-				<li><a href="#Help">Help</a></li>
+				<li><a href="/About">About</a></li>
+				<li><a href="/Help">Help</a></li>
 			</ul>
 		</nav>
 		<ul class="header-buttons">
-			<li><button class="_desktopOnly"><i class="material-symbols-rounded">accessibility_new</i></button></li>
-			<li><button class="_desktopOnly"><i class="material-symbols-rounded">Language</i></button></li>
-			<li><button class="_mobileOnly"><i class="material-symbols-rounded">menu</i></button></li>
-			<li><button class="_desktopOnly _logout"><i class="material-symbols-rounded">Account_Circle</i></button></li>
+			<li><button class="" aria-label="Accessibility"><i class="material-symbols-rounded" aria-hidden="true">accessibility_new</i></button></li>
+			<li><button class="_mobileOnly" aria-label="Menu"><i class="material-symbols-rounded" aria-hidden="true">menu</i></button></li>
+			<li><button class="_logout" aria-label="Account options"><i class="material-symbols-rounded" aria-hidden="true">Account_Circle</i></button></li>
 		</ul>
 	</header>
 	<main class="main">

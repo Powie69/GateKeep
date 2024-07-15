@@ -157,7 +157,7 @@
 	position: relative;
 	margin: 2rem 0;
 	padding: 6rem 0;
-	background: url('../images/stacked-waves-haikei(5).svg') no-repeat left top / cover;
+	background: url('/images/stacked-waves-haikei(5).svg') no-repeat left top / cover;
 }
 
 .transition h2 {
