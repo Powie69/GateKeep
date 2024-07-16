@@ -7,7 +7,7 @@
 
 
 function parseGender(data) {
-	if (data === undefined || data === null || data.length === 0) {return}
+	if (typeof data === 'undefined' ||data === null|| data.length === 0) {return}
 	if (Number(data) === 1) {
 		return "Male";
 	} else if (Number(data) === 0) {

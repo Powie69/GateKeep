@@ -35,7 +35,7 @@ LEFT JOIN users ON userInfo.userId = users.id
 WHERE userInfo.userId = 1;
 
 -- @block
-SELECT userInfo.*, users.email, users.phoneNumber, users.password FROM userInfo LEFT JOIN users ON userInfo.userId = users.id WHERE userInfo.userId = ?;
+SELECT userInfo.*, users.email, users.phoneNumber, users.password FROM userInfo LEFT JOIN users ON userInfo.userId = users.id WHERE userInfo.userId = 1;
 
 -- @block
 SELECT userInfo.lastName, userInfo.firstName, users.lrn FROM users RIGHT JOIN userInfo ON userInfo.userId = users.id WHERE users.id = 1;

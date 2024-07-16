@@ -1,6 +1,7 @@
 var messageCount = 0;
 let getMessageDebounce = true;
 const msgElement = document.querySelector(".logs-item_template");
+const dialogElements = document.querySelectorAll('.viewDialog')
 
 function fetchMessages(limit, offset) {
 	if (!limit || offset == undefined || limit >= 25 || offset <= -1) { console.log("bad data (client)"); return;}
@@ -98,6 +99,13 @@ document.querySelector(".logs-container").addEventListener('scrollend', function
         }, 500);
 	}
 })
+
+dialogElements.forEach(element => {
+	element.addEventListener("click", e => {
+		const dialogDimensions = element.getBoundingClientRect()
+		if (e.clientX < dialogDimensions.left ||e.clientX > dialogDimensions.right ||e.clientY < dialogDimensions.top ||e.clientY > dialogDimensions.bottom) {element.close()}
+	})
+});
 
 document.querySelector("._logout").addEventListener("click", () => {
 	fetch('/profile/logout', {

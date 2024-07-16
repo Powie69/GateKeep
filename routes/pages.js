@@ -1,5 +1,6 @@
 const express = require('express');
 const {db} = require('../js/middleware.js');
+const {parseGender} = require('../js/utility.js')
 const q = require('../js/profileQuery.js')
 const app = express.Router();
 
@@ -16,13 +17,31 @@ app.get('/',(req,res) => {
 		} else {
 			data.name = `${data.firstName} ${data.middleName.charAt(0).toUpperCase()}. ${data.lastName}`;
 		}
+		console.log(data);
 		res.render('dashboard', {
 			displayName: data.firstName,
 			name: data.name,
 			gradeLevel: data.gradeLevel,
 			section: data.section,
 			lrn: data.lrn,
-			address: `${data.houseNo} ${data.street}, ${data.barangay}, ${data.city}`
+			address: `${data.houseNo} ${data.street}, ${data.barangay}, ${data.city}`,
+			// viewDialog
+			firstName: data.firstName,
+			lastName: data.lastName,
+			middleName: data.middleName,
+			age: data.age,
+			sex: parseGender(data.sex),
+			lrn: data.lrn,
+			gradeLevel: data.gradeLevel,
+			section: data.section,
+			barangay: data.barangay,
+			city: data.city,
+			province: data.province,
+			zip: data.zip,
+			street: data.street,
+			houseNo: data.houseNo,
+			phoneNumber: data.phoneNumber,
+			email: data.email
 		})
 	})
 })

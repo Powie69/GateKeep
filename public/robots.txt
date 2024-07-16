@@ -36,6 +36,8 @@
 
 User-agent: *
 Disallow: 
+Disallow: /print
+Disallow: /requestedit
 Disallow: /admin
 Disallow: /root-access
 

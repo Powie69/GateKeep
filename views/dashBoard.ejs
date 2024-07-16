@@ -14,6 +14,38 @@
     <link rel="stylesheet" href="/css/dashboard.css">
 </head>
 <body>
+	<dialog class="viewDialog">
+		<div class="viewDialog-container">
+			<fieldset class="viewDialog-container-person">
+				<label>Last Name: <span class="viewDialog-container-lastName"><%= lastName %></span></label>
+				<label>First Name: <span class="viewDialog-container-firstName"><%= firstName %></span></label>
+				<label>Middle Name: <span class="viewDialog-container-middleName"><%= middleName %></span></label>
+				<label>Age: <span class="viewDialog-container-age"><%= age %></span></label>
+				<label>Sex: <span class="viewDialog-container-sex"><%= sex %></span></label>
+			</fieldset>
+			<fieldset class="viewDialog-container-school">
+				<label>LRN: <span class="viewDialog-container-lrn"><%= lrn %></span></label>
+				<label>Grade Level: <span class="viewDialog-container-gradeLevel"><%= gradeLevel %></span></label>
+				<label>Section: <span class="viewDialog-container-section"><%= section %></span></label>
+			</fieldset>
+			<fieldset class="viewDialog-container-address">
+				<label>Barangay: <span class="viewDialog-container-barangay"><%= barangay %></span></label>
+				<label>City/Municipality: <span class="viewDialog-container-city"><%= city %></span></label>
+				<label>Province: <span class="viewDialog-container-province"><%= province %></span></label>
+				<label>Zip: <span class="viewDialog-container-zip"><%= zip %></span></label>
+				<label>Street Name: <span class="viewDialog-container-street"><%= street %></span></label>
+				<label>House Number: <span class="viewDialog-container-houseNo"><%= houseNo %></span></label>
+			</fieldset>
+			<fieldset class="viewDialog-container-account">
+				<label>Phone Number: <span class="viewDialog-container-phoneNumber"><%= phoneNumber %></span></label>
+				<label>Email: <span class="viewDialog-container-email"><%= email %></span></label>
+				<label>Password: <span class="viewDialog-container-password">******</span></label>
+			</fieldset>
+			<fieldset class="viewDialog-container-buttons">
+				<button class="viewDialog-container-buttons-cancel" type="button" onclick="parentElement.parentElement.parentElement.close()">Close</button>
+			</fieldset>
+		</div>
+	</dialog>
 	<header class="header">
 		<a class="header-logo" href="/"><img src="/images/logo.webp" alt="website logo"></a>
 		<nav class="header-nav">
@@ -29,18 +61,18 @@
 		</ul>
 	</header>
 	<main class="main">
-		<article class="logs">
+		<section class="logs">
 			<header><h1>Logs</h1></header>
 			<div class="logs-container">
 				<template class="logs-item_template">
 					<div class="logs-item">
 						<p class="logs-item-title"><i class="material-symbols-rounded">Login</i> <span>IN</span></p>
-						<p class="logs-item-desc"><span class="_name"><%= displayName %></span> <span class="_isIn">arrived</span> at <span class="_time">0:00am</span> • <span class="_date">jan 0</span></p>
+						<p class="logs-item-desc"><span class="_name"><%= displayName %><%=  %></span> <span class="_isIn">arrived</span> at <span class="_time">0:00am</span> • <span class="_date">jan 0</span></p>
 					</div>
 				</template>
 			</div>
-		</article>
-		<article class="info">
+		</section>
+		<section class="info">
 			<header class="info-header">
 				<h2>Info</h2>
 				<div class="info-header-buttons">
@@ -48,8 +80,8 @@
 						<button class="info-header-buttons-dropdown dropdown-button" isDropdownOpen="false" onclick="handleDropdown(this)" aria-label="more options" aria-haspopup="menu" type="button"><i class="material-symbols-rounded" aria-hidden="true">more_vert</i></button>
 						<div class="dropdown-contain">
 							<menu>
-								<li><button onclick="event.preventDefault()">do stuff</button></li>
-								<li><button onclick="event.preventDefault()">do stuff</button></li>
+								<li><button onclick="document.querySelector('.viewDialog').showModal()" aria-haspopup="dialog">View all info</button></li>
+								<li><button onclick="event.preventDefault()">Request Edit</button></li>
 							</menu>
 						</div>
 					</div>
@@ -59,21 +91,21 @@
 			<div class="info-contain">
 				<fieldset>
 					<legend>Name</legend>
-					<label class="info-contain-item-label"><span class="info-contain-item-span"><%= name %></span></label>
+					<label class="info-contain-item-label"><span class="info-contain-item-span"><%= name %><%=  %></span></label>
 				</fieldset>
 				<fieldset class="info-contain-item_school">
 					<legend>School info</legend>
-					<label class="info-contain-item-label">Grade Level:<span class="info-contain-item-span"><%= gradeLevel %></span></label>
-					<label class="info-contain-item-label">Section:<span class="info-contain-item-span"><%= section %></span></label>
-					<label class="info-contain-item-label">LRN:<span class="info-contain-item-span"><%= lrn %></span></label>
+					<label class="info-contain-item-label">Grade Level:<span class="info-contain-item-span"><%= gradeLevel %><%=  %></span></label>
+					<label class="info-contain-item-label">Section:<span class="info-contain-item-span"><%= section %><%=  %></span></label>
+					<label class="info-contain-item-label">LRN:<span class="info-contain-item-span"><%= lrn %><%=  %></span></label>
 				</fieldset>
 				<fieldset>
 					<legend>Address</legend>
-					<label class="info-contain-item-label"><span class="info-contain-item-span"><%= address %></span></label>
+					<label class="info-contain-item-label"><span class="info-contain-item-span"><%= address %><%=  %></span></label>
 				</fieldset>
 			</div>
-		</article>
-		<article class="qr">
+		</section>
+		<section class="qr">
 			<header class="qr-header">
 				<h3>QR code</h3>
 				<div class="qr-header-buttons">
@@ -88,7 +120,7 @@
 				</div>
 			</header>
 			<div class="qr-contain"><img src="" alt="" class="qr-contain-img"></div>
-		</article>
+		</section>
 	</main>
 
 	<script src="../js/dashboard.js" defer></script>

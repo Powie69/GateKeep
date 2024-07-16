@@ -44,7 +44,7 @@
 	overflow: auto;
 }
 
-.main article {
+.main section {
 	padding: 0.5rem 1.5rem;
 	border-radius: 14px;
 	background-color: var(--c-content);
@@ -59,7 +59,7 @@
 	top: 2rem;
 	right: .5rem;
 	background-color: #3e3e3e;
-	border-radius: 14px;
+	border-radius: 8px;
 }
 /*  */
 
@@ -228,6 +228,111 @@
 	aspect-ratio: 1 / 1;
 }
 
+/** viewDialog */
+
+.viewDialog {
+	width: 65%;
+	height: fit-content;
+	border: none;
+	background-color: var(--c-content);
+	box-shadow: rgb(2, 9, 15) 0px 30px 40px -10px;
+	border-radius: 14px;
+}
+
+.viewDialog::backdrop {
+	backdrop-filter: blur(2px);
+}
+
+.viewDialog-container {
+	width: 100%;
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr .5fr;
+	gap: .5rem;
+	grid-template-areas:
+    "person person person person"
+    "person person person person"
+    "school school school school"
+    "address address address address"
+    "address address address address"
+	"account account account account"
+	". buttons buttons .";
+	box-sizing: border-box;
+	overflow-y: scroll;
+	scroll-snap-type: y mandatory;
+	scrollbar-width: thin;
+}
+
+.viewDialog-container fieldset {
+	justify-content: space-around;
+	gap: .5rem 1rem;
+	padding: .5rem 1rem;
+	border: #3e3e3e 2px dashed;
+	border-radius: 14px;
+	box-sizing: border-box;
+}
+
+.viewDialog-container fieldset label {
+	width: 100%;
+	box-sizing: border-box;
+}
+
+.viewDialog-container fieldset label span {
+	display: block;
+	min-height: 1.3rem;
+	width: 100%;
+	padding: 4px 8px;
+	margin: 4px 0;
+	box-sizing: border-box;
+	background-color: #fff;
+	color: #000;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	border-radius: 4px;
+}
+
+.viewDialog-container-person { 
+	grid-area: person;
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	grid-template-rows: repeat(2, 1fr);
+}
+.viewDialog-container-school { 
+	grid-area: school; 
+	display: flex;
+}
+.viewDialog-container-address {
+	grid-area: address;
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+}
+.viewDialog-container-account {
+	grid-area: account;
+	display: flex;
+}
+.viewDialog-container-buttons {
+	grid-area: buttons;
+	display: flex;
+	justify-content: center;
+	padding: .5rem !important;
+}
+
+.viewDialog-container-buttons button {
+	width: 50%;
+	border: none;
+	background-color: #5C55EF;
+	border-radius: 4px;
+	padding: 4px;
+}
+
+.viewDialog-container-buttons button i {
+	font-size: 1.125rem;
+}
+
+.viewDialog-container-buttons button:hover {
+	text-decoration: underline;
+}
+
 /* small screens */
 
 @media only screen and (max-width: 600px) {
@@ -240,7 +345,7 @@
 		padding: .8rem;
 	}
 
-	.main article {
+	.main section {
 		padding: .5rem;
 	}
 
@@ -255,5 +360,19 @@
 	.qr-contain-img {
 		width: 75%;
 		align-self: center;
+	}
+
+	.viewDialog {
+		width: 80vw;
+		height: 80%;
+	}
+
+	.viewDialog-container fieldset {
+		display: flex;
+		flex-direction: column;
+	}
+
+	.viewDialog-container-buttons button {
+		width: 90%;
 	}
 }
