@@ -6,12 +6,11 @@ const cors = require('cors');
 const MySQLStore = require('express-mysql-session')(session);
 const app = express();
 
-// *middleware stuff
+// *
 require('dotenv').config();
 app.disable('x-powered-by');
+app.set('view engine','ejs');
 app.use(cors({ origin: process.env.corsOrigin.split(','), /*credentials: true*/ }));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
 
 const sessionStore = new MySQLStore({
 	host: process.env.dbHost,
@@ -39,21 +38,18 @@ app.use(session({
 	},
 }));
 
-// **routes //
-app.get('/',(req,res) => {
-	if (typeof req.session.authenticated === 'undefined' || req.session.authenticated === false || typeof req.session.user === 'undefined') {
-		return res.sendFile('views/home.html',{root: __dirname });
-	} else if (typeof req.session.authenticated !== 'undefined' || req.session.authenticated === true || typeof req.session.user !== 'undefined') {
-		return res.sendFile('views/dashBoard.html',{root: __dirname });
-	}
-})
-
+// static files
 if (process.env.NODE_ENV === 'production') {
 	app.use('/css',express.static(path.join(__dirname, 'public', 'cssMinified')))
 	app.use('/js',express.static(path.join(__dirname, 'public', 'jsMinified')))
 }
-// static files
 app.use(express.static('public',{extensions:'html'}));
+//
+
+app.use('/', require('./routes/pages.js'))
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use('/profile', require('./routes/profile.js'))
 app.use('/admin', require('./routes/admin.js'))

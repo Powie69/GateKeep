@@ -37,13 +37,6 @@ app.post('/logout', isAuthenticated, (req,res) => {
 	res.json({ message: "logout successful"});
 })
 
-app.post('/getData', isAuthenticated, (req,res) => {
-	db.query(q.GET_INFO, [req.session.user], (err, result) => {
-        if (err) {console.error('SQL:', err); return res.status(500).send('Internal Server Error');}
-		res.json(result[0]);
-	})
-});
-
 app.post('/getMessage', isAuthenticated, limiter(200,10), (req,res) => {
 	const data = req.body;
 	if (!data.limit || data.offset == undefined || data.limit >= 25 || data.offset <= -1) {return res.status(400).send("bad data (server)")}

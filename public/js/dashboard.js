@@ -1,24 +1,6 @@
 var messageCount = 0;
 let getMessageDebounce = true;
 const msgElement = document.querySelector(".logs-item_template");
-// const sectionElements = document.querySelectorAll('.info')
-
-// fetch
-function fetchInfo() {
-	return fetch('profile/getData', {
-		method: 'post',
-		credentials: 'include'
-	})
-	.then(response => {
-		if (response.status >= 400) {
-			console.warn('fetchInfo'); return;
-		} else {
-			return response.json()
-		}
-	})
-	.then(data => {return data;})
-  	.catch(error => {console.error(error)});
-}
 
 function fetchMessages(limit, offset) {
 	if (!limit || offset == undefined || limit >= 25 || offset <= -1) { console.log("bad data (client)"); return;}
@@ -42,7 +24,7 @@ function fetchMessages(limit, offset) {
 }
 
 function fetchQrcode() {
-	fetch('profile/getQrcode', {
+	fetch('/profile/getQrcode', {
 		method: 'post',
 		credentials: 'include',
 	})
@@ -58,8 +40,6 @@ function fetchQrcode() {
 	})
 	.catch(error => { console.error(error); });
 }
-
-// update
 
 function updateMessage(data) {
 	if (!data) {return;}
@@ -81,42 +61,6 @@ function updateMessage(data) {
 	}
 }
 
-// function updateInfo() {
-// 	fetchInfo()
-// 	.then(data => {
-// 		if (!data) {return}
-// 		if (data.lastName) {document.querySelector(".lastName p").innerText = data.lastName;}
-// 		if (data.firstName) {document.querySelector(".firstName p").innerText = data.firstName; msgElement.content.querySelector("._name").innerText = data.firstName}
-// 		if (data.middleName) {document.querySelector(".middleName p").innerText = data.middleName;}
-// 		if (data.lrn) {document.querySelector(".lrn p").innerText = data.lrn;}
-// 		if (data.age) {document.querySelector(".age p").innerText = data.age;}
-// 		if (data.sex != undefined) {
-// 			if (data.sex == 1) {
-// 				document.querySelector(".sex p").innerText = "Male";
-// 			} else {document.querySelector(".sex p").innerText = "Female";}
-// 		}
-// 	})
-// }
-
-// view-info dialog
-function viewShow() {
-	// if (window.innerWidth <= 600) {
-	// 	window.location.href = "./viewInfo.html"
-	// } else {
-	// 	document.querySelector(".view").showModal()
-	// 	fetchInfo()
-	// 	.then(data => { updateViewDialog(data) })
-	// }
-}
-
-// updateInfo()
-fetchQrcode()
-
-fetchMessages(10, messageCount)
-.then(data => { updateMessage(data)})
-
-// 
-
 function handleDropdown(element) {
 	if (element.attributes.isDropdownOpen.value === 'false') {
 		element.setAttribute('isDropdownOpen', 'true')
@@ -126,6 +70,11 @@ function handleDropdown(element) {
 		element.nextElementSibling.querySelector('menu').style.removeProperty('display');
 	}
 }
+
+fetchQrcode()
+
+fetchMessages(10, messageCount)
+.then(data => { updateMessage(data)})
 
 // closes dropdown when clicked outside of container
 document.addEventListener('click',event => {
