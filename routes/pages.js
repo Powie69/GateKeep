@@ -1,6 +1,6 @@
 const express = require('express');
 const {db} = require('../js/middleware.js');
-const {parseGender} = require('../js/utility.js')
+const {parseGender,parseName} = require('../js/utility.js')
 const q = require('../js/profileQuery.js')
 const app = express.Router();
 
@@ -12,12 +12,7 @@ app.get('/',(req,res) => {
         if (err) {console.error('SQL:', err); return res.status(500).send('Internal Server Error');}
 		if (result.length !== 1) {return res.status(500).send('Internal Server Error');}
 		const data = result[0];
-		if (typeof data.middleName === 'undefined' || !data.middleName) { // if fatherless
-			data.name = `${data.firstName} ${data.lastName}`;
-		} else {
-			data.name = `${data.firstName} ${data.middleName.charAt(0).toUpperCase()}. ${data.lastName}`;
-		}
-		console.log(data);
+		data.name = parseName(data)
 		res.render('dashboard', {
 			displayName: data.firstName,
 			name: data.name,

@@ -15,4 +15,12 @@ function parseGender(data) {
 	}
 }
 
-module.exports = {parseGender}
+function parseName(data) {
+	if (!data ||typeof data.firstName !== 'string' || typeof data.firstName !== 'string' ) {return} 
+	if (typeof data.middleName !== 'string' || data.middleName.length === 0) { // if fatherless
+		return`${data.firstName} ${data.lastName}`;
+	}
+	return `${data.firstName} ${data.middleName.charAt(0).toUpperCase()}. ${data.lastName}`;
+}
+
+module.exports = {parseGender,parseName}
