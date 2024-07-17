@@ -72,6 +72,14 @@ function handleDropdown(element) {
 	}
 }
 
+function collapseSection(section,button) {
+	section.classList.toggle('collapse')
+	button.classList.toggle('up')
+	setTimeout(() => {
+		// section.classList.toggle('_noDisplay')
+	}, 500);
+}
+
 fetchQrcode()
 
 fetchMessages(10, messageCount)

@@ -67,7 +67,7 @@
 				<template class="logs-item_template">
 					<div class="logs-item">
 						<p class="logs-item-title"><i class="material-symbols-rounded">Login</i> <span>IN</span></p>
-						<p class="logs-item-desc"><span class="_name"><%= displayName %><%=  %></span> <span class="_isIn">arrived</span> at <span class="_time">0:00am</span> • <span class="_date">jan 0</span></p>
+						<p class="logs-item-desc"><span class="_name"><%= displayName %></span> <span class="_isIn">arrived</span> at <span class="_time">0:00am</span> • <span class="_date">jan 0</span></p>
 					</div>
 				</template>
 			</div>
@@ -85,23 +85,23 @@
 							</menu>
 						</div>
 					</div>
-					<button class="_mobileOnly" aria-label="hide or show Section"><i class="material-symbols-rounded" aria-hidden="true">keyboard_arrow_down</i></button>
+					<button class="info-header-buttons-collapse _mobileOnly" onclick="collapseSection(document.querySelector('.info-contain'),this.childNodes[0])" aria-label="hide or show Section"><i class="material-symbols-rounded " aria-hidden="true">keyboard_arrow_up</i></button>
 				</div>
 			</header>
 			<div class="info-contain">
 				<fieldset>
 					<legend>Name</legend>
-					<label class="info-contain-item-label"><span class="info-contain-item-span"><%= name %><%=  %></span></label>
+					<label class="info-contain-item-label"><span class="info-contain-item-span"><%= name %></span></label>
 				</fieldset>
 				<fieldset class="info-contain-item_school">
 					<legend>School info</legend>
-					<label class="info-contain-item-label">Grade Level:<span class="info-contain-item-span"><%= gradeLevel %><%=  %></span></label>
-					<label class="info-contain-item-label">Section:<span class="info-contain-item-span"><%= section %><%=  %></span></label>
-					<label class="info-contain-item-label">LRN:<span class="info-contain-item-span"><%= lrn %><%=  %></span></label>
+					<label class="info-contain-item-label">Grade Level:<span class="info-contain-item-span"><%= gradeLevel %></span></label>
+					<label class="info-contain-item-label">Section:<span class="info-contain-item-span"><%= section %></span></label>
+					<label class="info-contain-item-label">LRN:<span class="info-contain-item-span"><%= lrn %></span></label>
 				</fieldset>
 				<fieldset>
 					<legend>Address</legend>
-					<label class="info-contain-item-label"><span class="info-contain-item-span"><%= address %><%=  %></span></label>
+					<label class="info-contain-item-label"><span class="info-contain-item-span"><%= address %></span></label>
 				</fieldset>
 			</div>
 		</section>
