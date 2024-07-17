@@ -4,9 +4,15 @@ const {parseGender,parseName} = require('../js/utility.js')
 const q = require('../js/profileQuery.js')
 const app = express.Router();
 
+const browsersRegex = [
+	/Edg/,
+	/Chrome/,
+	/Firefox/,
+]
+
 app.get('/',(req,res) => {
 	if (typeof req.session.authenticated === 'undefined' || req.session.authenticated === false || typeof req.session.user === 'undefined') {
-		return res.sendFile('views/home.html',{root: './' });
+		return res.sendFile('views/home.html',{root:'./'});
 	}
 	db.query(q.GET_INFO, [req.session.user], (err,result) => {
         if (err) {console.error('SQL:', err); return res.status(500).send('Internal Server Error');}
@@ -37,6 +43,35 @@ app.get('/',(req,res) => {
 			houseNo: data.houseNo,
 			phoneNumber: data.phoneNumber,
 			email: data.email
+		})
+	})
+})
+
+app.get('/print',(req,res) => {
+	if (typeof req.session.authenticated === 'undefined' || req.session.authenticated === false || typeof req.session.user === 'undefined') {
+		return res.render('noUser', {message: 'Cannot print beacase you are not logged in'});
+	}
+	const ua = req.headers['user-agent'];
+	let browser = 'Chrome'; // Default value
+	for (const i of browsersRegex) {
+		const match = ua.match(i);
+		if (match) {
+			if (match[0] === 'Edg') {
+				browser = "Edge"; break;
+			}
+			browser = match[0]; break;
+		}
+	}
+	db.query(q.GET_INFO_FOR_PRINT, [req.session.user],(err,result) => {
+		if (err) {console.error('SQL:', err); return res.status(500).send('Internal Server Error');}
+		result = result[0]
+		result.name = parseName(result)
+		res.render('print', {
+			name: result.name,
+			gradeLevel: result.gradeLevel,
+			section: result.section,
+			browser: browser,
+			// link: process.env[`printBrowser${browser}`]
 		})
 	})
 })
