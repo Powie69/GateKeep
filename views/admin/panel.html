@@ -19,35 +19,36 @@
 		<div class="info section">
 			<header class="info-header">
 				<h1>infomation</h1>
-				<p class="info-header-text ">the quick brown fox jumps over the lazy dog.</p>
+				<p class="info-header-text"></p>
 			</header>
 			<div class="info-contain">
 				<fieldset class="info-general">
 					<legend>General infomation</legend>
 					<div class="info-general-grid">
-						<label class="info-lastName">Last Name: <p></p></label>
-						<label class="info-lrn">LRN: <p></p></label>
-						<label class="info-firstName">first Name: <p></p></label>
-						<label class="info-age">age: <p></p></label>
-						<label class="info-middleName">middle Name: <p></p></label>
-						<label class="info-sex">sex: <p></p></label>
+						<label class="info-name">Name: <span></span></label>
+						<label class="info-gradeLevel">GradeLevel: <span></span></label>
+						<label class="info-section">Section: <span></span></label>
+						<label class="info-lrn">LRN: <span></span></label>
+						<label class="info-sex">Sex: <span></span></label>
+						<label class="info-age">Age: <span></span></label>
+						<label class="info-phoneNumber">Phone Number:<span></span></label>
 					</div>
 				</fieldset>
 				<fieldset class="info-addres">
 					<legend>Address</legend>
 					<div class="info-address-grid">
-						<label class="info-houseNo">House No. <p></p></label>
-						<label class="info-street">Street Name: <p></p></label>
-						<label class="info-zip">zip code: <p></p></label>
-						<label class="info-barangay">Barangay: <p></p></label>
-						<label class="info-city">Municipality/City: <p></p></label>
-						<label class="info-province">Province: <p></p></label>
-						</div>
+						<label class="info-houseNo">House No. <span></span></label>
+						<label class="info-street">Street Name: <span></span></label>
+						<label class="info-zip">zip code: <span></span></label>
+						<label class="info-barangay">Barangay: <span></span></label>
+						<label class="info-city">Municipality/City: <span></span></label>
+						<label class="info-province">Province: <span></span></label>
+					</div>
 				</fieldset>
 			</div>
 		</div>
 		<div class="settings section">
-			<form action="" method="post">
+			<form onsubmit="event.preventDefault()">
 				<fieldset class="settings-scanner">
 					<legend>Camera Settings</legend>
 					<label>start: <input type="checkbox" name="cameraStart" autocomplete="off" onchange="scannerStart(this)"></label>
@@ -69,7 +70,7 @@
 		</div
 	</main>
 
-	<script src="assets/qr-scanner.umd.min.js" defer></script>
+	<script src="/admin/qr-scanner.umd.min.js" defer></script>
 	<script src="assets/panel.js" defer></script>
 </body>
 </html>

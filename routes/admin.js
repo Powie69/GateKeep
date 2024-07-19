@@ -1,8 +1,8 @@
 const express = require('express');
 const crypto = require('crypto');
-const qrcode = require('qrcode')
+const qrcode = require('qrcode');
 const { isAdmin, limiter, db } = require('../js/middleware.js');
-const {parseGender} = require('../js/utility.js');
+const {parseGender, parseName} = require('../js/utility.js');
 const q = require('../js/adminQuery.js');
 const app = express.Router();
 
@@ -27,30 +27,24 @@ app.post('/login', limiter(10,1),(req,res) => {
 })
 
 //* requires 'isAdmin'
+app.use('/',isAdmin,express.static('node_modules/qr-scanner'))
 app.use('/',isAdmin,express.static('views/admin',{extensions:'html'}))
-
-app.post('/check', isAdmin, (req,res) => {
-	res.send("nice")
-})
 
 app.post('/send', isAdmin, (req,res) => {
 	const data = req.body;
-	if (!data || data.qrId == undefined|| data.isIn == undefined || data.qrId == ""|| data.isIn == "" ||!(data.isIn >= 0 && data.isIn <= 1)) {return res.status(400).send("bad data");}
+	console.log(data);
+	if (!data || typeof data.qrId === 'undefined'|| typeof data.isIn !== 'boolean' || data.qrId == "") {return res.status(400).json({message:"bad data"});}
 
 	db.query(q.GET_ID_VIA_QRID, [data.qrId], (err,result) => {
-		if (err) { console.error('SQL:', err); return res.status(500).send('Internal Server Error');}
-		if (result.length == 0) {return res.status(404).send("no Qr data found")}
-
-		try {
-			db.query(q.ADD_MESSAGE, [result[0].id, data.isIn, new Date().toISOString().slice(0, 19)], (err,result) => {
-				if (err) {console.error('SQL:', err); return res.status(500).send('Internal Server Error');}
-				console.log(result);
-			})
-			db.query(q.GET_INFO, [result[0].id], (err,result) => {
-				if (err) { console.error('SQL:', err); return res.status(500).send('Internal Server Error');}
-				res.json(result[0])
-			})
-		} catch (error) { console.log(error); return res.status(500).send('Internal Server Error'); }
+		if (err) { console.error('SQL:', err); return res.status(500).json({message:'Internal Server Error'});}
+		if (result.length == 0) {return res.status(404).json({message:"no Qr data found"})}
+		db.query(q.PROCESS_MESSAGE, [result[0].id,data.isIn,new Date().toISOString().slice(0, 19),result[0].id],(err,result) => {
+			if (err) { console.error('SQL:', err); return res.status(500).send('Internal Server Error');}
+			result = result[1][0];
+			result.sex = parseGender(result.sex);
+			result.name = parseName(result);
+			res.status(201).json(result);
+		})
 	})
 })
 

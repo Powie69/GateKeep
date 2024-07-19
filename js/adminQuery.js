@@ -1,6 +1,5 @@
 module.exports = {
 	ADD_ACCOUNT: `START TRANSACTION; INSERT INTO users (email,phoneNumber,password,lrn,qrId) VALUES (?,?,?,?,?); INSERT INTO userInfo (userId,lastname,firstName,middleName,lrn,gradeLevel,section,age,sex,houseNo,street,zip,barangay,city,province) SELECT LAST_INSERT_ID(),CASE WHEN ? IS NULL OR ? = '' THEN NULL ELSE ? END,CASE WHEN ? IS NULL OR ? = '' THEN NULL ELSE ? END,CASE WHEN ? IS NULL OR ? = '' THEN NULL ELSE ? END,CASE WHEN ? IS NULL OR ? = '' THEN NULL ELSE ? END,CASE WHEN ? IS NULL OR ? = '' THEN NULL ELSE ? END,CASE WHEN ? IS NULL OR ? = '' THEN NULL ELSE ? END,CASE WHEN ? IS NULL OR ? = '' THEN NULL ELSE ? END,CASE WHEN ? IS NULL OR ? = '' THEN NULL ELSE ? END,CASE WHEN ? IS NULL OR ? = '' THEN NULL ELSE ? END,CASE WHEN ? IS NULL OR ? = '' THEN NULL ELSE ? END,CASE WHEN ? IS NULL OR ? = '' THEN NULL ELSE ? END,CASE WHEN ? IS NULL OR ? = '' THEN NULL ELSE ? END,CASE WHEN ? IS NULL OR ? = '' THEN NULL ELSE ? END,CASE WHEN ? IS NULL OR ? = '' THEN NULL ELSE ? END; COMMIT;`,
-	// ADD_ACCOUNT_QRID: 'UPDATE users SET qrId = ? WHERE id = ?;',
 	CHECK_ACCOUNT: 'SELECT NULL FROM users WHERE lrn = ?;',
 	REMOVE_ACCOUNT_CHECK: 'SELECT userInfo.lastName, userInfo.firstName, users.lrn FROM users RIGHT JOIN userInfo ON userInfo.userId = users.id WHERE users.id = ?;',
 	REMOVE_ACCOUNT_CONFIRM: 'START TRANSACTION; DELETE FROM userInfo WHERE userId = ? AND lrn = ?; DELETE FROM userLogs WHERE userId = ?; DELETE FROM users WHERE id = ? AND lrn = ?; COMMIT;',
@@ -11,6 +10,7 @@ module.exports = {
 	GET_QRID: 'SELECT qrId FROM users WHERE id = ?;',
 	ADD_QRCACHE: 'UPDATE users SET qrCache = ? WHERE id = ?;',
 	GET_INFO: 'SELECT userInfo.*, users.email, users.phoneNumber FROM userInfo LEFT JOIN users ON userInfo.userId = users.id WHERE userInfo.userId = ?;',
+	PROCESS_MESSAGE: 'INSERT INTO userlogs (userId, isIn, time) VALUES (?, ?, ?); SELECT userInfo.lastName, userInfo.firstName, userInfo.middleName, userInfo.lrn, userInfo.gradeLevel, userInfo.section, userInfo.age, userInfo.sex, userInfo.houseNo, userInfo.street, userInfo.zip, userInfo.barangay, userInfo.city, userInfo.province, users.phoneNumber FROM userInfo JOIN users ON userInfo.userId = users.id WHERE users.id = ?;',
 	ADD_MESSAGE: 'INSERT INTO userlogs (userId, isIn, time) VALUES (?, ?, ?);',
 	GET_MESSAGE: `SELECT id, isIn, CONVERT_TZ(time, '+00:00', '+08:00') AS time FROM userLogs WHERE userId = ? ORDER BY time DESC LIMIT ? OFFSET ?;`,
 	GET_QUERY: `SELECT * FROM userInfo WHERE ((? = '' OR lastName LIKE CONCAT('%', ?, '%')) OR (? = '' OR firstName LIKE CONCAT('%', ?, '%')) OR (? = '' OR middleName LIKE CONCAT('%', ?, '%')) OR (? = '' OR lrn LIKE CONCAT('%', ?, '%')) OR (? = '' OR barangay LIKE CONCAT('%', ?, '%'))) AND ((? IS NULL OR ? = '' OR gradeLevel = ?) AND (? is NULL OR ? = '' OR section = ?));`,

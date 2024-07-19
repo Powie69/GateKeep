@@ -8,9 +8,10 @@
 }
 
 .main {
-	height: calc(100vh - 2rem);
+	height: 100vh;
 	padding: 1rem 2rem;
 	display: grid;
+	/* box-sizing: border-box; */
 	gap: 1rem;
 	grid-template-columns: 0.8fr 1.2fr;
 	grid-template-rows: 1.2fr 0.8fr;
@@ -56,17 +57,24 @@
 
 .info {
 	grid-area: info;
-	background-color: var(--c-content);
 	padding: .5rem !important;
+	display: flex;
+	flex-direction: column;
+	background-color: var(--c-content);
 }
 
 .info::backdrop {
 	backdrop-filter: blur(4px);
 }
 
+.info-header {
+	margin: .5rem 0;
+}
+
 .info-header h1 {
-	font-size: 1.8rem;
-	margin: .3rem auto;
+	font-size: 2rem;
+	margin: 0;
+	/* margin: .3rem auto; */
 	font-weight: 600;
 	text-align: center;
 }
@@ -78,8 +86,12 @@
 	visibility: hidden;
 }
 
-.info-header_error {
+.info-header._error {
 	color: red;
+}
+
+.info-contain {
+	flex: 1;
 }
 
 .info fieldset {
@@ -97,29 +109,45 @@
 
 .info-general-grid {
 	display: grid;
-	grid-template-columns: repeat(2, 1fr);
+	grid-template-columns: repeat(3, 1fr);
 	grid-template-rows: repeat(3, 1fr);
+	grid-template-areas: 
+	"name name name"
+	"gradeLevel section lrn"
+	"sex age phoneNumber";
+	gap: 1rem;
 }
+
+.info-name{grid-area: name;}
+.info-gradeLevel{grid-area: gradeLevel;}
+.info-section{grid-area: section;}
+.info-lrn{grid-area: lrn;}
+.info-sex{grid-area: sex;}
+.info-age{grid-area: age;}
+.info-phoneNumber{grid-area: phoneNumber;}
 
 .info-address-grid {
 	display: grid;
 	grid-template-columns: repeat(3, 1fr);
 	grid-template-rows: repeat(2, 1fr);
+	gap: .5rem 1rem;
 }
 
 .info-contain label {
 	font-size: 1rem;
-	width: 95%;
+	width: 100%;
+	box-sizing: border-box;
 }
 
-.info-contain label p {
+.info-contain label span {
 	display: block;
-	margin: 1px 0;
+	margin: 4px 0 0 0;
 	padding: 4px 2px;
 	height: 18.4px;
-	border-radius: 4px;
-	background-color: #fff;
+	overflow: hidden;
 	color: #000;
+	background-color: #fff;
+	border-radius: 4px;
 }
 
 .info-buttons {
