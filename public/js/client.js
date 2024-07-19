@@ -35,23 +35,6 @@ document.querySelectorAll('.help-item-button').forEach(element => {
 	})
 });
 
-// !remove this later
-function lazyLogin() {
-	fetch('/profile/login', {
-	method: 'post',
-	credentials: 'include',
-	headers: {
-		'Content-Type': 'application/json'
-	  },
-	body: '{ "username": "godwin@gmail.com", "lrn": "123456189011", "password": "123" }'
-	})
-	.then(response => {
-		if (response.status >= 400) {console.warn("wong (client)"); return;} else { return response.json() }
-	})
-	.then(data => {})
-	.catch(error => { console.error(error); });
-}
-
 async function loginSubmit(event) {
     event.preventDefault();
 	const data = Object.fromEntries(new FormData(event.target).entries());
@@ -60,11 +43,9 @@ async function loginSubmit(event) {
 		console.log("Invalid login data (client)");
 	}
     try {
-        const response = await fetch('profile/login', {
+        const response = await fetch('/profile/login', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-            },
+            headers: {'Content-Type': 'application/x-www-form-urlencoded',},
             body: new URLSearchParams(data),
 			credentials: 'include',
         });

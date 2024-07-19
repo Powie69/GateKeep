@@ -10,7 +10,7 @@ const app = express();
 require('dotenv').config();
 app.disable('x-powered-by');
 app.set('view engine','ejs');
-app.use(cors({ origin: process.env.corsOrigin.split(','), /*credentials: true*/ }));
+// app.use(cors({ origin: process.env.corsOrigin.split(','), /*credentials: true*/ }));
 
 const sessionStore = new MySQLStore({
 	host: process.env.dbHost,
@@ -31,7 +31,7 @@ app.use(session({
 	store: sessionStore,
 	cookie: {
 		maxAge: 2419200000, // 4 weeks
-		// httpOnly: false,
+		httpOnly: true,
 		// secure: true,
 		sameSite: 'strict'
 		// partitioned: process.env.cookiePartitioned,

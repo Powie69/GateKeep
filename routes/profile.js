@@ -24,11 +24,6 @@ app.post('/login', limiter(30, 5),(req, res) => {
 
 // requires 'isAuthenticated'
 
-app.post('/', isAuthenticated, (req,res) => {
-	console.log(req.session.user)
-	res.json({ message: "You are authenticated"});
-});
-
 app.post('/logout', isAuthenticated, (req,res) => {
 	console.log("user logout: " + req.session.user);
 	req.session.destroy((err) => {

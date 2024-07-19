@@ -1,0 +1,1 @@
+function printPage(){alert("Be sure to un-check the printing of headers and footers within the settings to reduce ink usage."),print()}window.addEventListener("load",printPage());
