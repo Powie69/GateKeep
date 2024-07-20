@@ -10,6 +10,10 @@ app.post('/login', limiter(30, 5),(req, res) => {
         return res.status(400).json({ message: "Email or Phone number, LRN, and password are required" });
     }
 
+	if (typeof req.session.authenticated !== 'undefined' || req.session.authenticated === true || typeof req.session.user !== 'undefined') {
+		return res.status(400).json({message:'already auth'})
+	}
+
 	db.query(q.LOGIN, [data.username, data.username, data.lrn, data.password], (err, result) => {
         if (err) {console.error('login SQL:', err); return res.status(500).send('Internal Server Error');}
         if (result.length === 0) {return res.status(401).json({ message: "Invalid email/phone, LRN, or password" });}
