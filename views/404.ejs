@@ -11,6 +11,7 @@
 	<link rel="stylesheet" href="/css/normalize.css">
     <link rel="stylesheet" href="/css/setup.css">
     <link rel="stylesheet" href="/css/styles.css">
+	<link rel="stylesheet" href="/css/404.css">
 </head>
 <body>
 	<header class="header">
@@ -43,10 +44,17 @@
 			</ul>
 		</nav>
 	</aside>
-	<main>
-		<span>404</span>
-		<h1>NOT FOUND</h1>
+	<main class="main">
+		<h1>404</h1>
+		<p>cannot find <span> <%= path %></span></p>
 	</main>
+	<nav class="nav">
+		<ul>
+			<li><a href="javascript:history.back()">Go Back<i class="material-symbols-rounded" aria-hidden="true">Arrow_forward</i></a> </li>
+			<li><a href="/">Home<i class="material-symbols-rounded" aria-hidden="true">Arrow_forward</i></a> </li>
+			<li><a href="/Help">Help<i class="material-symbols-rounded" aria-hidden="true">Arrow_forward</i></a> </li>
+		</ul>
+	</nav>
 
 	<script src="/js/header.js" defer></script>
 </body>

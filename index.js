@@ -56,9 +56,12 @@ app.use('/admin', require('./routes/admin.js'));
 
 // **404 handler //
 app.use((req,res) => {
-	console.log('404!',req.originalUrl);
+	// console.log('404!',req.originalUrl);
 	if (req.accepts('html')) {
-		return res.render('404', {displayName: req.session.displayName || 'No user'})
+		return res.render('404', {
+			displayName: req.session.displayName || 'No user',
+			path: req.path
+		})
 		// return res.sendFile('views/404.html',{root:__dirname});
 	}
 	if (req.accepts('json')) {
