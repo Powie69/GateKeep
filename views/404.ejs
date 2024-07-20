@@ -29,7 +29,7 @@
 	</header>
 	<div class="overlay" onclick="handleAside()"></div>
 	<aside class="aside _mobileOnly" aria-hidden="true">
-		<button class="aside-hide" onclick="handleAside()"><i class="material-symbols-rounded" aria-hidden="true">menu</i></button>
+		<button class="aside-hide" onclick="handleAside()" aria-label="Menu"><i class="material-symbols-rounded" aria-hidden="true">menu</i></button>
 		<div class="aside-account">
 			<span class="aside-account-name"><i class="material-symbols-rounded" aria-hidden="true">Account_Circle</i> <%= displayName %></span>
 			<button class="aside-account-logout" onclick="logout()" tabindex="0"><i class="material-symbols-rounded" aria-hidden="true">logout</i> Logout</button>
@@ -43,7 +43,11 @@
 			</ul>
 		</nav>
 	</aside>
-	<span>404</span>
-	<h1>NOT FOUND</h1>
+	<main>
+		<span>404</span>
+		<h1>NOT FOUND</h1>
+	</main>
+
+	<script src="/js/header.js" defer></script>
 </body>
 </html>

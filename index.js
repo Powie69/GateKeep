@@ -2,7 +2,6 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path')
 const session = require('express-session');
-const cors = require('cors');
 const MySQLStore = require('express-mysql-session')(session);
 const app = express();
 
@@ -10,7 +9,6 @@ const app = express();
 require('dotenv').config();
 app.disable('x-powered-by');
 app.set('view engine','ejs');
-// app.use(cors({ origin: process.env.corsOrigin.split(','), /*credentials: true*/ }));
 
 const sessionStore = new MySQLStore({
 	host: process.env.dbHost,
@@ -43,7 +41,7 @@ if (process.env.NODE_ENV === 'production') {
 	app.use('/css',express.static(path.join(__dirname, 'public', 'cssMinified')))
 	app.use('/js',express.static(path.join(__dirname, 'public', 'jsMinified')))
 }
-app.use(express.static('public',{extensions:'html'}));
+app.use(express.static('public'));
 //
 
 app.use('/', require('./routes/pages.js'))
@@ -51,8 +49,8 @@ app.use('/', require('./routes/pages.js'))
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use('/profile', require('./routes/profile.js'))
-app.use('/admin', require('./routes/admin.js'))
+app.use('/profile', require('./routes/profile.js'));
+app.use('/admin', require('./routes/admin.js'));
 
 // ** //
 
@@ -60,7 +58,8 @@ app.use('/admin', require('./routes/admin.js'))
 app.use((req,res) => {
 	console.log('404!',req.originalUrl);
 	if (req.accepts('html')) {
-		return res.sendFile('views/404.html',{root:__dirname});
+		return res.render('404', {displayName: req.session.displayName || 'No user'})
+		// return res.sendFile('views/404.html',{root:__dirname});
 	}
 	if (req.accepts('json')) {
 		return res.json({message:'not found'});

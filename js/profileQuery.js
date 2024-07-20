@@ -1,5 +1,5 @@
 module.exports = {
-	LOGIN: 'SELECT id FROM users WHERE (email = ? OR phoneNumber = ?) AND lrn = ? AND password = ?;',
+	LOGIN: 'SELECT users.id, userInfo.firstName FROM users JOIN userInfo ON users.id = userInfo.userId WHERE ( users.email = ? OR users.phoneNumber = ? ) AND users.lrn = ? AND users.password = ?;',
 	//
 	GET_QRCACHE: 'SELECT qrCache FROM users WHERE id = ?',
 	GET_INFO_FOR_PRINT: 'SELECT firstName, middleName, lastName, lrn, gradeLevel, section FROM userinfo WHERE id = ?;',

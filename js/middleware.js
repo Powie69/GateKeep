@@ -43,8 +43,8 @@ const isAuthenticated = (req, res, next) => {
 const isAdmin = (req, res, next) => {
 	if (!req.session.isAdmin) {
 		console.log(`profile: ${req.sessionID}`)
-		// return next('route')
-		return res.status(401).json({ message: "Unauthorized access" });
+		return next('route')
+		// return res.status(401).json({ message: "Unauthorized access" });
 	}
 	next();
 };

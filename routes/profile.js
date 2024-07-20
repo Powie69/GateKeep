@@ -16,10 +16,11 @@ app.post('/login', limiter(30, 5),(req, res) => {
 
 	db.query(q.LOGIN, [data.username, data.username, data.lrn, data.password], (err, result) => {
         if (err) {console.error('login SQL:', err); return res.status(500).send('Internal Server Error');}
-        if (result.length === 0) {return res.status(401).json({ message: "Invalid email/phone, LRN, or password" });}
+        if (result.length !== 1) {return res.status(401).json({ message: "Invalid email/phone, LRN, or password" });}
 
 		req.session.authenticated = true;
 		req.session.user = result[0].id;
+		req.session.displayName = result[0].firstName;
 
         res.json({ message: "Login successful"});
 		console.log(result[0]);

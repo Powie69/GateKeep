@@ -20,7 +20,7 @@ app.get('/',(req,res) => {
 		const data = result[0];
 		data.name = parseName(data)
 		res.render('dashboard', {
-			displayName: data.firstName,
+			displayName: req.session.displayName,
 			name: data.name,
 			gradeLevel: data.gradeLevel,
 			section: data.section,
@@ -67,6 +67,7 @@ app.get('/print',(req,res) => {
 		result = result[0]
 		result.name = parseName(result)
 		res.render('print', {
+			displayName: req.session.displayName,
 			name: result.name,
 			gradeLevel: result.gradeLevel,
 			section: result.section,
