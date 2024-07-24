@@ -32,7 +32,6 @@ app.use(session({
 		httpOnly: true,
 		// secure: true,
 		sameSite: 'strict'
-		// partitioned: process.env.cookiePartitioned,
 	},
 }));
 
@@ -62,7 +61,6 @@ app.use((req,res) => {
 			displayName: req.session.displayName || 'No user',
 			path: req.path
 		})
-		// return res.sendFile('views/404.html',{root:__dirname});
 	}
 	if (req.accepts('json')) {
 		return res.json({message:'not found'});

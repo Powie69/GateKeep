@@ -1,4 +1,4 @@
-var messageCount = 0;
+let messageCount = 0;
 let getMessageDebounce = true;
 const msgElement = document.querySelector(".logs-item_template");
 const dialogElements = document.querySelectorAll('.viewDialog')
