@@ -9,7 +9,8 @@
 
 .main {
 	display: grid;
-	grid-template-columns: repeat(auto-fit,minmax(400px,1fr));
+	/* grid-template-columns: repeat(auto-fit,minmax(400px,1fr)); */
+	grid-template-columns: 1fr 1fr;
 	place-items: center;
 	min-height: 90vh;
 	overflow-y: hidden;
@@ -37,6 +38,7 @@
 .main-form label {
 	display: block;
 	width: 80%;
+	box-sizing: border-box;
 }
 
 .main-form-invalid {
@@ -82,6 +84,10 @@
 
 .main-form-submit:focus {
 	outline: 3px var(--c-highlight) solid;
+}
+
+.main-form-redirect {
+	text-align: center;
 }
 
 .main-form-redirect a {
@@ -153,15 +159,14 @@
 	height: 50px;
 }
 
-
 .transition {
 	position: relative;
-	margin: 2rem 0;
-	padding: 6rem 0;
+	margin: 2rem 0 0 0;
+	padding: 6rem 0 3rem 0;
 	background: url('/images/stacked-waves-haikei(5).svg') no-repeat left top / cover;
 }
 
-.transition h2 {
+.transition h3 {
 	margin: 0;
 	text-align: center;
 	user-select: none;
@@ -236,5 +241,23 @@
 }
 
 @media only screen and (max-width: 600px) {
+	.main {
+		grid-template-columns: 1fr;
+	}
 	
+	.main-form {
+		margin: 2rem .5rem 0 .5rem;
+	}
+
+	.main-form label {
+		width: 90%;
+	}
+
+	.main-info h1 {
+		font-size: 1.25rem;
+	}
+
+	.transition h3 {
+		font-size: 3rem;
+	}
 }
