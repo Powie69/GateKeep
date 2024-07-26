@@ -27,8 +27,10 @@ app.post('/login', limiter(10,1),(req,res) => {
 })
 
 //* requires 'isAdmin'
-app.use('/',isAdmin,express.static('node_modules/qr-scanner'))
-app.use('/',isAdmin,express.static('views/admin',{extensions:'html'}))
+
+app.use('/',isAdmin,express.static('node_modules/qr-scanner'));
+app.use('/',isAdmin,express.static('views/admin',{extensions:'html'}));
+
 
 app.post('/send', isAdmin, (req,res) => {
 	const data = req.body;
@@ -55,9 +57,7 @@ app.post('/query', isAdmin, (req,res) => {
 		if (err) { console.error('SQL:', err); return res.status(500).send('Internal Server Error');}
 		if (result.length == 0) {return res.status(404).json({message: "user not found"});}
 		for (let i = 0; i < result.length; i++) {
-			for (const i1 in result[i]) {
-				if (i1 == 'sex') {result[i].sex = parseGender(result[i][i1]);}
-			}
+			result[i].sex  = parseGender(result[i].sex)
 		}
 		res.json(result)
 	})
@@ -99,9 +99,7 @@ app.post('/getInfo', isAdmin, (req,res) => {
 		db.query(q.GET_INFO_WITH_QRID, [data.userId], (err,result) => {
 			if (err) {console.error('SQL:', err); return res.status(500).send('Internal Server Error');}
 			if (result.length == 0) {return res.status(404).json({message: "user not found"});}
-			for (const i in result[0]) {
-				if (i == 'sex') {result[0].sex = parseGender(result[0].sex);}
-			}
+			result[0].sex = parseGender(result[0].sex);
 			res.json(result[0]);
 		})
 		return;

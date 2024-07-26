@@ -311,10 +311,7 @@ function checkBulkAdd(data) {
 async function removeAccount(id) {
 	fetch('http://localhost:3000/admin/remove/check',{
 		method: 'POST',
-		credentials: 'include',
-		headers: {
-			'Content-Type': 'application/json'
-	  	},
+		headers: {'Content-Type': 'application/json'},
 		body: `{"id": ${id}}`
 	}).then(response => {
 		if (response.status <= 400) {
@@ -342,10 +339,7 @@ async function removeAccountReq(id,lrn) {
 	if (typeof id === undefined || typeof id == '' || typeof lrn === undefined || lrn.length !== 12) {console.warn('bad'); return;}
 	return await fetch('http://localhost:3000/admin/remove/confirm', {
 		method: 'DELETE',
-		credentials: 'include',
-		headers: {
-			'Content-Type': 'application/json'
-	  	},
+		headers: {'Content-Type': 'application/json'},
 		body: `{"id": "${id}", "lrn": "${lrn}"}`
 	}).then(response => {return response;})
 	.then(data => {return data;})
@@ -479,19 +473,3 @@ document.querySelector('.bulkAddDialog-form textarea').addEventListener('change'
 	document.querySelector('.bulkAddDialog-preview p').innerText = '';
 	document.querySelector('.bulkAddDialog-preview p').style.visibility = 'hidden';
 })
-
-function adminLogin() {
-	fetch('http://localhost:3000/admin/login', {
-	method: 'post',
-	credentials: 'include',
-	headers: {
-		'Content-Type': 'application/json'
-	  },
-	body: '{"password": "123" }'
-	})
-	.then(response => {
-		if (response.status >= 400) {console.warn("wong (client)"); return;} else { return response.json() }
-	})
-	.then(data => { console.log(data);})
-	.catch(error => { console.error(error); });
-}

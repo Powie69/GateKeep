@@ -42,9 +42,16 @@ const isAuthenticated = (req, res, next) => {
 
 const isAdmin = (req, res, next) => {
 	if (!req.session.isAdmin) {
-		console.log(`profile: ${req.sessionID}`)
-		return next('route')
-		// return res.status(401).json({ message: "Unauthorized access" });
+		if (req.accepts('html')) {
+			return res.render('404', {
+				displayName: req.session.displayName || 'No user',
+				path: req.path
+			})
+		}
+		if (req.accepts('json')) {
+			return res.json({message:'not found'});
+		}
+		res.type('txt').send('not found');
 	}
 	next();
 };
