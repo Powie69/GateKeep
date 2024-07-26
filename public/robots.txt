@@ -36,6 +36,7 @@
 
 User-agent: *
 Disallow: 
+Disallow: /qr
 Disallow: /print
 Disallow: /requestedit
 Disallow: /admin

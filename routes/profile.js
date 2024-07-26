@@ -50,16 +50,4 @@ app.post('/getMessage', isAuthenticated, limiter(200,10), (req,res) => {
 	})
 });
 
-app.post('/getQrcode', isAuthenticated, (req,res) => {
-	db.query(q.GET_QRCACHE, [req.session.user], (err,result) => {
-		if (err) {console.error('SQL:', err); return res.status(500).send('Internal Server Error');}
-		if (!result || result.length == 0) {return res.status(418).send('something is very wrong...');}
-		if (result[0].qrCache === null) {
-			return res.status(404).send();
-		}
-		res.set('Content-Type', 'image/svg+xml')
-		res.send(result[0].qrCache)
-	})
-});
-
 module.exports = app;

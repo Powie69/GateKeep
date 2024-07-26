@@ -24,24 +24,6 @@ function fetchMessages(limit, offset) {
 	.catch(error => { console.error(error); });
 }
 
-function fetchQrcode() {
-	fetch('/profile/getQrcode', {
-		method: 'post',
-		credentials: 'include',
-	})
-	.then(response => {
-		if (response.status >= 400) {
-			console.warn("wong (client)"); return;
-		} else {
-			return response.blob();
-		}
-	})
-	.then(data => {
-		document.querySelector(".qr-contain-img").src = URL.createObjectURL(data);
-	})
-	.catch(error => { console.error(error); });
-}
-
 function updateMessage(data) {
 	if (!data) {return;}
 	for (let i = 0; i < data.length; i++) {
@@ -79,8 +61,6 @@ function collapseSection(section,button) {
 		// section.classList.toggle('_noDisplay')
 	}, 500);
 }
-
-fetchQrcode()
 
 fetchMessages(10, messageCount)
 .then(data => { updateMessage(data)})

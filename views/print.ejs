@@ -14,7 +14,7 @@
 		<link rel="stylesheet" href="/css/print.css">
 </head>
 <body>
-	<header class="header">
+	<header class="header noPrint">
 		<a class="header-logo" href="/"><img src="/images/logo.webp" alt="website logo"></a>
 		<nav class="header-nav _desktopOnly">
 			<ul>
@@ -28,8 +28,8 @@
 			<li><button class="_logout _desktopOnly" aria-label="Account options"><i class="material-symbols-rounded" aria-hidden="true">Account_Circle</i></button></li>
 		</ul>
 	</header>
-	<div class="overlay" onclick="handleAside()"></div>
-	<aside class="aside _mobileOnly" aria-hidden="true">
+	<div class="overlay noPrint" onclick="handleAside()"></div>
+	<aside class="aside _mobileOnly noPrint" aria-hidden="true">
 		<button class="aside-hide" onclick="handleAside()" aria-label="Menu"><i class="material-symbols-rounded" aria-hidden="true">menu</i></button>
 		<div class="aside-account">
 			<span class="aside-account-name"><i class="material-symbols-rounded" aria-hidden="true">Account_Circle</i> <%= displayName %></span>
@@ -46,7 +46,7 @@
 	</aside>
 	<main class="main">
 		<div class="print">
-			<img class="print-img" src="" alt="">
+			<img class="print-img" src="/qr" alt="">
 			<p class="print-name"><%= name %></p>
 			<p class="print-grade"><%= gradeLevel %> <%= section %></p>
 		</div>

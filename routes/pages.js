@@ -1,7 +1,8 @@
 const express = require('express');
 const {db} = require('../js/middleware.js');
-const {parseGender,parseName} = require('../js/utility.js')
-const q = require('../js/profileQuery.js')
+const {parseGender,parseName} = require('../js/utility.js');
+const compression = require('compression');
+const q = require('../js/profileQuery.js');
 const app = express.Router();
 
 const browsersRegex = [
@@ -12,16 +13,17 @@ const browsersRegex = [
 
 app.get('/',(req,res) => {
 	if (typeof req.session.authenticated === 'undefined' || req.session.authenticated === false || typeof req.session.user === 'undefined') {
-		return res.sendFile('views/home.html',{root:'./'});
+		if (req.accepts('html')) {
+			return res.sendFile('views/home.html',{root:'./'});
+		}
 	}
 	db.query(q.GET_INFO, [req.session.user], (err,result) => {
         if (err) {console.error('SQL:', err); return res.status(500).send('Internal Server Error');}
 		if (result.length !== 1) {return res.status(500).send('Internal Server Error');}
 		const data = result[0];
-		data.name = parseName(data)
 		res.render('dashBoard', {
 			displayName: req.session.displayName,
-			name: data.name,
+			name: parseName(data),
 			gradeLevel: data.gradeLevel,
 			section: data.section,
 			lrn: data.lrn,
@@ -44,6 +46,18 @@ app.get('/',(req,res) => {
 			phoneNumber: data.phoneNumber,
 			email: data.email
 		})
+	})
+})
+
+app.get('/qr',compression(), (req,res) => {
+	if (typeof req.session.authenticated === 'undefined' || req.session.authenticated === false || typeof req.session.user === 'undefined') {
+		return res.render('noUser', {message: 'Not Logged in'});
+	}
+	db.query(q.GET_QRCACHE,[req.session.user],(err,result) => {
+        if (err) {console.error('SQL:', err); return res.status(500).send('Internal Server Error');}
+		if (result.length !== 1) {return res.status(500).send('Internal Server Error');}
+		res.setHeader('Content-Type', 'image/svg+xml');
+		res.send(result[0].qrCache);
 	})
 })
 
