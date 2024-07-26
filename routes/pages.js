@@ -19,7 +19,7 @@ app.get('/',(req,res) => {
 		if (result.length !== 1) {return res.status(500).send('Internal Server Error');}
 		const data = result[0];
 		data.name = parseName(data)
-		res.render('dashboard', {
+		res.render('dashBoard', {
 			displayName: req.session.displayName,
 			name: data.name,
 			gradeLevel: data.gradeLevel,

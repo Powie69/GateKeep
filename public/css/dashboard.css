@@ -18,7 +18,7 @@
 }
 
 ::-webkit-scrollbar, .logs-container::-webkit-scrollbar {
-	width: 6px;
+	width: 4px;
 }
 ::-webkit-scrollbar-track, .logs-container::-webkit-scrollbar-track {
 	background: transparent;
@@ -159,9 +159,9 @@
 	width: 95%;
 	padding: .5rem;
 	margin: 0 auto;
-	max-height: fit-content;
+	max-height: auto;
 	overflow: hidden;
-	/* transition: transform 0.5s cubic-bezier(0.17,0.84,0.44,1);; */
+	transition: max-height 0.5s cubic-bezier(0.17,0.84,0.44,1);
 }
 
 .info-contain fieldset {
@@ -328,6 +328,7 @@
 	grid-area: buttons;
 	display: flex;
 	justify-content: center;
+	align-items: center;
 	padding: .5rem !important;
 }
 
@@ -368,9 +369,9 @@
 	}
 
 	.info-contain.collapse {
-		/* TODO: collpase animation */
-		display: none;
-		/* transition: transform 0.5s cubic-bezier(0.17,0.84,0.44,1);; */
+		max-height: 0;
+		padding: 0;
+		transition: max-height 0.5s cubic-bezier(0.17,0.84,0.44,1);
 	}
 
 	.info-contain-item_school {

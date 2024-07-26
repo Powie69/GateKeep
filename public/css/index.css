@@ -125,6 +125,7 @@
 
 .transition-wave {
 	position: absolute;
+	top: 0;
     left: 0;
     width: 100%;
     overflow: hidden;
@@ -133,30 +134,14 @@
 
 .transition-wave svg {
 	position: relative;
+	height: 70px;
+	width: calc(210% + 1.3px);
 	display: block;
 	transform: rotateY(180deg);
 }
 
 .transition-wave svg path {
 	fill: var(--c-background);
-}
-
-.transition-top {
-	top: 0;
-}
-
-.transition-top svg {
-	width: calc(210% + 1.3px);
-	height: 70px;
-}
-
-.transition-bottom {
-	bottom: -1px;
-}
-
-.transition-bottom svg {
-	width: calc(160% + 1.3px);
-	height: 50px;
 }
 
 .transition {
@@ -246,6 +231,7 @@
 	}
 	
 	.main-form {
+		width: 80%;
 		margin: 2rem .5rem 0 .5rem;
 	}
 
