@@ -21,6 +21,7 @@ async function sendData(qrId,isInMode) {
 		const respond = await response.json();
 		if (!response.ok) {
 			console.log(respond);
+			setMessage(respond.message,'error')
 			return;
 		}
 
@@ -35,7 +36,7 @@ async function sendData(qrId,isInMode) {
 const qrScanner = new scanner(document.querySelector("#scanner-video"), async result => {
 	const qrId = JSON.parse(result.data).qrId;
 	if (lastScanned == qrId) { setMessage("Already scanned", "error"); return;}
-	if (scanDebounce) {setMessage("wait bro", "error"); return;}
+	if (scanDebounce) {setMessage("Wait", "error"); return;}
 	scanDebounce = true;
 	lastScanned = qrId;
 	setTimeout(() => {
@@ -55,18 +56,20 @@ function setMessage(msg,status) {
 	console.log(msg);
 	if (status === "clear") {
 		statusText.innerText = null;
+		document.querySelector('.scan-region-highlight svg').style.stroke = '#e9b213'
 		statusText.classList.remove("info-header_error")
 		statusText.style.visibility = "hidden";
 	} else if (status === "error") {
 		statusText.innerText = msg;
 		statusText.classList.add("info-header_error")
 		statusText.style.visibility = "visible";
+		document.querySelector('.scan-region-highlight svg').style.stroke = '#A30000'
 		setTimeout(() => {
-			statusText.innerText = null;
-			statusText.style.visibility = "hidden";
+			setMessage("","clear");
 		}, 3000);
 	} else {
 		statusText.innerText = msg;
+		document.querySelector('.scan-region-highlight svg').style.stroke = '#00A300'
 		statusText.style.visibility = "visible";
 		statusText.classList.remove("info-header_error")
 	}
@@ -123,18 +126,14 @@ function changeCamera(value) {
 }
 
 function mirror(value) {
-	if (value.checked) {
-		document.querySelector("#scanner-video").classList.remove("_notMirror")
-	} else {
-		document.querySelector("#scanner-video").classList.add("_notMirror")
-	}
+	document.querySelector('#scanner-video').classList.toggle('_notMirror')
 }
 
 function changeIsIn(value) {
 	if (value.checked) {
-		isInMode = 1;
+		isInMode = true;
 	} else if (!value.checked) {
-		isInMode = 0;
+		isInMode = false;
 	}
 	console.log(isInMode);
 }

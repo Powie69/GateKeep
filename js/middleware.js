@@ -41,7 +41,7 @@ const isAuthenticated = (req, res, next) => {
 };
 
 const isAdmin = (req, res, next) => {
-	if (!req.session.isAdmin) {
+	if (!req.session.isAdmin || typeof req.session.authenticated !== 'undefined' || req.session.authenticated === true) {
 		if (req.accepts('html')) {
 			return res.render('404', {
 				displayName: req.session.displayName || 'No user',

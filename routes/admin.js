@@ -2,7 +2,7 @@ const express = require('express');
 const crypto = require('crypto');
 const qrcode = require('qrcode');
 const { isAdmin, limiter, db } = require('../js/middleware.js');
-const {parseGender, parseName} = require('../js/utility.js');
+const {parseGender, parseName, logger} = require('../js/utility.js');
 const q = require('../js/adminQuery.js');
 const app = express.Router();
 
@@ -23,6 +23,7 @@ app.post('/login', limiter(10,1),(req,res) => {
 	if (req.body.password != process.env.adminPassword) {return res.status(401).json({message: "no."});}
 	req.session.cookie.maxAge = 50400000; // 14 hours
 	req.session.isAdmin = true;
+	logger(1,`[${req.sessionID.substring(0,6)}] [${req.headers['user-agent']}] logged in`)
 	res.status(200).json({message:'success'})
 })
 
