@@ -31,7 +31,7 @@
 				<span>
 					QR CODE:<br>
 					<span class="_nullItems" id="info-qrId">null</span>
-					<img src="" title="" alt="qr code">
+					<img src="" title="" id="info-qrImage" alt="qr code">
 				</span>
 				<span>Last Name:<br> <span class="_nullItems" id="info-lastName">null</span></span>
 				<span>First Name:</br> <span class="_nullItems" id="info-firstName">null</span></span>
@@ -108,7 +108,7 @@
 				<label>Password*: <span>Invalid Input.</span><br> <input class="editDialog-form-password" name="password" type="password" minlength="3" maxlength="255"></label>
 			</fieldset>
 			<fieldset class="editDialog-form-buttons">
-				<button class="editDialog-form-buttons-submit" type="button" onclick="submitEditInfo(event)"><i class="material-symbols-rounded">check_circle</i> Submit</button>
+				<button class="editDialog-form-buttons-submit" type="submit"><i class="material-symbols-rounded">check_circle</i> Submit</button>
 				<button class="editDialog-form-buttons-cancel" type="button" onclick="parentElement.parentElement.parentElement.close()"><i class="material-symbols-rounded">cancel</i> Cancel</button>
 				<button class="editDialog-form-buttons-cancel" type="button" onclick="removeAccount(parentElement.parentElement.parentElement.getAttribute('userId'))"><i class="material-symbols-rounded">person_remove</i> Delete</button>
 			</fieldset>
@@ -206,7 +206,7 @@
 			<p><i class="material-symbols-rounded">group_add</i> Bulk Add</p>
 		</button>
 	</section>
-	<form onsubmit="submitQuery()" autocomplete="off" class="search">
+	<form onsubmit="submitQuery(event)" autocomplete="off" class="search">
 		<input type="text" name="query" placeholder="Search for name, LRN, or address." class="search-query">
 		<select class="search-level" onchange="getSection(this.value)" name="searchLevel" aria-label="search in grade-level">
 			<option value="" selected hidden disabled>Grade Level</option>

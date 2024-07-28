@@ -49,9 +49,9 @@ app.get('/',(req,res) => {
 	})
 })
 
-app.get('/qr',compression(), (req,res) => {
+app.get('/qr',compression(), (req,res,next) => {
 	if (typeof req.session.authenticated === 'undefined' || req.session.authenticated === false || typeof req.session.user === 'undefined') {
-		return res.render('noUser', {message: 'Not Logged in'});
+		return next('route'); // goes to 404
 	}
 	db.query(q.GET_QRCACHE,[req.session.user],(err,result) => {
         if (err) {console.error('SQL:', err); return res.status(500).send('Internal Server Error');}

@@ -5,7 +5,6 @@
 
 // tl;dr: generate qr image function here
 
-
 function parseGender(data) {
 	if (typeof data === 'undefined' ||data === null|| data.length === 0) {return}
 	if (Number(data) === 1) {
@@ -23,4 +22,24 @@ function parseName(data) {
 	return `${data.firstName} ${data.middleName.charAt(0).toUpperCase()}. ${data.lastName}`;
 }
 
-module.exports = {parseGender,parseName}
+// 1:-info,  2:-warning,  3:-error
+function logger(type,message) {
+	switch (type) {
+		case 1:
+			type = 'INFO';
+			break;
+		case 2: // warning
+			type = '\u001b[33mWARNING\u001b[0m';
+			break;
+		case 3: // error
+			type = '\u001b[31mERROR\u001b[0m';
+			break
+		default:
+			type = 'INFO'
+			break;
+	}
+	new Date().toLocaleDateString('en-PH', { month: 'numeric' , day: '2-digit' ,year: '2-digit' });
+	console.log(`[${type}][${new Date().toLocaleDateString('en-PH', { month: 'numeric' , day: '2-digit' ,year: '2-digit' })}\u001b[1m ${new Date().toLocaleTimeString('en-PH', { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit'})}\u001b[0m] ${message}`)
+}
+
+module.exports = {parseGender,parseName,logger}

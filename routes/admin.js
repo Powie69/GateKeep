@@ -31,6 +31,16 @@ app.post('/login', limiter(10,1),(req,res) => {
 app.use('/',isAdmin,express.static('node_modules/qr-scanner'));
 app.use('/',isAdmin,express.static('views/admin',{extensions:'html'}));
 
+app.get('/qr-image/:id',isAdmin,(req,res,next)=> {
+	const data = req.params.id
+	// if (typeof data === 'undefined') {next('route')}
+	db.query(q.GET_QRCACHE, [data], (err,result) => {
+		if (err) { console.error('SQL:', err); return res.status(500).josn({message: 'Internal Server Error'});}
+		if (result.length !== 1) {return next()}
+		res.setHeader('Content-Type', 'image/svg+xml');
+		res.send(result[0].qrCache);
+	})
+})
 
 app.post('/send', isAdmin, (req,res) => {
 	const data = req.body;
@@ -42,7 +52,7 @@ app.post('/send', isAdmin, (req,res) => {
 		if (result.length == 0) {return res.status(404).json({message:"no Qr data found"})}
 		db.query(q.PROCESS_MESSAGE, [result[0].id,data.isIn,new Date().toISOString().slice(0, 19),result[0].id],(err,result) => {
 			if (err) { console.error('SQL:', err); return res.status(500).send('Internal Server Error');}
-			result = result[1][0];
+			result = result[2][0];
 			result.sex = parseGender(result.sex);
 			result.name = parseName(result);
 			res.status(201).json(result);
@@ -96,7 +106,7 @@ app.post('/getInfo', isAdmin, (req,res) => {
 	const data = req.body;
 	if (!data || data.userId == undefined || data.withQrId == undefined) {return res.status(400).send("bad data (server)")}
 	if (data.withQrId) {
-		db.query(q.GET_INFO_WITH_QRID, [data.userId], (err,result) => {
+		db.query(q.GET_INFO_WITH_QR, [data.userId], (err,result) => {
 			if (err) {console.error('SQL:', err); return res.status(500).send('Internal Server Error');}
 			if (result.length == 0) {return res.status(404).json({message: "user not found"});}
 			result[0].sex = parseGender(result[0].sex);
@@ -218,7 +228,12 @@ app.post('/remove/check', isAdmin, limiter(10,1), (req,res) => {
 	db.query(q.REMOVE_ACCOUNT_CHECK, [data.id], (err,result) => {
 		if (err) {console.error('SQL:', err); return res.status(500).send('Internal Server Error');}
 		if (result.length === 0) {return res.status(404).json({message: 'user not found'})}
-		res.json(result[0])
+		result = result[0];
+		result.name = parseName(result)
+		delete result.firstName;
+		delete result.lastName;
+		delete result.middleName;
+		res.json(result)
 	})
 })
 

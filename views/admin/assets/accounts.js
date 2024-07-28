@@ -12,58 +12,50 @@ let messageCount = 0;
 let isBulkAddValid = false;
 
 //* submit
-async function submitQuery(type) {
+async function submitQuery(event) {
 	event.preventDefault()
 	try {
-		const data = Object.fromEntries(new FormData(document.querySelector(".search")).entries())
+		const data = Object.fromEntries(new FormData(event.target).entries())
+		if (data.query.length == 0 && data.searchLevel === undefined && data.searchSection === undefined) {return console.log('bad data (client)');}
 
-		if (data.query.length == 0 && data.searchLevel == undefined && data.searchSection == undefined) {return console.log('bad data (client)');}
-
-		const response = await fetch('http://localhost:3000/admin/query', {
+		const response = await fetch('/admin/query', {
 			method: 'POST',
-			headers: {
-				'Content-Type': 'application/x-www-form-urlencoded',
-			},
+			headers: {'Content-Type': 'application/x-www-form-urlencoded',},
 			body: new URLSearchParams(data),
-			credentials: 'include',
 		});
 
-		if (!response.ok) { return console.log("sumting wong"); }
+		if (!response.ok) { return console.warn("sumting wong"); }
 
 		const respond = await response.json();
         console.log(respond);
 		displayData(respond)
 
-	} catch (error) {console.error(console.error(error));}
+	} catch (err) {console.error(err);}
 }
 
 async function submitEditInfo(event) {
 	event.preventDefault()
 	try {
-		const data = Object.fromEntries(new FormData(document.querySelector(".editDialog-form")).entries());
-		console.log(data.password);
+		const data = Object.fromEntries(new FormData(event.target).entries());
 		if ((typeof data.email != 'undefined' && data.email.length !== 0 && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) || (typeof data.phoneNumber != 'undefined' && data.phoneNumber.length !== 0 && !/^09\d{9}$/.test(data.phoneNumber)) || (typeof data.lrn != 'undefined' && data.lrn.length !== 0 && !/^[1-6]\d{5}(0\d|1\d|2[0-5])\d{4}$/.test(data.lrn)) || (typeof data.gradeLevel != 'undefined' && data.gradeLevel.length !== 0 && (data.gradeLevel < 7 || data.gradeLevel > 12)) || (typeof data.zip !== 'undefined' && data.zip.length !== 0 && !/^(0[4-9]|[1-9]\d)\d{2}$/.test(data.zip))) {console.log('bad data'); return submitEditOnErr('client', 'bad data')}
 
 		for (const i in data) {if (typeof data[i] !== 'undefined' && data[i].length !== 0 && data[i].length >= 255) {return submitEditOnErr('client', 'bad data')}}
 
-		data.userId = document.querySelector('.editDialog').getAttribute('userId');
+		data.userId = event.target.parentElement.getAttribute('userId');
+		console.log(event.target.parentElement);
 
-		const response = await fetch('http://localhost:3000/admin/updateInfo', {
+		const response = await fetch('/admin/updateInfo', {
 			method: 'POST',
-			headers: {
-				'Content-Type': 'application/x-www-form-urlencoded',
-			},
+			headers: {'Content-Type': 'application/x-www-form-urlencoded',},
 			body: new URLSearchParams(data),
-			credentials: 'include',
 		});
 
 		const respond = await response.json();
 		if (!response.ok) {return submitEditOnErr(response.status,respond.message);}
 
-		console.log(respond);
 		document.querySelector('.editDialog').close();
-		// alert('big success')
-	} catch (error) {console.error(error);}
+		alert('big success')
+	} catch (err) {console.error(err);}
 }
 
 async function submitAddAccount(event) {
@@ -72,13 +64,10 @@ async function submitAddAccount(event) {
 		const data = Object.fromEntries(new FormData(event.target).entries())
 		if (typeof data.email === 'undefined' || data.email.length === 0 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email) || typeof data.phoneNumber === 'undefined' || data.phoneNumber.length === 0 || !/^09\d{9}$/.test(data.phoneNumber) || typeof data.password === 'undefined' || data.password.length === 0 || typeof data.lrn === 'undefined' || data.lrn.length === 0 || !/^[1-6]\d{5}(0\d|1\d|2[0-5])\d{4}$/.test(data.lrn) || typeof data.lastName === 'undefined'  || data.lastName.length === 0 || typeof data.firstName === 'undefined' || data.firstName.length === 0 || (typeof data.gradeLevel != 'undefined' && data.gradeLevel.length != 0 && (data.gradeLevel < 7 || data.gradeLevel > 12)) || (typeof data.zip !== 'undefined' && data.zip.length != 0 && !/^(0[4-9]|[1-9]\d)\d{2}/.test(data.zip))) {return console.log('bad data');}
 
-		const response = await fetch('http://localhost:3000/admin/create', {
+		const response = await fetch('/admin/create', {
 			method: 'POST',
-			headers: {
-				'Content-Type': 'application/x-www-form-urlencoded',
-			},
+			headers: {'Content-Type': 'application/x-www-form-urlencoded',},
 			body: new URLSearchParams(data),
-			credentials: 'include',
 		});
 
 		const respond = await response.json();
@@ -94,13 +83,10 @@ async function submitBulkAddAccount(event) {
 		const data = Object.fromEntries(new FormData(event.target).entries())
 		if (!isBulkAddValid) {return}
 
-		const response = await fetch('http://localhost:3000/admin/bulkCreate', {
+		const response = await fetch('/admin/bulkCreate', {
 			method: 'POST',
-			headers: {
-				'Content-Type': 'application/x-www-form-urlencoded',
-			},
+			headers: {'Content-Type': 'application/x-www-form-urlencoded',},
 			body: new URLSearchParams(data),
-			credentials: 'include',
 		});
 
 		const respond = await response.json();
@@ -114,9 +100,9 @@ function displayData(data) {
 	document.querySelectorAll(".main-table-contain > div.main-table-contain-item").forEach(element => {
 		document.querySelector(".main-table-contain").removeChild(element);
 	});
+	if (typeof data === 'undefined') {return}
 	for (let i = 0; i < data.length; i++) {
 		const element = document.importNode(document.querySelector(".main-table-contain_template").content, true).querySelector(".main-table-contain-item")
-		if (data == undefined) {return}
 		for (let i1 in data[i]) {
 			const elementItem = element.querySelector(`#item-${i1}`);
 			if (elementItem == null) {continue;}
@@ -149,19 +135,16 @@ function getSection(value) {
 }
 
 //* start of fetch
-async function fetchMessages(limit,offset,userId) {
-	if (!limit || offset == undefined || limit >= 25 || offset <= -1) { console.log("bad data (client)"); return;}
-	return await fetch('http://localhost:3000/admin/getMessage', {
-	method: 'post',
-	credentials: 'include',
-	headers: {
-		'Content-Type': 'application/json'
-	  },
+async function fetchMessages(limit,offset,userId) {b 
+	if (!limit || !offset || limit >= 25 || offset <= -1) {console.log("bad data"); return;}
+	return await fetch('/admin/getMessage', {
+	method: 'POST',
+	headers: {'Content-Type': 'application/json'},
 	body: `{"limit": ${limit}, "offset": ${offset}, "userId": ${userId}}`
 	})
 	.then(response => {
 		if (response.status >= 400) {
-			console.warn("wong (client)"); return;
+			console.warn('something wrong'); return;
 		} else {
 			return response.json();
 		}
@@ -172,17 +155,13 @@ async function fetchMessages(limit,offset,userId) {
 
 async function fetchInfo(userId, withQrId) {
 	if (typeof userId === undefined || userId.length === 0) {console.log("bad data (client)");}
-	return await fetch('http://localhost:3000/admin/getInfo', {
+	return await fetch('/admin/getInfo', {
 	method: 'POST',
-	credentials: 'include',
-	headers: {
-		'Content-Type': 'application/json'
-	  },
-	body: `{"userId": ${userId}, "withQrId": ${withQrId}}`
+	headers: {'Content-Type': 'application/json'},body: `{"userId": ${userId}, "withQrId": ${withQrId}}`
 	})
 	.then(response => {
 		if (response.status >= 400) {
-			console.warn("wong (client)"); return;
+			console.warn('something wrong'); return;
 		} else {
 			return response.json();
 		}
@@ -191,34 +170,13 @@ async function fetchInfo(userId, withQrId) {
 	.catch(error => {console.error(error);});
 }
 
-async function fetchQrcache(userId) {
-	if (userId == undefined) {console.log("bad data (client)");}
-	return await fetch('http://localhost:3000/admin/getQrImage', {
-	method: 'post',
-	credentials: 'include',
-	headers: {
-		'Content-Type': 'application/json'
-	  },
-	body: `{"userId": ${userId}}`
-	})
-	.then(response => {
-		if (response.status >= 400) {
-			console.warn("wong (client)"); return;
-		} else {
-			return response.blob();
-		}
-	})
-	.then(data => {return data;})
-	.catch(error => {console.error(error);});
-}
-
 //* start of dialog
 async function openLogsDialog(value) {
-	document.querySelector('.logsDialog').showModal();
-	document.querySelector('.logsDialog').setAttribute("userId",value.parentElement.getAttribute('userId'));
-	document.querySelector('.logsDialog').setAttribute("userName",value.parentElement.parentElement.querySelector('#item-firstName').innerText);
+	const element = document.querySelector('.logsDialog');
+	element.showModal();
+	element.setAttribute("userId",value.parentElement.getAttribute('userId'));
+	element.setAttribute("userName",value.parentElement.parentElement.querySelector('#item-firstName').innerText);
 	const data = await fetchMessages(15,messageCount,value.parentElement.getAttribute('userId'));
-	console.log(data);
 	updateMessage(data);
 }
 
@@ -226,8 +184,6 @@ async function openInfoDialog(value) {
 	document.querySelector('.infoDialog').showModal()
 	const data = await fetchInfo(value.parentElement.getAttribute('userId'), true)
 	updateInfo(data)
-	const qrData = await fetchQrcache(value.parentElement.getAttribute('userId'))
-	updateInfoQr(qrData)
 	console.log(data);
 }
 
@@ -309,30 +265,24 @@ function checkBulkAdd(data) {
 }
 
 async function removeAccount(id) {
-	fetch('http://localhost:3000/admin/remove/check',{
-		method: 'POST',
-		headers: {'Content-Type': 'application/json'},
-		body: `{"id": ${id}}`
-	}).then(response => {
-		if (response.status <= 400) {
-			return response.json();
-		} else if (response.status === 404){
-			// handle if user is not found
-			console.error('user does not exist');
-			return;
-		} else {
-			console.error('erorr when deleting account');
-			return;
-		}
-	}).then(async data => {
-		const auth = prompt(`are you sure you want to delete the account of ${data.firstName}, ${data.lastName}\n\n To confirm, retype LRN of user:`);
+	try {
+		const response = await fetch('/admin/remove/check', {
+			method: 'POST',
+			headers: {'Content-Type': 'application/json'},
+			body: `{"id": ${id}}`
+		});
+
+		if (!response.ok) {return console.warn('something wrong')}
+		const data = await response.json(); // respond
+		console.log(data);
+		const auth = prompt(`are you sure you want to delete the account of ${data.name}\n\n To confirm, retype LRN of user:`);
 		if (auth === null) {return}
 		if (auth != data.lrn) {return alert('Wrong LRN!');}
-		const response = await removeAccountReq(id, auth);
+		const response2 = await removeAccountReq(id, auth);
 		const respond = await response.json();
 		if (!response.ok) {alert(`${response.status}: ${respond.message}`); console.log(respond.message); return;}
-		alert(`${response.status}: ${respond.message}`);
-	})
+		alert(`${response2.status}: ${respond.message}`);
+	} catch (err) {console.error(err);}
 }
 
 async function removeAccountReq(id,lrn) {
@@ -379,11 +329,7 @@ function updateInfo(data) {
 		}
 		if (data[i]) {element.innerText = data[i]; element.classList.remove('_nullItems')}
 	}
-}
-
-function updateInfoQr(data) {
-	if (!data) {return}
-	document.querySelector('#info-qrId + img').src = URL.createObjectURL(data);
+	document.querySelector('#info-qrImage').src = `/admin/qr-image/${data.id}`
 }
 
 function updatePlaceholderInfo(data) {
