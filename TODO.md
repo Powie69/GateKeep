@@ -10,13 +10,13 @@
 - [X] SSL certificate
 - [X] qr scanner
 - [X] account managment dasbaord
+- [ ] offline mode (PWA)
 - [ ] command line
 
 ##
 
 
-- [ ] redis for counting logged in users
-- [X] fix qr generation cuz it broke
+- [ ] websocket for live message updating.
 - [X] separate mysql commands
 - [X] panel login stuff
 - [X] move client folder to '/public'

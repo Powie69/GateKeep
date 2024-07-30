@@ -329,7 +329,7 @@ function updateInfo(data) {
 		}
 		if (data[i]) {element.innerText = data[i]; element.classList.remove('_nullItems')}
 	}
-	document.querySelector('#info-qrImage').src = `/admin/qr-image/${data.id}`
+	document.querySelector('#info-qrImage').src = `/admin/qr-image/${data.userId}`
 }
 
 function updatePlaceholderInfo(data) {

@@ -45,13 +45,13 @@ const isAdmin = (req, res, next) => {
 		if (req.accepts('html')) {
 			return res.render('404', {
 				displayName: req.session.displayName || 'No user',
-				path: req.path
+				path: '/admin' + req.path
 			})
 		}
 		if (req.accepts('json')) {
 			return res.json({message:'not found'});
 		}
-		res.type('txt').send('not found');
+		return res.type('txt').send('not found');
 	}
 	next();
 };
