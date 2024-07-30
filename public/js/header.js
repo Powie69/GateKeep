@@ -17,7 +17,7 @@ async function logout() {
 		if (response.status >= 400) {
 			return;
 		}
-	location.reload()
+	location.href = '/';
 	})
 	.catch(err => {console.error(err);});
 }

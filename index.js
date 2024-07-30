@@ -1,7 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
-const {isAdmin} = require('./js/middleware.js')
 const session = require('express-session');
 const MySQLStore = require('express-mysql-session')(session);
 const app = express();

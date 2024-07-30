@@ -61,6 +61,18 @@ app.get('/qr',compression(), (req,res,next) => {
 	})
 })
 
+app.get('/about',(req,res) => {
+	return res.render('about',{
+		displayName: req.session.displayName || 'No user',
+	})
+})
+
+app.get('/help',(req,res) => {
+	return res.render('help',{
+		displayName: req.session.displayName || 'No user',
+	})
+})
+
 app.get('/print',(req,res) => {
 	if (typeof req.session.authenticated === 'undefined' || req.session.authenticated === false || typeof req.session.user === 'undefined') {
 		return res.render('noUser', {message: 'Cannot print beacase you are not logged in'});

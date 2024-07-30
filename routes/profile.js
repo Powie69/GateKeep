@@ -33,9 +33,9 @@ app.post('/login', limiter(30, 5),(req, res) => {
 app.post('/logout', isAuthenticated, (req,res) => {
 	req.session.destroy((err) => {
 		if (err) {return res.status(500).json({ message: "Internal Server Error"})}
+		res.json({ message: "logout successful"});
+		logger(1,`[${req.sessionID.substring(0,6)}] [${req.headers['user-agent']}] Logged out.`)
 	})
-	res.json({ message: "logout successful"});
-	logger(1,`[${req.sessionID.substring(0,6)}] [${req.headers['user-agent']}] Logged out.`)
 })
 
 app.post('/getMessage', isAuthenticated, limiter(200,10), (req,res) => {

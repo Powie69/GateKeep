@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>About | Gatekeep</title>
+	<!--  -->
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded">
+	<link rel="stylesheet" href="/css/normalize.css">
+	<link rel="stylesheet" href="/css/setup.css">
+	<link rel="stylesheet" href="/css/styles.css">
+	<link rel="stylesheet" href="/css/about.css">
+</head>
+<body>
+	<header class="header">
+		<a class="header-logo" href="/"><img src="/images/logo.webp" alt="website logo"></a>
+		<nav class="header-nav _desktopOnly">
+			<ul>
+				<li><a href="/About">About</a></li>
+				<li><a href="/Help">Help</a></li>
+			</ul>
+		</nav>
+		<ul class="header-buttons">
+			<li><button class="_desktopOnly" aria-label="Accessibility"><i class="material-symbols-rounded" aria-hidden="true">accessibility_new</i></button></li>
+			<li><button class="_mobileOnly" onclick="handleAside()" aria-label="Menu"><i class="material-symbols-rounded" aria-hidden="true">menu</i></button></li>
+			<li><button class="_logout _desktopOnly" aria-label="Account options"><i class="material-symbols-rounded" aria-hidden="true">Account_Circle</i></button></li>
+		</ul>
+	</header>
+	<div class="overlay" onclick="handleAside()"></div>
+	<aside class="aside _mobileOnly" aria-hidden="true">
+		<button class="aside-hide" onclick="handleAside()" aria-label="Menu"><i class="material-symbols-rounded" aria-hidden="true">menu</i></button>
+		<div class="aside-account">
+			<span class="aside-account-name"><i class="material-symbols-rounded" aria-hidden="true">Account_Circle</i> <%= displayName %></span>
+			<button class="aside-account-logout" onclick="logout()" tabindex="0"><i class="material-symbols-rounded" aria-hidden="true">logout</i> Logout</button>
+		</div>
+		<hr>
+		<nav class="aside-nav">
+			<ul>
+				<li><a href="/">Home <i class="material-symbols-rounded" aria-hidden="true">Arrow_forward</i></a></li>
+				<li><a href="/About">About <i class="material-symbols-rounded" aria-hidden="true">Arrow_forward</i></a></li>
+				<li><a href="/Help">Help <i class="material-symbols-rounded" aria-hidden="true">Arrow_forward</i></a></li>
+			</ul>
+		</nav>
+	</aside>
+
+	<section class="transition" id="About">
+		<h3>GateKeep</h3>
+		<div class="transition-wave">
+			<svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+				<path d="M985.66,92.83C906.67,72,823.78,31,743.84,14.19c-82.26-17.34-168.06-16.33-250.45.39-57.84,11.73-114,31.07-172,41.86A600.21,600.21,0,0,1,0,27.35V120H1200V95.8C1132.19,118.92,1055.71,111.31,985.66,92.83Z" class="shape-fill"></path>
+			</svg>
+		</div>
+	</section>
+
+	<script src="/js/header.js" defer></script>
+</body>
+</html>
