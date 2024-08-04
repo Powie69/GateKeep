@@ -100,7 +100,6 @@ const ws = new WebSocket('ws://localhost:3000/ws'); //change in prod
 
 ws.onmessage = (event) => {
 	const data = JSON.parse(event.data);
-	console.log(data);
 	const element = document.importNode(msgElement.content, true).querySelector(".logs-item")
 	element.querySelector(".logs-item-desc ._time").innerText = new Date(data.time).toLocaleTimeString('en-US', {timeZone: "Asia/Manila", hour12: true, hour: "numeric", minute: "2-digit"})
 	element.querySelector(".logs-item-desc ._date").innerText = new Date(data.time).toLocaleDateString('en-US', { month: 'long', day: 'numeric'})
