@@ -1,8 +1,9 @@
 const express = require('express');
-const {db} = require('../js/middleware.js');
-const {parseGender,parseName} = require('../js/utility.js');
+const {db, isAuthenticated} = require('../js/middleware.js');
+const {parseGender,parseName,clients} = require('../js/utility.js');
 const compression = require('compression');
 const q = require('../js/profileQuery.js');
+const expressWs = require('express-ws');
 const app = express.Router();
 
 const browsersRegex = [
@@ -49,7 +50,7 @@ app.get('/',(req,res) => {
 	})
 })
 
-app.get('/qr',compression(), (req,res,next) => {
+app.get('/qr', (req,res,next) => {
 	if (typeof req.session.authenticated === 'undefined' || req.session.authenticated === false || typeof req.session.user === 'undefined') {
 		return next('route'); // goes to 404
 	}
@@ -59,6 +60,18 @@ app.get('/qr',compression(), (req,res,next) => {
 		res.setHeader('Content-Type', 'image/svg+xml');
 		res.send(result[0].qrCache);
 	})
+})
+
+app.ws('/ws',(ws,req) => {
+	if (!req.session.authenticated) {
+		console.log("not auth");
+		return ws.close();
+	}
+	clients.set(req.session.user, ws);
+
+	ws.on('close', () => {
+    	clients.delete(req.session.user);
+	});	
 })
 
 app.get('/about',(req,res) => {

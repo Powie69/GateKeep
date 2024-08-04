@@ -1,8 +1,8 @@
 const express = require('express');
 const crypto = require('crypto');
 const qrcode = require('qrcode');
-const { isAdmin, limiter, db } = require('../js/middleware.js');
-const {parseGender, parseName,logger} = require('../js/utility.js');
+const {isAdmin, limiter, db } = require('../js/middleware.js');
+const {parseGender, parseName,logger,clients} = require('../js/utility.js');
 const q = require('../js/adminQuery.js');
 const app = express.Router();
 
@@ -62,18 +62,20 @@ app.get('/qr-image/:id',isAdmin,(req,res,next)=> {
 
 app.post('/send', isAdmin, (req,res) => {
 	const data = req.body;
-	console.log(data);
 	if (!data || typeof data.qrId === 'undefined'|| typeof data.isIn !== 'boolean' || data.qrId == "") {return res.status(400).json({message:"bad data"});}
 
 	db.query(q.GET_ID_VIA_QRID, [data.qrId], (err,result) => {
 		if (err) {logger(3,`[${req.sessionID.substring(0,6)}] [/admin/send] [SQL] ${JSON.stringify(err)}`); return res.status(500).json({message:'Internal Server Error'});}
 		if (result.length == 0) {return res.status(404).json({message:"no Qr data found"})}
-		db.query(q.PROCESS_MESSAGE, [result[0].id,data.isIn,new Date().toISOString().slice(0, 19),result[0].id],(err,result) => {
+		const userId = result[0].id;
+		db.query(q.PROCESS_MESSAGE, [result[0].id,data.isIn,new Date().toISOString().slice(0, 19),userId],(err,result) => {
 			if (err) {logger(3,`[${req.sessionID.substring(0,6)}] [/admin/send/] [SQL] ${JSON.stringify(err)}`); return res.status(500).send('Internal Server Error');}
-			result = result[2][0];
-			result.sex = parseGender(result.sex);
-			result.name = parseName(result);
-			res.status(201).json(result);
+			result[3][0].sex = parseGender(result[3][0].sex);
+			result[3][0].name = parseName(result[3][0]);
+			res.status(201).json(result[3][0]);
+			const ws = clients.get(userId);
+			if (!ws || ws.readyState !== 1) {return};
+			ws.send(JSON.stringify(result[2][0]));
 		})
 	})
 })

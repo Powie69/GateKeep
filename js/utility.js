@@ -1,10 +1,3 @@
-// account maangement will have create account function
-// when creating the account it will generate a qr image
-// make 'generate qr image' a function
-// since it might be used for redundancy and stuff
-
-// tl;dr: generate qr image function here
-
 function parseGender(data) {
 	if (typeof data === 'undefined' ||data === null|| data.length === 0) {return}
 	if (Number(data) === 1) {
@@ -42,4 +35,6 @@ function logger(type,message) {
 	console.log(`[${type}][${new Date().toLocaleDateString('en-PH', { month: 'numeric' , day: '2-digit' ,year: '2-digit' })}\u001b[1m ${new Date().toLocaleTimeString('en-PH', { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit'})}\u001b[0m] ${message}`)
 }
 
-module.exports = {parseGender,parseName,logger}
+const clients = new Map(); // Store WebSocket connections
+
+module.exports = {parseGender,parseName,logger,clients}

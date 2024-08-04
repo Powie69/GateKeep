@@ -2,8 +2,10 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
 const session = require('express-session');
+const compression = require('compression');
 const MySQLStore = require('express-mysql-session')(session);
 const app = express();
+const expressWs = require('express-ws')(app);
 
 // *
 require('dotenv').config();
@@ -35,6 +37,7 @@ app.use(session({
 	},
 }));
 
+app.use(compression());
 // static files
 if (process.env.NODE_ENV === 'production') {
 	app.use('/css',express.static(path.join(__dirname, 'public', 'cssMinified')))
@@ -43,10 +46,10 @@ if (process.env.NODE_ENV === 'production') {
 app.use(express.static('public'));
 //
 
-app.use('/', require('./routes/pages.js'))
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use('/', require('./routes/pages.js'))
 
 app.use('/profile', require('./routes/profile.js'));
 app.use('/admin', require('./routes/admin.js'));

@@ -31,13 +31,13 @@ function updateMessage(data) {
 		element.querySelector(".logs-item-desc ._time").innerText = new Date(data[i].time).toLocaleTimeString('en-US', {timeZone: "Asia/Manila", hour12: true, hour: "numeric", minute: "2-digit"})
 		element.querySelector(".logs-item-desc ._date").innerText = new Date(data[i].time).toLocaleDateString('en-US', { month: 'long', day: 'numeric'})
 		if (data[i].isIn == 1) {
-			element.querySelector(".logs-item-title span").innerText = "IN"
-			element.querySelector(".logs-item-title i").innerText = "Login"
-			element.querySelector(".logs-item-desc ._isIn").innerText = "arrived"
+			element.querySelector(".logs-item-title span").innerText = "IN";
+			element.querySelector(".logs-item-title i").innerText = "Login";
+			element.querySelector(".logs-item-desc ._isIn").innerText = "arrived";
 		} else {
-			element.querySelector(".logs-item-title span").innerText = "OUT"
-			element.querySelector(".logs-item-title i").innerText = "Logout"
-			element.querySelector(".logs-item-desc ._isIn").innerText = "left"
+			element.querySelector(".logs-item-title span").innerText = "OUT";
+			element.querySelector(".logs-item-title i").innerText = "Logout";
+			element.querySelector(".logs-item-desc ._isIn").innerText = "left";
 		}
 		document.querySelector(".logs-container").appendChild(element);
 		messageCount++;
@@ -94,3 +94,29 @@ dialogElements.forEach(element => {
 		if (e.clientX < dialogDimensions.left ||e.clientX > dialogDimensions.right ||e.clientY < dialogDimensions.top ||e.clientY > dialogDimensions.bottom) {element.close()}
 	})
 });
+
+// ws
+const ws = new WebSocket('ws://localhost:3000/ws'); //change in prod
+
+ws.onmessage = (event) => {
+	const data = JSON.parse(event.data);
+	console.log(data);
+	const element = document.importNode(msgElement.content, true).querySelector(".logs-item")
+	element.querySelector(".logs-item-desc ._time").innerText = new Date(data.time).toLocaleTimeString('en-US', {timeZone: "Asia/Manila", hour12: true, hour: "numeric", minute: "2-digit"})
+	element.querySelector(".logs-item-desc ._date").innerText = new Date(data.time).toLocaleDateString('en-US', { month: 'long', day: 'numeric'})
+	if (data.isIn == 1) {
+		element.querySelector(".logs-item-title span").innerText = "IN";
+		element.querySelector(".logs-item-title i").innerText = "Login";
+		element.querySelector(".logs-item-desc ._isIn").innerText = "arrived";
+	} else {
+		element.querySelector(".logs-item-title span").innerText = "OUT";
+		element.querySelector(".logs-item-title i").innerText = "Logout";
+		element.querySelector(".logs-item-desc ._isIn").innerText = "left";
+	}
+	document.querySelector(".logs-container").insertBefore(element,document.querySelector(".logs-container").firstChild);
+	messageCount++;
+};
+
+ws.onerror = (error) => {
+  console.error('WebSocket error:', error);
+};
