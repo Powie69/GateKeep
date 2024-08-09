@@ -5,7 +5,7 @@ const session = require('express-session');
 const compression = require('compression');
 const MySQLStore = require('express-mysql-session')(session);
 const app = express();
-const expressWs = require('express-ws')(app);
+require('express-ws')(app);
 
 // *
 require('dotenv').config();

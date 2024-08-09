@@ -6,15 +6,14 @@ const app = express.Router();
 
 app.post('/login', limiter(30, 5),(req, res) => {
 	const data = req.body;
-	
+
 	if (!(/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.username) || /^09\d{9}$/.test(data.username)) || !/^[1-6]\d{11}$/.test(data.lrn) || !data.password) {
         return res.status(400).json({ message: "Email or Phone number, LRN, and password are required" });
     }
-
 	if (typeof req.session.authenticated !== 'undefined' || req.session.authenticated === true || typeof req.session.user !== 'undefined') {
 		return res.status(400).json({message:'already auth'})
 	}
-	
+
 	db.query(q.LOGIN, [data.username, data.username, data.lrn, data.password], (err, result) => {
         if (err) {logger(3,`[${req.sessionID.substring(0,6)}] [/profile/login] [SQL] ${JSON.stringify(err)}`); return res.status(500).send('Internal Server Error');}
         if (result.length !== 1) {return res.status(401).json({ message: "Invalid email/phone, LRN, or password" });}

@@ -86,12 +86,12 @@
 	/* flex-direction: column-reverse; */
 	place-items: center;
 	gap: 1rem;
-	height: 90%;
+	height: 100%;
 	overflow-y: auto;
 	overflow-x: hidden;
+	box-sizing: border-box;
 	scroll-snap-type: y mandatory;
 	scrollbar-width: thin;
-	z-index: 10;
 }
 
 .logs-item {
@@ -196,9 +196,9 @@
 
 /* *qr */
 
-.qr { 
+.qr {
 	position: relative;
-	grid-area: qr; 
+	grid-area: qr;
 }
 
 .qr-header {
@@ -305,14 +305,14 @@
 	border-radius: 4px;
 }
 
-.viewDialog-container-person { 
+.viewDialog-container-person {
 	grid-area: person;
 	display: grid;
 	grid-template-columns: repeat(3, 1fr);
 	grid-template-rows: repeat(2, 1fr);
 }
-.viewDialog-container-school { 
-	grid-area: school; 
+.viewDialog-container-school {
+	grid-area: school;
 	display: flex;
 }
 .viewDialog-container-address {
@@ -365,7 +365,7 @@
 	}
 
 	.logs {
-		height: 500px;
+		height: 85vh;
 	}
 
 	.info-contain.collapse {

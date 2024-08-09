@@ -1,22 +1,18 @@
 const express = require('express');
-const {db, isAuthenticated} = require('../js/middleware.js');
+const {db} = require('../js/middleware.js');
 const {parseGender,parseName,clients} = require('../js/utility.js');
-const compression = require('compression');
 const q = require('../js/profileQuery.js');
-const expressWs = require('express-ws');
 const app = express.Router();
 
 const browsersRegex = [
 	/Edg/,
 	/Chrome/,
-	/Firefox/,
+	/Firefox/
 ]
 
 app.get('/',(req,res) => {
 	if (typeof req.session.authenticated === 'undefined' || req.session.authenticated === false || typeof req.session.user === 'undefined') {
-		if (req.accepts('html')) {
-			return res.sendFile('views/home.html',{root:'./'});
-		}
+		return res.sendFile('views/home.html',{root:'./'});
 	}
 	db.query(q.GET_INFO, [req.session.user], (err,result) => {
         if (err) {console.error('SQL:', err); return res.status(500).send('Internal Server Error');}
@@ -35,7 +31,6 @@ app.get('/',(req,res) => {
 			middleName: data.middleName,
 			age: data.age,
 			sex: parseGender(data.sex),
-			lrn: data.lrn,
 			gradeLevel: data.gradeLevel,
 			section: data.section,
 			barangay: data.barangay,
@@ -71,7 +66,7 @@ app.ws('/ws',(ws,req) => {
 
 	ws.on('close', () => {
     	clients.delete(req.session.user);
-	});	
+	});
 })
 
 app.get('/about',(req,res) => {
