@@ -73,6 +73,6 @@ app.use((req,res) => {
 // ** //
 
 app.listen(process.env.serverPort, () => {
-	process.title = `Gatekeep Server | ${process.env.serverPort}`
+	process.title = `Gatekeep Server | ${process.env.serverPort}`;
 	console.log(`Server is running on http://localhost:${process.env.serverPort} || ${process.env.NODE_ENV}`);
 });

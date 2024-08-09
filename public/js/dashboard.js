@@ -1,7 +1,8 @@
 let messageCount = 0;
 let getMessageDebounce = true;
+const displayName = document.querySelector('.overlay').getAttribute('DisplayName');
 const msgElement = document.querySelector(".logs-item_template");
-const dialogElements = document.querySelectorAll('.viewDialog')
+const dialogElements = document.querySelectorAll('.viewDialog');
 
 function fetchMessages(limit, offset) {
 	if (!limit || offset == undefined || limit >= 25 || offset <= -1) { console.log("bad data (client)"); return;}
@@ -31,13 +32,13 @@ function updateMessage(data) {
 		element.querySelector(".logs-item-desc ._time").innerText = new Date(data[i].time).toLocaleTimeString('en-US', {timeZone: "Asia/Manila", hour12: true, hour: "numeric", minute: "2-digit"})
 		element.querySelector(".logs-item-desc ._date").innerText = new Date(data[i].time).toLocaleDateString('en-US', { month: 'long', day: 'numeric'})
 		if (data[i].isIn == 1) {
-			element.querySelector(".logs-item-title span").innerText = "IN";
-			element.querySelector(".logs-item-title i").innerText = "Login";
-			element.querySelector(".logs-item-desc ._isIn").innerText = "arrived";
+			element.querySelector(".logs-item-title span").innerText = 'IN';
+			element.querySelector(".logs-item-title i").innerText = 'Login';
+			element.querySelector(".logs-item-desc ._isIn").innerText = 'arrived';
 		} else {
-			element.querySelector(".logs-item-title span").innerText = "OUT";
-			element.querySelector(".logs-item-title i").innerText = "Logout";
-			element.querySelector(".logs-item-desc ._isIn").innerText = "left";
+			element.querySelector(".logs-item-title span").innerText = 'OUT';
+			element.querySelector(".logs-item-title i").innerText = 'Logout';
+			element.querySelector(".logs-item-desc ._isIn").innerText = 'left';
 		}
 		document.querySelector(".logs-container").appendChild(element);
 		messageCount++;
@@ -60,6 +61,19 @@ function collapseSection(section,button) {
 	setTimeout(() => {
 		// section.classList.toggle('_noDisplay')
 	}, 500);
+}
+
+function sendNotification(title, options) {
+    if (!("Notification" in window)) {return;}
+
+	if (Notification.permission !== "denied" || Notification.permission === "default") {
+		Notification.requestPermission().then(permission => {
+            if (permission !== "granted") {return;}
+            new Notification(title, options);
+        });
+		return;
+	}
+    new Notification(title, options);
 }
 
 fetchMessages(10, messageCount)
@@ -100,22 +114,20 @@ const ws = new WebSocket('ws://localhost:3000/ws'); //change in prod
 
 ws.onmessage = (event) => {
 	const data = JSON.parse(event.data);
+	const isInText = data.isIn ? 'arrived' : 'left';
+	const isInIcon = data.isIn ? 'Login' : 'Logout';
 	const element = document.importNode(msgElement.content, true).querySelector(".logs-item")
 	element.querySelector(".logs-item-desc ._time").innerText = new Date(data.time).toLocaleTimeString('en-US', {timeZone: "Asia/Manila", hour12: true, hour: "numeric", minute: "2-digit"})
 	element.querySelector(".logs-item-desc ._date").innerText = new Date(data.time).toLocaleDateString('en-US', { month: 'long', day: 'numeric'})
-	if (data.isIn == 1) {
-		element.querySelector(".logs-item-title span").innerText = "IN";
-		element.querySelector(".logs-item-title i").innerText = "Login";
-		element.querySelector(".logs-item-desc ._isIn").innerText = "arrived";
-	} else {
-		element.querySelector(".logs-item-title span").innerText = "OUT";
-		element.querySelector(".logs-item-title i").innerText = "Logout";
-		element.querySelector(".logs-item-desc ._isIn").innerText = "left";
-	}
+	element.querySelector(".logs-item-title i").innerText = isInIcon;
+	element.querySelector(".logs-item-desc ._isIn").innerText = isInText;
+	element.querySelector(".logs-item-title span").innerText = data.isIn ? "IN" : "OUT";
+	sendNotification(`${displayName} ${isInText} at ${new Date(data.time).toLocaleTimeString('en-US', {timeZone: "Asia/Manila", hour12: true, hour: "numeric", minute: "2-digit"})}`, {
+		body: `${new Date(data.time).toLocaleDateString('en-US', { month: 'long', day: 'numeric'})}`,
+		icon: `/images/${isInIcon}.svg`
+	})
 	document.querySelector(".logs-container").insertBefore(element,document.querySelector(".logs-container").firstChild);
 	messageCount++;
 };
 
-ws.onerror = (error) => {
-  console.error('WebSocket error:', error);
-};
+ws.onerror = (error) => {console.error(error);};

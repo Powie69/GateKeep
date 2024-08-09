@@ -68,12 +68,13 @@ app.post('/send', isAdmin, (req,res) => {
 		if (err) {logger(3,`[${req.sessionID.substring(0,6)}] [/admin/send] [SQL] ${JSON.stringify(err)}`); return res.status(500).json({message:'Internal Server Error'});}
 		if (result.length == 0) {return res.status(404).json({message:"no Qr data found"})}
 		const userId = result[0].id;
-		db.query(q.PROCESS_MESSAGE, [result[0].id,data.isIn,new Date().toISOString().slice(0, 19),userId],(err,result) => {
+		db.query(q.PROCESS_MESSAGE, [userId,data.isIn,new Date().toISOString().slice(0, 19),userId],(err,result) => {
 			if (err) {logger(3,`[${req.sessionID.substring(0,6)}] [/admin/send/] [SQL] ${JSON.stringify(err)}`); return res.status(500).send('Internal Server Error');}
 			result[3][0].sex = parseGender(result[3][0].sex);
 			result[3][0].name = parseName(result[3][0]);
 			res.status(201).json(result[3][0]);
 			const ws = clients.get(userId);
+			console.log(result[2][0]);
 			if (!ws || ws.readyState !== 1) {return};
 			ws.send(JSON.stringify(result[2][0]));
 		})
