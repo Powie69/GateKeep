@@ -1,8 +1,8 @@
 {
 	"name": "Gatekeep",
 	"short_name": "Gatekeep",
-	"description": "spyware",
-	"start_url": "/index.html",
+	"description": "",
+	"start_url": "/",
 	"display": "fullscreen",
 	"orientation": "portrait-primary",
 	"background_color": "#1e1e1e",

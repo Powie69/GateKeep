@@ -78,7 +78,19 @@
 	</aside>
 	<main class="main">
 		<section class="logs">
-			<header><h1>Logs</h1></header>
+			<header class="logs-header">
+				<h1>Logs</h1>
+				<div class="logs-header-buttons">
+					<div class="dropdown">
+						<button class="info-header-buttons-dropdown dropdown-button" isDropdownOpen="false" onclick="handleDropdown(this)" aria-label="more options" aria-haspopup="menu" type="button"><i class="material-symbols-rounded" aria-hidden="true">more_vert</i></button>
+						<div class="dropdown-contain">
+							<menu>
+								<li><button onclick="Notification.requestPermission()">Get Notfications</button></li>
+							</menu>
+						</div>
+					</div>
+				</div>
+			</header>
 			<div class="logs-container">
 				<template class="logs-item_template">
 					<div class="logs-item">
@@ -135,7 +147,7 @@
 					</div>
 				</div>
 			</header>
-			<div class="qr-contain"><img src="/qr" alt="" class="qr-contain-img"></div>
+			<div class="qr-contain"><img src="/qr"  class="qr-contain-img"></div>
 		</section>
 	</main>
 

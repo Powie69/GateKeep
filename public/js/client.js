@@ -1,13 +1,3 @@
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('js/service-worker.js').then((registration) => {
-      console.log('ServiceWorker registration successful with scope: ', registration.scope);
-    }, (error) => {
-      console.log('ServiceWorker registration failed: ', error);
-    });
-  });
-}
-
 document.querySelector(".main").style.setProperty('background', `url(images/circles/${Math.floor(Math.random() * 10) + 1}.svg) no-repeat top left / cover`)
 document.querySelector("._logout").addEventListener("click", () => {
 	fetch('/profile/logout', {

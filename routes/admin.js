@@ -74,7 +74,6 @@ app.post('/send', isAdmin, (req,res) => {
 			result[3][0].name = parseName(result[3][0]);
 			res.status(201).json(result[3][0]);
 			const ws = clients.get(userId);
-			console.log(result[2][0]);
 			if (!ws || ws.readyState !== 1) {return};
 			ws.send(JSON.stringify(result[2][0]));
 		})

@@ -8,10 +8,7 @@ function fetchMessages(limit, offset) {
 	if (!limit || offset == undefined || limit >= 25 || offset <= -1) { console.log("bad data (client)"); return;}
 	return fetch('profile/getMessage', {
 	method: 'post',
-	credentials: 'include',
-	headers: {
-		'Content-Type': 'application/json'
-	  },
+	headers: {'Content-Type': 'application/json'},
 	body: `{"limit": ${limit}, "offset": ${offset}}`
 	})
 	.then(response => {
@@ -58,15 +55,15 @@ function handleDropdown(element) {
 function collapseSection(section,button) {
 	section.classList.toggle('collapse')
 	button.classList.toggle('up')
-	setTimeout(() => {
+	// setTimeout(() => {
 		// section.classList.toggle('_noDisplay')
-	}, 500);
+	// }, 500);
 }
 
 function sendNotification(title, options) {
     if (!("Notification" in window)) {return;}
 
-	if (Notification.permission !== "denied" || Notification.permission === "default") {
+	if (Notification.permission === "denied" || Notification.permission === "default") {
 		Notification.requestPermission().then(permission => {
             if (permission !== "granted") {return;}
             new Notification(title, options);
@@ -79,11 +76,15 @@ function sendNotification(title, options) {
 fetchMessages(10, messageCount)
 .then(data => { updateMessage(data)})
 
+if (Notification.permission !== "denied" || Notification.permission === "default") {
+	setTimeout(() => {
+		Notification.requestPermission();
+	}, 120000); // 2 minutes
+}
+
 // closes dropdown when clicked outside of container
 document.addEventListener('click',event => {
-	if (event.target.closest('.dropdown-contain') || event.target.closest('.dropdown-button') || document.querySelector('.dropdown-button').attributes.isDropdownOpen.value === 'false') {
-		return
-	}
+	if (event.target.closest('.dropdown-contain') || event.target.closest('.dropdown-button')) {return}
 	document.querySelectorAll('.dropdown').forEach(element => {
 		element.querySelector('.dropdown-contain menu').style.removeProperty('display');
 		element.querySelector('.dropdown-button').setAttribute('isDropdownOpen', 'false');
