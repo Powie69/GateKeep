@@ -6,7 +6,7 @@
 	"display": "fullscreen",
 	"orientation": "portrait-primary",
 	"background_color": "#1e1e1e",
-	"theme_color": "#5048ef",
+	"theme_color": "#9F5B1E",
 	"icons": [
 		{
 			"src": "../assets/icons/manifest-icon-192.maskable.png",
@@ -33,4 +33,4 @@
 			"purpose": "maskable"
 		  }
 	]
-  }
+}

@@ -3,6 +3,7 @@ let getMessageDebounce = true;
 const displayName = document.querySelector('.overlay').getAttribute('DisplayName');
 const msgElement = document.querySelector(".logs-item_template");
 const dialogElements = document.querySelectorAll('.viewDialog');
+const ws = new WebSocket('ws://localhost:3000/ws'); //change in prod
 
 function fetchMessages(limit, offset) {
 	if (!limit || offset == undefined || limit >= 25 || offset <= -1) { console.log("bad data (client)"); return;}
@@ -109,9 +110,6 @@ dialogElements.forEach(element => {
 		if (e.clientX < dialogDimensions.left ||e.clientX > dialogDimensions.right ||e.clientY < dialogDimensions.top ||e.clientY > dialogDimensions.bottom) {element.close()}
 	})
 });
-
-// ws
-const ws = new WebSocket('ws://localhost:3000/ws'); //change in prod
 
 ws.onmessage = (event) => {
 	const data = JSON.parse(event.data);
