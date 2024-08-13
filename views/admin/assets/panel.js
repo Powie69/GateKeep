@@ -1,5 +1,6 @@
 const scanner = QrScanner; // for the sake of intellisense
-const statusText = document.querySelector(".info-header-text")
+const statusText = document.querySelector(".info-header-text");
+const scanSound = new Audio('/admin/assets/scan.ogg');
 let scanDebounce = false;
 let lastScanned = undefined;
 let camerasFetched = false;
@@ -24,7 +25,7 @@ async function sendData(qrId,isInMode) {
 			setMessage(respond.message,'error')
 			return;
 		}
-
+		scanSound.play();
 		for (let i in respond) {
 			if (['lastName', 'firstName', 'middleName'].includes(i)) {continue}
 			if (typeof respond[i] !== 'undefined') {document.querySelector(`.info-${i} span`).innerText = respond[i]}
