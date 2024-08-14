@@ -8,7 +8,7 @@ function parseGender(data) {
 }
 
 function parseName(data) {
-	if (!data ||typeof data.firstName !== 'string' || typeof data.firstName !== 'string' ) {return} 
+	if (!data ||typeof data.firstName !== 'string' || typeof data.firstName !== 'string' ) {return}
 	if (typeof data.middleName !== 'string' || data.middleName.length === 0) { // if fatherless
 		return`${data.firstName} ${data.lastName}`;
 	}

@@ -1,14 +1,8 @@
 const express = require('express');
 const {db} = require('../js/middleware.js');
-const {parseGender,parseName,clients} = require('../js/utility.js');
+const {parseGender,parseName,clients, logger} = require('../js/utility.js');
 const q = require('../js/profileQuery.js');
 const app = express.Router();
-
-const browsersRegex = [
-	/Edg/,
-	/Chrome/,
-	/Firefox/
-]
 
 app.get('/',(req,res) => {
 	if (typeof req.session.authenticated === 'undefined' || req.session.authenticated === false || typeof req.session.user === 'undefined') {
@@ -51,9 +45,11 @@ app.get('/qr', (req,res,next) => {
 	}
 	db.query(q.GET_QRCACHE,[req.session.user],(err,result) => {
         if (err) {console.error('SQL:', err); return res.status(500).send('Internal Server Error');}
-		if (result.length !== 1) {return res.status(500).send('Internal Server Error');}
+		if (result.length !== 1) {return res.status(404).send('Internal Server Error');}
 		res.setHeader('Content-Type', 'image/svg+xml');
-		res.send(result[0].qrCache);
+		res.render('qr', {
+			path: result[0].qrCache
+		})
 	})
 })
 
@@ -85,28 +81,15 @@ app.get('/print',(req,res) => {
 	if (typeof req.session.authenticated === 'undefined' || req.session.authenticated === false || typeof req.session.user === 'undefined') {
 		return res.render('noUser', {message: 'Cannot print beacase you are not logged in'});
 	}
-	const ua = req.headers['user-agent'];
-	let browser = 'Chrome'; // Default value
-	for (const i of browsersRegex) {
-		const match = ua.match(i);
-		if (match) {
-			if (match[0] === 'Edg') {
-				browser = "Edge"; break;
-			}
-			browser = match[0]; break;
-		}
-	}
 	db.query(q.GET_INFO_FOR_PRINT, [req.session.user],(err,result) => {
 		if (err) {console.error('SQL:', err); return res.status(500).send('Internal Server Error');}
-		result = result[0]
-		result.name = parseName(result)
+		if (result.length !== 1) {logger(3,`[${req.sessionID.substring(0,6)}] [${req.headers['user-agent']}] PRINT ERROR`);}
+		result = result[0];
 		res.render('print', {
 			displayName: req.session.displayName,
-			name: result.name,
-			gradeLevel: result.gradeLevel,
-			section: result.section,
-			browser: browser,
-			// link: process.env[`printBrowser${browser}`]
+			name: parseName(result),
+			gradeLevel: result.gradeLevel || 'NO GRADE LEVEL!',
+			section: result.section || 'NO SECTION!',
 		})
 	})
 })
