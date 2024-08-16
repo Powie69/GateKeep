@@ -30,7 +30,7 @@ const data = [
 ]
 
 for (let i = 0; i < data.length; i++) {
-	const hash = crypto.createHash('sha256').update(data[i].lrn + 'cbef7ed5be0c68cb2a1a1d1e3adc00fb42de9e2ada455cc86fc1ff3dcda9b0cf').digest('hex').substring(0,25);
+	const hash = crypto.createHash('sha256').update(data[i].lrn + process.env.qrIdSecret).digest('hex').substring(0,25);
 	console.log(hash);
 	db.query('UPDATE users SET qrId = ? WHERE id = ?;', [hash,data[i].id], (err,result) => {
 		if (err) {return console.error(err);}

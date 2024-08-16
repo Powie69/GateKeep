@@ -18,7 +18,7 @@ app.get('/',(req,res,next) => {
 	if (typeof req.query.account !== 'undefined') {
 		return res.redirect('/admin/accounts')
 	} // else
-	res.redirect('/admin/panel')
+	res.redirect('/admin/panel');
 })
 
 app.post('/login', limiter(10,1),(req,res) => {
@@ -59,7 +59,7 @@ app.get('/qr-image/:id',isAdmin,(req,res,next)=> {
 		if (result.length !== 1) {return next()}
 		if (result[0].qrCache === null) {return res.json({message:'no qr image for user'})}
 		res.set('Content-Type', 'image/svg+xml');
-		return res.send(result[0].qrCache);
+		return res.render('qr' , { path: result[0].qrCache })
 	})
 })
 
