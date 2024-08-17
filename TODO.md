@@ -16,7 +16,7 @@
 ##
 
 
-- [ ] websocket for live message updating.
+- [X] websocket for live message updating.
 - [X] separate mysql commands
 - [X] panel login stuff
 - [X] move client folder to '/public'

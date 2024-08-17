@@ -52,11 +52,11 @@
 				<fieldset class="settings-scanner">
 					<legend>Camera Settings</legend>
 					<label>start: <input type="checkbox" name="cameraStart" autocomplete="off" onchange="scannerStart(this)"></label>
-					<label>Scans per second: <input name="fpps" type="number" value="1" min="1" max="30" onchange="fps(this)"></label>
+					<label>Scans per second: <input name="fpps" type="number" value="1" min="1" max="30" onchange="fps(this.value)"></label>
 					<label>Torch: <input type="checkbox" name="torch" autocomplete="off" onchange="flash(this)"></label>
-					<label>Mirrored: <input type="checkbox" name="torch" autocomplete="off" checked onchange="mirror(this)"></label>
+					<label>Mirrored: <input type="checkbox" name="torch" autocomplete="off" checked onchange="mirror()"></label>
 					<label>Cameras:
-						<select name="" autocomplete="off" onchange="changeCamera(this)" class="cameraList">
+						<select name="" autocomplete="off" onchange="changeCamera(this.value)" class="cameraList">
 							<option hidden disabled selected>waiting for camera to start</option>
 							<option hidden class="cameraList_original"></option>
 						</select>
@@ -64,13 +64,13 @@
 				</fieldset>
 				<fieldset>
 					<legend>Qr settings</legend>
-					<label>dap <input type="checkbox" autocomplete="off" checked onchange="changeIsIn(this)"></label>
+					<label>Is Entrance <input type="checkbox" autocomplete="off" checked onchange="changeIsIn(this)"></label>
 				</fieldset>
 			</form>
-		</div
+		</div>
 	</main>
 
 	<script src="/admin/qr-scanner.umd.min.js" defer></script>
-	<script src="assets/panel.js" defer></script>
+	<script src="/admin/assets/panel.js" defer></script>
 </body>
 </html>

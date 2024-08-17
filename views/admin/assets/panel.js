@@ -35,9 +35,12 @@ async function sendData(qrId,isInMode) {
 }
 
 const qrScanner = new scanner(document.querySelector("#scanner-video"), async result => {
-	const qrId = JSON.parse(result.data).qrId;
-	if (lastScanned == qrId) { setMessage("Already scanned", "error"); return;}
 	if (scanDebounce) {setMessage("Wait", "error"); return;}
+	let qrId;
+	try {
+		qrId = JSON.parse(result.data).qrId;
+	} catch (err) { console.error(err); return setMessage('JSON Parse failed', 'error'); }
+	if (lastScanned == qrId) { setMessage("Already scanned", "error"); return;}
 	scanDebounce = true;
 	lastScanned = qrId;
 	setTimeout(() => {
@@ -93,7 +96,7 @@ async function scannerStart(value) {
 }
 
 function fps(value) {
-	const data = value.value
+	const data = value
 	if (typeof data !== "string" || data >= 30 || data <= 0) { console.warn("bad fps data"); return }
 	scannerConfig.maxScansPerSecond = data;
 }
@@ -123,10 +126,10 @@ function getCameras(data) {
 }
 
 function changeCamera(value) {
-	qrScanner.setCamera(cameraList[value.value]);
+	qrScanner.setCamera(cameraList[value]);
 }
 
-function mirror(value) {
+function mirror() {
 	document.querySelector('#scanner-video').classList.toggle('_notMirror')
 }
 
