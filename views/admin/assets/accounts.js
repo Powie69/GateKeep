@@ -135,8 +135,9 @@ function getSection(value) {
 }
 
 //* start of fetch
-async function fetchMessages(limit,offset,userId) {b 
-	if (!limit || !offset || limit >= 25 || offset <= -1) {console.log("bad data"); return;}
+async function fetchMessages(limit,offset,userId) {
+	if (!limit || !userId || !Number.isSafeInteger(offset) || limit >= 25 || offset < 0) {console.log("bad data"); return;}
+
 	return await fetch('/admin/getMessage', {
 	method: 'POST',
 	headers: {'Content-Type': 'application/json'},
@@ -225,7 +226,7 @@ function addAccountOnSuccess(respond) {
 	alert(respond.message);
 }
 
-function addAccountOnErr(status,respond) {	
+function addAccountOnErr(status,respond) {
 	document.querySelector('.addDialog header p').innerText = status + ': ' + respond;
 	document.querySelector('.addDialog header p').style.removeProperty('visibility');
 	setTimeout(() => {
@@ -410,7 +411,6 @@ document.querySelector('.bulkAddDialog-form textarea').addEventListener('change'
 	isBulkAddValid = response.ok;
 	document.querySelector('.bulkAddDialog-preview-accounts span').innerText = response.accounts;
 	document.querySelector('.bulkAddDialog-preview-errors span').innerText = response.errors;
-	console.log(document.querySelector('.bulkAddDialog-preview p'));
 	if (response.message !== '') {
 		document.querySelector('.bulkAddDialog-preview p').innerText = response.message;
 		document.querySelector('.bulkAddDialog-preview p').style.removeProperty('visibility');
