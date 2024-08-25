@@ -31,7 +31,6 @@ function logger(type,message) {
 			type = 'INFO'
 			break;
 	}
-	new Date().toLocaleDateString('en-PH', { month: 'numeric' , day: '2-digit' ,year: '2-digit' });
 	console.log(`[${type}][${new Date().toLocaleDateString('en-PH', { month: 'numeric' , day: '2-digit' ,year: '2-digit' })}\u001b[1m ${new Date().toLocaleTimeString('en-PH', { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit'})}\u001b[0m] ${message}`)
 }
 

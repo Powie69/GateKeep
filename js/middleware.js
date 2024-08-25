@@ -1,5 +1,6 @@
 const mysql = require('mysql2');
 const rateLimit = require('express-rate-limit');
+const {logger} = require('./utility.js')
 require('dotenv').config();
 
 const db = mysql.createConnection({
@@ -12,7 +13,7 @@ const db = mysql.createConnection({
 
 db.connect((err) => {
     if (err) { console.error(err); return; }
-    console.log('Connected to MySQL');
+	logger(1,`\u001b[32mCONNECTED TO DATABASE\u001b[0m`)
 });
 
 const rateLimitHandler = (errMessage = "rate limit timeout") => {

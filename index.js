@@ -32,7 +32,7 @@ app.use(session({
 	cookie: {
 		maxAge: 2419200000, // 4 weeks
 		httpOnly: true,
-		// secure: true,
+		// secure: process.env.cookieSecure,
 		sameSite: 'strict'
 	},
 }));
@@ -45,7 +45,6 @@ if (process.env.NODE_ENV === 'production') {
 }
 app.use(express.static('public'));
 //
-
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
