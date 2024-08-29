@@ -8,9 +8,9 @@ const ws = new WebSocket('ws://localhost:3000/ws'); //change in prod
 function fetchMessages(limit, offset) {
 	if (!limit || offset == undefined || limit >= 25 || offset <= -1) { console.log("bad data (client)"); return;}
 	return fetch('profile/getMessage', {
-	method: 'post',
-	headers: {'Content-Type': 'application/json'},
-	body: `{"limit": ${limit}, "offset": ${offset}}`
+		method: 'post',
+		headers: {'Content-Type': 'application/json'},
+		body: `{"limit": ${limit}, "offset": ${offset}}`
 	})
 	.then(response => {
 		if (response.status >= 400) {
@@ -112,7 +112,10 @@ dialogElements.forEach(element => {
 });
 
 ws.onmessage = (event) => {
-	const data = JSON.parse(event.data);
+	let data;
+	try {
+		data = JSON.parse(event.data);
+	} catch (err) {console.error(err);}
 	const isInText = data.isIn ? 'arrived' : 'left';
 	const isInIcon = data.isIn ? 'Login' : 'Logout';
 	const element = document.importNode(msgElement.content, true).querySelector(".logs-item")
