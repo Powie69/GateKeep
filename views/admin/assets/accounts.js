@@ -24,12 +24,14 @@ async function submitQuery(event) {
 			body: new URLSearchParams(data),
 		});
 
-		if (!response.ok) { return console.warn("sumting wong"); }
+		if (!response.ok) {
+			if (response.status === 404) {
+				document.querySelector('.main-title').innerText = `no results for query`;
+			}
+			return console.warn("sumting wong");
+		}
 
-		const respond = await response.json();
-        console.log(respond);
-		displayData(respond)
-
+		displayData(await response.json());
 	} catch (err) {console.error(err);}
 }
 
@@ -97,10 +99,10 @@ async function submitBulkAddAccount(event) {
 
 //*
 function displayData(data) {
+	if (typeof data === 'undefined') {return}
 	document.querySelectorAll(".main-table-contain > div.main-table-contain-item").forEach(element => {
 		document.querySelector(".main-table-contain").removeChild(element);
 	});
-	if (typeof data === 'undefined') {return}
 	for (let i = 0; i < data.length; i++) {
 		const element = document.importNode(document.querySelector(".main-table-contain_template").content, true).querySelector(".main-table-contain-item")
 		for (let i1 in data[i]) {
@@ -111,7 +113,7 @@ function displayData(data) {
 		element.querySelector('.main-table-contain-item-buttons').setAttribute("userId", data[i].userId);
 		document.querySelector(".main-table-contain").appendChild(element);
 	}
-	document.querySelector('.main-title_number').innerText = data.length;
+	document.querySelector('.main-title').innerText = `${data.length} results found`;
 }
 
 function getSection(value) {

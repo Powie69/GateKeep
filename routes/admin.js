@@ -88,7 +88,7 @@ app.post('/query', isAdmin, (req,res) => {
 	if (data.query.length == 0 && data.searchLevel == undefined && data.searchSection == undefined) {return res.status(400).send('Bad data')}
 	db.query(q.GET_QUERY, [...new Array(10).fill(data.query), ...new Array(3).fill(data.searchLevel), ...new Array(3).fill(data.searchSection)], (err,result) => {
 		if (err) {logger(3,`[${req.sessionID.substring(0,6)}] [/admin/query] [SQL] ${JSON.stringify(err)}`); return res.status(500).send('Internal Server Error');}
-		if (result.length == 0) {return res.status(404).json({message: "user not found"});}
+		if (result.length == 0) {return res.status(404).json({message: "no result for query"});}
 		for (let i = 0; i < result.length; i++) {
 			result[i].sex  = parseGender(result[i].sex)
 		}
