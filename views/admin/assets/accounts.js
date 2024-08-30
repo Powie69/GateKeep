@@ -140,10 +140,8 @@ function getSection(value) {
 async function fetchMessages(limit,offset,userId) {
 	if (!limit || !userId || !Number.isSafeInteger(offset) || limit >= 25 || offset < 0) {console.log("bad data"); return;}
 
-	return await fetch('/admin/getMessage', {
-	method: 'POST',
-	headers: {'Content-Type': 'application/json'},
-	body: `{"limit": ${limit}, "offset": ${offset}, "userId": ${userId}}`
+	return await fetch(`/admin/messages/${userId}?offset=${offset}&limit=${limit}`, {
+		headers: {'Content-Type': 'application/json'}
 	})
 	.then(response => {
 		if (response.status >= 400) {
@@ -158,9 +156,9 @@ async function fetchMessages(limit,offset,userId) {
 
 async function fetchInfo(userId, withQrId) {
 	if (typeof userId === undefined || userId.length === 0) {console.log("bad data (client)");}
-	return await fetch('/admin/getInfo', {
-	method: 'POST',
-	headers: {'Content-Type': 'application/json'},body: `{"userId": ${userId}, "withQrId": ${withQrId}}`
+	const qrQuery = withQrId ? '?qr' : '';
+	return await fetch(`/admin/info/${userId}${qrQuery}`, {
+		headers: {'Content-Type': 'application/json'}
 	})
 	.then(response => {
 		if (response.status >= 400) {

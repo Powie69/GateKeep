@@ -2,7 +2,7 @@ const express = require('express');
 const crypto = require('crypto');
 const qrcode = require('qrcode');
 const {isAdmin, limiter, db } = require('../js/middleware.js');
-const {parseGender, parseName,logger,clients} = require('../js/utility.js');
+const {parseGender,parseName,logger,clients} = require('../js/utility.js');
 const q = require('../js/adminQuery.js');
 const app = express.Router();
 
@@ -16,7 +16,7 @@ app.get('/',(req,res,next) => {
 		return res.sendFile('views/admin/login.html',{root:'./'});
 	}
 	if (typeof req.query.account !== 'undefined') {
-		return res.redirect('/admin/accounts')
+		return res.redirect('/admin/accounts');
 	} // else
 	res.redirect('/admin/panel');
 })
@@ -54,14 +54,46 @@ app.get('/qr-image-create/:id',isAdmin,(req,res) => {
 	})
 })
 
-app.get('/qr-image/:id',isAdmin,(req,res,next)=> {
+app.get('/qr-image/:id',isAdmin,(req,res) => {
 	const data = req.params.id
 	db.query(q.GET_QRCACHE, [data], (err,result) => {
 		if (err) {logger(3,`[${req.sessionID.substring(0,6)}] [/admin/qr-image/:id] [SQL] ${JSON.stringify(err)}`); return res.status(500).josn({message: 'Internal Server Error'});}
-		if (result.length !== 1) {return next()}
+		if (result.length !== 1) {return res.json({message:'not found'})}
 		if (result[0].qrCache === null) {return res.json({message:'no qr image for user'})}
 		res.set('Content-Type', 'image/svg+xml');
 		return res.render('qr' , { path: result[0].qrCache })
+	})
+})
+
+app.get('/info/:userId',isAdmin,(req,res) => {
+	const userId = req.params.userId;
+	if (typeof req.query.qr == 'undefined') {
+		db.query(q.GET_INFO, [userId], (err,result) => {
+			if (err) {logger(3,`[${req.sessionID.substring(0,6)}] [/admin/getInfo] [SQL] ${JSON.stringify(err)}`); return res.status(500).send('Internal Server Error');}
+			if (result.length == 0) {return res.status(404).json({message: "user not found"});}
+			result[0].sex = parseGender(result[0].sex);
+			return res.json(result[0]);
+		})
+	} else {
+		db.query(q.GET_INFO_WITH_QR, [userId], (err,result) => {
+			if (err) {logger(3,`[${req.sessionID.substring(0,6)}] [/admin/getInfo] [SQL] ${JSON.stringify(err)}`); return res.status(500).send('Internal Server Error');}
+			if (result.length == 0) {return res.status(404).json({message: "user not found"});}
+			result[0].sex = parseGender(result[0].sex);
+			res.json(result[0]);
+		})
+	}
+})
+
+app.get('/messages/:userId',isAdmin,(req,res) => {
+	const data = req.query;
+	if (!data.limit || typeof data.offset !== 'string' || data.offset <= -1 || data.limit > 25 || data.limit <= -1) {return res.status(400).send("bad data (server)")}
+	db.query(q.GET_MESSAGE, [req.params.userId, +data.limit, +data.offset], (err, result) => {
+		if (err) {logger(3,`[${req.sessionID.substring(0,6)}] [/admin/getMessage] [SQL] ${JSON.stringify(err)}`); return res.status(500).send('Internal Server Error');}
+		if (result.length === 0) {
+			res.status(404).json({message: "No more messages found"});
+		} else {
+			res.json(result);
+		}
 	})
 })
 
@@ -109,54 +141,8 @@ app.post('/updateInfo', isAdmin, (req,res) => {
 
 	db.query(q.UPDATE_INFO, [data.email, data.email, data.email, data.phoneNumber, data.phoneNumber, data.phoneNumber, data.lrn, data.lrn, data.lrn, data.password, data.password, data.password, data.userId, data.lastName, data.lastName, data.lastName, data.firstName, data.firstName, data.firstName, data.middleName, data.middleName, data.middleName, data.gradeLevel, data.gradeLevel, data.gradeLevel, data.section, data.section, data.section, data.age, data.age, data.age, data.sex, data.sex, data.sex, data.houseNo, data.houseNo, data.houseNo, data.street, data.street, data.street, data.zip, data.zip, data.zip, data.barangay, data.barangay, data.barangay, data.city, data.city, data.city, data.province, data.province, data.province, data.userId], (err,result) => {
         if (err) {logger(3,`[${req.sessionID.substring(0,6)}] [/admin/updateInfo] [SQL] ${JSON.stringify(err)}`); return res.status(500).json({message: "Internal Server Error"});}
-		console.log(result)
+		// console.log(result)
 		res.status(200).json({message: "ok"});
-	})
-})
-
-app.post('/getMessage', isAdmin, (req,res) => {
-	const data = req.body;
-	if (!data.limit || data.offset == undefined || data.limit >= 25 || data.offset <= -1) {return res.status(400).send("bad data (server)")}
-	db.query(q.GET_MESSAGE, [data.userId, data.limit, data.offset], (err, result) => {
-		if (err) {logger(3,`[${req.sessionID.substring(0,6)}] [/admin/getMessage] [SQL] ${JSON.stringify(err)}`); return res.status(500).send('Internal Server Error');}
-		if (result.length === 0) {
-			res.status(404).json({message: "No more messages found"})
-		} else {
-			res.json(result);
-		}
-	})
-});
-
-app.post('/getInfo', isAdmin, (req,res) => {
-	const data = req.body;
-	if (!data || data.userId == undefined || data.withQrId == undefined) {return res.status(400).send("bad data (server)")}
-	if (data.withQrId) {
-		db.query(q.GET_INFO_WITH_QR, [data.userId], (err,result) => {
-			if (err) {logger(3,`[${req.sessionID.substring(0,6)}] [/admin/getInfo] [SQL] ${JSON.stringify(err)}`); return res.status(500).send('Internal Server Error');}
-			if (result.length == 0) {return res.status(404).json({message: "user not found"});}
-			result[0].sex = parseGender(result[0].sex);
-			res.json(result[0]);
-		})
-		return;
-	}
-	db.query(q.GET_INFO, [data.userId], (err,result) => {
-		if (err) {logger(3,`[${req.sessionID.substring(0,6)}] [/admin/getInfo] [SQL] ${JSON.stringify(err)}`); return res.status(500).send('Internal Server Error');}
-		if (result.length == 0) {return res.status(404).json({message: "user not found"});}
-		result[0].sex = parseGender(result[0].sex);
-		return res.json(result[0]);
-	})
-})
-
-app.post('/getQrImage', isAdmin, (req,res) => {
-	const data = req.body
-	if (!data || data.userId == undefined) {return res.status(400).send("bad data (server)")}
-	db.query(q.GET_QRCACHE, [data.userId], (err,result) => {
-		if (err) {logger(3,`[${req.sessionID.substring(0,6)}] [/admin/getQrImage] [SQL] ${JSON.stringify(err)}`); return res.status(500).send('Internal Server Error');}
-		if (!result || result.length == 0) {return res.status(404).json({message: "user not found"});}
-		if (result[0].qrCache != null) {
-			res.set('Content-Type', 'image/svg+xml');
-			return res.send(result[0].qrCache);
-		}
 	})
 })
 
