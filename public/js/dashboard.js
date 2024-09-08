@@ -74,7 +74,7 @@ function sendNotification(title, options) {
     new Notification(title, options);
 }
 
-fetchMessages(10, messageCount)
+fetchMessages(20, messageCount)
 .then(data => { updateMessage(data)})
 
 if (Notification.permission !== "denied" || Notification.permission === "default") {
