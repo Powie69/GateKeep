@@ -6,5 +6,4 @@ node_modules
 nodemon.json
 
 js/temp.js
-database/guh.sql
-database/session.sql
+.sql
