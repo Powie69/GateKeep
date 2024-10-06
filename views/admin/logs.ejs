@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>dashboard | Gatekeep</title>
+	<!--  -->
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded">
+	<link rel="stylesheet" href="/css/normalize.css">
+	<link rel="stylesheet" href="/css/setup.css">
+	<link rel="stylesheet" href="/css/styles.css">
+	<link rel="stylesheet" href="/admin/assets/logs.css">
+</head>
+<body>
+	<%- include('../component/header'); %>
+	<header class="title"><h1>Logs</h1></header>
+
+	<div class="logs-container">
+		<template class="logs-item_template">
+			<div class="logs-item">
+				<button class="logs-item-button"><i class="logs-item-button-img material-symbols-rounded" aria-hidden="true"></i></button>
+				<p class="logs-item-text"><span class="logs-item-text-name"></span> <span class="logs-item-text-verb"></span> at <span class="logs-item-text-time"></span><br><span class="logs-item-text-grade"></span> · <span class="logs-item-text-date"></span></p>
+			</div>
+		</template>
+	</div>
+
+	<script src="/admin/assets/logs.js"></script>
+</body>
+</html>

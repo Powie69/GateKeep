@@ -1,0 +1,54 @@
+.title h1 {
+	text-align: center;
+}
+
+.logs-container {
+	height: 75vh;
+	width: 35vw;
+	margin: 0 auto;
+	overflow-y: scroll;
+	border-radius: 14px;
+	scroll-snap-type: y mandatory;
+	scrollbar-width: thin;
+}
+
+.logs-item {
+	display: flex;
+	align-items: center;
+	gap: .5rem;
+	margin: 1rem 0;
+	padding: 1rem;
+	background-color: #2e2e2e;
+	border-radius: 14px;
+	box-shadow: rgba(30, 30, 42, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+	scroll-snap-align: start;
+}
+
+.logs-item-button {
+	background: none;
+	border: none;
+}
+
+.logs-item-button:hover .logs-item-button-img::before {
+	content: "account_box";
+	color: var(--c-highlight);
+}
+
+.logs-item-button-button {
+	color: var(--c-text);
+}
+
+.logs-item-button-img::before {
+	content: "logout";
+	font-size: 48px;
+}
+
+.logs-item-button-img.isIn::before {
+	content: "login";
+}
+
+.logs-item-text-name {
+	overflow: hidden;
+	max-width: 50%;
+	text-overflow: ellipsis;
+}
