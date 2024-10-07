@@ -3,7 +3,7 @@ let messageCount = 0;
 let getMessageDebounce = true;
 
 function fetchMessages(limit, offset) {
-	if (!limit || offset == undefined || limit >= 25 || offset <= -1) { console.log("bad data (client)"); return;}
+	if (!limit || offset == undefined || limit > 40 || offset <= -1) { console.log("bad data (client)"); return;}
 	return fetch('/admin/logs/data', {
 		method: 'POST',
 		headers: {'Content-Type': 'application/json'},
@@ -75,7 +75,7 @@ function updateInfo(data) {
 	document.querySelector('#userInfo-qrImage').src = `/admin/qr-image/${data.userId}`
 }
 
-fetchMessages(20, messageCount)
+fetchMessages(40, messageCount)
 .then(data => { updateMessage(data)})
 
 document.querySelector(".logs-container").addEventListener('scrollend', function(){
