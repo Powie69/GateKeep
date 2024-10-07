@@ -1,4 +1,5 @@
 let messageCount = 0;
+let getMessageDebounce = true;
 
 function fetchMessages(limit, offset) {
 	if (!limit || offset == undefined || limit >= 25 || offset <= -1) { console.log("bad data (client)"); return;}
@@ -35,3 +36,14 @@ function updateMessage(data) {
 
 fetchMessages(20, messageCount)
 .then(data => { updateMessage(data)})
+
+document.querySelector(".logs-container").addEventListener('scrollend', function(){
+	if (getMessageDebounce && (this.clientHeight + this.scrollTop >= this.scrollHeight - 60)) {
+		fetchMessages(5, messageCount)
+		.then(data => {updateMessage(data)})
+		getMessageDebounce = false;
+		setTimeout(function() {
+            getMessageDebounce = true;
+        }, 500);
+	}
+})

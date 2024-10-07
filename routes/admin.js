@@ -95,24 +95,6 @@ app.get('/messages/:userId',isAdmin,(req,res) => {
 	})
 })
 
-app.post('/logs/data',isAdmin,(req,res) => {
-	const data = req.body;
-	if (!data.limit || data.offset == undefined || data.limit >= 25 || data.offset <= -1) {return res.status(400).send("bad data (server)")}
-	db.query(q.GET_LOGS, [data.limit, data.offset], (err, result) => {
-		if (err) {logger(3,`[${req.sessionID.substring(0,6)}] [/admin/getMessage] [SQL] ${JSON.stringify(err)}`); return res.status(500).send('Internal Server Error');}
-		if (result.length === 0) {
-			return res.status(404).json({message: "No more messages found"});
-		}
-		for (let i = 0; i < result.length; i++) {
-			result[i].name = parseName(result[i]).slice(0,30);
-			delete result[i].firstName;
-			delete result[i].lastName;
-			delete result[i].middleName;
-		}
-		res.json(result);
-	})
-})
-
 //
 app.use('/',isAdmin,express.static('node_modules/qr-scanner'));
 app.use('/',isAdmin,express.static('views/admin',{extensions:'html'}));
@@ -139,6 +121,24 @@ app.post('/send', isAdmin, (req,res) => {
 			if (!ws || ws.readyState !== 1) {return};
 			ws.send(JSON.stringify(result[2][0]));
 		})
+	})
+})
+
+app.post('/logs/data',isAdmin,(req,res) => {
+	const data = req.body;
+	if (!data.limit || data.offset == undefined || data.limit >= 25 || data.offset <= -1) {return res.status(400).send("bad data (server)")}
+	db.query(q.GET_LOGS, [data.limit, data.offset], (err, result) => {
+		if (err) {logger(3,`[${req.sessionID.substring(0,6)}] [/admin/getMessage] [SQL] ${JSON.stringify(err)}`); return res.status(500).send('Internal Server Error');}
+		if (result.length === 0) {
+			return res.status(404).json({message: "No more messages found"});
+		}
+		for (let i = 0; i < result.length; i++) {
+			result[i].name = parseName(result[i]).slice(0,30);
+			delete result[i].firstName;
+			delete result[i].lastName;
+			delete result[i].middleName;
+		}
+		res.json(result);
 	})
 })
 
