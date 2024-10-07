@@ -14,13 +14,14 @@
 	<link rel="stylesheet" href="/admin/assets/logs.css">
 </head>
 <body>
-	<%- include('../component/header'); %>
+	<%- include('../component/userInfoDialog') %>
+	<%- include('../component/header') %>
 	<header class="title"><h1>Logs</h1></header>
 
 	<div class="logs-container">
 		<template class="logs-item_template">
 			<div class="logs-item">
-				<button class="logs-item-button"><i class="logs-item-button-img material-symbols-rounded" aria-hidden="true"></i></button>
+				<button class="logs-item-button" onclick="openInfoDialog(this)"><i class="logs-item-button-img material-symbols-rounded" aria-hidden="true"></i></button>
 				<p class="logs-item-text"><span class="logs-item-text-name"></span> <span class="logs-item-text-verb"></span> at <span class="logs-item-text-time"></span><br><span class="logs-item-text-grade"></span> · <span class="logs-item-text-date"></span></p>
 			</div>
 		</template>

@@ -25,6 +25,11 @@ body {
 	margin: 0 auto;
 }
 
+._nullItems {
+	font-style: italic;
+	color: #8D8D8D;
+}
+
 ._mobileOnly {
 	display: none;
 	/* visibility: collapse; */
@@ -33,7 +38,7 @@ body {
 @media only screen and (max-width: 600px) {
 	._desktopOnly {
 		display: none;
-	}	
+	}
 
 	._mobileOnly {
 		display: initial;

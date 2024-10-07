@@ -196,11 +196,6 @@
 	text-overflow: ellipsis;
 }
 
-._nullItems {
-	font-style: italic;
-	color: #8D8D8D;
-}
-
 #item-lrn {
 	width: 100px;
 	font-size: 85%;
