@@ -20,7 +20,7 @@ npm run prod
 npm i
 ```
 
-- [**Node**](nodejs.org) for server runtime
+- [**Node**](https://nodejs.org/en) for server runtime
 
 - [**mySql**](https://dev.mysql.com/downloads/installer/) for Database
 
