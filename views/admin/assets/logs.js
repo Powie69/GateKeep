@@ -1,6 +1,7 @@
 const dialogElements = document.querySelectorAll(".userInfoDialog");
 let messageCount = 0;
 let getMessageDebounce = true;
+const ws = new WebSocket('ws://localhost:3000/wsAdmin'); //change in prod
 
 function fetchMessages(limit, offset) {
 	if (!limit || offset == undefined || limit > 40 || offset <= -1) { console.log("bad data (client)"); return;}
@@ -104,3 +105,24 @@ dialogElements.forEach(element => {
 		if (e.clientX < dialogDimensions.left ||e.clientX > dialogDimensions.right ||e.clientY < dialogDimensions.top ||e.clientY > dialogDimensions.bottom) {element.close()}
 	})
 });
+
+ws.onmessage = (event) => {
+	let data;
+	try {
+		data = JSON.parse(event.data);
+	} catch (err) {return console.error(err);}
+	if (!data) {return;}
+	console.log(event);
+	const element = document.importNode(document.querySelector(".logs-item_template").content, true).querySelector(".logs-item")
+	element.setAttribute("userId", data.userId)
+	element.querySelector(".logs-item-text-name").innerText = data.name;
+	element.querySelector(".logs-item-text-verb").innerText = data.isIn ? "arrived" : "left";
+	element.querySelector(".logs-item-text-time").innerText = new Date(data.time).toLocaleTimeString('en-US', {timeZone: "Asia/Manila", hour12: true, hour: "numeric", minute: "2-digit"})
+	element.querySelector(".logs-item-text-grade").innerText = data.gradeLevel + " " + data.section;
+	element.querySelector(".logs-item-text-date").innerText = new Date(data.time).toLocaleDateString('en-US', { month: 'long', day: 'numeric'})
+	if (data.isIn) {element.querySelector('.logs-item-button-img').classList.add('isIn') }
+	document.querySelector(".logs-container").insertBefore(element,document.querySelector(".logs-container").firstChild);
+	messageCount++;
+};
+
+ws.onerror = (error) => {console.error(error);};

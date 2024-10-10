@@ -2,7 +2,7 @@ const express = require('express');
 const crypto = require('crypto');
 const qrcode = require('qrcode');
 const {isAdmin, limiter, db } = require('../js/middleware.js');
-const {parseGender,parseName,logger,clients} = require('../js/utility.js');
+const {parseGender,parseName,logger,clients,adminClients} = require('../js/utility.js');
 const q = require('../js/adminQuery.js');
 const app = express.Router();
 
@@ -117,6 +117,7 @@ app.post('/send', isAdmin, (req,res) => {
 			result[3][0].sex = parseGender(result[3][0].sex);
 			result[3][0].name = parseName(result[3][0]);
 			res.status(201).json(result[3][0]);
+			broadcastWebsocketAdmin();
 			const ws = clients.get(userId);
 			if (!ws || ws.readyState !== 1) {return};
 			ws.send(JSON.stringify(result[2][0]));
@@ -268,5 +269,21 @@ app.delete('/remove/confirm', isAdmin, limiter(10,1), (req,res) => {
 		res.json({message: "massive success"})
 	})
 })
+
+function broadcastWebsocketAdmin() {
+	db.query(q.GET_LATEST_MESSAGE, [], (err,result) => {
+		if (err) {logger(3,`[${req.sessionID.substring(0,6)}] [broadcastWebsocketAdmin] [SQL] ${JSON.stringify(err)}`); return res.status(500).send('Internal Server Error');}
+		result = result[0]
+		result.name = parseName(result).slice(0,30);
+		delete result.firstName;
+		delete result.lastName;
+		delete result.middleName;
+		adminClients.forEach((ws) => {
+			if (!ws || ws.readyState !== 1) {return};
+			ws.send(JSON.stringify(result));
+		})
+	})
+
+}
 
 module.exports = app;

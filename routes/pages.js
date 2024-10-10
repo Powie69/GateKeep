@@ -1,6 +1,6 @@
 const express = require('express');
 const {db} = require('../js/middleware.js');
-const {parseGender,parseName,clients, logger} = require('../js/utility.js');
+const {parseGender, parseName, logger, clients, adminClients} = require('../js/utility.js');
 const q = require('../js/profileQuery.js');
 const app = express.Router();
 
@@ -53,13 +53,23 @@ app.get('/qr', (req,res,next) => {
 
 app.ws('/ws',(ws,req) => {
 	if (!req.session.authenticated) {
-		console.log("not auth");
-		return ws.close();
+		return ws.close()
 	}
 	clients.set(req.session.user, ws);
 
 	ws.on('close', () => {
-    	clients.delete(req.session.user);
+		clients.delete(req.session.user);
+	});
+})
+
+app.ws('/wsAdmin', (ws,req) => {
+	if (!req.session.isAdmin) {
+		return ws.close()
+	}
+	adminClients.set(req.session.user, ws);
+
+	ws.on('close', () => {
+		clients.delete(req.session.user);
 	});
 })
 
