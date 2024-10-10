@@ -115,7 +115,7 @@ ws.onmessage = (event) => {
 	let data;
 	try {
 		data = JSON.parse(event.data);
-	} catch (err) {console.error(err);}
+	} catch (err) {return console.error(err);}
 	const isInText = data.isIn ? 'arrived' : 'left';
 	const isInIcon = data.isIn ? 'Login' : 'Logout';
 	const element = document.importNode(msgElement.content, true).querySelector(".logs-item")
