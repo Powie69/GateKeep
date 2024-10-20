@@ -26,7 +26,7 @@ async function submitQuery(event) {
 
 		if (!response.ok) {
 			if (response.status === 404) {
-				document.querySelector('.main-title').innerText = `no results for query`;
+				document.querySelector('.main-title').innerText = `no results for “${data.query}”`;
 			}
 			return console.warn("sumting wong");
 		}
