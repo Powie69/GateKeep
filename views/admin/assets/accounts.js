@@ -206,12 +206,6 @@ function openBulkAddDialog() {
 
 //* handlers
 
-function submitEditPress(event) {
-	if (event.key === "Enter" && event.keyCode === 13) {
-		submitEditInfo(event)
-	}
-}
-
 function submitEditOnErr(status,respond) {
 	document.querySelector('.editDialog header p').innerText = status + ': ' + respond;
 	document.querySelector('.editDialog header p').style.removeProperty('visibility');
