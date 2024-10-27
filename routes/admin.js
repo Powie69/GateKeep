@@ -97,6 +97,9 @@ app.get('/messages/:userId',isAdmin,(req,res) => {
 
 //
 app.use('/',isAdmin,express.static('node_modules/qr-scanner'));
+if (process.env.NODE_ENV === 'production') {
+	app.use('/assets',isAdmin,express.static('views/admin/assetsMinified'));
+}
 app.use('/',isAdmin,express.static('views/admin',{extensions:'html'}));
 
 app.get('/logs',isAdmin,(req,res) => {
