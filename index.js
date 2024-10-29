@@ -11,6 +11,7 @@ require('express-ws')(app);
 require('dotenv').config();
 app.disable('x-powered-by');
 app.set('view engine','ejs');
+app.use(compression());
 
 const sessionStore = new MySQLStore({
 	host: process.env.dbHost,
@@ -37,7 +38,6 @@ app.use(session({
 	},
 }));
 
-app.use(compression());
 // static files
 if (process.env.NODE_ENV === 'production') {
 	app.use('/css',express.static(path.join(__dirname, 'public', 'cssMinified')));
