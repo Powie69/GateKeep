@@ -6,8 +6,6 @@ const {parseGender,parseName,logger,clients,adminClients} = require('../js/utili
 const q = require('../js/adminQuery.js');
 const app = express.Router();
 
-const qrSvgPathRegex = /<path[^>]*d="([^"]*)"/g;
-
 app.get('/',(req,res,next) => {
 	if (/Mobile|Android|iP(hone|ad)/.test(req.headers['user-agent']) || typeof req.session.authenticated !== 'undefined' || req.session.authenticated === true) {
 		return next('router'); // goes to 404 page
@@ -41,7 +39,7 @@ app.get('/qr-image-create/:id',isAdmin,(req,res) => {
 		if (!result || result.length == 0) {return res.status(404).json({message: "qr id not found for user"});}
 		try {
 			const qrImage = await qrcode.toString(JSON.stringify(result[0]), {type:'svg',width:10,margin:2,scale:1});
-			const matches = [...qrImage.matchAll(qrSvgPathRegex)];
+			const matches = [...qrImage.matchAll(/<path[^>]*d="([^"]*)"/g)];
 			db.query(q.ADD_QRCACHE, [matches[1][1], data], (err) => {
 				if (err) {logger(3,`[${req.sessionID.substring(0,6)}] [/admin/getQrImage] [SQL] ${JSON.stringify(err)}`); return res.status(500).send('Internal Server Error');}
 				logger(1, `[${req.sessionID.substring(0,6)}] made qr image for ${data}`)
@@ -275,7 +273,7 @@ app.delete('/remove/confirm', isAdmin, limiter(10,1), (req,res) => {
 
 function broadcastWebsocketAdmin() {
 	db.query(q.GET_LATEST_MESSAGE, [], (err,result) => {
-		if (err) {logger(3,`[${req.sessionID.substring(0,6)}] [broadcastWebsocketAdmin] [SQL] ${JSON.stringify(err)}`); return res.status(500).send('Internal Server Error');}
+		if (err) {logger(3,`[broadcastWebsocketAdmin] [SQL] ${JSON.stringify(err)}`); return res.status(500).send('Internal Server Error');}
 		result = result[0]
 		result.name = parseName(result).slice(0,30);
 		delete result.firstName;
