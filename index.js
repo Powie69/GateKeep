@@ -57,7 +57,6 @@ app.use('/admin', require('./routes/admin.js'));
 
 // **404 handler //
 app.use((req,res) => {
-	// console.log('404!',req.originalUrl);
 	res.status(404);
 	if (req.accepts('html')) {
 		return res.render('404', {

@@ -87,7 +87,7 @@ app.get('/help',(req,res) => {
 
 app.get('/print',(req,res) => {
 	if (typeof req.session.authenticated === 'undefined' || req.session.authenticated === false || typeof req.session.user === 'undefined') {
-		return res.render('noUser', {message: 'Cannot print beacase you are not logged in'});
+		return res.render('noUser', {message: 'Cannot print beacase you are not logged in', displayName: 'no user'});
 	}
 	db.query(q.GET_INFO_FOR_PRINT, [req.session.user],(err,result) => {
 		if (err) {console.error('SQL:', err); return res.status(500).send('Internal Server Error');}

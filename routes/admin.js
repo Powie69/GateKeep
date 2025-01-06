@@ -32,8 +32,11 @@ app.post('/login', limiter(10,1),(req,res) => {
 //* requires 'isAdmin'
 
 //
+const isInvalidParams = (str) => !(/^\d+$/.test(str) && Number(str) >= 0);
+
 app.get('/qr-image-create/:id',isAdmin,(req,res) => {
 	const data = req.params.id
+	if (isInvalidParams(data)) {return res.status(404).json({message: "not valid"});}
 	db.query(q.GET_QRID, [data], async (err,result) => {
 		if (err) {logger(3,`[${req.sessionID.substring(0,6)}] [/admin/getQrImage] [SQL] ${JSON.stringify(err)}`); return res.status(500).send('Internal Server Error');}
 		if (!result || result.length == 0) {return res.status(404).json({message: "qr id not found for user"});}
@@ -52,6 +55,7 @@ app.get('/qr-image-create/:id',isAdmin,(req,res) => {
 
 app.get('/qr-image/:id',isAdmin,(req,res) => {
 	const data = req.params.id
+	if (isInvalidParams(data)) {return res.status(404).json({message: "not valid"});}
 	db.query(q.GET_QRCACHE, [data], (err,result) => {
 		if (err) {logger(3,`[${req.sessionID.substring(0,6)}] [/admin/qr-image/:id] [SQL] ${JSON.stringify(err)}`); return res.status(500).josn({message: 'Internal Server Error'});}
 		if (result.length !== 1) {return res.json({message:'not found'})}
@@ -63,6 +67,7 @@ app.get('/qr-image/:id',isAdmin,(req,res) => {
 
 app.get('/info/:userId',isAdmin,(req,res) => {
 	const userId = req.params.userId;
+	if (isInvalidParams(data)) {return res.status(404).json({message: "not valid"});}
 	if (typeof req.query.qr == 'undefined') {
 		db.query(q.GET_INFO, [userId], (err,result) => {
 			if (err) {logger(3,`[${req.sessionID.substring(0,6)}] [/admin/getInfo] [SQL] ${JSON.stringify(err)}`); return res.status(500).send('Internal Server Error');}
@@ -82,6 +87,7 @@ app.get('/info/:userId',isAdmin,(req,res) => {
 
 app.get('/messages/:userId',isAdmin,(req,res) => {
 	const data = req.query;
+	if (isInvalidParams(data)) {return res.status(404).json({message: "not valid"});}
 	if (!data.limit || typeof data.offset !== 'string' || data.offset <= -1 || data.limit > 25 || data.limit <= -1) {return res.status(400).send("bad data (server)")}
 	db.query(q.GET_MESSAGE, [req.params.userId, +data.limit, +data.offset], (err, result) => {
 		if (err) {logger(3,`[${req.sessionID.substring(0,6)}] [/admin/getMessage] [SQL] ${JSON.stringify(err)}`); return res.status(500).send('Internal Server Error');}
