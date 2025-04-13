@@ -1,4 +1,4 @@
-import readline from 'node:readline';
+import readline from "node:readline";
 
 const rl = readline.createInterface({
   input: process.stdin,
@@ -15,7 +15,7 @@ function renameKey(obj, oldKey, newKey) {
 	}
 }
 
-rl.question(`\x1b[36mEnter json string:\n\x1b[0m`, data => {
+rl.question("\x1b[36mEnter json string:\n\x1b[0m", data => {
 	console.log(data);
 	try {
 		data = JSON.parse(data);
@@ -25,19 +25,19 @@ rl.question(`\x1b[36mEnter json string:\n\x1b[0m`, data => {
 	}
 
 	for (let i = 0; i < data.length; i++) {
-		renameKey(data[i],'emailAddress','email')
-		renameKey(data[i],'zipCode','zip')
-		renameKey(data[i],'streetName','street')
-		if (data[i].sex == 'Male') {
-			data[i].sex = 1
+		renameKey(data[i],"emailAddress","email");
+		renameKey(data[i],"zipCode","zip");
+		renameKey(data[i],"streetName","street");
+		if (data[i].sex == "Male") {
+			data[i].sex = 1;
 		} else {
-			data[i].sex = 0
+			data[i].sex = 0;
 		}
 	}
 
-	console.log(`\n(●'◡'●)\nResults:`);
+	console.log("\n(●'◡'●)\nResults:");
 	console.log(`\x1b[33m${JSON.stringify(data)}\x1b[0m`);
-	console.log('\n');
+	console.log("\n");
 
 	rl.close();
 });

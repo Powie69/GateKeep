@@ -1,6 +1,6 @@
-import mysql from 'mysql2';
-import rateLimit from 'express-rate-limit';
-import { logger } from './utility.js';
+import mysql from "mysql2";
+import rateLimit from "express-rate-limit";
+import { logger } from "./utility.js";
 
 // TODO: use pools dumbass
 const db = mysql.createConnection({
@@ -13,15 +13,15 @@ const db = mysql.createConnection({
 
 db.connect((err) => {
     if (err) { console.error(err); return; }
-	logger(1,`\u001b[32mCONNECTED TO DATABASE || ${process.env.dbName}\u001b[0m`)
+	logger(1,`\u001b[32mCONNECTED TO DATABASE || ${process.env.dbName}\u001b[0m`);
 });
 
 const rateLimitHandler = (errMessage = "rate limit timeout") => {
 	return (req,res) => {
 		console.log("rate limit reached: ", req.sessionID);
 		return res.status(429).json({message: errMessage});
-	}
-}
+	};
+};
 
 const limiter = (maxReq,windowMinute,errMessage) => {
 	return rateLimit({
@@ -30,8 +30,8 @@ const limiter = (maxReq,windowMinute,errMessage) => {
 		handler: rateLimitHandler(errMessage),
 		standardHeaders: true,
     	legacyHeaders: false,
-	})
-}
+	});
+};
 
 const isAuthenticated = (req, res, next) => {
 	if (!req.session.authenticated) {
@@ -42,17 +42,17 @@ const isAuthenticated = (req, res, next) => {
 };
 
 const isAdmin = (req, res, next) => {
-	if (!req.session.isAdmin || typeof req.session.authenticated !== 'undefined' || req.session.authenticated === true) {
-		if (req.accepts('html')) {
-			return res.render('404', {
-				displayName: req.session.displayName || 'No user',
-				path: '/admin' + req.path
-			})
+	if (!req.session.isAdmin || typeof req.session.authenticated !== "undefined" || req.session.authenticated === true) {
+		if (req.accepts("html")) {
+			return res.render("404", {
+				displayName: req.session.displayName || "No user",
+				path: "/admin" + req.path
+			});
 		}
-		if (req.accepts('json')) {
-			return res.json({message:'not found'});
+		if (req.accepts("json")) {
+			return res.json({message:"not found"});
 		}
-		return res.type('txt').send('not found');
+		return res.type("txt").send("not found");
 	}
 	next();
 };

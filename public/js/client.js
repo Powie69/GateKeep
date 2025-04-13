@@ -1,8 +1,8 @@
-document.querySelector(".main").style.setProperty('background', `url(images/circles/${Math.floor(Math.random() * 10) + 1}.svg) no-repeat top left / cover`)
+document.querySelector(".main").style.setProperty("background", `url(images/circles/${Math.floor(Math.random() * 10) + 1}.svg) no-repeat top left / cover`);
 document.querySelector("._logout").addEventListener("click", () => {
-	fetch('/profile/logout', {
-	method: 'post',
-	credentials: 'include'
+	fetch("/profile/logout", {
+	method: "post",
+	credentials: "include"
 })
 	.then(response => {
 		if (response.status >= 400) {
@@ -11,18 +11,18 @@ document.querySelector("._logout").addEventListener("click", () => {
 		return;
 	})
   	.catch(error => {console.error(error);});
-})
-document.querySelectorAll('.help-item-button').forEach(element => {
+});
+document.querySelectorAll(".help-item-button").forEach(element => {
 	element.addEventListener("click", e => {
-		const dropElement = e.currentTarget.nextElementSibling
-		if (dropElement.style.display == 'block') {
-			dropElement.style.setProperty('display', 'none')
-			e.currentTarget.querySelector('.material-symbols-rounded').innerText = 'arrow_drop_down'
+		const dropElement = e.currentTarget.nextElementSibling;
+		if (dropElement.style.display == "block") {
+			dropElement.style.setProperty("display", "none");
+			e.currentTarget.querySelector(".material-symbols-rounded").innerText = "arrow_drop_down";
 		} else {
-			dropElement.style.setProperty('display', 'block')
-			e.currentTarget.querySelector('.material-symbols-rounded').innerText = 'arrow_drop_up'
+			dropElement.style.setProperty("display", "block");
+			e.currentTarget.querySelector(".material-symbols-rounded").innerText = "arrow_drop_up";
 		}
-	})
+	});
 });
 
 async function loginSubmit(event) {
@@ -33,22 +33,22 @@ async function loginSubmit(event) {
 		console.log("Invalid login data (client)");
 	}
     try {
-        const response = await fetch('/profile/login', {
-            method: 'POST',
-            headers: {'Content-Type': 'application/x-www-form-urlencoded',},
+        const response = await fetch("/profile/login", {
+            method: "POST",
+            headers: {"Content-Type": "application/x-www-form-urlencoded",},
             body: new URLSearchParams(data),
-			credentials: 'include',
+			credentials: "include",
         });
 
 		const respond = await response.json();
 
         if (!response.ok) {
-			document.querySelector('.main-form-message').innerText = respond.message;
-			document.querySelector('.main-form-message').classList.remove("_noDisplay");
+			document.querySelector(".main-form-message").innerText = respond.message;
+			document.querySelector(".main-form-message").classList.remove("_noDisplay");
 			return;
         } else {
-			document.querySelector('.main-form-message').classList.add("_noDisplay");
-			location.reload()
+			document.querySelector(".main-form-message").classList.add("_noDisplay");
+			location.reload();
 			return;
 		}
     } catch (error) {console.error(error);}

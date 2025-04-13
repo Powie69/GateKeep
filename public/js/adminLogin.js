@@ -1,13 +1,13 @@
 async function submitLogin(event) {
 	event.preventDefault();
 	try {
-		const data = Object.fromEntries(new FormData(event.target).entries())
+		const data = Object.fromEntries(new FormData(event.target).entries());
 
-		if (typeof data.password === 'undefined') {return;}
+		if (typeof data.password === "undefined") {return;}
 
-		const response = await fetch('/admin/login', {
-			method: 'POST',
-			headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+		const response = await fetch("/admin/login", {
+			method: "POST",
+			headers: {"Content-Type": "application/x-www-form-urlencoded"},
 			body: new URLSearchParams(data),
 		});
 

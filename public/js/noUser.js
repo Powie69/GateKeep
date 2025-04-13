@@ -6,23 +6,23 @@ async function loginSubmit(event) {
 	}
     console.log("Valid login data (client)");
     try {
-        const response = await fetch('profile/login', {
-            method: 'POST',
+        const response = await fetch("profile/login", {
+            method: "POST",
             headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
+                "Content-Type": "application/x-www-form-urlencoded",
             },
             body: new URLSearchParams(data),
-			credentials: 'include',
+			credentials: "include",
         });
 
 		const respond = await response.json();
 
         if (!response.ok) {
-			document.querySelector('.main-form-message').innerText = respond.message;
-			document.querySelector('.main-form-message').classList.remove("_noDisplay");
+			document.querySelector(".main-form-message").innerText = respond.message;
+			document.querySelector(".main-form-message").classList.remove("_noDisplay");
 			return;
         } else {
-			document.querySelector('.main-form-message').classList.add("_noDisplay");
+			document.querySelector(".main-form-message").classList.add("_noDisplay");
 			location.reload();
 			return;
 		}

@@ -1,6 +1,6 @@
 function printPage() {
-	alert('Be sure to un-check the printing of headers and footers within the settings to reduce ink usage.')
-	print()
+	alert("Be sure to un-check the printing of headers and footers within the settings to reduce ink usage.");
+	print();
 }
 
 // function transition(element) {
@@ -8,4 +8,4 @@ function printPage() {
 // 	element.classList.toggle('hover')
 // }
 
-window.addEventListener('load', printPage());
+window.addEventListener("load", printPage());
