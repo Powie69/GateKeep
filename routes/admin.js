@@ -1,9 +1,9 @@
-const express = require('express');
-const crypto = require('crypto');
-const qrcode = require('qrcode');
-const {isAdmin, limiter, db } = require('../js/middleware.js');
-const {parseGender,parseName,logger,clients,adminClients} = require('../js/utility.js');
-const q = require('../js/adminQuery.js');
+import express from 'express';
+import crypto from 'crypto';
+import qrcode from 'qrcode';
+import { isAdmin, limiter, db } from '../js/middleware.js';
+import { parseGender, parseName, logger, clients, adminClients } from '../js/utility.js';
+import q from '../js/adminQuery.js';
 const app = express.Router();
 
 app.get('/',(req,res,next) => {
@@ -293,4 +293,4 @@ function broadcastWebsocketAdmin() {
 
 }
 
-module.exports = app;
+export default app;

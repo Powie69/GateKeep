@@ -1,7 +1,8 @@
-const mysql = require('mysql2');
-const rateLimit = require('express-rate-limit');
-const {logger} = require('./utility.js')
+import mysql from 'mysql2';
+import rateLimit from 'express-rate-limit';
+import { logger } from './utility.js';
 
+// TODO: use pools dumbass
 const db = mysql.createConnection({
 	multipleStatements: true,
     host: process.env.dbHost,
@@ -56,4 +57,4 @@ const isAdmin = (req, res, next) => {
 	next();
 };
 
-module.exports = {limiter,isAuthenticated, isAdmin, db }
+export {limiter,isAuthenticated, isAdmin, db };

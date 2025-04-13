@@ -1,7 +1,7 @@
-const express = require('express');
-const {db} = require('../js/middleware.js');
-const {parseGender, parseName, logger, clients, adminClients} = require('../js/utility.js');
-const q = require('../js/profileQuery.js');
+import express from 'express';
+import { db } from '../js/middleware.js';
+import { parseGender, parseName, logger, clients, adminClients } from '../js/utility.js';
+import q from '../js/profileQuery.js';
 const app = express.Router();
 
 app.get('/',(req,res) => {
@@ -102,4 +102,4 @@ app.get('/print',(req,res) => {
 	})
 })
 
-module.exports = app;
+export default app;

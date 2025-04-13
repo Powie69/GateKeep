@@ -1,5 +1,5 @@
-const mysql = require('mysql2')
-const crypto = require('crypto')
+import mysql from 'mysql2';
+import crypto from 'crypto';
 
 function sleep(milliseconds) {
 	var start = new Date().getTime();

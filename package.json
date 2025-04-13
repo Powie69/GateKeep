@@ -12,6 +12,7 @@
     "format": "node scripts/formFormater.js",
     "makeQrId": "node scripts/qrIdGenerate.js"
   },
+  "type": "module",
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -29,5 +30,8 @@
     "qr-scanner": "^1.4.2",
     "qrcode": "^1.5.3",
     "ws": "^8.18.0"
+  },
+  "devDependencies": {
+    "eslint": "^9.24.0"
   }
 }

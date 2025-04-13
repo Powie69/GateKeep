@@ -1,19 +1,20 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const path = require('path');
-const session = require('express-session');
-const compression = require('compression');
-const MySQLStore = require('express-mysql-session')(session);
-const app = express();
-require('express-ws')(app);
+import express from 'express';
+import bodyParser from 'body-parser';
+import path from 'path';
+import session from 'express-session';
+import compression from 'compression';
+import expressWs from 'express-ws';
+import MySQLStore from "express-mysql-session";
+import "dotenv/config";
 
+const app = express();
+expressWs(app);
 // *
-require('dotenv').config();
 app.disable('x-powered-by');
 app.set('view engine','ejs');
 app.use(compression());
 
-const sessionStore = new MySQLStore({
+const sessionStore = new (MySQLStore(session))({
 	host: process.env.dbHost,
     user: process.env.dbUser,
     password: process.env.dbPassword,
@@ -48,10 +49,10 @@ app.use(express.static('public'));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use('/', require('./routes/pages.js'))
+app.use('/', (await import('./routes/pages.js')).default);
 
-app.use('/profile', require('./routes/profile.js'));
-app.use('/admin', require('./routes/admin.js'));
+app.use('/profile', (await import('./routes/profile.js')).default);
+app.use('/admin', (await import('./routes/admin.js')).default);
 
 // ** //
 

@@ -1,7 +1,7 @@
-const express = require('express');
-const {limiter ,isAuthenticated, db} = require('../js/middleware.js');
-const {logger} = require('../js/utility.js');
-const q = require('../js/profileQuery.js');
+import express from 'express';
+import { limiter, isAuthenticated, db } from '../js/middleware.js';
+import { logger } from '../js/utility.js';
+import q from '../js/profileQuery.js';
 const app = express.Router();
 
 app.post('/login', limiter(30, 5),(req, res) => {
@@ -49,4 +49,4 @@ app.post('/getMessage', isAuthenticated, limiter(200,10), (req,res) => {
 	})
 });
 
-module.exports = app;
+export default app;
