@@ -5,14 +5,14 @@ import { logger } from "./utility.js";
 // TODO: use pools dumbass
 const db = mysql.createConnection({
 	multipleStatements: true,
-    host: process.env.dbHost,
-    user: process.env.dbUser,
-    password: process.env.dbPassword,
-    database: process.env.dbName
+	host: process.env.dbHost,
+	user: process.env.dbUser,
+	password: process.env.dbPassword,
+	database: process.env.dbName
 });
 
 db.connect((err) => {
-    if (err) { console.error(err); return; }
+	if (err) { console.error(err); return; }
 	logger(1,`\u001b[32mCONNECTED TO DATABASE || ${process.env.dbName}\u001b[0m`);
 });
 

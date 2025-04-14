@@ -21,18 +21,18 @@ export function parseName(data) {
 // 1:-info,  2:-warning,  3:-error
 export function logger(type,message) {
 	switch (type) {
-		case 1:
-			type = "INFO";
-			break;
-		case 2: // warning
-			type = "\u001b[33mWARNING\u001b[0m";
-			break;
-		case 3: // error
-			type = "\u001b[31mERROR\u001b[0m";
-			break;
-		default:
-			type = "INFO";
-			break;
+	case 1:
+		type = "INFO";
+		break;
+	case 2: // warning
+		type = "\u001b[33mWARNING\u001b[0m";
+		break;
+	case 3: // error
+		type = "\u001b[31mERROR\u001b[0m";
+		break;
+	default:
+		type = "INFO";
+		break;
 	}
 	console.log(`[${type}][${new Date().toLocaleDateString("en-PH", { month: "2-digit" , day: "2-digit" ,year: "2-digit" })}\u001b[1m ${new Date().toLocaleTimeString("en-PH", { hour12: false, hour: "2-digit", minute: "2-digit", second: "2-digit"})}\u001b[0m] ${message}`);
 }

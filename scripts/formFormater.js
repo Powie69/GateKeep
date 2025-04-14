@@ -1,14 +1,14 @@
 import readline from "node:readline";
 
 const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
+	input: process.stdin,
+	output: process.stdout,
 });
 
 function renameKey(obj, oldKey, newKey) {
-    if (!obj.hasOwnProperty(oldKey)) {
-        console.error(`Key '${oldKey}' does not exist in the object.`);
-    }
+	if (!obj.hasOwnProperty(oldKey)) {
+		console.error(`Key '${oldKey}' does not exist in the object.`);
+	}
 	if (oldKey !== newKey) {
 		Object.defineProperty(obj, newKey, Object.getOwnPropertyDescriptor(obj, oldKey));
 		delete obj[oldKey];

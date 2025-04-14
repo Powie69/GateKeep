@@ -7,6 +7,7 @@ export default defineConfig([
 		files: ["**/*.{js,mjs,cjs}"],
 		plugins: { js },
 		rules: {
+			"indent": ["error", "tab"],
 			"quotes": ["error", "double"],
 			"semi": ["error", "always"]
 		},

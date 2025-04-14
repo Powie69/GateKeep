@@ -9,7 +9,7 @@ app.get("/",(req,res) => {
 		return res.sendFile("views/home.html",{root:"./"});
 	}
 	db.query(q.GET_INFO, [req.session.user], (err,result) => {
-        if (err) {console.error("SQL:", err); return res.status(500).send("Internal Server Error");}
+		if (err) {console.error("SQL:", err); return res.status(500).send("Internal Server Error");}
 		if (result.length !== 1) {return res.status(500).send("Internal Server Error");}
 		const data = result[0];
 		res.render("dashBoard", {
@@ -44,7 +44,7 @@ app.get("/qr", (req,res,next) => {
 		return next("route"); // goes to 404
 	}
 	db.query(q.GET_QRCACHE,[req.session.user],(err,result) => {
-        if (err) {console.error("SQL:", err); return res.status(500).send("Internal Server Error");}
+		if (err) {console.error("SQL:", err); return res.status(500).send("Internal Server Error");}
 		if (result.length !== 1) {return res.status(404).send("Internal Server Error");}
 		res.setHeader("Content-Type", "image/svg+xml");
 		res.render("qr", { path: result[0].qrCache });

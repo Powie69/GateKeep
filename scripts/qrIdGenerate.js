@@ -12,21 +12,21 @@ function sleep(milliseconds) {
 
 const db = mysql.createConnection({
 	multipleStatements: true,
-    host: "localhost",
-    user: "root",
-    password: "bananas",
-    database: "gatekeep"
+	host: "localhost",
+	user: "root",
+	password: "bananas",
+	database: "gatekeep"
 });
 
 db.connect((err) => {
-    if (err) { console.error(err); return; }
-    console.log("Connected to MySQL");
+	if (err) { console.error(err); return; }
+	console.log("Connected to MySQL");
 });
 
 sleep(500);
 
 const data = [
-		// insert data here
+	// insert data here
 ];
 
 for (let i = 0; i < data.length; i++) {

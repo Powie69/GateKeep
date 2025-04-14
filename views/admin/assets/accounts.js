@@ -143,15 +143,15 @@ async function fetchMessages(limit,offset,userId) {
 	return await fetch(`/admin/messages/${userId}?offset=${offset}&limit=${limit}`, {
 		headers: {"Content-Type": "application/json"}
 	})
-	.then(response => {
-		if (response.status >= 400) {
-			console.warn("something wrong"); return;
-		} else {
-			return response.json();
-		}
-	})
-	.then(data => {return data;})
-	.catch(error => {console.error(error);});
+		.then(response => {
+			if (response.status >= 400) {
+				console.warn("something wrong"); return;
+			} else {
+				return response.json();
+			}
+		})
+		.then(data => {return data;})
+		.catch(error => {console.error(error);});
 }
 
 async function fetchInfo(userId, withQrId) {
@@ -160,15 +160,15 @@ async function fetchInfo(userId, withQrId) {
 	return await fetch(`/admin/info/${userId}${qrQuery}`, {
 		headers: {"Content-Type": "application/json"}
 	})
-	.then(response => {
-		if (response.status >= 400) {
-			console.warn("something wrong"); return;
-		} else {
-			return response.json();
-		}
-	})
-	.then(data => {return data;})
-	.catch(error => {console.error(error);});
+		.then(response => {
+			if (response.status >= 400) {
+				console.warn("something wrong"); return;
+			} else {
+				return response.json();
+			}
+		})
+		.then(data => {return data;})
+		.catch(error => {console.error(error);});
 }
 
 //* start of dialog
@@ -287,8 +287,8 @@ async function removeAccountReq(id,lrn) {
 		headers: {"Content-Type": "application/json"},
 		body: `{"id": "${id}", "lrn": "${lrn}"}`
 	}).then(response => {return response;})
-	.then(data => {return data;})
-	.catch(err => {console.error(err);});
+		.then(data => {return data;})
+		.catch(err => {console.error(err);});
 }
 
 function updateMessage(data) {
@@ -346,11 +346,11 @@ document.querySelector(".logsDialog-container").addEventListener("scrollend", fu
 	if (getMessageDebounce && (this.clientHeight + this.scrollTop >= this.scrollHeight - 60)) {
 		// When scrolled to the bottom of the container
 		fetchMessages(5, messageCount, document.querySelector(".logsDialog").getAttribute("userId"))
-		.then(data => {updateMessage(data);});
+			.then(data => {updateMessage(data);});
 		getMessageDebounce = false;
 		setTimeout(function() {
-            getMessageDebounce = true;
-        }, 500);
+			getMessageDebounce = true;
+		}, 500);
 	}
 });
 

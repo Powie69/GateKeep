@@ -12,15 +12,15 @@ function fetchMessages(limit, offset) {
 		headers: {"Content-Type": "application/json"},
 		body: `{"limit": ${limit}, "offset": ${offset}}`
 	})
-	.then(response => {
-		if (response.status >= 400) {
-			console.warn("fetchMessage"); return;
-		} else {
-			return response.json();
-		}
-	})
-	.then(data => {return data;})
-	.catch(error => { console.error(error); });
+		.then(response => {
+			if (response.status >= 400) {
+				console.warn("fetchMessage"); return;
+			} else {
+				return response.json();
+			}
+		})
+		.then(data => {return data;})
+		.catch(error => { console.error(error); });
 }
 
 function updateMessage(data) {
@@ -57,25 +57,25 @@ function collapseSection(section,button) {
 	section.classList.toggle("collapse");
 	button.classList.toggle("up");
 	// setTimeout(() => {
-		// section.classList.toggle('_noDisplay')
+	// section.classList.toggle('_noDisplay')
 	// }, 500);
 }
 
 function sendNotification(title, options) {
-    if (!("Notification" in window)) {return;}
+	if (!("Notification" in window)) {return;}
 
 	if (Notification.permission === "denied" || Notification.permission === "default") {
 		Notification.requestPermission().then(permission => {
-            if (permission !== "granted") {return;}
-            new Notification(title, options);
-        });
+			if (permission !== "granted") {return;}
+			new Notification(title, options);
+		});
 		return;
 	}
-    new Notification(title, options);
+	new Notification(title, options);
 }
 
 fetchMessages(20, messageCount)
-.then(data => { updateMessage(data);});
+	.then(data => { updateMessage(data);});
 
 if (Notification.permission !== "denied" || Notification.permission === "default") {
 	setTimeout(() => {
@@ -96,11 +96,11 @@ document.addEventListener("click",event => {
 document.querySelector(".logs-container").addEventListener("scrollend", function(){
 	if (getMessageDebounce && (this.clientHeight + this.scrollTop >= this.scrollHeight - 60)) {
 		fetchMessages(5, messageCount)
-		.then(data => {updateMessage(data);});
+			.then(data => {updateMessage(data);});
 		getMessageDebounce = false;
 		setTimeout(function() {
-            getMessageDebounce = true;
-        }, 500);
+			getMessageDebounce = true;
+		}, 500);
 	}
 });
 

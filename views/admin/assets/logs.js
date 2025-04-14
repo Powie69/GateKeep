@@ -10,15 +10,15 @@ function fetchMessages(limit, offset) {
 		headers: {"Content-Type": "application/json"},
 		body: `{"limit": ${limit}, "offset": ${offset}}`
 	})
-	.then(response => {
-		if (response.status >= 400) {
-			console.warn("fetchMessage"); return;
-		} else {
-			return response.json();
-		}
-	})
-	.then(data => {return data;})
-	.catch(error => { console.error(error); });
+		.then(response => {
+			if (response.status >= 400) {
+				console.warn("fetchMessage"); return;
+			} else {
+				return response.json();
+			}
+		})
+		.then(data => {return data;})
+		.catch(error => { console.error(error); });
 }
 
 async function fetchInfo(userId, withQrId) {
@@ -27,15 +27,15 @@ async function fetchInfo(userId, withQrId) {
 	return await fetch(`/admin/info/${userId}${qrQuery}`, {
 		headers: {"Content-Type": "application/json"}
 	})
-	.then(response => {
-		if (response.status >= 400) {
-			console.warn("something wrong"); return;
-		} else {
-			return response.json();
-		}
-	})
-	.then(data => {return data;})
-	.catch(error => {console.error(error);});
+		.then(response => {
+			if (response.status >= 400) {
+				console.warn("something wrong"); return;
+			} else {
+				return response.json();
+			}
+		})
+		.then(data => {return data;})
+		.catch(error => {console.error(error);});
 }
 
 function updateMessage(data) {
@@ -77,16 +77,16 @@ function updateInfo(data) {
 }
 
 fetchMessages(40, messageCount)
-.then(data => { updateMessage(data);});
+	.then(data => { updateMessage(data);});
 
 document.querySelector(".logs-container").addEventListener("scrollend", function(){
 	if (getMessageDebounce && (this.clientHeight + this.scrollTop >= this.scrollHeight - 60)) {
 		fetchMessages(5, messageCount)
-		.then(data => {updateMessage(data);});
+			.then(data => {updateMessage(data);});
 		getMessageDebounce = false;
 		setTimeout(function() {
-            getMessageDebounce = true;
-        }, 500);
+			getMessageDebounce = true;
+		}, 500);
 	}
 });
 

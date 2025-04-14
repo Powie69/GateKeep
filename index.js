@@ -16,9 +16,9 @@ app.use(compression());
 
 const sessionStore = new (MySQLStore(session))({
 	host: process.env.dbHost,
-    user: process.env.dbUser,
-    password: process.env.dbPassword,
-    database: process.env.dbName,
+	user: process.env.dbUser,
+	password: process.env.dbPassword,
+	database: process.env.dbName,
 	clearExpired: true,
 	checkExpirationInterval: 1209600000, // 2 weeks
 	expiration: 2419200000, // 4 weeks
@@ -26,7 +26,7 @@ const sessionStore = new (MySQLStore(session))({
 });
 
 app.use(session({
-    secret: process.env.cookieSecret,
+	secret: process.env.cookieSecret,
 	saveUninitialized: false,
 	resave: false,
 	unset: "destroy",

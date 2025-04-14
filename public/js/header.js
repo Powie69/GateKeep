@@ -1,9 +1,9 @@
 if ("serviceWorker" in navigator) {
 	window.addEventListener("load", () => {
 	  navigator.serviceWorker.register("/service-worker.js").then((registration) => {
-		console.log("ServiceWorker registration successful with scope: ", registration.scope);
+			console.log("ServiceWorker registration successful with scope: ", registration.scope);
 	  }, (error) => {
-		console.log("ServiceWorker registration failed: ", error);
+			console.log("ServiceWorker registration failed: ", error);
 	  });
 	});
 }
@@ -23,11 +23,11 @@ async function logout() {
 	fetch("/profile/logout", {
 		method: "post",
 	})
-	.then(response => {
-		if (response.status >= 400) {
-			return;
-		}
-	location.href = "/";
-	})
-	.catch(err => {console.error(err);});
+		.then(response => {
+			if (response.status >= 400) {
+				return;
+			}
+			location.href = "/";
+		})
+		.catch(err => {console.error(err);});
 }
