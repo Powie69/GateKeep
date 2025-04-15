@@ -6,6 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "s": "nodemon --watch . --config nodemon.json",
+    "lint": "npx eslint .",
+    "fix": "npx eslint . --fix",
     "start": "node .",
     "prod": "cross-env NODE_ENV=production node .",
     "panel": "http-server ./ -p 5300",
@@ -32,6 +34,7 @@
     "ws": "^8.18.0"
   },
   "devDependencies": {
-    "eslint": "^9.24.0"
+    "eslint": "^9.24.0",
+    "eslint-plugin-simple-import-sort": "^12.1.1"
   }
 }

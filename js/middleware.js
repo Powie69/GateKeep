@@ -1,5 +1,6 @@
-import mysql from "mysql2";
 import rateLimit from "express-rate-limit";
+import mysql from "mysql2";
+
 import { logger } from "./utility.js";
 
 // TODO: use pools dumbass
@@ -57,4 +58,4 @@ const isAdmin = (req, res, next) => {
 	next();
 };
 
-export {limiter,isAuthenticated, isAdmin, db };
+export {db,isAdmin, isAuthenticated, limiter };

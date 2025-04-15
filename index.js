@@ -1,11 +1,12 @@
-import express from "express";
-import bodyParser from "body-parser";
-import path from "path";
-import session from "express-session";
-import compression from "compression";
-import expressWs from "express-ws";
-import MySQLStore from "express-mysql-session";
 import "dotenv/config";
+
+import bodyParser from "body-parser";
+import compression from "compression";
+import express from "express";
+import MySQLStore from "express-mysql-session";
+import session from "express-session";
+import expressWs from "express-ws";
+import path from "path";
 
 const app = express();
 expressWs(app);

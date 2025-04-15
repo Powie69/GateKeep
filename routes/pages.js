@@ -1,7 +1,8 @@
 import express from "express";
+
 import { db } from "../js/middleware.js";
-import { parseGender, parseName, logger, clients, adminClients } from "../js/utility.js";
 import q from "../js/profileQuery.js";
+import { adminClients, clients, logger, parseGender, parseName } from "../js/utility.js";
 const app = express.Router();
 
 app.get("/",(req,res) => {

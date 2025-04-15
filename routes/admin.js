@@ -1,9 +1,10 @@
-import express from "express";
 import crypto from "crypto";
+import express from "express";
 import qrcode from "qrcode";
-import { isAdmin, limiter, db } from "../js/middleware.js";
-import { parseGender, parseName, logger, clients, adminClients } from "../js/utility.js";
+
 import q from "../js/adminQuery.js";
+import { db, isAdmin, limiter } from "../js/middleware.js";
+import { adminClients, clients, logger, parseGender, parseName } from "../js/utility.js";
 const app = express.Router();
 
 app.get("/",(req,res,next) => {

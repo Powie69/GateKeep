@@ -1,7 +1,8 @@
 import express from "express";
-import { limiter, isAuthenticated, db } from "../js/middleware.js";
-import { logger } from "../js/utility.js";
+
+import { db, isAuthenticated, limiter } from "../js/middleware.js";
 import q from "../js/profileQuery.js";
+import { logger } from "../js/utility.js";
 const app = express.Router();
 
 app.post("/login", limiter(30, 5),(req, res) => {

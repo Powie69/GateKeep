@@ -1,5 +1,5 @@
-import mysql from "mysql2";
 import crypto from "crypto";
+import mysql from "mysql2";
 
 function sleep(milliseconds) {
 	var start = new Date().getTime();

@@ -10,7 +10,7 @@ document.querySelector("._logout").addEventListener("click", () => {
 			}
 			return;
 		})
-  	.catch(error => {console.error(error);});
+		.catch(error => {console.error(error);});
 });
 document.querySelectorAll(".help-item-button").forEach(element => {
 	element.addEventListener("click", e => {
