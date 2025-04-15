@@ -12,7 +12,7 @@ export default defineConfig([
 		 },
 		rules: {
 			"indent": ["error", "tab"],
-			"linebreak-style": ["error", "windows"],
+			"linebreak-style": ["error", "unix"],
 			"no-duplicate-imports": "error",
 			"quotes": ["error", "double"],
 			"semi": ["error", "always"],
