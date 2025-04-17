@@ -8,7 +8,8 @@ const pool = mysql.createPool({
 	waitForConnections: true,
 	connectionLimit: 10,
 	queueLimit: 25,
-	idleTimeout: 60000
+	idleTimeout: 60000,
+	multipleStatements: true
 });
 
 export default pool.promise();

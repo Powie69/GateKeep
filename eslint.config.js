@@ -9,10 +9,12 @@ export default defineConfig([
 		plugins: {
 			js,
 			"simple-import-sort": simpleImportSort,
-		 },
+		},
+		// extends: ["js/recommended"],
 		rules: {
 			"indent": ["error", "tab"],
 			"linebreak-style": ["error", "unix"],
+			"no-dupe-keys": "error",
 			"no-duplicate-imports": "error",
 			"quotes": ["error", "double"],
 			"semi": ["error", "always"],
