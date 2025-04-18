@@ -3,8 +3,8 @@ import express from "express";
 import qrcode from "qrcode";
 
 import q from "../js/adminQuery.js";
-import dbb from "../js/db.js";
-import { db, isAdmin, limiter } from "../js/middleware.js";
+import db from "../js/db.js";
+import {isAdmin, limiter } from "../js/middleware.js";
 import { adminClients, clients, logger, parseGender, parseName } from "../js/utility.js";
 const app = express.Router();
 
@@ -40,11 +40,11 @@ app.get("/qr-image-create/:id",isAdmin, async(req,res) => {
 	const data = req.params.id;
 	if (isInvalidParams(data)) return res.sendStatus(400);
 	try {
-		const [rows] = await dbb.query(q.GET_QRID, [data]);
+		const [rows] = await db.query(q.GET_QRID, [data]);
 		if (rows.length === 0) return res.status(404).json({message: "QR id not found for user"});
 		const qrImage = await qrcode.toString(JSON.stringify(rows[0]), {type:"svg",width:10,margin:2,scale:1});
 		const matches = [...qrImage.matchAll(/<path[^>]*d="([^"]*)"/g)];
-		await dbb.query(q.ADD_QRCACHE, [matches[1][1], data]);
+		await db.query(q.ADD_QRCACHE, [matches[1][1], data]);
 		return res.type("image/svg+xml").status(201).send(qrImage);
 	} catch (err) {
 		console.error(err);
@@ -56,7 +56,7 @@ app.get("/qr-image/:id",isAdmin, async (req,res) => {
 	const data = req.params.id;
 	if (isInvalidParams(data)) {return res.status(404).json({message: "not valid"});}
 	try {
-		const [rows] = await dbb.query(q.GET_QRCACHE, [data]);
+		const [rows] = await db.query(q.GET_QRCACHE, [data]);
 		if (rows.length !== 1 || rows[0].qrCache === null) return res.sendStatus(404);
 		res.set("Content-Type", "image/svg+xml");
 		return res.render("qr" , { path: rows[0].qrCache });
@@ -70,7 +70,7 @@ app.get("/info/:userId",isAdmin, async (req,res) => {
 	const userId = req.params.userId;
 	if (isInvalidParams(userId)) return res.sendStatus(400);
 	try {
-		const [rows] = await dbb.query(q.GET_INFO, [userId]);
+		const [rows] = await db.query(q.GET_INFO, [userId]);
 		if (rows.length === 0) return res.sendStatus(404);
 		rows[0].sex = parseGender(rows[0].sex);
 		return res.json(rows[0]);
@@ -86,7 +86,7 @@ app.get("/messages/:userId",isAdmin, async (req,res) => {
 	if (isInvalidParams(req.params.userId)) return res.sendStatus(400);
 	if (!data || typeof data.offset !== "string" || typeof data.offset !== "string" ||data.offset <= -1 || data.limit > 25 || data.limit <= -1) return res.sendStatus(400);
 	try {
-		const [rows] = await dbb.query(q.GET_MESSAGE, [req.params.userId, +data.limit, +data.offset]);
+		const [rows] = await db.query(q.GET_MESSAGE, [req.params.userId, +data.limit, +data.offset]);
 		if (rows.length === 0) return res.status(404).json({message: "No more messages found"});
 		res.json(rows);
 	} catch (err) {
@@ -112,16 +112,20 @@ app.post("/send", isAdmin, async (req,res) => {
 	if (!data || typeof data.qrId === "undefined"|| typeof data.isIn !== "boolean" || data.qrId == "") {return res.status(400).json({message:"bad data"});}
 
 	try {
-		const [rows] = await dbb.query(q.GET_ID_VIA_QRID, [data.qrId]);
+		const [rows] = await db.query(q.GET_ID_VIA_QRID, [data.qrId]);
 		if (rows.length === 0) return res.status(404).json({message:"no Qr data found"});
 		const userId = rows[0].id;
-		const [rows2] = await dbb.query(q.PROCESS_MESSAGE, [userId,data.isIn,new Date().toISOString().slice(0, 19),userId]);
+		const [rows2] = await db.query(q.PROCESS_MESSAGE, [userId,data.isIn,new Date().toISOString().slice(0, 19),userId]);
 		rows2[3][0].sex = parseGender(rows2[3][0].sex);
 		rows2[3][0].name = parseName(rows2[3][0]);
 		delete rows2[3][0].firstName;
 		delete rows2[3][0].lastName;
 		delete rows2[3][0].middleName;
-		return res.json(rows2[3][0]);
+		res.status(201).json(rows2[3][0]);
+		broadcastWebsocketAdmin();
+		const ws = clients.get(userId);
+		if (!ws || ws.readyState !== 1) return;
+		ws.send(JSON.stringify(rows2[2][0]));
 	} catch (err) {
 		console.error(err);
 		return res.sendStatus(500);
@@ -132,7 +136,7 @@ app.post("/logs/data",isAdmin, async (req,res) => {
 	const data = req.body;
 	if (!data || data.limit == undefined || data.offset == undefined || data.limit > 40 || data.offset <= -1) return res.sendStatus(400);
 	try {
-		const [rows] = await dbb.query(q.GET_LOGS, [data.limit, data.offset]);
+		const [rows] = await db.query(q.GET_LOGS, [data.limit, data.offset]);
 		if (rows.length === 0) return res.Status(404).json({message: "No more messages found"});
 		for (const index in rows) {
 			rows[index].name = parseName(rows[index]).slice(0,30);
@@ -151,7 +155,7 @@ app.post("/query", isAdmin, async (req,res) => {
 	const data = req.body;
 	if (data.query.length == 0 && data.searchLevel == undefined && data.searchSection == undefined) return res.sendStatus(400);
 	try {
-		const [rows] = await dbb.query(q.GET_QUERY, [...new Array(10).fill(data.query), ...new Array(3).fill(data.searchLevel), ...new Array(3).fill(data.searchSection)]);
+		const [rows] = await db.query(q.GET_QUERY, [...new Array(10).fill(data.query), ...new Array(3).fill(data.searchLevel), ...new Array(3).fill(data.searchSection)]);
 		if (rows.length === 0) return res.status(404).json({message: "No result for query"});
 		for (const index in rows) {
 			rows[index].sex = parseGender(rows[index].sex);
@@ -175,9 +179,8 @@ app.post("/updateInfo", isAdmin, async (req,res) => {
 
 	// console.log(db.format(q.UPDATE_INFO, [data.email, data.email, data.email, data.phoneNumber, data.phoneNumber, data.phoneNumber, data.lrn, data.lrn, data.lrn, data.password, data.password, data.password, data.userId, data.lastName, data.lastName, data.lastName, data.firstName, data.firstName, data.firstName, data.middleName, data.middleName, data.middleName, data.gradeLevel, data.gradeLevel, data.gradeLevel, data.section, data.section, data.section, data.age, data.age, data.age, data.sex, data.sex, data.sex, data.houseNo, data.houseNo, data.houseNo, data.street, data.street, data.street, data.zip, data.zip, data.zip, data.barangay, data.barangay, data.barangay, data.city, data.city, data.city, data.province, data.province, data.province, data.userId]))
 
-	// todo: fix
 	try {
-		const [rows] = await dbb.query(q.UPDATE_INFO, [data.email, data.email, data.email, data.phoneNumber, data.phoneNumber, data.phoneNumber, data.lrn, data.lrn, data.lrn, data.password, data.password, data.password, data.userId, data.lastName, data.lastName, data.lastName, data.firstName, data.firstName, data.firstName, data.middleName, data.middleName, data.middleName, data.gradeLevel, data.gradeLevel, data.gradeLevel, data.section, data.section, data.section, data.age, data.age, data.age, data.sex, data.sex, data.sex, data.houseNo, data.houseNo, data.houseNo, data.street, data.street, data.street, data.zip, data.zip, data.zip, data.barangay, data.barangay, data.barangay, data.city, data.city, data.city, data.province, data.province, data.province, data.userId]);
+		await db.query(q.UPDATE_INFO, [data.email, data.email, data.email, data.phoneNumber, data.phoneNumber, data.phoneNumber, data.lrn, data.lrn, data.lrn, data.password, data.password, data.password, data.userId, data.lastName, data.lastName, data.lastName, data.firstName, data.firstName, data.firstName, data.middleName, data.middleName, data.middleName, data.gradeLevel, data.gradeLevel, data.gradeLevel, data.section, data.section, data.section, data.age, data.age, data.age, data.sex, data.sex, data.sex, data.houseNo, data.houseNo, data.houseNo, data.street, data.street, data.street, data.zip, data.zip, data.zip, data.barangay, data.barangay, data.barangay, data.city, data.city, data.city, data.province, data.province, data.province, data.userId]);
 		res.sendStatus(201);
 	} catch (err) {
 		console.error(err);
@@ -195,10 +198,10 @@ app.post("/create", isAdmin, async (req,res) => {
 
 	// todo: fix query
 	try {
-		const [rows] = await dbb.query(q.CHECK_ACCOUNT, [data.lrn]);
+		const [rows] = await db.query(q.CHECK_ACCOUNT, [data.lrn]);
 		if (rows.length !== 0) return res.sendStatus(409);
 		const hash = crypto.createHash("sha256").update(data.lrn + process.env.qrIdSecret).digest("hex").substring(0,25);
-		const [rows2] = await dbb.query(q.ADD_ACCOUNT, [data.email,data.phoneNumber,data.password,data.lrn,hash,data.lastName,data.lastName,data.lastName,data.firstName,data.firstName,data.firstName,data.middleName,data.middleName,data.middleName,data.lrn,data.lrn,data.lrn,data.gradeLevel,data.gradeLevel,data.gradeLevel,data.section,data.section,data.section,data.age,data.age,data.age,data.sex,data.sex,data.sex,data.houseNo,data.houseNo,data.houseNo,data.street,data.street,data.street,data.zip,data.zip,data.zip,data.barangay,data.barangay,data.barangay,data.city,data.city,data.city,data.province,data.province,data.province]);
+		const [rows2] = await db.query(q.ADD_ACCOUNT, [data.email,data.phoneNumber,data.password,data.lrn,hash,data.lastName,data.lastName,data.lastName,data.firstName,data.firstName,data.firstName,data.middleName,data.middleName,data.middleName,data.lrn,data.lrn,data.lrn,data.gradeLevel,data.gradeLevel,data.gradeLevel,data.section,data.section,data.section,data.age,data.age,data.age,data.sex,data.sex,data.sex,data.houseNo,data.houseNo,data.houseNo,data.street,data.street,data.street,data.zip,data.zip,data.zip,data.barangay,data.barangay,data.barangay,data.city,data.city,data.city,data.province,data.province,data.province]);
 		logger(1, JSON.stringify(rows2));
 		res.sendStatus(201);
 	} catch (err) {
@@ -209,7 +212,7 @@ app.post("/create", isAdmin, async (req,res) => {
 
 app.post("/bulkCreate", isAdmin, async (req,res) => {
 	let data = req.body.jsonData;
-	if (typeof data !== "string" || data.length === 0) {return res.status(400).json();}
+	if (typeof data !== "string" || data.length === 0) return res.sendStatus(400);
 	try {
 		data = JSON.parse(data);
 	} catch (err) {
@@ -218,7 +221,7 @@ app.post("/bulkCreate", isAdmin, async (req,res) => {
 	}
 	if (typeof data !== "object" || data.length === 0) {return res.status(400).json({message:"No accounts in json"});}
 	const lrn = new Set();
-	for (let i = 0; i < data.length; i++) {
+	for (const i in data) {
 		if (lrn.has(data[i].lrn)) {
 			return res.status(409).json({message:"accounts with same lrn found in data"});
 		}
@@ -228,34 +231,17 @@ app.post("/bulkCreate", isAdmin, async (req,res) => {
 		lrn.add(data[i].lrn);
 	}
 	try {
-		for (let i = 0; i < data.length; i++) {
-			await new Promise((resolve,reject) => {
-				db.query(q.CHECK_ACCOUNT, [data[i].lrn], (err,result) => {
-					if (err) {console.error("SQL:", err); return reject({status:500,message:"Internal server error"});}
-					if (result.length !== 0) {return reject({status:409,message:"user with LRN already exist."});}
-					resolve();
-				});
-			});
-		}
-	} catch (err) {
-		console.log(err);
-		res.status(err.status).json({message:err.message});
-		return;
-	}
-	try {
-		for (let i = 0; i < data.length; i++) {
+		const [rows] = await db.query(q.CHECK_ACCOUNT, [data[0].lrn]);
+		if (rows.length !== 0) return res.status(409).json({message:"accounts with same lrn found in database"});
+		console.log(rows);
+		for (const i in data) {
 			const account = data[i];
 			const hash = crypto.createHash("sha256").update(account.lrn + process.env.qrIdSecret).digest("hex").substring(0,25);
-			await new Promise((resolve,reject) => {
-				db.query(q.ADD_ACCOUNT, [account.email,account.phoneNumber,account.password,account.lrn,hash,account.lastName,account.lastName,account.lastName,account.firstName,account.firstName,account.firstName,account.middleName,account.middleName,account.middleName,account.lrn,account.lrn,account.lrn,account.gradeLevel,account.gradeLevel,account.gradeLevel,account.section,account.section,account.section,account.age,account.age,account.age,account.sex,account.sex,account.sex,account.houseNo,account.houseNo,account.houseNo,account.street,account.street,account.street,account.zip,account.zip,account.zip,account.barangay,account.barangay,account.barangay,account.city,account.city,account.city,account.province,account.province,account.province], (err,result) => {
-					if (err) {logger(3,`[${req.sessionID.substring(0,6)}] [/admin/BulkCreate] [SQL] ${JSON.stringify(err)}`); return reject({status:500,message:"Internal server error"});}
-					resolve();
-				});
-			});
+			await db.query(q.ADD_ACCOUNT, [account.email,account.phoneNumber,account.password,account.lrn,hash,account.lastName,account.lastName,account.lastName,account.firstName,account.firstName,account.firstName,account.middleName,account.middleName,account.middleName,account.lrn,account.lrn,account.lrn,account.gradeLevel,account.gradeLevel,account.gradeLevel,account.section,account.section,account.section,account.age,account.age,account.age,account.sex,account.sex,account.sex,account.houseNo,account.houseNo,account.houseNo,account.street,account.street,account.street,account.zip,account.zip,account.zip,account.barangay,account.barangay,account.barangay,account.city,account.city,account.city,account.province,account.province,account.province]);
 		}
 	} catch (err) {
-		console.log(err);
-		res.status(err.status).json({message:err.message});
+		console.error(err);
+		res.status(500).json({message:err.message});
 		return;
 	}
 	res.status(201).json({message: "all goods"});
@@ -263,9 +249,9 @@ app.post("/bulkCreate", isAdmin, async (req,res) => {
 
 app.post("/remove/check", isAdmin, limiter(10,1), async (req,res) => {
 	const data = req.body;
-	if (typeof data === undefined || typeof data.id === undefined || data.id == "") {return res.status(400).json({message: "bad data"});}
+	if (typeof data === "undefined" || typeof data.id === "undefined" || data.id == "") return res.sendStatus(400);
 	try {
-		const [rows] = await dbb.query(q.REMOVE_ACCOUNT_CHECK, [data.id]);
+		const [rows] = await db.query(q.REMOVE_ACCOUNT_CHECK, [data.id]);
 		rows[0].name = parseName(rows[0]);
 		delete rows[0].firstName;
 		delete rows[0].lastName;
@@ -275,17 +261,6 @@ app.post("/remove/check", isAdmin, limiter(10,1), async (req,res) => {
 		console.error(err);
 		return res.sendStatus(500);
 	}
-	return;
-	db.query(q.REMOVE_ACCOUNT_CHECK, [data.id], (err,result) => {
-		if (err) {console.error("SQL:", err); return res.status(500).send("Internal Server Error");}
-		if (result.length === 0) {return res.status(404).json({message: "user not found"});}
-		result = result[0];
-		result.name = parseName(result);
-		delete result.firstName;
-		delete result.lastName;
-		delete result.middleName;
-		res.json(result);
-	});
 });
 
 app.delete("/remove/confirm", isAdmin, limiter(10,1), async (req,res) => {
@@ -293,7 +268,7 @@ app.delete("/remove/confirm", isAdmin, limiter(10,1), async (req,res) => {
 	if (!data || typeof data.id === "undefined" || typeof data.lrn === "undefined" || !/^[1-6]\d{5}(0\d|1\d|2[0-5])\d{4}$/.test(data.lrn) || data.lrn.length !== 12) return res.sendStatus(400);
 
 	try {
-		await dbb.query(q.REMOVE_ACCOUNT_CONFIRM, [data.id,data.lrn,data.id,data.id,data.lrn]);
+		await db.query(q.REMOVE_ACCOUNT_CONFIRM, [data.id,data.lrn,data.id,data.id,data.lrn]);
 		logger(1,`removed ${data.lrn}`);
 		res.json({message: "massive success"});
 	} catch (err) {
@@ -304,7 +279,7 @@ app.delete("/remove/confirm", isAdmin, limiter(10,1), async (req,res) => {
 
 function broadcastWebsocketAdmin() {
 	try {
-		const [rows] = dbb.query(q.GET_LATEST_MESSAGE);
+		const [rows] = db.query(q.GET_LATEST_MESSAGE);
 		rows[0].name = parseName(rows[0]).slice(0,30);
 		delete rows[0].firstName;
 		delete rows[0].lastName;

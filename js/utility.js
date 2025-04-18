@@ -1,4 +1,4 @@
-export const clients = new Map(); // Store WebSocket connections
+export const clients = new Map();
 export const adminClients = new Map();
 
 export function parseGender(data) {
