@@ -48,8 +48,11 @@ if (process.env.NODE_ENV === "production") {
 app.use(express.static("public"));
 //
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
+// app.use(bodyParser.urlencoded({ extended: true }));
+// app.use(bodyParser.json());
 app.use("/", (await import("./routes/pages.js")).default);
 
 app.use("/profile", (await import("./routes/profile.js")).default);

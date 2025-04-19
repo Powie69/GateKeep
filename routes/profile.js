@@ -43,7 +43,7 @@ app.post("/logout", isAuthenticated, (req,res) => {
 
 app.post("/getMessage", isAuthenticated, limiter(200,10), async (req,res) => {
 	const data = req.body;
-	if (!data.limit || data.offset == undefined || data.limit >= 25 || data.offset <= -1) {return res.status(400).send("bad data (server)");}
+	if (!data.limit || data.offset == undefined || data.limit >= 25 || data.offset <= -1) return res.sendStatus(400);
 
 	try {
 		const [rows] = await db.query(q.GET_MESSAGE, [req.session.user, data.limit, data.offset]);

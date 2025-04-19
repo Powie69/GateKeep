@@ -21,10 +21,9 @@ app.get("/",(req,res,next) => {
 	res.redirect("/admin/panel");
 });
 
-app.post("/login", limiter(10,1),(req,res) => {
-	if (crypto.createHash("sha256").update(req.body.password).digest("hex") != process.env.adminPassword) {
-		return res.status(401).json({message: "no."});
-	}
+app.post("/login", limiter(10,1), (req,res) => {
+	console.log(req.body);
+	if (crypto.createHash("sha256").update(req.body.password).digest("hex") != process.env.adminPassword) return res.sendStatus(401);
 	req.session.cookie.maxAge = 50400000; // 14 hours
 	req.session.isAdmin = true;
 	logger(1,`[${req.sessionID.substring(0,6)}] [${req.headers["user-agent"]}] Logged in as admin.`);
@@ -222,9 +221,7 @@ app.post("/bulkCreate", isAdmin, async (req,res) => {
 	if (typeof data !== "object" || data.length === 0) {return res.status(400).json({message:"No accounts in json"});}
 	const lrn = new Set();
 	for (const i in data) {
-		if (lrn.has(data[i].lrn)) {
-			return res.status(409).json({message:"accounts with same lrn found in data"});
-		}
+		if (lrn.has(data[i].lrn)) return res.status(409).json({message:"accounts with same lrn found in data"});
 		if (typeof data[i].email === "undefined" || data[i].email.length === 0 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data[i].email) || typeof data[i].phoneNumber === "undefined" || data[i].phoneNumber.length === 0 || !/^09\d{9}$/.test(data[i].phoneNumber) || typeof data[i].password === "undefined" || data[i].password.length === 0 || typeof data[i].lrn === "undefined" || data[i].lrn.length === 0 || !/^[1-6]\d{5}(0\d|1\d|2[0-5])\d{4}$/.test(data[i].lrn) || typeof data[i].lastName === "undefined"  || data[i].lastName.length === 0 || typeof data[i].firstName === "undefined" || data[i].firstName.length === 0 || (typeof data[i].gradeLevel != "undefined" && data[i].gradeLevel.length != 0 && (data[i].gradeLevel < 7 || data[i].gradeLevel > 12)) || (typeof data[i].zip !== undefined && data[i].zip.length != 0 && !/^(0[4-9]|[1-9]\d)\d{2}/.test(data[i].zip))) {
 			return res.status(400).json({message:"accounts have invalid values"});
 		}

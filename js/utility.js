@@ -2,7 +2,7 @@ export const clients = new Map();
 export const adminClients = new Map();
 
 export function parseGender(data) {
-	if (typeof data === "undefined" ||data === null|| data.length === 0) {return;}
+	if (typeof data === "undefined" ||data === null|| data.length === 0) return;
 	if (Number(data) === 1) {
 		return "Male";
 	} else if (Number(data) === 0) {
@@ -11,10 +11,8 @@ export function parseGender(data) {
 }
 
 export function parseName(data) {
-	if (!data ||typeof data.firstName !== "string" || typeof data.firstName !== "string" ) {return;}
-	if (typeof data.middleName !== "string" || data.middleName.length === 0) { // if fatherless
-		return `${data.firstName} ${data.lastName}`;
-	}
+	if (!data ||typeof data.firstName !== "string" || typeof data.firstName !== "string" ) return;
+	if (typeof data.middleName !== "string" || data.middleName.length === 0) return `${data.firstName} ${data.lastName}`; // if fatherless
 	return `${data.firstName} ${data.middleName.charAt(0).toUpperCase()}. ${data.lastName}`;
 }
 
