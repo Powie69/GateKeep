@@ -1,6 +1,5 @@
 import "dotenv/config";
 
-import bodyParser from "body-parser";
 import compression from "compression";
 import express from "express";
 import MySQLStore from "express-mysql-session";
@@ -50,9 +49,6 @@ app.use(express.static("public"));
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-
-// app.use(bodyParser.urlencoded({ extended: true }));
-// app.use(bodyParser.json());
 app.use("/", (await import("./routes/pages.js")).default);
 
 app.use("/profile", (await import("./routes/profile.js")).default);

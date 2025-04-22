@@ -16,6 +16,30 @@ export function parseName(data) {
 	return `${data.firstName} ${data.middleName.charAt(0).toUpperCase()}. ${data.lastName}`;
 }
 
+export function isValidEmail(email) {
+	if (!email || typeof email !== "string" || email.length === 0) return false;
+	return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+
+export function isValidLrn(lrn) {
+	if (!lrn || typeof lrn !== "string" || lrn.length === 0) return false;
+	return /^[1-6]\d{5}(0\d|1\d|2[0-5])\d{4}$/.test(lrn);
+}
+
+export function isValidPassword(password) {
+	// todo: make password standard
+}
+
+export function isValidPhoneNumber(phoneNumber) {
+	if (!phoneNumber || typeof phoneNumber !== "string" || phoneNumber.length !== 11) return false;
+	return /^09\d{9}$/.test(phoneNumber);
+}
+
+export function isValidZip(zip) {
+	if (!zip || typeof zip !== "string" || zip.length === 0) return false;
+	return /^(0[4-9]|[1-9]\d)\d{2}$/.test(zip); // what is this regex? how did i come up with this? I forgot.
+}
+
 // 1:-info,  2:-warning,  3:-error
 export function logger(type,message) {
 	switch (type) {

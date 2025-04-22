@@ -4,8 +4,8 @@ import qrcode from "qrcode";
 
 import q from "../js/adminQuery.js";
 import db from "../js/db.js";
-import {isAdmin, limiter } from "../js/middleware.js";
-import { adminClients, clients, logger, parseGender, parseName } from "../js/utility.js";
+import {isAdmin, limiter }  from "../js/middleware.js";
+import { adminClients, clients, isValidEmail, isValidLrn, isValidPhoneNumber, logger, parseGender, parseName } from "../js/utility.js";
 const app = express.Router();
 
 app.get("/",(req,res,next) => {
@@ -22,12 +22,11 @@ app.get("/",(req,res,next) => {
 });
 
 app.post("/login", limiter(10,1), (req,res) => {
-	console.log(req.body);
-	if (crypto.createHash("sha256").update(req.body.password).digest("hex") != process.env.adminPassword) return res.sendStatus(401);
+	if (crypto.createHash("sha256").update(req.body.password).digest("hex") !== process.env.adminPassword) return res.sendStatus(401);
 	req.session.cookie.maxAge = 50400000; // 14 hours
 	req.session.isAdmin = true;
 	logger(1,`[${req.sessionID.substring(0,6)}] [${req.headers["user-agent"]}] Logged in as admin.`);
-	res.status(200).json({message:"success"});
+	res.redirect("/");
 });
 
 //* requires 'isAdmin'
@@ -136,7 +135,7 @@ app.post("/logs/data",isAdmin, async (req,res) => {
 	if (!data || data.limit == undefined || data.offset == undefined || data.limit > 40 || data.offset <= -1) return res.sendStatus(400);
 	try {
 		const [rows] = await db.query(q.GET_LOGS, [data.limit, data.offset]);
-		if (rows.length === 0) return res.Status(404).json({message: "No more messages found"});
+		if (rows.length === 0) return res.sendStatus(404);
 		for (const index in rows) {
 			rows[index].name = parseName(rows[index]).slice(0,30);
 			delete rows[index].firstName;
@@ -170,7 +169,6 @@ app.post("/updateInfo", isAdmin, async (req,res) => {
 	const data = req.body;
 	console.log(req.body);
 
-	// todo: wtf?
 	if ((typeof data.email != "undefined" && data.email.length !== 0 && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) || (typeof data.phoneNumber != "undefined" && data.phoneNumber.length !== 0 && !/^09\d{9}$/.test(data.phoneNumber)) || (typeof data.lrn != "undefined" && data.lrn.length !== 0 && !/^[1-6]\d{5}(0\d|1\d|2[0-5])\d{4}$/.test(data.lrn)) || (typeof data.gradeLevel != "undefined" && data.gradeLevel.length !== 0 && (data.gradeLevel < 7 || data.gradeLevel > 12)) || (typeof data.zip !== "undefined" && data.zip.length !== 0 && !/^(0[4-9]|[1-9]\d)\d{2}$/.test(data.zip))) return res.sendStatus(400);
 	for (const i in data) {
 		if (typeof data[i] !== undefined && data[i].length !== 0 && data[i].length >= 255) return res.sendStatus(400);
@@ -189,7 +187,7 @@ app.post("/updateInfo", isAdmin, async (req,res) => {
 
 app.post("/create", isAdmin, async (req,res) => {
 	const data = req.body;
-	if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email) || !/^09\d{9}$/.test(data.phoneNumber) || !data.password || !/^[1-6]\d{5}(0\d|1\d|2[0-5])\d{4}$/.test(data.lrn) || !data.lastName || data.lastName.length === 0 || !data.firstName || data.firstName.length === 0 || (typeof data.gradeLevel != undefined && data.gradeLevel.length != 0 && (data.gradeLevel < 7 || data.gradeLevel > 12)) || (typeof data.zip !== undefined && data.zip.length != 0 && !/^(0[4-9]|[1-9]\d)\d{2}$/.test(data.zip))) {return res.status(401).json({message: "bad data"});}
+	if (!isValidEmail(data.email) || !isValidPhoneNumber(data.phoneNumber) || !data.password || !isValidLrn(data.lrn) || !data.lastName || data.lastName.length === 0 || !data.firstName || data.firstName.length === 0 || (typeof data.gradeLevel != undefined && data.gradeLevel.length != 0 && (data.gradeLevel < 7 || data.gradeLevel > 12)) || (typeof data.zip !== undefined && data.zip.length != 0 && !/^(0[4-9]|[1-9]\d)\d{2}$/.test(data.zip))) return res.sendStatus(400);
 	console.log(data);
 
 	// const hash = crypto.createHash('sha256').update(data.lrn + process.env.qrIdSecret).digest('hex').substring(0,25)
@@ -218,11 +216,11 @@ app.post("/bulkCreate", isAdmin, async (req,res) => {
 		console.log(err);
 		return res.status(400).json({message:err.message});
 	}
-	if (typeof data !== "object" || data.length === 0) {return res.status(400).json({message:"No accounts in json"});}
+	if (typeof data !== "object" || data.length === 0) return res.status(400).json({message:"No accounts in json"});
 	const lrn = new Set();
 	for (const i in data) {
 		if (lrn.has(data[i].lrn)) return res.status(409).json({message:"accounts with same lrn found in data"});
-		if (typeof data[i].email === "undefined" || data[i].email.length === 0 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data[i].email) || typeof data[i].phoneNumber === "undefined" || data[i].phoneNumber.length === 0 || !/^09\d{9}$/.test(data[i].phoneNumber) || typeof data[i].password === "undefined" || data[i].password.length === 0 || typeof data[i].lrn === "undefined" || data[i].lrn.length === 0 || !/^[1-6]\d{5}(0\d|1\d|2[0-5])\d{4}$/.test(data[i].lrn) || typeof data[i].lastName === "undefined"  || data[i].lastName.length === 0 || typeof data[i].firstName === "undefined" || data[i].firstName.length === 0 || (typeof data[i].gradeLevel != "undefined" && data[i].gradeLevel.length != 0 && (data[i].gradeLevel < 7 || data[i].gradeLevel > 12)) || (typeof data[i].zip !== undefined && data[i].zip.length != 0 && !/^(0[4-9]|[1-9]\d)\d{2}/.test(data[i].zip))) {
+		if (!isValidEmail(data[i].email)|| typeof data[i].phoneNumber === "undefined" || data[i].phoneNumber.length === 0 || !/^09\d{9}$/.test(data[i].phoneNumber) || typeof data[i].password === "undefined" || data[i].password.length === 0 || typeof data[i].lrn === "undefined" || data[i].lrn.length === 0 || !/^[1-6]\d{5}(0\d|1\d|2[0-5])\d{4}$/.test(data[i].lrn) || typeof data[i].lastName === "undefined"  || data[i].lastName.length === 0 || typeof data[i].firstName === "undefined" || data[i].firstName.length === 0 || (typeof data[i].gradeLevel != "undefined" && data[i].gradeLevel.length != 0 && (data[i].gradeLevel < 7 || data[i].gradeLevel > 12)) || (typeof data[i].zip !== undefined && data[i].zip.length != 0 && !/^(0[4-9]|[1-9]\d)\d{2}/.test(data[i].zip))) {
 			return res.status(400).json({message:"accounts have invalid values"});
 		}
 		lrn.add(data[i].lrn);
@@ -282,7 +280,7 @@ function broadcastWebsocketAdmin() {
 		delete rows[0].lastName;
 		delete rows[0].middleName;
 		adminClients.forEach((ws) => {
-			if (!ws || ws.readyState !== 1) {return;};
+			if (!ws || ws.readyState !== 1) return;
 			ws.send(JSON.stringify(rows[0]));
 		});
 	} catch (err) {
