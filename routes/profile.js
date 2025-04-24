@@ -17,8 +17,8 @@ app.post("/login", limiter(30, 5), async (req, res) => {
 	}
 
 	try {
-		const [rows] = db.query(q.LOGIN, [data.username, data.username, data.lrn, data.password]);
-		if (result.length !== 1) return res.status(401).json({ message: "Invalid email/phone, LRN, or password" });
+		const [rows] = await db.query(q.LOGIN, [data.username, data.username, data.lrn, data.password]);
+		if (rows.length !== 1) return res.status(401).json({ message: "Invalid email/phone, LRN, or password" });
 		req.session.authenticated = true;
 		req.session.user = rows[0].id;
 		req.session.displayName = rows[0].firstName;

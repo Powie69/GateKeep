@@ -60,10 +60,7 @@ app.use("/admin", (await import("./routes/admin.js")).default);
 app.use((req,res) => {
 	res.status(404);
 	if (req.accepts("html")) {
-		return res.render("404", {
-			displayName: req.session.displayName || "No user",
-			path: req.path
-		});
+		return res.render("404", { displayName: req.session.displayName || "No user" , path: req.path});
 	}
 	if (req.accepts("json")) {
 		return res.json({message:"not found"});
