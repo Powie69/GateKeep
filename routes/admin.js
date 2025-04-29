@@ -107,7 +107,7 @@ app.get("/logs",isAdmin,(req,res) => {
 //
 app.post("/send", isAdmin, async (req,res) => {
 	const data = req.body;
-	if (!data || typeof data.qrId === "undefined"|| typeof data.isIn !== "boolean" || data.qrId == "") {return res.status(400).json({message:"bad data"});}
+	if (!data || typeof data.qrId === "undefined"|| typeof data.isIn !== "boolean" || data.qrId == "") return res.sendStatus(400);
 
 	try {
 		const [rows] = await db.query(q.GET_ID_VIA_QRID, [data.qrId]);
