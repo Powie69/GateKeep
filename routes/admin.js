@@ -105,22 +105,27 @@ app.get("/logs",isAdmin,(req,res) => {
 });
 
 //
-app.post("/send", isAdmin, async (req,res) => {
+app.post("/send", isAdmin, async (req,res) => { // todo: test
 	const data = req.body;
 	if (!data || typeof data.qrId === "undefined"|| typeof data.isIn !== "boolean" || data.qrId == "") return res.sendStatus(400);
 
 	try {
-		const [rows] = await db.query(q.GET_ID_VIA_QRID, [data.qrId]);
+		const [rows] = await db.query(q.GET_INFO_VIA_QRID, [data.qrId]);
 		if (rows.length === 0) return res.status(404).json({message:"no Qr data found"});
 		const userId = rows[0].id;
-		const [rows2] = await db.query(q.PROCESS_MESSAGE, [userId,data.isIn,new Date().toISOString().slice(0, 19),userId]);
-		rows2[3][0].sex = parseGender(rows2[3][0].sex);
-		rows2[3][0].name = parseName(rows2[3][0]);
-		delete rows2[3][0].firstName;
-		delete rows2[3][0].lastName;
-		delete rows2[3][0].middleName;
-		res.status(201).json(rows2[3][0]);
-		broadcastWebsocketAdmin();
+		const [rows2] = await withTransaction(async (conn) => {
+			return await conn.query(q.ADD_MESSAGE, [userId,data.isIn,new Date().toISOString().slice(0, 19),userId]);
+		});
+
+		const result = rows2[1][0];
+
+		result.sex = parseGender(result.sex);
+		result.name = parseName(result);
+		delete result.firstName;
+		delete result.lastName;
+		delete result.middleName;
+		res.status(201).json(...result, rows[0]);
+		broadcastWebsocketAdmin([...result]);
 		const ws = clients.get(userId);
 		if (!ws || ws.readyState !== 1) return;
 		ws.send(JSON.stringify(rows2[2][0]));

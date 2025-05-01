@@ -1,5 +1,22 @@
+import db from "./db.js";
+
 export const clients = new Map();
 export const adminClients = new Map();
+
+export async function withTransaction(callback) {
+	const connection = await db.getConnection();
+	try {
+		await connection.beginTransaction();
+		const result = await callback(connection);
+		await connection.commit();
+		return result;
+	} catch (err) {
+		await connection.rollback();
+		throw err;
+	} finally {
+		connection.release();
+	}
+}
 
 export function parseGender(data) {
 	if (typeof data === "undefined" ||data === null|| data.length === 0) return;
