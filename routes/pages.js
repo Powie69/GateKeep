@@ -87,19 +87,20 @@ app.get("/help",(req,res) => {
 	});
 });
 
-app.get("/print",(req,res) => {
+app.get("/print", async (req,res) => {
 	if (typeof req.session.authenticated === "undefined" || req.session.authenticated === false || typeof req.session.user === "undefined") {
 		return res.render("noUser", {message: "Cannot print because you are not logged in", displayName: "no user"});
 	}
 	try {
-		const [rows] = db.query(q.GET_INFO_FOR_PRINT, [req.session.user]);
+		const [rows] = await db.query(q.GET_INFO_FOR_PRINT, [req.session.user]);
 		if (rows.length !== 1) return res.sendStatus(500);
-		rows = rows[0];
+		console.log(rows);
+
 		res.render("print", {
 			displayName: req.session.displayName,
-			name: parseName(result),
-			gradeLevel: result.gradeLevel || "NO GRADE LEVEL!",
-			section: result.section || "NO SECTION!",
+			name: parseName(rows[0]),
+			gradeLevel: rows[0].gradeLevel || "NO GRADE LEVEL!",
+			section: rows[0].section || "NO SECTION!",
 		});
 	} catch (err) {
 		console.error(err);

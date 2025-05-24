@@ -113,8 +113,8 @@ app.post("/send", isAdmin, async (req,res) => { // todo: test
 		const [rows] = await db.query(q.GET_INFO_VIA_QRID, [data.qrId]);
 		if (rows.length === 0) return res.status(404).json({message:"no Qr data found"});
 		const userId = rows[0].id;
-		const [rows2] = await withTransaction(async (conn) => {
-			return await conn.query(q.ADD_MESSAGE, [userId,data.isIn,new Date().toISOString().slice(0, 19),userId]);
+		const [rows2] = await withTransaction(async (connection) => {
+			return await connection.query(q.ADD_MESSAGE, [userId,data.isIn,new Date().toISOString().slice(0, 19),userId]);
 		});
 
 		const result = rows2[1][0];
@@ -290,7 +290,7 @@ function broadcastWebsocketAdmin() {
 		});
 	} catch (err) {
 		console.error(err);
-		return res.sendStatus(500);
+		// return res.sendStatus(500);
 	}
 }
 
