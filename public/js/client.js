@@ -1,16 +1,13 @@
 document.querySelector(".main").style.setProperty("background", `url(images/circles/${Math.floor(Math.random() * 10) + 1}.svg) no-repeat top left / cover`);
 document.querySelector("._logout").addEventListener("click", () => {
 	fetch("/profile/logout", {
-		method: "post",
-		credentials: "include"
+		method: "POST"
 	})
 		.then(response => {
-			if (response.status >= 400) {
-				return;
-			}
-			return;
+			if (response.status >= 400) return;
+			location.href = "/";
 		})
-		.catch(error => {console.error(error);});
+		.catch(error => { console.error(error); });
 });
 document.querySelectorAll(".help-item-button").forEach(element => {
 	element.addEventListener("click", e => {
@@ -27,17 +24,17 @@ document.querySelectorAll(".help-item-button").forEach(element => {
 
 async function loginSubmit(event) {
 	event.preventDefault();
-	const data = Object.fromEntries(new FormData(event.target).entries());
+	const data = Object.fromEntries(new FormData(event.target));
 
 	if (!(/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.username) || /^09\d{9}$/.test(data.username)) || !/^[1-6]\d{11}$/.test(data.lrn) || !data.password) {
 		console.log("Invalid login data (client)");
 	}
+
 	try {
 		const response = await fetch("/profile/login", {
 			method: "POST",
-			headers: {"Content-Type": "application/x-www-form-urlencoded",},
-			body: new URLSearchParams(data),
-			credentials: "include",
+			headers: { "Content-Type": "application/json", },
+			body: JSON.stringify(data),
 		});
 
 		const respond = await response.json();
@@ -51,5 +48,5 @@ async function loginSubmit(event) {
 			location.reload();
 			return;
 		}
-	} catch (error) {console.error(error);}
+	} catch (err) { console.error(err); }
 }

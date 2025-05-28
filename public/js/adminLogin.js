@@ -13,5 +13,5 @@ async function submitLogin(event) {
 
 		if (!response.ok) return;
 		location.reload();
-	} catch (error) {console.error(error);}
+	} catch (err) {console.error(err);}
 }

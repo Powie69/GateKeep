@@ -9,10 +9,9 @@ async function loginSubmit(event) {
 		const response = await fetch("profile/login", {
 			method: "POST",
 			headers: {
-				"Content-Type": "application/x-www-form-urlencoded",
+				"Content-Type": "application",
 			},
-			body: new URLSearchParams(data),
-			credentials: "include",
+			body: JSON.stringify(data),
 		});
 
 		const respond = await response.json();

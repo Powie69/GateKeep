@@ -2,7 +2,7 @@ import express from "express";
 
 import db from "../js/db.js";
 import q from "../js/profileQuery.js";
-import { adminClients, clients, logger, parseGender, parseName } from "../js/utility.js";
+import { adminClients, clients, parseGender, parseName } from "../js/utility.js";
 const app = express.Router();
 
 app.get("/", async (req,res) => {
@@ -83,7 +83,7 @@ app.get("/about",(req,res) => {
 
 app.get("/help",(req,res) => {
 	return res.render("help",{
-		displayName: req.session.displayName || "No user",
+		displayName: req.session.displaysName || "No user",
 	});
 });
 
