@@ -34,6 +34,7 @@ export function parseGender(data) {
 	}
 }
 
+
 /**
  * Formats a name object into a string.
  *
@@ -64,7 +65,7 @@ export function isValidEmail(email) {
  * @returns {boolean} True if the string is a valid LRN, false if not.
  */
 export function isValidLrn(lrn) {
-	if (!lrn || typeof lrn !== "string" || lrn.length !== 11) return false;
+	if (!lrn || typeof lrn !== "string" || lrn.length !== 12) return false;
 	return /^[1-6]\d{5}(0\d|1\d|2[0-5])\d{4}$/.test(lrn);
 }
 
