@@ -49,78 +49,58 @@
 	</dialog>
 	<%- include('./component/header') %>
 	<%- include('./component/aside') %>
-	<main class="main">
-		<section class="logs">
-			<header class="logs-header">
-				<h1>Logs</h1>
-				<div class="logs-header-buttons">
-					<div class="dropdown">
-						<button class="info-header-buttons-dropdown dropdown-button" isDropdownOpen="false" onclick="handleDropdown(this)" aria-label="more options" aria-haspopup="menu" type="button"><i class="material-symbols-rounded" aria-hidden="true">more_vert</i></button>
-						<div class="dropdown-contain">
-							<menu>
-								<li><button onclick="Notification.requestPermission()">Get Notfications</button></li>
-							</menu>
-						</div>
-					</div>
-				</div>
+	<main class="main fill-viewport">
+		<article class="info">
+			<header>
+				<h2>info</h2>
 			</header>
+			<dl class="info-content">
+				<div id="name">
+					<dt>Name:</dt>
+					<dd><%= name %></dd>
+				</div>
+
+				<div id="grade-level">
+					<dt>Grade Level:</dt>
+					<dd><%= gradeLevel %></dd>
+				</div>
+
+				<div id="section">
+					<dt>Section:</dt>
+					<dd><%= section %></dd>
+				</div>
+
+				<div id="lrn">
+					<dt>LRN:</dt>
+					<dd><%= lrn %></dd>
+				</div>
+
+				<div id="address">
+					<dt>Address:</dt>
+					<dd><%= address %></dd>
+				</div>
+			</dl>
+		</article>
+
+		<article class="qr">
+			<h3>QR code</h3>
+			<img src="/qr" aria-disabled="true">
+		</article>
+
+		<article class="logs">
+			<h1>logs</h1>
 			<div class="logs-container">
-				<template class="logs-item_template">
-					<div class="logs-item">
-						<p class="logs-item-title"><i class="material-symbols-rounded">Login</i> <span>IN</span></p>
-						<p class="logs-item-desc"><span class="_name"><%= displayName %></span> <span class="_isIn">arrived</span> at <span class="_time">0:00am</span> • <span class="_date">jan 0</span></p>
+				<template class="logs-container-item_template">
+					<div class="logs-container-item">
+						<img class="logs-container-item-img" src="" aria-hidden="true">
+						<div class="logs-container-item-text">
+							<p class="logs-container-item-text-time"></p>
+							<p class="logs-container-item-text-date"></p>
+						</div>
 					</div>
 				</template>
 			</div>
-		</section>
-		<section class="info">
-			<header class="info-header">
-				<h2>Info</h2>
-				<div class="info-header-buttons">
-					<div class="dropdown">
-						<button class="info-header-buttons-dropdown dropdown-button" isDropdownOpen="false" onclick="handleDropdown(this)" aria-label="more options" aria-haspopup="menu" type="button"><i class="material-symbols-rounded" aria-hidden="true">more_vert</i></button>
-						<div class="dropdown-contain">
-							<menu>
-								<li><button onclick="document.querySelector('.viewDialog').showModal()" aria-haspopup="dialog">View all info</button></li>
-							</menu>
-						</div>
-					</div>
-					<button class="info-header-buttons-collapse _mobileOnly" onclick="collapseSection(document.querySelector('.info-contain'),this.childNodes[0])" aria-label="hide or show Section"><i class="material-symbols-rounded " aria-hidden="true">keyboard_arrow_up</i></button>
-				</div>
-			</header>
-			<div class="info-contain">
-				<fieldset>
-					<legend>Name</legend>
-					<label class="info-contain-item-label"><span class="info-contain-item-span"><%= name %></span></label>
-				</fieldset>
-				<fieldset class="info-contain-item_school">
-					<legend>School info</legend>
-					<label class="info-contain-item-label">Grade Level:<span class="info-contain-item-span"><%= gradeLevel %></span></label>
-					<label class="info-contain-item-label">Section:<span class="info-contain-item-span"><%= section %></span></label>
-					<label class="info-contain-item-label">LRN:<span class="info-contain-item-span"><%= lrn %></span></label>
-				</fieldset>
-				<fieldset>
-					<legend>Address</legend>
-					<label class="info-contain-item-label"><span class="info-contain-item-span"><%= address %></span></label>
-				</fieldset>
-			</div>
-		</section>
-		<section class="qr">
-			<header class="qr-header">
-				<h3>QR code</h3>
-				<div class="qr-header-buttons">
-					<div class="dropdown">
-						<button class="info-header-buttons-dropdown dropdown-button" isDropdownOpen="false" onclick="handleDropdown(this)" aria-label="more options" aria-haspopup="menu" type="button"><i class="material-symbols-rounded" aria-hidden="true">more_vert</i></button>
-						<div class="dropdown-contain">
-							<menu>
-								<li><button onclick="window.location.href = '/print'">Print QR code</button></li>
-							</menu>
-						</div>
-					</div>
-				</div>
-			</header>
-			<div class="qr-contain"><img src="/qr" class="qr-contain-img"></div>
-		</section>
+		</article>
 	</main>
 
 	<script src="/js/dashboard.js" defer></script>
