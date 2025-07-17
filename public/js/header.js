@@ -1,3 +1,4 @@
+const asideElement =  document.querySelector(".aside");
 if ("serviceWorker" in navigator) {
 	window.addEventListener("load", () => {
 	  navigator.serviceWorker.register("/service-worker.js").then((registration) => {
@@ -9,13 +10,12 @@ if ("serviceWorker" in navigator) {
 }
 
 function handleAside() {
-	const element =  document.querySelector(".aside");
-	element.classList.toggle("show");
+	asideElement.classList.toggle("show");
 	document.querySelector(".overlay").classList.toggle("active");
-	if (element.getAttribute("aria-hidden") === "true") {
-		element.setAttribute("aria-hidden", "false");
+	if (asideElement.getAttribute("aria-hidden") === "true") {
+		asideElement.setAttribute("aria-hidden", "false");
 	} else {
-		element.setAttribute("aria-hidden", "true");
+		asideElement.setAttribute("aria-hidden", "true");
 	}
 }
 

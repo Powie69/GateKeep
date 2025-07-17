@@ -6,7 +6,7 @@ import { adminClients, clients, parseGender, parseName } from "../js/utility.js"
 const app = express.Router();
 
 app.get("/", async (req,res) => {
-	if (typeof req.session.authenticated === "undefined" || req.session.authenticated === false || typeof req.session.user === "undefined") return res.sendFile("views/home.html",{root:"./"});
+	if (typeof req.session.authenticated === "undefined" || req.session.authenticated === false || typeof req.session.user === "undefined") return res.render("home");
 
 	try {
 		const [rows] = await db.query(q.GET_INFO, [req.session.user]);

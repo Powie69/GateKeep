@@ -1,4 +1,4 @@
-document.querySelector(".main").style.setProperty("background", `url(images/circles/${Math.floor(Math.random() * 10) + 1}.svg) no-repeat top left / cover`);
+// document.querySelector(".main").style.setProperty("background", `url(images/circles/${Math.floor(Math.random() * 10) + 1}.svg) no-repeat top left / cover`);
 document.querySelector("._logout").addEventListener("click", () => {
 	fetch("/profile/logout", {
 		method: "POST"

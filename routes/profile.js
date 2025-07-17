@@ -3,13 +3,13 @@ import express from "express";
 import db from "../js/db.js";
 import {isAuthenticated, limiter } from "../js/middleware.js";
 import q from "../js/profileQuery.js";
-import { logger } from "../js/utility.js";
+import { isValidEmail, isValidLrn, isValidPhoneNumber, logger } from "../js/utility.js";
 const app = express.Router();
 
 app.post("/login", limiter(30, 5), async (req, res) => {
 	const data = req.body;
 
-	if (!(/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.username) || /^09\d{9}$/.test(data.username)) || !/^[1-6]\d{11}$/.test(data.lrn) || !data.password) {
+	if (!(isValidEmail(data.username) || isValidPhoneNumber(data.username)) || !isValidLrn(data.lrn) || !data.password) {
 		return res.status(400).json({ message: "Email or Phone number, LRN, and password are required" });
 	}
 	if (typeof req.session.authenticated !== "undefined" || req.session.authenticated === true || typeof req.session.user !== "undefined") {

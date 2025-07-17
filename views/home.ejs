@@ -16,20 +16,7 @@
     <link rel="stylesheet" href="/css/index.css">
 </head>
 <body>
-	<header class="header">
-		<a class="header-logo" href="/"><img src="/images/logo.webp" alt="website logo"></a>
-		<nav class="header-nav _desktopOnly">
-			<ul>
-				<li><a href="/About">About</a></li>
-				<li><a href="/Help">Help</a></li>
-			</ul>
-		</nav>
-		<ul class="header-buttons">
-			<li><button class="_desktopOnly" aria-label="Accessibility"><i class="material-symbols-rounded" aria-hidden="true">accessibility_new</i></button></li>
-			<li><button class="_mobileOnly" onclick="handleAside()" aria-label="Menu"><i class="material-symbols-rounded" aria-hidden="true">menu</i></button></li>
-			<li><button class="_logout _desktopOnly" aria-label="Account options"><i class="material-symbols-rounded" aria-hidden="true">Account_Circle</i></button></li>
-		</ul>
-	</header>
+	<%- include('./component/header') %>
 	<div class="overlay" onclick="handleAside()"></div>
 	<aside class="aside _mobileOnly" aria-hidden="true">
 		<button class="aside-hide" onclick="handleAside()" aria-label="Menu"><i class="material-symbols-rounded" aria-hidden="true">menu</i></button>
