@@ -1,7 +1,8 @@
 let messageCount = 0;
 let getMessageDebounce = true;
-const displayName = document.querySelector(".overlay").getAttribute("DisplayName");
-const msgElement = document.querySelector(".logs-item_template");
+const displayName = document.querySelector("main").getAttribute("data-displayName");
+const msgElement = document.querySelector(".logs-container-item_template");
+console.log(msgElement);
 const dialogElements = document.querySelectorAll(".viewDialog");
 const ws = new WebSocket("ws://localhost:3000/ws"); //change in prod
 
@@ -24,23 +25,29 @@ function fetchMessages(limit, offset) {
 }
 
 function updateMessage(data) {
-	if (!data) {return;}
+	if (!data) return;
 	for (let i = 0; i < data.length; i++) {
-		const element = document.importNode(msgElement.content, true).querySelector(".logs-item");
-		element.querySelector(".logs-item-desc ._time").innerText = new Date(data[i].time).toLocaleTimeString("en-US", {timeZone: "Asia/Manila", hour12: true, hour: "numeric", minute: "2-digit"});
-		element.querySelector(".logs-item-desc ._date").innerText = new Date(data[i].time).toLocaleDateString("en-US", { month: "long", day: "numeric"});
-		if (data[i].isIn == 1) {
-			element.querySelector(".logs-item-title span").innerText = "IN";
-			element.querySelector(".logs-item-title i").innerText = "Login";
-			element.querySelector(".logs-item-desc ._isIn").innerText = "arrived";
-		} else {
-			element.querySelector(".logs-item-title span").innerText = "OUT";
-			element.querySelector(".logs-item-title i").innerText = "Logout";
-			element.querySelector(".logs-item-desc ._isIn").innerText = "left";
-		}
+		const element = document.importNode(msgElement.content, true).querySelector(".logs-container-item");
+		element.querySelector(".logs-container-item-text-date").innerText = formateDate(data[i].time);
+		element.querySelector(".logs-container-item-text-time").innerText = `${displayName} ${data[i].isIn ? "arrived" : "left"} at ${new Date(data[i].time).toLocaleTimeString("en-US", {timeZone: "Asia/Manila", hour12: true, hour: "numeric", minute: "2-digit"})}`;
+		element.querySelector(".logs-container-item-img").innerText = data[i].isIn ? "Login" : "Logout";
 		document.querySelector(".logs-container").appendChild(element);
 		messageCount++;
 	}
+}
+
+function formateDate(isoString) {
+	const date = new Date(isoString);
+
+	const options = {
+		weekday: "long",
+		month: "long",
+		day: "numeric"
+	};
+
+	if (date.getFullYear() !== new Date().getFullYear()) options.year = "numeric";
+
+	return date.toLocaleDateString("en-US", options).replace(",", " •");
 }
 
 function handleDropdown(element) {
@@ -116,19 +123,11 @@ ws.onmessage = (event) => {
 	try {
 		data = JSON.parse(event.data);
 	} catch (err) {return console.error(err);}
-	const isInText = data.isIn ? "arrived" : "left";
-	const isInIcon = data.isIn ? "Login" : "Logout";
-	const element = document.importNode(msgElement.content, true).querySelector(".logs-item");
-	element.querySelector(".logs-item-desc ._time").innerText = new Date(data.time).toLocaleTimeString("en-US", {timeZone: "Asia/Manila", hour12: true, hour: "numeric", minute: "2-digit"});
-	element.querySelector(".logs-item-desc ._date").innerText = new Date(data.time).toLocaleDateString("en-US", { month: "long", day: "numeric"});
-	element.querySelector(".logs-item-title i").innerText = isInIcon;
-	element.querySelector(".logs-item-desc ._isIn").innerText = isInText;
-	element.querySelector(".logs-item-title span").innerText = data.isIn ? "IN" : "OUT";
-	sendNotification(`${displayName} ${isInText} at ${new Date(data.time).toLocaleTimeString("en-US", {timeZone: "Asia/Manila", hour12: true, hour: "numeric", minute: "2-digit"})}`, {
-		body: `${new Date(data.time).toLocaleDateString("en-US", { month: "long", day: "numeric"})}`,
-		icon: `/images/${isInIcon}.svg`
-	});
-	document.querySelector(".logs-container").insertBefore(element,document.querySelector(".logs-container").firstChild);
+	const element = document.importNode(msgElement.content, true).querySelector(".logs-container-item");
+	element.querySelector(".logs-container-item-text-date").innerText = formateDate(data[i].time);
+	element.querySelector(".logs-container-item-text-time").innerText = `${displayName} ${data[i].isIn ? "arrived" : "left"} at ${new Date(data[i].time).toLocaleTimeString("en-US", {timeZone: "Asia/Manila", hour12: true, hour: "numeric", minute: "2-digit"})}`;
+	element.querySelector(".logs-container-item-img").innerText = data[i].isIn ? "Login" : "Logout";
+	document.querySelector(".logs-container").appendChild(element);
 	messageCount++;
 };
 

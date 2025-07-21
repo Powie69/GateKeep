@@ -1,5 +1,4 @@
 .main {
-	/* flex-grow: 1; */
 	display: grid;
 	grid-template-columns: 1fr 1fr;
 	grid-template-rows: 1fr 1fr;
@@ -7,9 +6,10 @@
     "info Logs"
     "qr Logs";
 	gap: clamp(10px, 2vw, 5rem);
+	padding: 2rem 2.5rem;
 	width: 100%;
+	height: calc(100vh - 90px);
 	box-sizing: border-box;
-	padding: 1rem 2rem;
 }
 
 .main article {
@@ -17,6 +17,9 @@
 	padding: 1rem;
 	box-shadow: var(--box-shadow);
 	border-radius: 14px;
+	box-sizing: border-box;
+	height: 100%;
+	width: 100%;
 }
 
 /** info  */
@@ -94,6 +97,78 @@
 
 .logs {
 	grid-area: Logs;
+	box-sizing: border-box;
+	overflow: hidden;
+}
+
+.logs header {
+	position: relative;
+	margin: 0 1rem 1rem 1rem;
+}
+
+.logs header h1 {
+	text-align: center;
+	margin: 0;
+	font-size: 2.074rem;
+}
+
+.logs header button {
+	position: absolute;
+	top: 50%;
+	right: 0;
+	transform: translateY(-50%);
+	cursor: pointer;
+	border: none;
+	background: none;
+}
+
+.logs-container {
+	display: flex;
+	flex-direction: column;
+	place-items: center;
+	gap: 1rem;
+	height: 90%;
+	/* margin: 2rem 0; */
+	padding: 1rem;
+	box-sizing: border-box;
+	overflow-y: auto;
+	border-radius: 28px;
+}
+
+.logs-container::-webkit-scrollbar {
+    width: 4px;
+}
+
+.logs-container::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 10px;
+}
+
+.logs-container::-webkit-scrollbar-thumb:hover {
+    background-color: #555;
+}
+
+.logs-container-item {
+	display: flex;
+	gap: 1rem;
+	padding: .5rem;
+	width: 100%;
+	align-items: center;
+	background-color: #404040;
+	box-shadow: var(--box-shadow);
+	box-sizing: border-box;
+	border-radius: 14px;
+}
+
+.logs-container-item-img {
+	user-select: none;
+	font-size: 2.488rem;
+	color: var(--c-text);
+}
+
+.logs-container-item p {
+	font-size: 1rem;
+	margin: .75rem 0;
 }
 
 

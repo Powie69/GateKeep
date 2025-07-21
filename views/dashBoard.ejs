@@ -49,7 +49,7 @@
 	</dialog>
 	<%- include('./component/header') %>
 	<%- include('./component/aside') %>
-	<main class="main fill-viewport">
+	<main class="main fill-viewport" data-displayName="<%= displayName %>">
 		<article class="info">
 			<header>
 				<h2>info</h2>
@@ -61,7 +61,7 @@
 				</div>
 
 				<div id="grade-level">
-					<dt>Level:</dt>
+					<dt>Grade Level:</dt>
 					<dd><%= gradeLevel %></dd>
 				</div>
 
@@ -88,11 +88,14 @@
 		</article>
 
 		<article class="logs">
-			<h1>logs</h1>
+			<header>
+				<h1>logs</h1>
+				<button aria-label="Notification Settings" title="Notification Settings"><i class="material-symbols-rounded" aria-hidden="true" ai>Notifications</i></button>
+			</header>
 			<div class="logs-container">
 				<template class="logs-container-item_template">
 					<div class="logs-container-item">
-						<img class="logs-container-item-img" src="" aria-hidden="true">
+						<i class="logs-container-item-img material-symbols-rounded" aria-hidden="true"></i>
 						<div class="logs-container-item-text">
 							<p class="logs-container-item-text-time"></p>
 							<p class="logs-container-item-text-date"></p>
