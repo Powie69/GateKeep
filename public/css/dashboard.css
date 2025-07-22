@@ -133,6 +133,8 @@
 	box-sizing: border-box;
 	overflow-y: auto;
 	border-radius: 28px;
+	scroll-snap-type: y mandatory;
+	scrollbar-width: thin;
 }
 
 .logs-container::-webkit-scrollbar {
@@ -158,6 +160,7 @@
 	box-shadow: var(--box-shadow);
 	box-sizing: border-box;
 	border-radius: 14px;
+	scroll-snap-align: start;
 }
 
 .logs-container-item-img {

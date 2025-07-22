@@ -1,12 +1,3 @@
-:root {
-	--c-text: #fefae0ff;
-	--c-highlight: #8A98EB;
-	--c-content: #2e2e2e;
-	--c-background: #1e1e1e;
-	--c-1st: #5C55EF;
-	--c-2nd: #9F5B1E;
-}
-
 .main {
 	display: grid;
 	/* grid-template-columns: repeat(auto-fit,minmax(400px,1fr)); */
@@ -229,7 +220,7 @@
 	.main {
 		grid-template-columns: 1fr;
 	}
-	
+
 	.main-form {
 		width: 80%;
 		margin: 2rem .5rem 0 .5rem;

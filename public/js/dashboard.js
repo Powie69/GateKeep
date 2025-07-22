@@ -2,7 +2,6 @@ let messageCount = 0;
 let getMessageDebounce = true;
 const displayName = document.querySelector("main").getAttribute("data-displayName");
 const msgElement = document.querySelector(".logs-container-item_template");
-console.log(msgElement);
 const dialogElements = document.querySelectorAll(".viewDialog");
 const ws = new WebSocket("ws://localhost:3000/ws"); //change in prod
 

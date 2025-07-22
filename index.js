@@ -41,8 +41,8 @@ app.use(session({
 
 // static files
 if (process.env.NODE_ENV === "production") {
-	app.use("/css",express.static(path.join(__dirname, "public", "cssMinified")));
-	app.use("/js",express.static(path.join(__dirname, "public", "jsMinified")));
+	app.use("/css", express.static(path.join("public", "cssMinified")));
+	app.use("/js", express.static(path.join("public", "jsMinified")));
 }
 app.use(express.static("public"));
 //

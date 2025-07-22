@@ -10,6 +10,10 @@ export default defineConfig([
 			js,
 			"simple-import-sort": simpleImportSort,
 		},
+		ignores: [
+			"public/jsMinified/**/*",
+			"public/cssMinified/**/*"
+		],
 		// extends: ["js/recommended"],
 		rules: {
 			"indent": ["error", "tab"],
