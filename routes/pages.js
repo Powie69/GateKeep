@@ -94,7 +94,6 @@ app.get("/print", async (req,res) => {
 	try {
 		const [rows] = await db.query(q.GET_INFO_FOR_PRINT, [req.session.user]);
 		if (rows.length !== 1) return res.sendStatus(500);
-		console.log(rows);
 
 		res.render("print", {
 			displayName: req.session.displayName,

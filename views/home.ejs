@@ -17,42 +17,30 @@
 </head>
 <body>
 	<%- include('./component/header') %>
-	<div class="overlay" onclick="handleAside()"></div>
-	<aside class="aside _mobileOnly" aria-hidden="true">
-		<button class="aside-hide" onclick="handleAside()" aria-label="Menu"><i class="material-symbols-rounded" aria-hidden="true">menu</i></button>
-		<hr>
-		<nav class="aside-nav">
-			<ul>
-				<li><a href="/">Home <i class="material-symbols-rounded" aria-hidden="true">Arrow_forward</i></a></li>
-				<li><a href="/About">About <i class="material-symbols-rounded" aria-hidden="true">Arrow_forward</i></a></li>
-				<li><a href="/Help">Help <i class="material-symbols-rounded" aria-hidden="true">Arrow_forward</i></a></li>
-			</ul>
-		</nav>
-	</aside>
+	<%- include('./component/aside', {displayName: "No User"}) %>
+
 	<main class="main">
-		<form onsubmit="loginSubmit(event)" class="main-form" id="form-login">
-			<h2>Login</h2>
-			<label>Email or Phone number <span class="main-form-invalid _hidden">Invalid</span><br> <input type="email" required pattern="[^\s@]+@[^\s@]+\.[^\s@]+" name="username"></label>
-			<label>LRN <span class="main-form-invalid _hidden">Invalid</span><br> <input type="text" required pattern="[1-6]\d{5}(0\d|1\d|2[0-5])\d{4}" name="lrn"></label>
-			<label>Password <span class="main-form-invalid _hidden">Invalid</span><br> <input type="password" required name="password"></label>
-			<span class="main-form-message _noDisplay">Too many request, Try again later</span>
-			<button class="main-form-submit" tabindex="0">Login</button>
-			<span class="main-form-redirect">Don't have an account? <a href="?signup">Register</a></span>
+		<form class="form" onsubmit="loginSubmit(event)">
+			<h1>Login</h1>
+			<div class="form-input">
+				<label class="form-input-label form-input-email">Email or Phone number
+					<input class="form-input-email-input" name="username" type="text" pattern="[^\s@]+@[^\s@]+\.[^\s@]+" minlength="1" inputmode="email">
+					<span>Invalid Email or Phone Number</span>
+				</label>
+				<label class="form-input-label form-input-lrn">LRN
+					<input class="form-input-lrn-input" name="lrn" type="text" pattern="[1-6]\d{5}(0\d|1\d|2[0-5])\d{4}" minlength="1" inputmode="numeric">
+					<span>Invalid LRN</span>
+				</label>
+				<label class="form-input-label form-input-password">Password
+					<input class="form-input-password-input" name="password" type="password">
+					<span>Invalid Password</span>
+				</label>
+			</div>
+			<a class="form-forgotPassword" href="/">Forgot Password?</a>
+			<p class="form-signUp">Don't have an account? <a href="/">Sign Up</a></p>
+			<button class="form-submit" type="submit">Login</button>
 		</form>
-		<div class="main-info">
-			<h1>Gatekeep. Woah very cool massive heading text, Nice! I wonder if this is cool or not? How much words I'm I going to actually put in here? I dunno.</h1>
-		</div>
 	</main>
-	<section class="transition" id="About">
-		<div class="transition-wave">
-			<svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
-				<path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" opacity=".25" class="shape-fill"></path>
-				<path d="M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z" opacity=".5" class="shape-fill"></path>
-				<path d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z" class="shape-fill"></path>
-			</svg>
-		</div>
-		<h3>GateKeep</h3>
-	</section>
 
 	<script src="/js/client.js" defer></script>
 	<script src="/js/header.js" defer></script>

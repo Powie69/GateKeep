@@ -22,12 +22,21 @@ document.querySelectorAll(".help-item-button").forEach(element => {
 	});
 });
 
+const lrnInput = document.querySelector("input[name='lrn']");
+lrnInput.addEventListener("input", function (event) {
+	if (event.isComposing) return;
+	const sanitized = event.target.value.replace(/\D+/g, "").slice(0, 12);
+	if (sanitized !== event.target.value) event.target.value = sanitized;
+});
+
 async function loginSubmit(event) {
 	event.preventDefault();
 	const data = Object.fromEntries(new FormData(event.target));
 
+	// todo: update validation; display what is wrong
 	if (!(/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.username) || /^09\d{9}$/.test(data.username)) || !/^[1-6]\d{11}$/.test(data.lrn) || !data.password) {
 		console.log("Invalid login data (client)");
+		return;
 	}
 
 	try {
