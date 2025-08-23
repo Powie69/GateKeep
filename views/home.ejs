@@ -21,10 +21,10 @@
 
 	<main class="main">
 		<form class="form" onsubmit="loginSubmit(event)">
-			<h1>Login</h1>
+			<h1 class="form-header">Login</h1>
 			<div class="form-input">
 				<label class="form-input-label form-input-email">Email or Phone number
-					<input class="form-input-email-input" name="username" type="text" pattern="[^\s@]+@[^\s@]+\.[^\s@]+" minlength="1" inputmode="email">
+					<input class="form-input-email-input" name="username" type="text" pattern="(09\d{9}|[^\s@]+@[^\s@]+\.[^\s@]+)" minlength="1" inputmode="email">
 					<span>Invalid Email or Phone Number</span>
 				</label>
 				<label class="form-input-label form-input-lrn">LRN
