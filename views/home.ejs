@@ -24,20 +24,21 @@
 			<h1 class="form-header">Login</h1>
 			<div class="form-input">
 				<label class="form-input-label form-input-email">Email or Phone number
-					<input class="form-input-email-input" name="username" type="text" pattern="(09\d{9}|[^\s@]+@[^\s@]+\.[^\s@]+)" minlength="1" inputmode="email">
-					<span>Invalid Email or Phone Number</span>
+					<input class="form-input-label-input form-input-email-input" name="username" type="text" pattern="(09\d{9}|[^\s@]+@[^\s@]+\.[^\s@]+)" minlength="1" inputmode="email">
+					<span class="form-input-label-invalid form-input-email-invalid">Invalid Email or Phone Number</span>
 				</label>
 				<label class="form-input-label form-input-lrn">LRN
-					<input class="form-input-lrn-input" name="lrn" type="text" pattern="[1-6]\d{5}(0\d|1\d|2[0-5])\d{4}" minlength="1" inputmode="numeric">
-					<span>Invalid LRN</span>
+					<input class="form-input-label-input form-input-lrn-input" name="lrn" type="text" pattern="[1-6]\d{5}(0\d|1\d|2[0-5])\d{4}" minlength="1" inputmode="numeric">
+					<span class="form-input-label-invalid form-input-lrn-invalid">Invalid LRN</span>
 				</label>
 				<label class="form-input-label form-input-password">Password
-					<input class="form-input-password-input" name="password" type="password">
-					<span>Invalid Password</span>
+					<input class="form-input-label-input form-input-password-input" name="password" type="password">
+					<span class="form-input-label-invalid form-input-password-invalid">Wrong Password</span>
 				</label>
 			</div>
-			<a class="form-forgotPassword" href="/">Forgot Password?</a>
-			<p class="form-signUp">Don't have an account? <a href="/">Sign Up</a></p>
+			<a class="form-text form-forgotPassword" href="/">Forgot Password?</a>
+			<p class="form-text form-signUp">Don't have an account? <a class="form-signUp-link" href="/">Sign Up</a></p>
+			<p class="form-text form-message _hidden">&nbsp;</p>
 			<button class="form-submit" type="submit">Login</button>
 		</form>
 	</main>

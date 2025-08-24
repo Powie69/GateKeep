@@ -1,33 +1,4 @@
-// document.querySelector(".main").style.setProperty("background", `url(images/circles/${Math.floor(Math.random() * 10) + 1}.svg) no-repeat top left / cover`);
-document.querySelector("._logout").addEventListener("click", () => {
-	fetch("/profile/logout", {
-		method: "POST"
-	})
-		.then(response => {
-			if (response.status >= 400) return;
-			location.href = "/";
-		})
-		.catch(error => { console.error(error); });
-});
-document.querySelectorAll(".help-item-button").forEach(element => {
-	element.addEventListener("click", e => {
-		const dropElement = e.currentTarget.nextElementSibling;
-		if (dropElement.style.display == "block") {
-			dropElement.style.setProperty("display", "none");
-			e.currentTarget.querySelector(".material-symbols-rounded").innerText = "arrow_drop_down";
-		} else {
-			dropElement.style.setProperty("display", "block");
-			e.currentTarget.querySelector(".material-symbols-rounded").innerText = "arrow_drop_up";
-		}
-	});
-});
-
-const lrnInput = document.querySelector("input[name='lrn']");
-lrnInput.addEventListener("input", function (event) {
-	if (event.isComposing) return;
-	const sanitized = event.target.value.replace(/\D+/g, "").slice(0, 12);
-	if (sanitized !== event.target.value) event.target.value = sanitized;
-});
+// todo: loading animation
 
 async function loginSubmit(event) {
 	event.preventDefault();
@@ -49,13 +20,11 @@ async function loginSubmit(event) {
 		const respond = await response.json();
 
 		if (!response.ok) {
-			document.querySelector(".main-form-message").innerText = respond.message;
-			document.querySelector(".main-form-message").classList.remove("_noDisplay");
-			return;
+			document.querySelector(".form-message").innerText = respond.message;
+			document.querySelector(".form-message").classList.remove("_hidden");
 		} else {
-			document.querySelector(".main-form-message").classList.add("_noDisplay");
+			document.querySelector(".form-message").classList.add("_hidden");
 			location.reload();
-			return;
 		}
 	} catch (err) { console.error(err); }
 }

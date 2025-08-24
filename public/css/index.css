@@ -7,12 +7,12 @@
 }
 
 .form {
-	width: 25%;
-	height: 50%;
+	width: clamp(360px, 30%, 700px);
+	height: 60%;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	gap: 1rem;
+	gap: .75rem;
 	padding: 2rem 1rem;
 	background-color: var(--c-content);
 	border-radius: 14px;
@@ -20,16 +20,19 @@
 }
 
 .form-header {
-	margin: 0;
+	margin: 0 0 1rem 0;
 	font-size: 2.986rem;
+	font-weight: 600;
 }
 
 .form-input {
-	width: 90%;
+	width: 80%;
+	max-width: 400px;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	gap: .5rem;
+	box-sizing: border-box;
 }
 
 .form-input-label {
@@ -37,8 +40,62 @@
 }
 
 .form-input-label input {
+	height: 1.75rem;
 	width: 100%;
+	padding: 4px 8px;
 	display: block;
 	margin: 4px 0;
+	background-color: #d9d9d9;
 	box-sizing: border-box;
+	border: .188rem solid rgba(153, 153, 153, 1);
+	border-radius: 4px;
+}
+
+.form-input-label-invalid {
+	visibility: hidden;
+	font-size: 0.9163rem;
+	color: #FF6666;
+	font-weight: 500;
+}
+
+.form-input-label-input:invalid + .form-input-label-invalid {
+    visibility: visible;
+}
+
+.form-text {
+	margin: 0;
+}
+
+.form-message {
+	color: #FF6666;
+}
+
+.form-forgotPassword {
+	text-decoration: underline;
+}
+
+.form-forgotPassword:hover {
+	color: var(--c-highlight);
+}
+
+.form-signUp-link {
+	text-decoration: underline;
+}
+
+.form-signUp-link:hover {
+	color: var(--c-highlight);
+}
+
+.form-submit {
+	width: 50%;
+	/* height: 25px; */
+	padding: 8px 0;
+	margin: .5rem 0 0 0;
+	border: none;
+	text-align: center;
+	border-radius: 12px;
+	background-color: var(--c-action);
+	font-size: 1.2rem;
+	font-weight: 500;
+	cursor: pointer;
 }
