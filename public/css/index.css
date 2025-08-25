@@ -39,7 +39,7 @@
 	width: 100%;
 }
 
-.form-input-label input {
+.form-input-label-input {
 	height: 1.75rem;
 	width: 100%;
 	padding: 4px 8px;
@@ -52,13 +52,13 @@
 }
 
 .form-input-label-invalid {
-	visibility: hidden;
+	/* visibility: hidden; */
 	font-size: 0.9163rem;
-	color: #FF6666;
+	color: var(--c-error);
 	font-weight: 500;
 }
 
-.form-input-label-input:invalid + .form-input-label-invalid {
+.form-input-label-input:user-invalid + .form-input-label-invalid {
     visibility: visible;
 }
 
@@ -67,7 +67,7 @@
 }
 
 .form-message {
-	color: #FF6666;
+	color: var(--c-error);
 }
 
 .form-forgotPassword {
@@ -98,4 +98,12 @@
 	font-size: 1.2rem;
 	font-weight: 500;
 	cursor: pointer;
+}
+
+.form-submit:hover {
+	background-color: #bf7713;
+}
+
+.form-submit-loading {
+	width: 1rem;
 }

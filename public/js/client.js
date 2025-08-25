@@ -1,14 +1,44 @@
-// todo: loading animation
+document.querySelector(".form-input-lrn-input").addEventListener("input", function() {
+	this.value = this.value.replace(/[^0-9]/g, "");
+});
+
+function removeLoading() {
+	document.querySelector(".form-submit-loading").classList.add("_noDisplay");
+	document.querySelector(".form-submit-text").classList.remove("_noDisplay");
+}
+
+function showInvalid(input) {
+	removeLoading();
+	document.querySelector(`.form-input-${input}-invalid`).classList.remove("_hidden");
+}
+
+function resetInvalid() {
+	document.querySelector(".form-input-username-invalid").classList.add("_hidden");
+	document.querySelector(".form-input-lrn-invalid").classList.add("_hidden");
+	document.querySelector(".form-input-password-invalid").classList.add("_hidden");
+}
 
 async function loginSubmit(event) {
 	event.preventDefault();
+
+	document.querySelector(".form-submit-loading").classList.remove("_noDisplay");
+	document.querySelector(".form-submit-text").classList.add("_noDisplay");
+
 	const data = Object.fromEntries(new FormData(event.target));
 
-	// todo: update validation; display what is wrong
-	if (!(/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.username) || /^09\d{9}$/.test(data.username)) || !/^[1-6]\d{11}$/.test(data.lrn) || !data.password) {
-		console.log("Invalid login data (client)");
-		return;
+	if (!(/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.username) || /^09\d{9}$/.test(data.username))) {
+		return showInvalid("username");
 	}
+
+	if (!/^[1-6]\d{11}$/.test(data.lrn)) {
+		return showInvalid("lrn");
+	}
+
+	if (!data.password) {
+		return showInvalid("password");
+	}
+
+	resetInvalid();
 
 	try {
 		const response = await fetch("/profile/login", {
@@ -18,6 +48,8 @@ async function loginSubmit(event) {
 		});
 
 		const respond = await response.json();
+
+		removeLoading();
 
 		if (!response.ok) {
 			document.querySelector(".form-message").innerText = respond.message;
