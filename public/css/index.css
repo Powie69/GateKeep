@@ -52,7 +52,6 @@
 }
 
 .form-input-label-invalid {
-	/* visibility: hidden; */
 	font-size: 0.9163rem;
 	color: var(--c-error);
 	font-weight: 500;

@@ -3,7 +3,9 @@
 		<button class="aside-hide" onclick="handleAside()" aria-label="Menu"><i class="material-symbols-rounded" aria-hidden="true">menu</i></button>
 		<div class="aside-account">
 			<span class="aside-account-name"><i class="material-symbols-rounded" aria-hidden="true">Account_Circle</i> <%= displayName %></span>
-			<button class="aside-account-logout" onclick="logout()" tabindex="0"><i class="material-symbols-rounded" aria-hidden="true">logout</i> Logout</button>
+			<% if (displayName != "No User") { %>
+				<button class="aside-account-logout" onclick="logout()" tabindex="0"><i class="material-symbols-rounded" aria-hidden="true">logout</i> Logout</button>
+			<% } %>
 		</div>
 		<hr>
 		<nav class="aside-nav">
