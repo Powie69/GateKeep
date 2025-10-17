@@ -16,7 +16,9 @@ async function submitQuery(event) {
 	event.preventDefault();
 	try {
 		const data = Object.fromEntries(new FormData(event.target).entries());
-		if (data.query.length == 0 && data.searchLevel === undefined && data.searchSection === undefined) {return console.log("bad data (client)");}
+		if (data.query.length == 0 && data.searchLevel === undefined && data.searchSection === undefined) {
+			return console.log("bad data (client)");
+		}
 
 		const response = await fetch("/admin/query", {
 			method: "POST",
@@ -39,7 +41,10 @@ async function submitEditInfo(event) {
 	event.preventDefault();
 	try {
 		const data = Object.fromEntries(new FormData(event.target).entries());
-		if ((typeof data.email != "undefined" && data.email.length !== 0 && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) || (typeof data.phoneNumber != "undefined" && data.phoneNumber.length !== 0 && !/^09\d{9}$/.test(data.phoneNumber)) || (typeof data.lrn != "undefined" && data.lrn.length !== 0 && !/^[1-6]\d{5}(0\d|1\d|2[0-5])\d{4}$/.test(data.lrn)) || (typeof data.gradeLevel != "undefined" && data.gradeLevel.length !== 0 && (data.gradeLevel < 7 || data.gradeLevel > 12)) || (typeof data.zip !== "undefined" && data.zip.length !== 0 && !/^(0[4-9]|[1-9]\d)\d{2}$/.test(data.zip))) {console.log("bad data"); return submitEditOnErr("client", "bad data");}
+		if ((typeof data.email != "undefined" && data.email.length !== 0 && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) || (typeof data.phoneNumber != "undefined" && data.phoneNumber.length !== 0 && !/^09\d{9}$/.test(data.phoneNumber)) || (typeof data.lrn != "undefined" && data.lrn.length !== 0 && !/^[1-6]\d{5}(0\d|1\d|2[0-5])\d{4}$/.test(data.lrn)) || (typeof data.gradeLevel != "undefined" && data.gradeLevel.length !== 0 && (data.gradeLevel < 7 || data.gradeLevel > 12)) || (typeof data.zip !== "undefined" && data.zip.length !== 0 && !/^(0[4-9]|[1-9]\d)\d{2}$/.test(data.zip))) {
+			console.log("bad data");
+			return submitEditOnErr("client", "bad data");
+		}
 
 		for (const i in data) {if (typeof data[i] !== "undefined" && data[i].length !== 0 && data[i].length >= 255) {return submitEditOnErr("client", "bad data");}}
 
@@ -64,7 +69,10 @@ async function submitAddAccount(event) {
 	event.preventDefault();
 	try {
 		const data = Object.fromEntries(new FormData(event.target).entries());
-		if (typeof data.email === "undefined" || data.email.length === 0 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email) || typeof data.phoneNumber === "undefined" || data.phoneNumber.length === 0 || !/^09\d{9}$/.test(data.phoneNumber) || typeof data.password === "undefined" || data.password.length === 0 || typeof data.lrn === "undefined" || data.lrn.length === 0 || !/^[1-6]\d{5}(0\d|1\d|2[0-5])\d{4}$/.test(data.lrn) || typeof data.lastName === "undefined"  || data.lastName.length === 0 || typeof data.firstName === "undefined" || data.firstName.length === 0 || (typeof data.gradeLevel != "undefined" && data.gradeLevel.length != 0 && (data.gradeLevel < 7 || data.gradeLevel > 12)) || (typeof data.zip !== "undefined" && data.zip.length != 0 && !/^(0[4-9]|[1-9]\d)\d{2}/.test(data.zip))) {return console.log("bad data");}
+		if (typeof data.email === "undefined" || data.email.length === 0 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email) || typeof data.phoneNumber === "undefined" || data.phoneNumber.length === 0 || !/^09\d{9}$/.test(data.phoneNumber) || typeof data.password === "undefined" || data.password.length === 0 || typeof data.lrn === "undefined" || data.lrn.length === 0 || !/^[1-6]\d{5}(0\d|1\d|2[0-5])\d{4}$/.test(data.lrn) || typeof data.lastName === "undefined"  || data.lastName.length === 0 || typeof data.firstName === "undefined" || data.firstName.length === 0 || (typeof data.gradeLevel != "undefined" && data.gradeLevel.length != 0 && (data.gradeLevel < 7 || data.gradeLevel > 12)) || (typeof data.zip !== "undefined" && data.zip.length != 0 && !/^(0[4-9]|[1-9]\d)\d{2}/.test(data.zip))) {
+			console.log("bad data");
+			return submitAddOnErr("client", "bad data");
+		}
 
 		const response = await fetch("/admin/create", {
 			method: "POST",
@@ -83,7 +91,7 @@ async function submitBulkAddAccount(event) {
 	event.preventDefault();
 	try {
 		const data = Object.fromEntries(new FormData(event.target).entries());
-		if (!isBulkAddValid) {return;}
+		if (!isBulkAddValid) return;
 
 		const response = await fetch("/admin/bulkCreate", {
 			method: "POST",
@@ -99,7 +107,7 @@ async function submitBulkAddAccount(event) {
 
 //*
 function displayData(data) {
-	if (typeof data === "undefined") {return;}
+	if (typeof data === "undefined") return;
 	document.querySelectorAll(".main-table-contain > div.main-table-contain-item").forEach(element => {
 		document.querySelector(".main-table-contain").removeChild(element);
 	});
@@ -138,7 +146,7 @@ function getSection(value) {
 
 //* start of fetch
 async function fetchMessages(limit,offset,userId) {
-	if (!limit || !userId || !Number.isSafeInteger(offset) || limit >= 25 || offset < 0) {console.log("bad data"); return;}
+	if (!limit || !userId || !Number.isSafeInteger(offset) || limit >= 25 || offset < 0) return console.log("bad data");
 
 	return await fetch(`/admin/messages/${userId}?offset=${offset}&limit=${limit}`, {
 		headers: {"Content-Type": "application/json"}
@@ -155,7 +163,7 @@ async function fetchMessages(limit,offset,userId) {
 }
 
 async function fetchInfo(userId, withQrId) {
-	if (typeof userId === undefined || userId.length === 0) {console.log("bad data (client)");}
+	if (typeof userId === undefined || userId.length === 0) console.log("bad data (client)");
 	const qrQuery = withQrId ? "?qr" : "";
 	return await fetch(`/admin/info/${userId}${qrQuery}`, {
 		headers: {"Content-Type": "application/json"}
@@ -231,14 +239,14 @@ function addAccountOnErr(status,respond) {
 
 // returns 'true' if valid
 function checkBulkAdd(data) {
-	if (typeof data !== "string" || data.length === 0) {return {ok:false,accounts:0,errors:0,message:""};}
+	if (typeof data !== "string" || data.length === 0) return {ok:false,accounts:0,errors:0,message:""};
 	try {
 		data = JSON.parse(data);
 	} catch (err) {
 		console.log(err);
 		return {ok:false,accounts:0,errors:1,message:err.message};
 	}
-	if (typeof data !== "object" || data.length === 0) {return {ok:false,accounts:0,errors:1,message:"No accounts in json"};}
+	if (typeof data !== "object" || data.length === 0) return {ok:false,accounts:0,errors:1,message:"No accounts in json"};
 	let accounts = 0;
 	let errors = 0;
 	const lrn = new Set();
@@ -281,7 +289,7 @@ async function removeAccount(id) {
 }
 
 async function removeAccountReq(id,lrn) {
-	if (typeof id === undefined || typeof id == "" || typeof lrn === undefined || lrn.length !== 12) {console.warn("bad"); return;}
+	if (typeof id === undefined || typeof id == "" || typeof lrn === undefined || lrn.length !== 12) return console.warn("bad");
 	return await fetch("http://localhost:3000/admin/remove/confirm", {
 		method: "DELETE",
 		headers: {"Content-Type": "application/json"},
@@ -292,7 +300,7 @@ async function removeAccountReq(id,lrn) {
 }
 
 function updateMessage(data) {
-	if (!data) {return;}
+	if (!data) return;
 	for (let i = 0; i < data.length; i++) {
 		const element = document.importNode(document.querySelector(".logsDialog-container-item_template").content, true).querySelector(".logsDialog-container-item");
 		element.querySelector(".logsDialog-container-item-desc_name").innerText = document.querySelector(".logsDialog").getAttribute("userName");
@@ -313,7 +321,7 @@ function updateMessage(data) {
 }
 
 function updateInfo(data) {
-	if (!data) {return;}
+	if (!data) return;
 	for (const i in data) {
 		const element = document.querySelector(`#info-${i}`);
 		if (!element) {continue;}
@@ -328,11 +336,11 @@ function updateInfo(data) {
 }
 
 function updatePlaceholderInfo(data) {
-	if (!data) {return;}
+	if (!data) return;
 	console.log(data);
 	for (const i in data) {
 		const element = document.querySelector(`.editDialog-form-${i}`);
-		if (!element) {continue;}
+		if (!element) continue;
 		if (element.tagName == "SELECT" && data[i]) {
 			document.querySelector(`.editDialog-form-${i}_placeholder`).innerHTML = data[i];
 			continue;
