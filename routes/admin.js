@@ -52,7 +52,7 @@ app.get("/qr-image-create/:id",isAdmin, async(req,res) => {
 
 app.get("/qr-image/:id",isAdmin, async (req,res) => {
 	const data = req.params.id;
-	if (isInvalidParams(data)) {return res.status(404).json({message: "not valid"});}
+	if (isInvalidParams(data)) return res.status(404).json({message: "not valid"});
 	try {
 		const [rows] = await db.query(q.GET_QRCACHE, [data]);
 		if (rows.length !== 1 || rows[0].qrCache === null) return res.sendStatus(404);

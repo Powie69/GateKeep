@@ -15,15 +15,15 @@ let isBulkAddValid = false;
 async function submitQuery(event) {
 	event.preventDefault();
 	try {
-		const data = Object.fromEntries(new FormData(event.target).entries());
+		const data = Object.fromEntries(new FormData(event.target));
 		if (data.query.length == 0 && data.searchLevel === undefined && data.searchSection === undefined) {
 			return console.log("bad data (client)");
 		}
 
 		const response = await fetch("/admin/query", {
 			method: "POST",
-			headers: {"Content-Type": "application/x-www-form-urlencoded",},
-			body: new URLSearchParams(data),
+			headers: {"Content-Type": "application/json",},
+			body: JSON.stringify(data),
 		});
 
 		if (!response.ok) {
@@ -40,8 +40,8 @@ async function submitQuery(event) {
 async function submitEditInfo(event) {
 	event.preventDefault();
 	try {
-		const data = Object.fromEntries(new FormData(event.target).entries());
-		if ((typeof data.email != "undefined" && data.email.length !== 0 && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) || (typeof data.phoneNumber != "undefined" && data.phoneNumber.length !== 0 && !/^09\d{9}$/.test(data.phoneNumber)) || (typeof data.lrn != "undefined" && data.lrn.length !== 0 && !/^[1-6]\d{5}(0\d|1\d|2[0-5])\d{4}$/.test(data.lrn)) || (typeof data.gradeLevel != "undefined" && data.gradeLevel.length !== 0 && (data.gradeLevel < 7 || data.gradeLevel > 12)) || (typeof data.zip !== "undefined" && data.zip.length !== 0 && !/^(0[4-9]|[1-9]\d)\d{2}$/.test(data.zip))) {
+		const data = Object.fromEntries(new FormData(event.target));
+		if ((typeof data.email !== "undefined" && data.email.length !== 0 && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) || (typeof data.phoneNumber != "undefined" && data.phoneNumber.length !== 0 && !/^09\d{9}$/.test(data.phoneNumber)) || (typeof data.lrn != "undefined" && data.lrn.length !== 0 && !/^[1-6]\d{5}(0\d|1\d|2[0-5])\d{4}$/.test(data.lrn)) || (typeof data.gradeLevel != "undefined" && data.gradeLevel.length !== 0 && (data.gradeLevel < 7 || data.gradeLevel > 12)) || (typeof data.zip !== "undefined" && data.zip.length !== 0 && !/^(0[4-9]|[1-9]\d)\d{2}$/.test(data.zip))) {
 			console.log("bad data");
 			return submitEditOnErr("client", "bad data");
 		}
@@ -53,8 +53,8 @@ async function submitEditInfo(event) {
 
 		const response = await fetch("/admin/updateInfo", {
 			method: "POST",
-			headers: {"Content-Type": "application/x-www-form-urlencoded",},
-			body: new URLSearchParams(data),
+			headers: {"Content-Type": "application/json",},
+			body: JSON.stringify(data),
 		});
 
 		const respond = await response.json();
@@ -62,13 +62,15 @@ async function submitEditInfo(event) {
 
 		document.querySelector(".editDialog").close();
 		alert("big success");
-	} catch (err) {console.error(err);}
+	} catch (error) {
+		console.error(error);
+	}
 }
 
 async function submitAddAccount(event) {
 	event.preventDefault();
 	try {
-		const data = Object.fromEntries(new FormData(event.target).entries());
+		const data = Object.fromEntries(new FormData(event.target));
 		if (typeof data.email === "undefined" || data.email.length === 0 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email) || typeof data.phoneNumber === "undefined" || data.phoneNumber.length === 0 || !/^09\d{9}$/.test(data.phoneNumber) || typeof data.password === "undefined" || data.password.length === 0 || typeof data.lrn === "undefined" || data.lrn.length === 0 || !/^[1-6]\d{5}(0\d|1\d|2[0-5])\d{4}$/.test(data.lrn) || typeof data.lastName === "undefined"  || data.lastName.length === 0 || typeof data.firstName === "undefined" || data.firstName.length === 0 || (typeof data.gradeLevel != "undefined" && data.gradeLevel.length != 0 && (data.gradeLevel < 7 || data.gradeLevel > 12)) || (typeof data.zip !== "undefined" && data.zip.length != 0 && !/^(0[4-9]|[1-9]\d)\d{2}/.test(data.zip))) {
 			console.log("bad data");
 			return submitAddOnErr("client", "bad data");
@@ -76,8 +78,8 @@ async function submitAddAccount(event) {
 
 		const response = await fetch("/admin/create", {
 			method: "POST",
-			headers: {"Content-Type": "application/x-www-form-urlencoded",},
-			body: new URLSearchParams(data),
+			headers: {"Content-Type": "application/json",},
+			body: JSON.stringify(data),
 		});
 
 		const respond = await response.json();
@@ -90,13 +92,13 @@ async function submitAddAccount(event) {
 async function submitBulkAddAccount(event) {
 	event.preventDefault();
 	try {
-		const data = Object.fromEntries(new FormData(event.target).entries());
+		const data = Object.fromEntries(new FormData(event.target));
 		if (!isBulkAddValid) return;
 
 		const response = await fetch("/admin/bulkCreate", {
 			method: "POST",
-			headers: {"Content-Type": "application/x-www-form-urlencoded",},
-			body: new URLSearchParams(data),
+			headers: {"Content-Type": "application/json",},
+			body: JSON.stringify(data),
 		});
 
 		const respond = await response.json();
@@ -163,7 +165,7 @@ async function fetchMessages(limit,offset,userId) {
 }
 
 async function fetchInfo(userId, withQrId) {
-	if (typeof userId === undefined || userId.length === 0) console.log("bad data (client)");
+	if (typeof userId === "undefined" || userId.length === 0) console.log("bad data (client)");
 	const qrQuery = withQrId ? "?qr" : "";
 	return await fetch(`/admin/info/${userId}${qrQuery}`, {
 		headers: {"Content-Type": "application/json"}
@@ -289,7 +291,7 @@ async function removeAccount(id) {
 }
 
 async function removeAccountReq(id,lrn) {
-	if (typeof id === undefined || typeof id == "" || typeof lrn === undefined || lrn.length !== 12) return console.warn("bad");
+	if (typeof id === "undefined" || typeof id == "" || typeof lrn === "undefined" || lrn.length !== 12) return console.warn("bad");
 	return await fetch("http://localhost:3000/admin/remove/confirm", {
 		method: "DELETE",
 		headers: {"Content-Type": "application/json"},
@@ -364,9 +366,16 @@ document.querySelector(".logsDialog-container").addEventListener("scrollend", fu
 
 dialogElements.forEach(element => {
 	element.addEventListener("click", e => {
-		if (e.target.tagName === "SELECT" || e.target.closest("select")) {return;}
+		if (e.target.tagName === "SELECT" || e.target.closest("select")) return;
 		const dialogDimensions = element.getBoundingClientRect();
-		if (e.clientX < dialogDimensions.left ||e.clientX > dialogDimensions.right ||e.clientY < dialogDimensions.top ||e.clientY > dialogDimensions.bottom) {element.close();}
+		if (
+			e.clientX < dialogDimensions.left ||
+			e.clientX > dialogDimensions.right ||
+			e.clientY < dialogDimensions.top ||
+			e.clientY > dialogDimensions.bottom
+		) {
+			element.close();
+		}
 	});
 });
 
