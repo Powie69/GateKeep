@@ -47,12 +47,12 @@ rl.question("\x1b[36mEnter json string:\n\x1b[0m", data => {
 	{
         "timestamp": "2024-07-01T09:59:53.164Z",
         "emailAddress": "kdso@gmaji.com",
-        "firstName": "kir",
+        "firstName": "oblock",
         "lastName": "dfkdsfk",
         "age": 32,
         "sex": "Male",
-        "lrn": 400650150053,
-        "zipCode": 3008,
+        "lrn": 900650350053,
+        "zipCode": 5008,
         "streetName": "obloc",
         "phoneNumber": "09123546432",
         "password": "banans"
